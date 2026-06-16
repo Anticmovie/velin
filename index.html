@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+<meta name="theme-color" content="#05070d" />
+<title>VELÍN · Command Center</title>
+<style>
+  :root{
+    --bg:#05070d; --bg2:#0a0e1a; --panel:rgba(20,26,42,.72);
+    --glass:rgba(255,255,255,.04); --stroke:rgba(120,160,255,.14); --stroke2:rgba(120,160,255,.26);
+    --text:#eaf0ff; --muted:#8893b3; --dim:#5b6480;
+    --cy:#33e1ff; --cy2:#19b6e6; --vi:#9b6dff; --gd:#ffd34d;
+    --ok:#2bd980; --warn:#ffb02e; --info:#3b9dff; --na:#48506a; --down:#ff4d6a;
+    --r:18px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden;
+    font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,sans-serif;
+    -webkit-font-smoothing:antialiased; letter-spacing:.01em;
+  }
+  .bgfx{position:fixed;inset:0;z-index:-2;background:
+    radial-gradient(900px 600px at 12% -8%, rgba(51,225,255,.10), transparent 60%),
+    radial-gradient(1000px 700px at 105% 10%, rgba(155,109,255,.12), transparent 55%),
+    radial-gradient(700px 500px at 50% 120%, rgba(43,217,128,.07), transparent 60%),
+    var(--bg);}
+  .grid-fx{position:fixed;inset:0;z-index:-1;opacity:.35;pointer-events:none;
+    background-image:linear-gradient(rgba(120,160,255,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(120,160,255,.05) 1px,transparent 1px);
+    background-size:46px 46px;-webkit-mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 80%);
+    mask-image:radial-gradient(circle at 50% 30%,#000 0%,transparent 80%);}
+  .scan{position:fixed;left:0;right:0;height:2px;z-index:-1;pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(51,225,255,.5),transparent);
+    animation:scan 7s linear infinite;opacity:.5}
+  @keyframes scan{0%{top:-2%}100%{top:102%}}
+
+  .wrap{max-width:1280px;margin:0 auto;padding:22px 18px 96px}
+
+  header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    padding:16px 20px;border:1px solid var(--stroke);border-radius:var(--r);
+    background:linear-gradient(180deg,rgba(30,40,66,.55),rgba(12,16,28,.5));backdrop-filter:blur(14px);
+    box-shadow:0 0 0 1px rgba(0,0,0,.3),0 20px 60px -30px rgba(51,225,255,.4);position:relative;overflow:hidden}
+  .brand{display:flex;align-items:center;gap:14px;min-width:0}
+  .core{width:46px;height:46px;border-radius:50%;flex-shrink:0;position:relative;
+    background:radial-gradient(circle at 50% 40%,#bdf6ff,#33e1ff 40%,#0a4f63 75%);
+    box-shadow:0 0 22px rgba(51,225,255,.7),inset 0 0 12px rgba(255,255,255,.6);animation:pulse 3.2s ease-in-out infinite}
+  .core::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1.5px solid rgba(51,225,255,.4);
+    border-top-color:transparent;border-bottom-color:transparent;animation:spin 4s linear infinite}
+  @keyframes pulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.06);filter:brightness(1.2)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ttl{font-size:21px;font-weight:800;letter-spacing:.06em;line-height:1.05}
+  .ttl span{color:var(--cy);text-shadow:0 0 18px rgba(51,225,255,.6)}
+  .tsub{color:var(--muted);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;margin-top:3px}
+  .hstat{text-align:right;font-variant-numeric:tabular-nums}
+  .clock{font-size:22px;font-weight:700;letter-spacing:.04em;color:#dff3ff;text-shadow:0 0 14px rgba(51,225,255,.4)}
+  .hmeta{color:var(--muted);font-size:11.5px;margin-top:2px}
+  .hmeta b{color:var(--text)}
+
+  .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0 6px}
+  .kpi{border:1px solid var(--stroke);border-radius:14px;padding:13px 15px;background:var(--panel);backdrop-filter:blur(10px);
+    position:relative;overflow:hidden}
+  .kpi .l{color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.12em}
+  .kpi .v{font-size:25px;font-weight:800;margin-top:3px;line-height:1;display:flex;align-items:baseline;gap:7px}
+  .kpi .v small{font-size:12px;font-weight:600;color:var(--muted)}
+  .kpi .spark{position:absolute;right:-6px;bottom:-6px;font-size:46px;opacity:.08}
+
+  h2{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);font-weight:700;
+    margin:30px 4px 14px;display:flex;align-items:center;gap:10px}
+  h2::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--cy);box-shadow:0 0 10px var(--cy)}
+  h2 .ln{flex:1;height:1px;background:linear-gradient(90deg,var(--stroke2),transparent)}
+
+  .biz{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .bcard{border:1px solid var(--stroke);border-radius:var(--r);background:var(--panel);backdrop-filter:blur(12px);
+    overflow:hidden;position:relative;transition:transform .25s,box-shadow .25s,border-color .25s}
+  .bcard:hover{transform:translateY(-3px);border-color:var(--stroke2);box-shadow:0 24px 50px -28px var(--acc,#33e1ff)}
+  .bhead{display:flex;align-items:center;gap:12px;padding:15px 16px;border-bottom:1px solid var(--stroke);
+    background:linear-gradient(180deg,rgba(255,255,255,.03),transparent)}
+  .bemo{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;
+    background:color-mix(in srgb,var(--acc) 22%,transparent);box-shadow:0 0 18px -4px var(--acc),inset 0 0 0 1px color-mix(in srgb,var(--acc) 40%,transparent)}
+  .bname{font-weight:700;font-size:16px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .bcount{font-size:11px;color:var(--muted);background:var(--glass);border:1px solid var(--stroke);border-radius:20px;padding:3px 9px}
+  .blist{padding:8px 10px 12px}
+  .ag{display:flex;align-items:center;gap:11px;padding:10px;border-radius:12px;margin:4px 0;transition:background .2s;cursor:pointer}
+  .ag:hover{background:var(--glass)}
+  .agav{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;
+    background:color-mix(in srgb,var(--c) 24%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 45%,transparent)}
+  .agmid{flex:1;min-width:0}
+  .agn{font-weight:600;font-size:13.5px;display:flex;align-items:center;gap:7px}
+  .agr{color:var(--muted);font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .dot.live{animation:beat 1.6s ease-in-out infinite}
+  @keyframes beat{0%,100%{opacity:1}50%{opacity:.45}}
+  .st{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;padding:2px 7px;border-radius:6px;font-weight:700;white-space:nowrap}
+  .agdet{color:var(--dim);font-size:11px;margin-top:3px;display:none}
+  .ag.open .agdet{display:block}
+  .bempty{padding:18px 16px;color:var(--muted);font-size:13px;text-align:center;border:1px dashed var(--stroke);border-radius:12px;margin:8px 10px 12px}
+  .bempty b{color:var(--text)}
+
+  .tech{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:13px}
+  .tcard{border:1px solid var(--stroke);border-radius:15px;padding:15px;background:var(--panel);backdrop-filter:blur(10px);position:relative;overflow:hidden}
+  .tcard .bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--c);box-shadow:0 0 14px var(--c)}
+  .twho{display:flex;align-items:center;gap:10px}
+  .tav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:13px;flex-shrink:0;box-shadow:0 0 14px -3px var(--c)}
+  .tn{font-weight:700;font-size:14px}
+  .tr{color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em}
+  .tsp{color:var(--muted);font-size:12px;margin:9px 0 10px;min-height:46px;line-height:1.45}
+  .tchips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{font-size:10.5px;padding:3px 9px;border-radius:20px;border:1px solid var(--stroke);background:var(--glass);color:var(--muted)}
+  .chip b{color:var(--text)}
+
+  .chief{border:1px solid color-mix(in srgb,var(--gd) 30%,var(--stroke));border-radius:var(--r);padding:18px 20px;
+    background:linear-gradient(120deg,rgba(255,211,77,.10),var(--panel) 55%);backdrop-filter:blur(12px);
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap;position:relative;overflow:hidden}
+  .chief .crown{width:54px;height:54px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:27px;flex-shrink:0;
+    background:radial-gradient(circle at 50% 35%,rgba(255,211,77,.4),rgba(255,211,77,.12));box-shadow:0 0 26px -4px var(--gd),inset 0 0 0 1px rgba(255,211,77,.4)}
+  .chief .ci{flex:1;min-width:200px}
+  .chief .cn{font-weight:800;font-size:18px}
+  .chief .cr{color:var(--gd);font-size:12px;font-weight:600;margin-top:1px}
+  .chief .cj{color:var(--muted);font-size:12.5px;margin-top:7px;max-width:640px}
+  .chief .cmeta{text-align:right;font-size:11.5px;color:var(--muted)}
+  .chief .cmeta b{color:var(--text)}
+
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .pcard{border:1px solid var(--stroke);border-radius:15px;padding:15px;background:var(--panel);backdrop-filter:blur(10px)}
+  .ptop{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .pn{font-weight:700;font-size:14.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .badge{font-size:9.5px;text-transform:uppercase;letter-spacing:.07em;padding:3px 8px;border-radius:7px;font-weight:700;
+    background:var(--glass);border:1px solid var(--stroke);color:var(--muted)}
+  .badge.ext{color:var(--vi);border-color:color-mix(in srgb,var(--vi) 40%,transparent)}
+  .pdet{display:flex;flex-direction:column;gap:4px;font-size:11.5px;color:var(--muted)}
+  .pdet code{background:rgba(120,160,255,.1);padding:1px 6px;border-radius:5px;color:#cfe0ff;font-size:11px}
+  .grouphd{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin:18px 4px 10px;display:flex;align-items:center;gap:10px}
+  .grouphd .gc{background:var(--glass);border:1px solid var(--stroke);border-radius:20px;padding:1px 8px;font-size:10px}
+  .grouphd .gl{flex:1;height:1px;background:linear-gradient(90deg,var(--stroke),transparent)}
+
+  .cmdbar{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:20;display:flex;align-items:center;gap:12px;
+    padding:11px 18px;border-radius:40px;border:1px solid var(--stroke2);max-width:calc(100% - 28px);
+    background:linear-gradient(180deg,rgba(28,36,60,.9),rgba(12,16,28,.92));backdrop-filter:blur(16px);
+    box-shadow:0 18px 50px -20px rgba(0,0,0,.8),0 0 0 1px rgba(51,225,255,.12)}
+  .cmdbar .ico{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,#33e1ff,#1577c4);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;box-shadow:0 0 16px -2px var(--cy)}
+  .cmdbar .ct{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cmdbar .ct b{color:var(--text)}
+
+  footer{margin-top:34px;font-size:11px;text-align:center;color:#566087}
+
+  @media(max-width:640px){
+    .wrap{padding:16px 12px 112px}
+    header{padding:14px}
+    .ttl{font-size:18px} .clock{font-size:19px}
+    .biz,.tech,.pgrid{grid-template-columns:1fr}
+    .core{width:40px;height:40px}
+  }
+</style>
+</head>
+<body>
+<div class="bgfx"></div><div class="grid-fx"></div><div class="scan"></div>
+<div style="position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:6px;background:rgba(18,24,40,.82);border:1px solid rgba(120,160,255,.16);border-radius:30px;padding:4px;backdrop-filter:blur(8px)">
+  <a href="index.html" style="color:#33e1ff;text-decoration:none;font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px;background:rgba(51,225,255,.16)">Přehled</a>
+  <a href="room.html" style="color:#8893b3;text-decoration:none;font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px">🏢 Místnost</a>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="core"></div>
+      <div>
+        <div class="ttl">VEL<span>Í</span>N</div>
+        <div class="tsub" id="sysline">Command Center · inicializace…</div>
+      </div>
+    </div>
+    <div class="hstat">
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="hmeta">data: <b id="gen">—</b></div>
+    </div>
+  </header>
+
+  <div class="strip" id="kpis"></div>
+
+  <h2>Byznysy <span class="ln"></span></h2>
+  <div class="biz" id="biz"></div>
+
+  <h2>Velitel <span class="ln"></span></h2>
+  <div id="chief"></div>
+
+  <h2>Techničtí agenti · ekosystém <span class="ln"></span></h2>
+  <div class="tech" id="tech"></div>
+
+  <h2>Projekty <span class="ln"></span></h2>
+  <div id="projects"></div>
+
+  <footer id="foot">VELÍN · řídicí středisko</footer>
+</div>
+
+<div class="cmdbar">
+  <div class="ico">🛰️</div>
+  <div class="ct"><b>Ovládání odkudkoliv</b> · přehledy + příkazy přes Telegram <span id="cmdhint"></span></div>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  var D = window.DASHBOARD_DATA || {};
+  var esc = function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+  var STC={operational:'var(--ok)',wip:'var(--warn)',down:'var(--down)',planned:'var(--info)',na:'var(--na)'};
+  var STL={operational:'BĚŽÍ',wip:'LADÍ SE',down:'PADLO',planned:'PLÁN',na:'—'};
+
+  function tick(){var d=new Date();function p(n){return(n<10?'0':'')+n;}
+    var el=document.getElementById('clock');if(el)el.textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+  tick();setInterval(tick,1000);
+  document.getElementById('gen').textContent=D.generated||'—';
+
+  var biz=D.businesses||[]; var allAg=[]; biz.forEach(function(b){(b.agents||[]).forEach(function(a){allAg.push(a);});});
+  var op=allAg.filter(function(a){return a.status==='operational';}).length;
+  var wip=allAg.filter(function(a){return a.status==='wip';}).length;
+  var down=allAg.filter(function(a){return a.status==='down';}).length;
+  var sysOk = down===0;
+  document.getElementById('sysline').innerHTML = (sysOk?'✅ Systém v provozu':'⚠️ '+down+' mimo provoz')+' · '+biz.length+' byznysů';
+
+  var kpis=[
+    {l:'Byznysy',v:biz.length,s:'🏢'},
+    {l:'Provozní agenti',v:allAg.length,s:'🤖',sub:op+' běží'},
+    {l:'Techničtí agenti',v:(D.agents||[]).length,s:'⚙️'},
+    {l:'Projekty',v:(D.summary&&D.summary.total)||((D.projects||[]).length),s:'📦'},
+    {l:'Stav',v:sysOk?'OK':down+'⚠',s:'📡',sub:wip?(wip+' ladí'):'vše čisté'}
+  ];
+  document.getElementById('kpis').innerHTML=kpis.map(function(k){
+    return '<div class="kpi"><div class="l">'+esc(k.l)+'</div><div class="v">'+esc(k.v)+(k.sub?' <small>'+esc(k.sub)+'</small>':'')+'</div><div class="spark">'+k.s+'</div></div>';
+  }).join('');
+
+  document.getElementById('biz').innerHTML = biz.map(function(b){
+    var acc=b.color||'#33e1ff';
+    var inner;
+    if(!(b.agents||[]).length){
+      inner='<div class="bempty"><b>K doplnění.</b><br>'+esc(b.note||'Řekni, co byznys řeší a jaké agenty potřebuje.')+'</div>';
+    } else {
+      inner='<div class="blist">'+b.agents.map(function(a){
+        var c=a.color||acc; var col=STC[a.status]||'var(--na)';
+        var meta=[a.workflow?'⚙️ '+esc(a.workflow):'',a.chat?'💬 '+esc(a.chat):'',a.project?'📁 '+esc(a.project):''].filter(Boolean).join(' · ');
+        return '<div class="ag" style="--c:'+c+'" onclick="this.classList.toggle(\'open\')">'+
+          '<div class="agav">'+(a.emoji||esc((a.name||'?').charAt(0)))+'</div>'+
+          '<div class="agmid"><div class="agn">'+esc(a.name)+
+            '<span class="dot'+(a.status==='operational'?' live':'')+'" style="background:'+col+'"></span>'+
+            '<span class="st" style="background:color-mix(in srgb,'+col+' 18%,transparent);color:'+col+'">'+(STL[a.status]||esc(a.status)||'')+'</span>'+
+          '</div><div class="agr">'+esc(a.role||'')+'</div>'+
+          (a.detail?'<div class="agdet">'+esc(a.detail)+'</div>':'')+
+          (meta?'<div class="agdet">'+meta+'</div>':'')+
+          '</div></div>';
+      }).join('')+'</div>';
+    }
+    return '<div class="bcard" style="--acc:'+acc+'">'+
+      '<div class="bhead"><div class="bemo">'+(b.emoji||'■')+'</div>'+
+      '<div class="bname">'+esc(b.name)+'</div>'+
+      '<div class="bcount">'+(b.agents||[]).length+' agentů</div></div>'+inner+'</div>';
+  }).join('');
+
+  var ch=D.chief;
+  if(ch){
+    document.getElementById('chief').innerHTML='<div class="chief">'+
+      '<div class="crown">'+(ch.emoji||'👑')+'</div>'+
+      '<div class="ci"><div class="cn">'+esc(ch.name)+'</div>'+
+      '<div class="cr">'+esc(ch.role||'')+'</div>'+
+      '<div class="cj">'+esc(ch.job||'')+'</div></div>'+
+      '<div class="cmeta">'+(ch.interval?'⏱ <b>'+esc(ch.interval)+'</b><br>':'')+(ch.chat?'💬 '+esc(ch.chat):'')+'</div>'+
+      '</div>';
+  }
+
+  document.getElementById('tech').innerHTML=(D.agents||[]).map(function(a){
+    var c=a.accent||a.color||'#33e1ff';
+    return '<div class="tcard" style="--c:'+c+'"><div class="bar"></div>'+
+      '<div class="twho"><div class="tav" style="background:'+(a.color||c)+'">'+(a.emoji||esc((a.name||'?').charAt(0)))+'</div>'+
+      '<div><div class="tn">'+esc(a.name)+'</div><div class="tr">'+esc(a.role||'')+'</div></div></div>'+
+      '<div class="tsp">'+esc(a.specialty||a.job||'')+'</div>'+
+      '<div class="tchips"><span class="chip">⏱ <b>'+esc(a.interval||'—')+'</b></span>'+(a.dimension?'<span class="chip">'+esc(a.dimension)+'</span>':'')+'</div>'+
+      '</div>';
+  }).join('');
+
+  var projects=D.projects||[]; var groups={},order=[];
+  projects.forEach(function(p){var k=p.group||'';if(!(k in groups)){groups[k]=[];order.push(k);}groups[k].push(p);});
+  order.sort(function(a,b){if(a===''&&b!=='')return 1;if(b===''&&a!=='')return -1;return 0;});
+  var ph='';
+  order.forEach(function(k){
+    ph+='<div class="grouphd"><span>'+esc(k||'Samostatné projekty')+'</span><span class="gl"></span><span class="gc">'+groups[k].length+'</span></div>';
+    ph+='<div class="pgrid">'+groups[k].map(function(p){
+      var g=p.git||{},dep=p.deps||{};
+      var det='';
+      if(p.kind!=='external'){
+        det+='<span>🔵 '+(g.isRepo?('větev <code>'+esc(g.branch||'?')+'</code>'+(g.uncommitted?' · <code>'+esc(g.uncommitted)+'</code> neuloženo':' · čisto')+(g.ahead?' · '+g.ahead+'↑':'')):'bez gitu')+'</span>';
+        if(g.lastCommit)det+='<span style="color:var(--dim)">'+esc(g.lastCommit)+'</span>';
+        det+='<span>🟣 '+(dep.manager?(esc(dep.manager)+' · '+dep.count+' dep'+(dep.hasLockfile?' · lock ✓':' · bez locku')):'bez balíčků')+'</span>';
+        det+='<span>🟠 build '+(p.build&&p.build.hasBuild?'✓':'—')+' · testy '+(p.build&&p.build.hasTest?'✓':'—')+'  🟡 '+(p.todos||0)+' TODO</span>';
+      } else {
+        if(p.chat)det+='<span>💬 <code>'+esc(p.chat)+'</code></span>';
+        det+='<span>🟢 '+esc(p.notes||'')+'</span>';
+      }
+      return '<div class="pcard"><div class="ptop"><span class="pn">'+esc(p.name)+'</span>'+
+        '<span class="badge'+(p.kind==='external'?' ext':'')+'">'+esc(p.kind==='external'?(p.platform||'host'):(p.type||'projekt'))+'</span></div>'+
+        '<div class="pdet">'+det+'</div></div>';
+    }).join('')+'</div>';
+  });
+  document.getElementById('projects').innerHTML=ph||'<div class="bempty">Žádné projekty.</div>';
+
+  if(ch&&ch.chat){var h=document.getElementById('cmdhint');if(h)h.innerHTML='· DM <b>'+esc(ch.chat)+'</b>';}
+  document.getElementById('foot').textContent='VELÍN · řídicí středisko · generováno '+(D.generated||'—')+' · scan.ps1';
+})();
+</script>
+</body>
+</html>
