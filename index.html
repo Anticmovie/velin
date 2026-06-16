@@ -145,6 +145,62 @@
 
   footer{margin-top:34px;font-size:11px;text-align:center;color:#566087}
 
+  /* === USAGE PANEL === */
+  .usage-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:6px}
+  .umeter{border:1px solid var(--stroke);border-radius:15px;padding:15px 16px;background:var(--panel);backdrop-filter:blur(10px);position:relative;overflow:hidden;transition:border-color .25s}
+  .umeter:hover{border-color:var(--stroke2)}
+  .umeter .accent-bar{position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px}
+  .ulab{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+  .ulab .utag{font-size:9.5px;padding:2px 7px;border-radius:12px;font-weight:700;letter-spacing:.04em}
+  .uval{font-size:24px;font-weight:800;line-height:1;margin-bottom:10px;display:flex;align-items:baseline;gap:6px}
+  .uval small{font-size:11.5px;color:var(--muted);font-weight:500}
+  .utrack{height:7px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;margin-bottom:5px;position:relative}
+  .ufill{height:100%;border-radius:4px;transition:width .7s cubic-bezier(.34,1.56,.64,1)}
+  .ufill.anim{animation:glow-pulse 2.4s ease-in-out infinite}
+  @keyframes glow-pulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.35)}}
+  .utok{font-size:10.5px;color:var(--dim);margin-top:4px}
+
+  .uburn-row{display:flex;gap:18px;font-size:11.5px;color:var(--muted);padding:10px 0 0;border-top:1px solid var(--stroke);margin-top:10px}
+  .uburn-row b{color:var(--text)}
+
+  .umodels{margin-top:10px;padding-top:10px;border-top:1px solid var(--stroke);display:flex;flex-direction:column;gap:5px}
+  .umod{display:flex;align-items:center;gap:8px;font-size:11px}
+  .umod-name{color:var(--muted);width:0;flex:1.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .umod-track{flex:2;height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+  .umod-fill{height:100%;border-radius:3px;background:var(--cy);opacity:.65}
+  .umod-val{color:var(--dim);font-size:10px;width:38px;text-align:right}
+
+  /* alert banner */
+  .ualert{display:flex;align-items:flex-start;gap:11px;border-radius:13px;padding:12px 15px;margin-bottom:12px;
+    border:1px solid;font-size:13px;line-height:1.45;backdrop-filter:blur(10px)}
+  .ualert .uai{font-size:18px;flex-shrink:0;line-height:1.2}
+  .ualert .ual{flex:1}
+  .ualert .ual b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+  .ualert.warn{background:color-mix(in srgb,var(--warn) 10%,var(--panel));border-color:color-mix(in srgb,var(--warn) 40%,transparent)}
+  .ualert.warn .ual b{color:var(--warn)}
+  .ualert.crit{background:color-mix(in srgb,var(--down) 12%,var(--panel));border-color:color-mix(in srgb,var(--down) 45%,transparent)}
+  .ualert.crit .ual b{color:var(--down)}
+  .ualert.ok{background:color-mix(in srgb,var(--ok) 8%,var(--panel));border-color:color-mix(in srgb,var(--ok) 30%,transparent)}
+  .ualert.ok .ual b{color:var(--ok)}
+
+  /* kvalita spotreby - insight karty s kruhovym ukazatelem */
+  .qgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:12px}
+  .qcard{display:flex;align-items:center;gap:16px;border:1px solid var(--stroke);border-radius:15px;padding:16px 18px;
+    background:var(--panel);backdrop-filter:blur(10px);position:relative;overflow:hidden;transition:border-color .25s}
+  .qcard:hover{border-color:var(--stroke2)}
+  .qgauge{width:78px;height:78px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;
+    background:conic-gradient(var(--qc) calc(var(--qp)*1%), rgba(255,255,255,.07) 0)}
+  .qgauge::before{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--bg2)}
+  .qgauge .qpct{position:relative;font-size:19px;font-weight:800;color:var(--qc);font-variant-numeric:tabular-nums}
+  .qmid{flex:1;min-width:0}
+  .qtitle{font-weight:700;font-size:14px;display:flex;align-items:center;gap:7px}
+  .qdesc{color:var(--muted);font-size:11.5px;margin-top:4px;line-height:1.4}
+  .qtip{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font-size:10.5px;padding:3px 9px;border-radius:20px;
+    background:color-mix(in srgb,var(--qc) 14%,transparent);color:var(--qc);font-weight:600}
+  .qtip code{background:rgba(0,0,0,.25);padding:0 5px;border-radius:4px;font-size:10px}
+
+  @media(max-width:640px){.usage-grid,.qgrid{grid-template-columns:1fr}}
+
   @media(max-width:640px){
     .wrap{padding:16px 12px 112px}
     header{padding:14px}
@@ -177,6 +233,13 @@
   </header>
 
   <div class="strip" id="kpis"></div>
+
+  <div id="usage-wrap" style="display:none">
+    <h2>Limity Claude · usage <span class="ln"></span></h2>
+    <div id="usage-banner"></div>
+    <div class="usage-grid" id="usage-meters"></div>
+    <div class="qgrid" id="usage-quality"></div>
+  </div>
 
   <h2>Byznysy <span class="ln"></span></h2>
   <div class="biz" id="biz"></div>
@@ -303,6 +366,153 @@
 
   if(ch&&ch.chat){var h=document.getElementById('cmdhint');if(h)h.innerHTML='· DM <b>'+esc(ch.chat)+'</b>';}
   document.getElementById('foot').textContent='VELÍN · řídicí středisko · generováno '+(D.generated||'—')+' · scan.ps1';
+
+  // === USAGE METERS ===
+  (function renderUsage(){
+    var u=D.usage;
+    if(!u){return;}
+    document.getElementById('usage-wrap').style.display='';
+
+    function fmtTok(n){
+      if(!n||n<0)return'—';
+      if(n>=1000000)return(n/1000000).toFixed(1)+'M';
+      if(n>=1000)return Math.round(n/1000)+'k';
+      return String(n);
+    }
+    function pctColor(pct){
+      if(pct<0)return'var(--na)';
+      if(pct>=90)return'var(--down)';
+      if(pct>=70)return'var(--warn)';
+      return'var(--ok)';
+    }
+    function pctLabel(pct){
+      if(pct<0)return['NEKALIBROVÁNO','var(--na)'];
+      if(pct>=90)return['KRITICKÉ','var(--down)'];
+      if(pct>=70)return['VAROVÁNÍ','var(--warn)'];
+      return['OK','var(--ok)'];
+    }
+    function meterHtml(label, pct, tokens, extraHtml){
+      var col=pctColor(pct);
+      var info=pctLabel(pct);
+      var w=pct>=0?Math.min(100,pct):0;
+      var pctTxt=pct>=0?(pct.toFixed(1)+'%'):'?';
+      return '<div class="umeter">'+
+        '<div class="accent-bar" style="background:'+col+'"></div>'+
+        '<div class="ulab">'+esc(label)+
+          '<span class="utag" style="background:color-mix(in srgb,'+info[1]+' 18%,transparent);color:'+info[1]+'">'+esc(info[0])+'</span>'+
+        '</div>'+
+        '<div class="uval">'+esc(pctTxt)+'<small>'+fmtTok(tokens)+' tok</small></div>'+
+        '<div class="utrack"><div class="ufill'+(pct>=70?' anim':'')+'" style="width:'+w+'%;background:'+col+'"></div></div>'+
+        (extraHtml||'')+
+        '</div>';
+    }
+
+    var s=u.session5h||{};
+    var w=u.weekly7d||{};
+    var sn=u.sonnet7d||{};
+    var snPct=(u.sonnet5h&&u.sonnet5h.pct!=null)?u.sonnet5h.pct:-1;
+    // sonnet pct je na 7d limitu (sonnet5h.pct = pct weekly sonnet limitu z kalibrace)
+    var snPctReal=(u.limits&&u.limits.sonnet>0)?((sn.total||0)*100/u.limits.sonnet):-1;
+
+    var burnH=u.burnRatePerH||0;
+    var burnD=u.burnRatePerDay||0;
+
+    var meters=[
+      {label:'Session · 5h okno', pct:s.pct!=null?s.pct:-1, tokens:s.total, extra:
+        '<div class="uburn-row"><span>input <b>'+fmtTok(s.input)+'</b></span><span>output <b>'+fmtTok(s.output)+'</b></span><span>cache↗ <b>'+fmtTok(s.cache_c)+'</b></span><span>cache↙ <b>'+fmtTok(s.cache_r)+'</b></span></div>'},
+      {label:'Weekly · 7 dní', pct:w.pct!=null?w.pct:-1, tokens:w.total, extra:
+        '<div class="utok">'+( w.count||0)+' požadavků celkem</div>'},
+      {label:'Sonnet · weekly limit', pct:snPctReal>=0?Math.round(snPctReal*10)/10:-1, tokens:sn.total, extra:''}
+    ];
+
+    var html=meters.map(function(m){return meterHtml(m.label,m.pct,m.tokens,m.extra);}).join('');
+
+    // burn rate card
+    html+='<div class="umeter">'+
+      '<div class="accent-bar" style="background:var(--cy)"></div>'+
+      '<div class="ulab">Burn rate</div>'+
+      '<div class="uval">'+fmtTok(burnH)+'<small>tok / hod</small></div>'+
+      '<div class="uburn-row"><span>projekce <b>'+fmtTok(burnD)+' / den</b></span></div>'+
+      ((u.modelBreakdown&&u.modelBreakdown.length)?
+        '<div class="umodels"><div class="ulab" style="margin-bottom:6px">Modely (session 5h)</div>'+
+        (function(){
+          var max=0;
+          (u.modelBreakdown||[]).forEach(function(m){if((m.total||0)>max)max=m.total;});
+          return (u.modelBreakdown||[]).filter(function(m){return m.total>0;}).map(function(m){
+            var w2=max>0?Math.round((m.total/max)*100):0;
+            var nm=(m.model||'?').replace('claude-','').replace(/-/g,' ');
+            return '<div class="umod"><span class="umod-name" title="'+esc(m.model||'')+'">'+esc(nm)+'</span>'+
+              '<div class="umod-track"><div class="umod-fill" style="width:'+w2+'%"></div></div>'+
+              '<span class="umod-val">'+fmtTok(m.total)+'</span></div>';
+          }).join('');
+        })()+'</div>':'')
+      +'</div>';
+
+    document.getElementById('usage-meters').innerHTML=html;
+
+    // === ALERT BANNER (z alertu + urgency) ===
+    var alerts=u.alerts||[];
+    var urg=u.urgency||'ok';
+    var bannerEl=document.getElementById('usage-banner');
+    if(alerts.length){
+      var cls=(urg==='critical')?'crit':'warn';
+      var ico=(urg==='critical')?'🔴':'🟡';
+      bannerEl.innerHTML='<div class="ualert '+cls+'"><div class="uai">'+ico+'</div><div class="ual">'+
+        '<b>'+(urg==='critical'?'Kritické · blížíš se limitu':'Pozor · sleduj spotřebu')+'</b>'+
+        alerts.map(function(a){return esc(a);}).join('<br>')+
+        '</div></div>';
+    } else {
+      bannerEl.innerHTML='<div class="ualert ok"><div class="uai">🟢</div><div class="ual">'+
+        '<b>Vše v normě</b>Spotřeba bezpečně pod limity. Žádná akce není potřeba.</div></div>';
+    }
+
+    // === KVALITA SPOTREBY (8h+ sessions, >150k kontext) ===
+    var q=u.quality;
+    var qEl=document.getElementById('usage-quality');
+    if(q){
+      function qColor(pct){if(pct>=80)return'var(--down)';if(pct>=60)return'var(--warn)';return'var(--ok)';}
+      var qcards=[
+        {
+          pct:q.longSessionPct||0,
+          title:'Dlouhé sessions (8h+)',
+          icon:'⏱️',
+          desc:(q.longSessionPct||0)+' % spotřeby pochází z běhů delších než 8 h ('+(q.sessionsLong||0)+' z '+(q.sessionsTotal||0)+' sessions). Dlouhé běhy = často loop/agenti na pozadí, sčítá se to rychle.',
+          tip:'Při přepnutí úlohy <code>/clear</code>'
+        },
+        {
+          pct:q.highCtxPct||0,
+          title:'Vysoký kontext (>150k)',
+          icon:'🧠',
+          desc:(q.highCtxPct||0)+' % spotřeby běželo při kontextu nad 150k tokenů. Delší kontext je dražší i při cache — každý request stojí víc.',
+          tip:'Uprostřed úlohy <code>/compact</code>'
+        }
+      ];
+      qEl.innerHTML=qcards.map(function(c){
+        var col=qColor(c.pct);
+        var p=Math.min(100,Math.max(0,c.pct));
+        return '<div class="qcard" style="--qc:'+col+';--qp:'+p+'">'+
+          '<div class="qgauge"><span class="qpct">'+c.pct+'%</span></div>'+
+          '<div class="qmid">'+
+            '<div class="qtitle">'+c.icon+' '+esc(c.title)+'</div>'+
+            '<div class="qdesc">'+c.desc+'</div>'+
+            '<div class="qtip">💡 '+c.tip+'</div>'+
+          '</div></div>';
+      }).join('');
+    }
+
+    // pridej do KPI stripu
+    var worst=-1;
+    [s.pct,w.pct,snPctReal].forEach(function(p){if(p!=null&&p>worst)worst=p;});
+    var kpiEl=document.querySelector('#kpis');
+    if(kpiEl&&worst>=0){
+      var kpiCol=pctColor(worst);
+      var kpiCard='<div class="kpi" style="border-color:color-mix(in srgb,'+kpiCol+' 30%,var(--stroke))">'+
+        '<div class="l">Claude Usage</div>'+
+        '<div class="v" style="color:'+kpiCol+'">'+worst.toFixed(0)+'<small style="color:'+kpiCol+'">%</small></div>'+
+        '<div class="spark">📊</div></div>';
+      kpiEl.insertAdjacentHTML('beforeend',kpiCard);
+    }
+  })();
 })();
 </script>
 </body>

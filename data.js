@@ -1,5 +1,5 @@
-window.DASHBOARD_DATA = {
-    "generated":  "2026-06-16 17:36",
+﻿window.DASHBOARD_DATA = {
+    "generated":  "2026-06-16 19:38",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -13,7 +13,7 @@ window.DASHBOARD_DATA = {
                   "interval":  "denně 20:00",
                   "color":  "#facc15",
                   "emoji":  "👑",
-                  "chat":  "DM ●●●"
+                  "chat":  "DM 1436651098"
               },
     "agents":  [
                    {
@@ -75,6 +75,18 @@ window.DASHBOARD_DATA = {
                        "accent":  "#22c55e",
                        "emoji":  "🟢",
                        "dimension":  "ops"
+                   },
+                   {
+                       "id":  "usage",
+                       "name":  "Usage",
+                       "role":  "Strazce limitu Claude tokenu",
+                       "specialty":  "Cte ~/.claude/projects/**/*.jsonl a pocita spotrebu tokenu v okne 5h (session) a 7d (weekly) vcetne breakdown po modelech.",
+                       "job":  "Kazdych 30 minut zkontroluje spotrebu tokenu, posle Telegram alert kdyz previs 70% (warn) nebo 90% (critical) limitu. Pri kalibraci dopocita absolutni stropy z procentualnich hodnot z /model.",
+                       "interval":  "kazdych 30 min",
+                       "color":  "#0891b2",
+                       "accent":  "#06b6d4",
+                       "emoji":  "📊",
+                       "dimension":  "usage"
                    }
                ],
     "businesses":  [
@@ -92,7 +104,7 @@ window.DASHBOARD_DATA = {
                                               "role":  "Rozpis úklidů pro úklidovou firmu",
                                               "detail":  "Z iCalů (Airbnb + Booking) spočítá odjezdy a příjezdy a pošle digest do úklidové skupiny. Cron 7:00 a 17:00.",
                                               "status":  "operational",
-                                              "chat":  "skupina ●●●",
+                                              "chat":  "skupina -5299707474",
                                               "workflow":  "Uklid notifikace v6",
                                               "project":  "apartmany-boti",
                                               "live":  true
@@ -105,7 +117,7 @@ window.DASHBOARD_DATA = {
                                               "role":  "Pravděpodobné časy příjezdů hostů",
                                               "detail":  "Scanuje Booking/Airbnb e-maily a hlásí časy příjezdů do osobního DM. Denně 8:00. Scanování se předělává podle nového principu (kotvení na byt + datum).",
                                               "status":  "operational",
-                                              "chat":  "DM ●●●",
+                                              "chat":  "DM 1436651098",
                                               "workflow":  "Email Prijezdy v5",
                                               "project":  "apartmany-boti",
                                               "live":  true
@@ -118,7 +130,7 @@ window.DASHBOARD_DATA = {
                                               "role":  "Drží n8n naživu (watchdog)",
                                               "detail":  "Každých 10 min kontroluje n8n na Railway. Při pádu restartuje přes Railway API a pošle Telegram alert.",
                                               "status":  "operational",
-                                              "chat":  "skupina ●●●",
+                                              "chat":  "skupina -5299707474",
                                               "workflow":  "GitHub Actions (cron 10 min)",
                                               "project":  "n8n-watchdog",
                                               "live":  false
@@ -131,7 +143,7 @@ window.DASHBOARD_DATA = {
                                               "role":  "Hlídá volné dny a ceny (interní PriceLabs)",
                                               "detail":  "Scanuje iCaly všech 14 bytů (Booking+Airbnb), hlásí volná okna v pásmech 1-7 / 7-14 / 14-30 dní + orphan gapy, doporučuje cenu / min-nights. Denně report na Telegram. Příště: hlídání konkurence + cenové návrhy.",
                                               "status":  "wip",
-                                              "chat":  "DM ●●●",
+                                              "chat":  "DM 1436651098",
                                               "project":  "apartmany-boti",
                                               "live":  false
                                           }
@@ -202,7 +214,7 @@ window.DASHBOARD_DATA = {
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  3,
-                                     "lastCommit":  "18 hours ago | Add improvement agent + v6.3 arrivals bot"
+                                     "lastCommit":  "20 hours ago | Add improvement agent + v6.3 arrivals bot"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -338,7 +350,7 @@ window.DASHBOARD_DATA = {
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "3 days ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
+                                     "lastCommit":  "4 days ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -358,5 +370,82 @@ window.DASHBOARD_DATA = {
                                         "nina":  "na"
                                     }
                      }
-                 ]
+                 ],
+    "usage":  {
+                  "generatedAt":  "2026-06-16T17:36:20.4490882+00:00",
+                  "session5h":  {
+                                    "total":  29895906,
+                                    "input":  1285,
+                                    "output":  118485,
+                                    "cache_c":  1172694,
+                                    "cache_r":  28603442,
+                                    "count":  136,
+                                    "pct":  21.7
+                                },
+                  "weekly7d":  {
+                                   "total":  203227691,
+                                   "count":  675,
+                                   "pct":  16.3
+                               },
+                  "sonnet5h":  {
+                                   "total":  4008854,
+                                   "count":  58,
+                                   "pct":  2.7
+                               },
+                  "sonnet7d":  {
+                                   "total":  4008854,
+                                   "count":  58
+                               },
+                  "burnRatePerH":  5979181,
+                  "burnRatePerDay":  143500344,
+                  "calibrated":  true,
+                  "urgency":  "warn",
+                  "alerts":  [
+                                 "POZOR: 77% spotreby z dlouhych sessions (8h+)",
+                                 "DRAHY PROVOZ: 91% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny"
+                             ],
+                  "limits":  {
+                                 "session":  137474047,
+                                 "weekly":  1246574088,
+                                 "sonnet":  148338200,
+                                 "warnPct":  70,
+                                 "critPct":  90
+                             },
+                  "modelBreakdown":  [
+                                         {
+                                             "model":  "claude-opus-4-8",
+                                             "total":  22542590,
+                                             "output":  46770,
+                                             "count":  35
+                                         },
+                                         {
+                                             "model":  "claude-sonnet-4-6",
+                                             "total":  4008854,
+                                             "output":  43254,
+                                             "count":  58
+                                         },
+                                         {
+                                             "model":  "claude-opus-4-7",
+                                             "total":  3344462,
+                                             "output":  28461,
+                                             "count":  38
+                                         },
+                                         {
+                                             "model":  "\u003csynthetic\u003e",
+                                             "total":  0,
+                                             "output":  0,
+                                             "count":  5
+                                         }
+                                     ],
+                  "quality":  {
+                                  "longSessionPct":  77,
+                                  "longSessionTok":  155823364,
+                                  "sessionsLong":  1,
+                                  "sessionsTotal":  6,
+                                  "highCtxPct":  91,
+                                  "highCtxTok":  183952271,
+                                  "longThresholdH":  8,
+                                  "ctxThreshold":  150000
+                              }
+              }
 };
