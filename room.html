@@ -316,12 +316,15 @@
     actors.forEach(function(o){if(!inMeetGroup(o))return;fctx.strokeStyle=o.c;fctx.lineWidth=1.2;fctx.beginPath();fctx.moveTo(o.x,o.y-cw*.55);fctx.lineTo(hub.x,hub.y);fctx.stroke();});
     fctx.restore();}
 
-  // ---- zidle: opieradlo (zadni strana) navrch pres panacka => dojem sezeni, ale jen stoji ----
-  var CHAIR_BACK='P102';
-  function renderChairs(){ fgctx.clearRect(0,0,W,Hh); var ch=PROD[CHAIR_BACK]; if(!ch)return;
+  // ---- zidle: spravny smerovy sprite (P101 zada / P102 celo / P103 vpravo / P104 vlevo)
+  //      pro zady-k-nam (up) se opieradlo kresli NAVRCH pres panacka => dojem sezeni, ale jen stoji
+  var CHAIR={up:'P101',down:'P102',right:'P103',left:'P104'};
+  function renderChairs(){ fgctx.clearRect(0,0,W,Hh);
     for(var i=0;i<actors.length;i++){ var o=actors[i];
       if(o.state==='walk')continue;                 // jen kdyz stoji u stolu
-      if((o.seatFace||'up')!=='up')continue;         // jen zady k nam -> opieradlo navrch
+      var dir=o.seatFace||'up';
+      if(dir!=='up')continue;                        // zatim jen zady -> opieradlo navrch (celo/bok = zidle vzadu, doladim)
+      var ch=PROD[CHAIR[dir]]; if(!ch)continue;
       var chW=cw*1.12, chH=cw*1.5;
       fgctx.drawImage(PA, ch.ax,ch.ay,ch.aw,ch.ah, o.x-chW/2, o.y-chH+cw*0.12, chW, chH);
     } }
