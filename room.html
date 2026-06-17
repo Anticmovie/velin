@@ -111,6 +111,7 @@
 
 <script src="data.js"></script>
 <script src="assets/officemap.js"></script>
+<script src="assets/products.js"></script>
 <script>
 (function(){
   var D=window.DASHBOARD_DATA||{};var M=window.OFFICEMAP||{};
@@ -187,14 +188,20 @@
   var townC=document.getElementById('town'),tctx=townC.getContext('2d');
   var RB=new Image();RB.src='assets/office_rb.png';
   var OFI=new Image();OFI.src='assets/office.png';
+  var PA=new Image();PA.src='assets/products_atlas.png';   // hotove produkty (cele objekty)
+  var PROD=window.PRODUCTS||{};
   var GW=M.gw||44,GH=M.gh||30,SS=4;
   function dT(img,idx,x,y){if(idx==null||idx<0)return;var sx=(idx%16)*16,sy=Math.floor(idx/16)*16;tctx.drawImage(img,sx,sy,16,16,x*16*SS,y*16*SS,16*SS,16*SS);}
+  function dObj(o){var p=PROD[o.p];if(!p)return;tctx.drawImage(PA,p.ax,p.ay,p.aw,p.ah,o.x*16*SS,o.y*16*SS,p.aw*SS,p.ah*SS);}
   function renderMap(){townC.width=GW*16*SS;townC.height=GH*16*SS;tctx.imageSmoothingEnabled=false;
-    var fl=M.floor||[],wa=M.walls||[],fu=M.furn||[],f2=M.furn2||[];
+    var fl=M.floor||[],wa=M.walls||[],fu=M.furn||[],f2=M.furn2||[],obj=M.objects||[];
     for(var y=0;y<GH;y++)for(var x=0;x<GW;x++)dT(RB,fl[y]?fl[y][x]:91,x,y);
     for(var y2=0;y2<GH;y2++)for(var x2=0;x2<GW;x2++){if(wa[y2]&&wa[y2][x2]>=0)dT(RB,wa[y2][x2],x2,y2);}
     for(var y3=0;y3<GH;y3++)for(var x3=0;x3<GW;x3++){if(fu[y3]&&fu[y3][x3]>=0)dT(OFI,fu[y3][x3],x3,y3);}
     for(var y4=0;y4<GH;y4++)for(var x4=0;x4<GW;x4++){if(f2[y4]&&f2[y4][x4]>=0)dT(OFI,f2[y4][x4],x4,y4);}
+    // ---- objekty (cele produkty), serazene shora dolu = spravne prekryvy ----
+    var os=obj.slice().sort(function(a,b){return (a.y+(PROD[a.p]?PROD[a.p].h:1))-(b.y+(PROD[b.p]?PROD[b.p].h:1));});
+    for(var i=0;i<os.length;i++)dObj(os[i]);
   }
 
   // ---- geometrie sceny ----
@@ -338,14 +345,14 @@
   function clock(){var d=new Date(),p=function(n){return(n<10?'0':'')+n;};document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
   clock();setInterval(clock,1000);
 
-  var loaded=0;function ready(){loaded++;if(loaded>=2)start();}
+  var loaded=0;function ready(){loaded++;if(loaded>=3)start();}
   function start(){build();requestAnimationFrame(loop);
     pushRep(byId.adam,'🔵 <b>Adam</b>: '+metric('adam'));
     pushRep(byId.usage,'📊 <b>Usage</b>: '+metric('usage')+' · '+(U.urgency==='ok'?'klid':'sleduj'));
     pushRep(byId.nina,'🟢 <b>Nina</b>: '+metric('nina'));
     pushRep(byId.tereza,'🟡 <b>Tereza</b>: '+metric('tereza'));
   }
-  RB.onload=ready;RB.onerror=ready;OFI.onload=ready;OFI.onerror=ready;
+  RB.onload=ready;RB.onerror=ready;OFI.onload=ready;OFI.onerror=ready;PA.onload=ready;PA.onerror=ready;
   var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(build,250);});
 
   var repFns=[function(){return [byId.adam,'🔵 <b>Adam</b>: '+metric('adam')];},
