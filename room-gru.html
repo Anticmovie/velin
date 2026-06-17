@@ -86,6 +86,11 @@
   .tk .b.ok{background:var(--ok);color:#04140a;border-color:transparent}.tk .b:hover{filter:brightness(1.12)}
   .tkempty{color:var(--dim);font-size:12px;text-align:center;padding:22px 10px}
   .tkrefresh{width:100%;font-size:11px;font-weight:700;padding:7px;border-radius:9px;border:1px solid var(--stroke);background:rgba(255,255,255,.05);color:var(--muted);cursor:pointer;margin-bottom:9px}
+  .tk .bar{height:7px;border-radius:5px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:7px;border:1px solid var(--stroke)}
+  .tk .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--tkc),#fff);transition:width .4s}
+  .tk .pct{font-size:9.5px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+  .tk .spin{display:inline-block;width:9px;height:9px;border:2px solid color-mix(in srgb,var(--tkc) 40%,transparent);border-top-color:var(--tkc);border-radius:50%;animation:tkspin .8s linear infinite;vertical-align:-1px;margin-right:3px}
+  @keyframes tkspin{to{transform:rotate(360deg)}}
   /* stav */
   .stbox{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
   .stbox div{background:rgba(255,255,255,.035);border:1px solid var(--stroke);border-radius:11px;padding:9px 11px}
@@ -723,6 +728,9 @@
   // ===== Úkoly (pipeline) — most na n8n /velin-ukol =====
   function ukolUrl(){ return BRIDGE.url ? BRIDGE.url.replace(/\/velin\/?$/,'/velin-ukol') : ''; }
   function tkColor(stav){ stav=(stav||'').toLowerCase(); if(stav.indexOf('problém')>=0||stav.indexOf('problem')>=0)return '#ff4d6a'; if(stav.indexOf('čeká')>=0||stav.indexOf('ceka')>=0)return '#ffb02e'; if(stav.indexOf('aplikov')>=0)return '#2bd980'; if(stav.indexOf('programuje')>=0||stav.indexOf('test')>=0)return '#3b9dff'; return '#5fa8e0'; }
+  function tkPct(s){ s=s||''; if(s.indexOf('✅')>=0)return 100; if(s.indexOf('🗑')>=0)return 0; if(s.indexOf('👍')>=0)return 92; if(s.indexOf('⏳')>=0)return 90; if(s.indexOf('🧪')>=0)return 80; if(s.indexOf('💻')>=0)return 55; if(s.indexOf('📝')>=0)return 25; if(s.indexOf('⚠')>=0)return 60; return 10; }
+  function tkDone(s){ s=s||''; return s.indexOf('✅')>=0||s.indexOf('🗑')>=0; }
+  function tkWorking(s){ s=s||''; return s.indexOf('💻')>=0||s.indexOf('🧪')>=0; }
   function postUkol(payload,cb){ var u=ukolUrl(); if(!u){ addLog('⚠️ Nejdřív připoj n8n přes <span class="cmd">/connect</span>',{c:'#ff4d6a'}); return; }
     fetch(u,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(Object.assign({token:BRIDGE.token},payload))})
      .then(function(r){return r.json();}).then(function(j){ if(cb)cb(j); }).catch(function(e){ addLog('⚠️ Úkoly n8n: '+esc(String(e&&e.message||e)),{c:'#ff4d6a'}); }); }
@@ -732,14 +740,19 @@
       '<button id="tkAdd" title="Přidat do fronty" style="flex:none;width:38px;border:none;border-radius:9px;background:var(--cy);color:#04121d;font-size:15px;font-weight:800;cursor:pointer">➕</button>'+
       '</div>'+
       '<button class="tkrefresh" id="tkR">↻ Obnovit</button>';
-    if(!tasks||!tasks.length){ html+='<div class="tkempty">Žádné schválené úkoly.<br>Schval nápad ze zasedačky → objeví se tady.</div>'; }
-    else { tasks.forEach(function(t){ var c=tkColor(t.stav); var sl=(t.stav||'').toLowerCase(); var isProb=sl.indexOf('problém')>=0||sl.indexOf('problem')>=0; var needs=isProb||sl.indexOf('čeká')>=0||sl.indexOf('ceka')>=0;
-      html+='<div class="tk" style="--tkc:'+c+'"><div class="badge">'+esc(t.stav||'?')+'</div>'+
+    var active=[],hist=[]; (tasks||[]).forEach(function(t){ (tkDone(t.stav)?hist:active).push(t); });
+    if(!active.length && !hist.length){ html+='<div class="tkempty">Žádné úkoly.<br>Napiš prompt výš nebo schval nápad ze zasedačky.</div>'; }
+    active.forEach(function(t){ var c=tkColor(t.stav); var sl=(t.stav||'').toLowerCase(); var isProb=sl.indexOf('problém')>=0||sl.indexOf('problem')>=0; var needs=isProb||sl.indexOf('čeká')>=0||sl.indexOf('ceka')>=0; var pct=tkPct(t.stav); var work=tkWorking(t.stav);
+      html+='<div class="tk" style="--tkc:'+c+'"><div class="badge">'+(work?'<span class="spin"></span>':'')+esc(t.stav||'?')+'</div>'+
         '<div class="th">'+esc(t.napad||'')+'</div>'+
-        '<div class="meta">👤 '+esc(t.vlastnik||'—')+' · '+esc(t.aktualizace||'')+'</div>'+
+        '<div class="meta">'+(work?'💻 řeší: ':'👤 ')+esc(t.vlastnik||'—')+' · '+esc(t.aktualizace||'')+'</div>'+
+        '<div class="bar"><i style="width:'+pct+'%"></i></div>'+
+        '<div class="pct">'+pct+'% '+(pct>=100?'• hotovo':'• zbývá '+(100-pct)+'%')+'</div>'+
         (t.pozn?(isProb?'<div class="prob">⚠️ '+esc(t.pozn)+'</div>':'<div class="meta" style="margin-top:4px">'+esc(t.pozn)+'</div>'):'')+
-        (needs?'<div class="act"><button class="b ok" data-id="'+esc(t.id)+'" data-s="ok">✓ Schválit krok</button><button class="b" data-id="'+esc(t.id)+'" data-s="stop">✕ Zastavit</button></div>':'')+
-      '</div>'; }); }
+        (needs?'<div class="act"><button class="b ok" data-id="'+esc(t.id)+'" data-s="ok">✓ Schválit</button><button class="b" data-id="'+esc(t.id)+'" data-s="stop">✕ Zastavit</button></div>':'')+
+      '</div>'; });
+    if(hist.length){ html+='<div class="grp">Historie</div>'; hist.forEach(function(t){
+      html+='<div class="tk" style="--tkc:'+tkColor(t.stav)+';opacity:.7"><div class="badge">'+esc(t.stav||'')+'</div><div class="th" style="font-weight:600">'+esc(t.napad||'')+'</div><div class="meta">👤 '+esc(t.vlastnik||'—')+' · '+esc(t.aktualizace||'')+'</div></div>'; }); }
     pane.innerHTML=html;
     var r=document.getElementById('tkR'); if(r)r.addEventListener('click',buildUkoly);
     var na=document.getElementById('tkAdd'), ni=document.getElementById('tkNew');
@@ -747,7 +760,7 @@
     if(na)na.addEventListener('click',addNew);
     if(ni)ni.addEventListener('keydown',function(e){if(e.key==='Enter')addNew();});
     [].forEach.call(pane.querySelectorAll('.b'),function(b){ b.addEventListener('click',function(){ var id=b.getAttribute('data-id'); var s=b.getAttribute('data-s');
-      var status=(s==='ok')?'✅ aplikováno':'🗑️ zastaveno'; postUkol({action:'status',id:id,status:status},function(j){ renderUkoly(j&&j.tasks); addLog('🚦 Úkol '+esc(id)+' → '+esc(status),{c:'#2bd980'}); }); }); });
+      var status=(s==='ok')?'👍 schváleno':'🗑️ zastaveno'; postUkol({action:'status',id:id,status:status},function(j){ renderUkoly(j&&j.tasks); addLog('🚦 Úkol '+esc(id)+' → '+esc(status),{c:'#2bd980'}); }); }); });
     var tc=document.getElementById('tcUkoly'); if(tc)tc.textContent=(tasks&&tasks.length)?tasks.length:'';
   }
   function buildUkoly(){ var pane=document.getElementById('pane-ukoly'); pane.innerHTML='<div class="tkempty">Načítám…</div>'; postUkol({action:'list'},function(j){ renderUkoly(j&&j.tasks); }); }
