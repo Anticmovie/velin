@@ -6,60 +6,73 @@
 <meta name="theme-color" content="#0a1410"/>
 <title>VELÍN · městečko agentů</title>
 <style>
-  :root{--bg:#0a1208;--panel:rgba(14,24,16,.82);--stroke:rgba(150,210,150,.18);--text:#eafff0;--muted:#9bb79b;--dim:#5b7a5b;
+  :root{--bg:#0a1208;--panel:rgba(14,24,16,.86);--stroke:rgba(150,210,150,.18);--text:#eafff0;--muted:#9bb79b;--dim:#5b7a5b;
     --cy:#5fe08a;--ok:#2bd980;--warn:#ffb02e;--down:#ff4d6a;--gd:#ffd34d;--na:#566087;}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;height:100%}
   body{background:radial-gradient(120% 90% at 50% 0%,#15240f,#0a1208 70%);color:var(--text);min-height:100vh;overflow:hidden;
     font:14px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-  .top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 14px;background:linear-gradient(180deg,rgba(8,14,8,.92),transparent)}
+  .top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 14px;background:linear-gradient(180deg,rgba(8,14,8,.94),transparent)}
   .brand{display:flex;align-items:center;gap:10px}
-  .core{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#d6ffcf,#5fe08a 45%,#185034 78%);box-shadow:0 0 16px rgba(95,224,138,.7);animation:cpulse 3s ease-in-out infinite}
+  .core{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#d6ffcf,#5fe08a 45%,#185034 78%);box-shadow:0 0 16px rgba(95,224,138,.7);animation:cpulse 3s ease-in-out infinite}
   @keyframes cpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
   .ttl{font-weight:800;letter-spacing:.06em;font-size:14px}.ttl b{color:var(--cy)}
   .tsub{color:var(--muted);font-size:9px;letter-spacing:.14em;text-transform:uppercase}
   .clock{font-weight:700;font-size:14px;color:#dfffe9;font-variant-numeric:tabular-nums;text-align:right}
-  .nav{position:fixed;top:9px;left:50%;transform:translateX(-50%);z-index:31;display:flex;gap:6px;background:var(--panel);border:1px solid var(--stroke);border-radius:30px;padding:4px}
+  .nav{position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:31;display:flex;gap:6px;background:var(--panel);border:1px solid var(--stroke);border-radius:30px;padding:4px}
   .nav a{color:var(--muted);text-decoration:none;font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:20px}
   .nav a.on{background:rgba(95,224,138,.18);color:var(--cy)}
 
-  .stage{position:fixed;inset:46px 8px 84px;z-index:5;display:flex;align-items:center;justify-content:center}
-  .scene{position:relative;aspect-ratio:22/15;max-width:100%;max-height:100%;width:auto;height:100%;
-    border-radius:16px;overflow:hidden;box-shadow:0 24px 70px -30px #000,inset 0 0 0 2px rgba(150,210,150,.12);background:#3a8a3a}
-  @media (max-aspect-ratio:22/15){.scene{width:100%;height:auto}}
+  .stage{position:fixed;inset:44px 8px 172px;z-index:5;display:flex;align-items:center;justify-content:center}
+  .scene{position:relative;aspect-ratio:34/22;max-width:100%;max-height:100%;width:auto;height:100%;
+    border-radius:14px;overflow:hidden;box-shadow:0 24px 70px -30px #000,inset 0 0 0 2px rgba(150,210,150,.12);background:#5fa044}
+  @media (max-aspect-ratio:34/22){.scene{width:100%;height:auto}}
   #town{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;z-index:1}
   #fx{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+  .distlabel{position:absolute;z-index:3;font-size:10px;font-weight:800;letter-spacing:.18em;color:#fff;text-shadow:0 1px 4px #000,0 0 2px #000;pointer-events:none;opacity:.82}
 
   .char{position:absolute;z-index:6;transform:translate(-50%,-100%);will-change:left,top;cursor:pointer}
-  .char img.sp{display:block;image-rendering:pixelated;filter:drop-shadow(0 3px 2px rgba(0,0,0,.45))}
-  .char.walk img.sp{animation:bob .38s ease-in-out infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  .char img.sp{display:block;image-rendering:pixelated;filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))}
+  .char.walk img.sp{animation:bob .4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
   .char.alarm img.sp{animation:shake .22s infinite}@keyframes shake{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
-  .tag{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:2px;white-space:nowrap;font-size:9.5px;font-weight:700;display:flex;align-items:center;gap:4px;padding:1px 7px;border-radius:20px;background:rgba(6,12,8,.82);border:1px solid color-mix(in srgb,var(--c) 45%,transparent)}
-  .tag .lvl{font-size:8px;font-weight:800;color:var(--gd);background:rgba(255,211,77,.16);border-radius:10px;padding:0 5px}
-  .tag .dt{width:5px;height:5px;border-radius:50%;background:var(--st,#2bd980);box-shadow:0 0 6px var(--st,#2bd980)}
-  .taskbar{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:2px;width:84px;opacity:0;transition:opacity .2s}
-  .char.work .taskbar{opacity:1}
-  .tlabel{font-size:8px;color:#e6ffe6;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:84px;text-shadow:0 1px 3px #000}
-  .tprog{height:4px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:1px;border:1px solid color-mix(in srgb,var(--c) 35%,transparent)}
-  .tprog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--c),#fff);box-shadow:0 0 8px -1px var(--c);transition:width .2s linear}
-  .think{position:absolute;bottom:100%;left:66%;margin-bottom:18px;font-size:13px;opacity:0;animation:think 1.1s ease-out}
+  .tag{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:2px;white-space:nowrap;font-size:9px;font-weight:700;display:flex;align-items:center;gap:3px;padding:0 5px;border-radius:20px;background:rgba(6,12,8,.85);border:1px solid color-mix(in srgb,var(--c) 50%,transparent);line-height:14px}
+  .tag .lvl{font-size:7.5px;font-weight:800;color:var(--gd);background:rgba(255,211,77,.16);border-radius:10px;padding:0 4px}
+  .tag .dt{width:4px;height:4px;border-radius:50%;background:var(--st,#2bd980);box-shadow:0 0 5px var(--st,#2bd980)}
+  .act{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:1px;font-size:7.5px;color:#dfffe6;white-space:nowrap;text-shadow:0 1px 3px #000;opacity:0;transition:opacity .2s;max-width:96px;overflow:hidden;text-overflow:ellipsis}
+  .char.work .act{opacity:.95}
+  .think{position:absolute;bottom:100%;left:66%;margin-bottom:16px;font-size:12px;opacity:0;animation:think 1.1s ease-out}
   @keyframes think{0%{opacity:0;transform:translateY(4px) scale(.6)}30%{opacity:1}100%{opacity:0;transform:translateY(-12px)}}
-  .lup{position:absolute;bottom:112%;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;color:var(--gd);white-space:nowrap;text-shadow:0 0 8px var(--gd);opacity:0;animation:lup 1.7s ease-out}
+  .lup{position:absolute;bottom:112%;left:50%;transform:translateX(-50%);font-size:9px;font-weight:800;color:var(--gd);white-space:nowrap;text-shadow:0 0 8px var(--gd);opacity:0;animation:lup 1.7s ease-out}
   @keyframes lup{0%{opacity:0;transform:translate(-50%,6px)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-22px)}}
 
-  .ticker{position:fixed;bottom:0;left:0;right:0;z-index:26;height:74px;background:linear-gradient(0deg,rgba(8,14,8,.96),rgba(8,14,8,.6));border-top:1px solid var(--stroke);padding:7px 14px;overflow:hidden}
-  .ticker h5{margin:0 0 4px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:7px}
-  .ticker h5::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:blinkd 1.2s infinite}
+  /* ---- dolni panel: roster + reporty ---- */
+  .dock{position:fixed;bottom:0;left:0;right:0;z-index:26;height:166px;display:flex;gap:10px;padding:8px 12px;background:linear-gradient(0deg,rgba(8,14,8,.97),rgba(8,14,8,.78));border-top:1px solid var(--stroke)}
+  .roster{flex:1 1 auto;overflow:hidden;display:flex;flex-direction:column;gap:5px;min-width:0}
+  .rhead{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:7px}
+  .rhead b{color:#cdeccd}
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(184px,1fr));gap:5px;overflow-y:auto;padding-right:4px}
+  .rcard{display:flex;align-items:center;gap:7px;padding:4px 7px;border-radius:9px;background:rgba(255,255,255,.035);border:1px solid color-mix(in srgb,var(--c) 30%,var(--stroke));cursor:pointer}
+  .rcard:hover{background:rgba(255,255,255,.07)}
+  .rcard img{width:24px;height:24px;image-rendering:pixelated;flex:none;filter:drop-shadow(0 1px 1px #000)}
+  .rmid{min-width:0;flex:1}
+  .rnm{font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px}
+  .rnm .lv{font-size:8px;font-weight:800;color:var(--gd);background:rgba(255,211,77,.14);border-radius:8px;padding:0 4px}
+  .rtask{font-size:9.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rdot{width:7px;height:7px;border-radius:50%;flex:none}
+  .reports{flex:0 0 318px;display:flex;flex-direction:column;gap:5px;max-width:42%}
+  .reports .rhead::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:blinkd 1.2s infinite}
   @keyframes blinkd{50%{opacity:.35}}
-  .tk{font-size:11.5px;line-height:1.5;color:#daffda;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .tk b{color:#fff}.tk .ld{color:var(--cy)}
+  .rfeed{overflow-y:auto;display:flex;flex-direction:column;gap:3px;padding-right:4px}
+  .rline{font-size:10.5px;line-height:1.4;color:#d8f3d8;padding:3px 8px;border-radius:7px;background:rgba(255,255,255,.03);border-left:2px solid var(--c,#5fe08a)}
+  .rline b{color:#fff}.rline .t{color:var(--dim);font-size:9px}
+  @media(max-width:720px){.nav{display:none}.stage{inset:42px 4px 210px}.dock{height:204px;flex-direction:column}.reports{flex:none;max-width:none;height:78px}}
 
   .scrim{position:fixed;inset:0;z-index:40;background:rgba(2,6,3,.62);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:.25s}.scrim.on{opacity:1;pointer-events:auto}
   .panel{position:fixed;top:0;right:0;bottom:0;z-index:41;width:min(420px,92vw);transform:translateX(100%);transition:transform .3s cubic-bezier(.3,.8,.3,1);background:linear-gradient(180deg,rgba(16,28,18,.98),rgba(8,14,9,.98));border-left:1px solid color-mix(in srgb,var(--c,#5fe08a) 40%,transparent);box-shadow:-30px 0 80px -30px #000;overflow-y:auto;padding:22px}
   .panel.on{transform:none}.panel .x{position:absolute;top:14px;right:16px;color:var(--muted);font-size:23px;cursor:pointer}
-  .phead{display:flex;align-items:center;gap:14px}.pav{width:72px;height:72px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:center;background:rgba(255,255,255,.04);border-radius:14px;border:1px solid var(--stroke)}
-  .pav img{image-rendering:pixelated;width:56px;height:56px}
+  .phead{display:flex;align-items:center;gap:14px}.pav{width:74px;height:74px;flex:none;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border-radius:14px;border:1px solid var(--stroke)}
+  .pav img{image-rendering:pixelated;width:58px;height:58px}
   .pn{font-weight:800;font-size:19px}.prole{font-size:12px;font-weight:600}
   .rank{display:inline-flex;align-items:center;gap:6px;margin-top:7px;font-size:11px;font-weight:800;letter-spacing:.05em;padding:4px 11px;border-radius:20px;background:rgba(255,211,77,.14);color:var(--gd);border:1px solid rgba(255,211,77,.3)}
   .expw{margin-top:12px}.expw .r{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px}.expw .r b{color:var(--text)}
@@ -70,214 +83,233 @@
   .stat2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.stat2 div{background:rgba(255,255,255,.03);border:1px solid var(--stroke);border-radius:10px;padding:8px 10px}
   .stat2 .k{font-size:10px;color:var(--muted)}.stat2 .v{font-size:16px;font-weight:800}
   .pchips{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}.pchip{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--stroke);background:rgba(255,255,255,.04);color:var(--muted)}.pchip b{color:var(--text)}
-  @media(max-width:560px){.nav{display:none}.stage{inset:44px 4px 78px}.ttl{font-size:12px}}
 </style>
 </head>
 <body>
 <div class="top"><div class="brand"><div class="core"></div><div><div class="ttl">VEL<b>Í</b>N · městečko</div><div class="tsub" id="sysl">…</div></div></div><div class="clock" id="clock">--:--:--</div></div>
 <div class="nav"><a href="index.html">Přehled</a><a class="on" href="room.html">🏘️ Městečko</a></div>
 <div class="stage"><div class="scene" id="scene"><canvas id="town"></canvas><canvas id="fx"></canvas></div></div>
-<div class="ticker"><h5>Procesy · samo-zlepšování</h5><div class="tk" id="tk1">…</div><div class="tk" id="tk2"></div></div>
+<div class="dock">
+  <div class="roster">
+    <div class="rhead" id="rh1">Kdo co právě dělá · <b>VELÍN agenti</b> + <b>APARTMÁNY boti</b></div>
+    <div class="rgrid" id="rgrid"></div>
+  </div>
+  <div class="reports">
+    <div class="rhead">Reporty · živý tok</div>
+    <div class="rfeed" id="rfeed"></div>
+  </div>
+</div>
 <div class="scrim" id="scrim" onclick="closePanel()"></div>
 <div class="panel" id="panel"><span class="x" onclick="closePanel()">✕</span><div id="pbody"></div></div>
 
 <script src="data.js"></script>
+<script src="assets/townmap.js"></script>
 <script>
 (function(){
-  var D=window.DASHBOARD_DATA||{};
+  var D=window.DASHBOARD_DATA||{};var M=window.TOWNMAP||{};
   var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
   var STC={operational:'#2bd980',wip:'#ffb02e',down:'#ff4d6a',planned:'#3b9dff',na:'#566087'};
   var RANKS=[{l:1,n:'Nováček',i:'•'},{l:3,n:'Operátor',i:'◆'},{l:6,n:'Specialista',i:'★'},{l:10,n:'Veterán',i:'✦'},{l:15,n:'Velmistr',i:'♛'}];
   function rankOf(lvl){var r=RANKS[0];for(var i=0;i<RANKS.length;i++)if(lvl>=RANKS[i].l)r=RANKS[i];return r;}
   function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 
-  // ---- mapa dlazdic (index v town.png, 12 sloupcu) ----
-  var T={grass:[0,0,0,0,1,2],dirt:39,dirtA:40,dirtB:41,
-    treeG:[3,4,5],treeBush:[6,7,8],treeAut:[9,10,11],bush:[30,31,17,18],flower:2,
-    roofL:64,roofM:65,roofR:66,roofPk:67,wallL:72,door:74,wallR:75,
-    fenceH:45,fencePostL:44,fencePostR:46,sign:83,barrel:57,chest:130};
+  // ---- realna data -> metriky ----
+  var P=(D.projects||[]).filter(function(p){return p.kind==='local';});
+  function sum(f){return P.reduce(function(s,p){return s+(f(p)||0);},0);}
+  var GIT={un:sum(function(p){return p.git&&p.git.uncommitted;}),ah:sum(function(p){return p.git&&p.git.ahead;}),be:sum(function(p){return p.git&&p.git.behind;})};
+  var NOLOCK=P.filter(function(p){return p.deps&&!p.deps.hasLockfile;}).length;
+  var NOTEST=P.filter(function(p){return p.build&&p.build.hasBuild&&!p.build.hasTest;}).length;
+  var TODOS=sum(function(p){return p.todos;});
+  var APT=(D.businesses||[]).filter(function(b){return b.id==='apartmany';})[0]||{agents:[]};
+  var BOTLIVE=APT.agents.filter(function(a){return a.status==='operational';}).length;
+  var U=D.usage||{};
+  function uPct(o){return o&&o.pct!=null?o.pct:'?';}
+  function metric(id){switch(id){
+    case 'velitel':return 'koordinuje '+(7)+' agentů · digest 20:00';
+    case 'adam':return 'git: '+GIT.un+' necommit · '+GIT.be+' pozadu';
+    case 'klara':return NOLOCK+' bez lockfile · 0 zranitelností';
+    case 'viktor':return NOTEST+' build bez testů · '+P.length+' projektů';
+    case 'tereza':return TODOS+' TODO/FIXME celkem';
+    case 'nina':return BOTLIVE+'/'+APT.agents.length+' služeb běží';
+    case 'usage':return 'weekly '+uPct(U.weekly7d)+'% · session '+uPct(U.session5h)+'%';
+    default:return '';
+  }}
 
-  var GW=22,GH=15,SS=4; // grid + supersampling pro ostre pixely
-
-  // ---- zony agentu: dum [colLeft,rowTop] (dum 3 siroky, 2 vysoky) + foot [col,row] ----
-  var ZONES={
-    velitel:{house:[9,1], foot:[10.5,4.2], title:'Starosta',acc:'crown',best:'koordinaci',
-      per:'Sebere, co parta dokázala, a pošle ti souhrn. Nervózní, když něco spadne.',
-      tasks:['Sbírám reporty agentů','Skládám denní digest','Hlídám, jestli něco nespadlo','Zadávám úkol agentovi']},
-    adam:{house:[2,2], foot:[3.5,5.2], title:'Strážce Gitu',best:'pořádku v kódu',
-      per:'Puntičkář. Hlídá změny a hledá, co vylepšit.',
-      tasks:['Kontroluji git stav','Hledám necommitnuté změny','Hledám jak vylepšit cenového bota','Navrhuji zlepšení časů příjezdů','Píšu návrh do PROPOSALS']},
-    klara:{house:[17,2], foot:[18.5,5.2], title:'Štít · čarodějka',best:'bezpečnosti',
-      per:'Ostražitá. Loví zranitelnosti a zastaralé balíčky.',
-      tasks:['Audit závislostí','Hledám zranitelnosti','Kontroluji lockfile','Navrhuji upgrade balíčků']},
-    viktor:{house:[1,7], foot:[2.5,10.2], title:'Kovář buildů',best:'kvalitě',
-      per:'Neúnavný. Všechno musí projít testy.',
-      tasks:['Spouštím testy','Píšu chybějící test','Ověřuji build','Kontroluji regrese']},
-    usage:{house:[18,7], foot:[19.5,10.2], title:'Mudrc limitů',best:'hlídání tokenů',
-      per:'Bdělý strážce. Počítá spotřebu a varuje před limitem.',
-      tasks:['Počítám tokeny 5h okna','Kontroluji weekly limit','Hlídám kontext >150k','Posílám alert na Telegram','Předpovídám vyčerpání']},
-    tereza:{house:[4,11], foot:[5.5,13.9], title:'Lovkyně úkolů',best:'pořádku v úkolech',
-      per:'Miluje seznamy a priority.',
-      tasks:['Třídím TODO','Stanovuji priority','Hledám FIXME v kódu']},
-    nina:{house:[15,11], foot:[16.5,13.9], title:'Dispečerka',best:'provozu',
-      per:'Klid v jádru. Hlídá n8n 24/7.',
-      tasks:['Pinguji n8n na Railway','Kontroluji běhy workflow','Hlídám výpadky','Restartuji při pádu']}
+  // ---- meta postav ----
+  var META={
+    velitel:{kind:'agent',title:'Starosta',best:'koordinaci',per:'Sebere, co parta dokázala, a pošle ti souhrn. Nervózní, když něco spadne.',tasks:['Sbírám reporty agentů','Skládám denní digest','Hlídám, co spadlo','Zadávám úkol agentovi']},
+    adam:{kind:'agent',title:'Strážce Gitu',best:'pořádku v kódu',per:'Puntičkář. Hlídá změny a hledá, co vylepšit.',tasks:['Kontroluji git stav','Hledám necommitnuté změny','Navrhuji co pushnout','Píšu návrh do PROPOSALS']},
+    klara:{kind:'agent',title:'Štít · čarodějka',best:'bezpečnosti',per:'Ostražitá. Loví zranitelnosti a zastaralé balíčky.',tasks:['Audit závislostí','Hledám zranitelnosti','Kontroluji lockfile','Navrhuji upgrade']},
+    viktor:{kind:'agent',title:'Kovář buildů',best:'kvalitě',per:'Neúnavný. Všechno musí projít testy.',tasks:['Spouštím testy','Píšu chybějící test','Ověřuji build','Kontroluji regrese']},
+    usage:{kind:'agent',title:'Mudrc limitů',best:'hlídání tokenů',per:'Bdělý strážce. Počítá spotřebu a varuje před limitem.',tasks:['Počítám tokeny 5h okna','Kontroluji weekly limit','Hlídám kontext >150k','Předpovídám vyčerpání']},
+    tereza:{kind:'agent',title:'Lovkyně úkolů',best:'pořádku v úkolech',per:'Miluje seznamy a priority.',tasks:['Třídím TODO','Stanovuji priority','Hledám FIXME v kódu']},
+    nina:{kind:'agent',title:'Dispečerka',best:'provozu',per:'Klid v jádru. Hlídá služby 24/7.',tasks:['Pinguji n8n na Railway','Kontroluji běhy workflow','Hlídám výpadky','Restartuji při pádu']},
+    uklidovy:{kind:'bot',title:'Úklidový bot',best:'pořádku v bytech',per:'Pořádkumil. Rozesílá rozpis úklidů.',tasks:['Čtu iCaly odjezdů','Skládám rozpis úklidů','Posílám do skupiny']},
+    prijezdovy:{kind:'bot',title:'Příjezdový bot',best:'přesných časech',per:'Vítač. Scanuje maily a hlásí časy.',tasks:['Scanuji Booking maily','Hledám čas příjezdu','Posílám digest v 7:00']},
+    cenovy:{kind:'bot',title:'Cenový bot',best:'obsazenosti',per:'Kupec. Hlídá volné dny a ceny.',tasks:['Čtu iCaly všech bytů','Počítám volná okna','Hledám orphan gapy','Cenový report']},
+    hlidaci:{kind:'bot',title:'Hlídací bot',best:'spolehlivosti',per:'Ostraha. Drží n8n naživu.',tasks:['Ping n8n','Kontroluji uptime','Restart při pádu']}
   };
-  var PLAZA={cx:10.5,cy:8}; // stred namesti = misto porad
-  var SUPER={velitel:['adam','klara','viktor','tereza','nina','usage']};
 
-  // ---- deterministicky PRNG (stabilni rozlozeni travy/stromu) ----
-  function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
-  var rnd=mulberry32(20260617);
-  function pick(arr){return arr[Math.floor(rnd()*arr.length)];}
+  // ---- sestaveni seznamu postav z dat + zon ----
+  var chief=D.chief;if(chief){chief._id='velitel';}
+  var agentData={};if(chief)agentData['velitel']=chief;(D.agents||[]).forEach(function(a){agentData[(a.id||'').toLowerCase()]=a;});
+  var botData={};APT.agents.forEach(function(a){botData[(a.id||'').toLowerCase()]=a;});
 
-  // ---- generace mapy ----
-  var ground=[],over=[];
-  for(var y=0;y<GH;y++){ground[y]=[];over[y]=[];for(var x=0;x<GW;x++){ground[y][x]=pick(T.grass);over[y][x]=-1;}}
-  function setDirt(x,y){if(x>=0&&x<GW&&y>=0&&y<GH)ground[y][x]=(rnd()<.5?T.dirt:(rnd()<.5?T.dirtA:T.dirtB));}
-  // namesti
-  for(var yy=PLAZA.cy-2;yy<=PLAZA.cy+1;yy++)for(var xx=PLAZA.cx-3;xx<=PLAZA.cx+3;xx++)setDirt(Math.round(xx),Math.round(yy));
-  // cesty z kazdeho domku na namesti (L-tvar)
-  function carvePath(ax,ay){ax=Math.round(ax);ay=Math.round(ay);var px=Math.round(PLAZA.cx),py=Math.round(PLAZA.cy);
-    var y=ay;while(y!==py){setDirt(ax,y);y+=(py>y?1:-1);} var x=ax;while(x!==px){setDirt(x,py);x+=(px>x?1:-1);} }
-  Object.keys(ZONES).forEach(function(k){carvePath(ZONES[k].foot[0],ZONES[k].foot[1]);});
-  // domky (roof radek + body radek)
-  function putHouse(cx,ry){
-    over[ry][cx]=T.roofL;over[ry][cx+1]=T.roofM;over[ry][cx+2]=T.roofR;
-    if(over[ry-1])over[ry-1][cx+1]=T.roofPk;
-    over[ry+1][cx]=T.wallL;over[ry+1][cx+1]=T.door;over[ry+1][cx+2]=T.wallR;
-    // vydlazdit pod domkem
-    setDirt(cx+1,ry+2);
-  }
-  Object.keys(ZONES).forEach(function(k){var h=ZONES[k].house;putHouse(h[0],h[1]);});
-  // cedule + sud + truhla na namesti
-  over[PLAZA.cy][PLAZA.cx]=T.sign;over[PLAZA.cy][PLAZA.cx-2]=T.barrel;over[PLAZA.cy-1][PLAZA.cx+2]=T.chest;
-  // stromy a kere po okrajich (na trave, ne na ceste/domku)
-  function freeCell(x,y){return x>=0&&x<GW&&y>=0&&y<GH&&over[y][x]===-1&&ground[y][x]!==T.dirt&&ground[y][x]!==T.dirtA&&ground[y][x]!==T.dirtB;}
-  var decoCount=0;
-  for(var i=0;i<260&&decoCount<46;i++){
-    var x=Math.floor(rnd()*GW),y=Math.floor(rnd()*GH);
-    if(!freeCell(x,y))continue;
-    // nesazet primo pred dvere (pod domkem) ani na foot policka
-    var blocked=false;Object.keys(ZONES).forEach(function(k){var f=ZONES[k].foot;if(Math.abs(f[0]-x)<1.2&&Math.abs(f[1]-y)<1.2)blocked=true;});
-    if(blocked)continue;
-    var r=rnd();over[y][x]=r<.5?pick(T.treeG):(r<.7?pick(T.treeAut):pick(T.bush));decoCount++;
-  }
+  var people=[]; // {id,kind,data,zone,meta}
+  (M.agents||[]).forEach(function(z){var id=z.id;people.push({id:id,kind:'agent',data:agentData[id]||{name:cap(id)},zone:z,meta:META[id]||{tasks:[]}});});
+  (M.bots||[]).forEach(function(z){var id=z.id;people.push({id:id,kind:'bot',data:botData[id]||{name:cap(id)},zone:z,meta:META[id]||{tasks:[]}});});
+  function nameOf(p){return p.data.name||cap(p.id);}
+  function colOf(p){return p.data.accent||p.data.color||(p.kind==='bot'?'#0ea5e9':'#5fe08a');}
+  function statusOf(p){return p.data.status||'operational';}
 
-  // ---- vykresleni mapy na canvas ----
-  var townC=document.getElementById('town'),tctx=townC.getContext('2d');
-  var SHEET=new Image();SHEET.src='assets/town.png';
-  function drawTile(idx,x,y){if(idx<0)return;var sx=(idx%12)*16,sy=Math.floor(idx/12)*16;tctx.drawImage(SHEET,sx,sy,16,16,x*16*SS,y*16*SS,16*SS,16*SS);}
-  function renderTown(){
-    townC.width=GW*16*SS;townC.height=GH*16*SS;tctx.imageSmoothingEnabled=false;
-    for(var y=0;y<GH;y++)for(var x=0;x<GW;x++)drawTile(ground[y][x],x,y);
-    for(var y2=0;y2<GH;y2++)for(var x2=0;x2<GW;x2++)drawTile(over[y2][x2],x2,y2);
-  }
-
-  // ---- postavy (DOM sprity nad canvasem) ----
-  var scene=document.getElementById('scene'),fx=document.getElementById('fx'),fctx=fx.getContext('2d');
-  var W=0,Hh=0,actors=[],byId={},spritePx=44;
-  function dim(){W=scene.clientWidth;Hh=scene.clientHeight;fx.width=W;fx.height=Hh;spritePx=Math.max(28,W/GW*2.0);}
-  function t2px(col,row){return{x:col/GW*W,y:row/GH*Hh};}
-  function rand(a,b){return a+Math.random()*(b-a);}
-
-  var ch=D.chief;if(ch){ch._id='velitel';ch._kind='chief';}
-  var crew=[];if(ch)crew.push(ch);(D.agents||[]).forEach(function(a){a._kind='tech';crew.push(a);});
-
-  // EXP
+  // ---- EXP ----
   var EXP={};try{EXP=JSON.parse(localStorage.getItem('velin_exp')||'{}');}catch(e){}
   function ex(id){if(!EXP[id])EXP[id]={lvl:1+Math.floor(Math.random()*4),exp:Math.floor(Math.random()*50)};return EXP[id];}
   function need(lvl){return 60+lvl*25;}
   function save(){try{localStorage.setItem('velin_exp',JSON.stringify(EXP));}catch(e){}}
 
-  function mkChar(a){
-    var id=(a.id||a._id||'').toLowerCase();var z=ZONES[id];if(!z)return;
-    var c=a.accent||a.color||'#5fe08a';var e=ex(id);var f=t2px(z.foot[0],z.foot[1]);
-    var el=document.createElement('div');el.className='char work';el.style.setProperty('--c',c);el.style.setProperty('--st',STC[a.status||'operational']);
-    el.innerHTML='<div class="tag"><span class="lvl">Lv'+e.lvl+'</span><span class="dt"></span>'+esc(a.name)+'</div>'+
-      '<img class="sp" src="chars/'+id+'.png" alt="'+esc(a.name)+'"/>'+
-      '<div class="taskbar"><div class="tlabel"></div><div class="tprog"><i></i></div></div>';
-    scene.appendChild(el);a._meta=z;a._id2=id;el.addEventListener('click',function(){openAgent(a);});
-    var o={a:a,id:id,el:el,c:c,x:f.x,y:f.y,hx:f.x,hy:f.y,tx:f.x,ty:f.y,state:'work',phase:'',face:1,
-      alarm:(a.status==='down'),task:'',tStart:0,tDur:0,
-      img:el.querySelector('img.sp'),tlabel:el.querySelector('.tlabel'),tprog:el.querySelector('.tprog i'),lvlEl:el.querySelector('.lvl')};
+  // ---- canvas mapa ----
+  var townC=document.getElementById('town'),tctx=townC.getContext('2d');
+  var SHEET=new Image();SHEET.src='assets/town.png';
+  var GW=M.gw||34,GH=M.gh||22,SS=4;
+  function drawTile(idx,x,y){if(idx<0)return;var sx=(idx%12)*16,sy=Math.floor(idx/12)*16;tctx.drawImage(SHEET,sx,sy,16,16,x*16*SS,y*16*SS,16*SS,16*SS);}
+  function renderTown(){townC.width=GW*16*SS;townC.height=GH*16*SS;tctx.imageSmoothingEnabled=false;
+    var gr=M.ground||[],ov=M.over||[];
+    for(var y=0;y<GH;y++)for(var x=0;x<GW;x++)drawTile(gr[y]?gr[y][x]:0,x,y);
+    for(var y2=0;y2<GH;y2++)for(var x2=0;x2<GW;x2++)drawTile(ov[y2]?ov[y2][x2]:-1,x2,y2);
+  }
+
+  // ---- postavy DOM ----
+  var scene=document.getElementById('scene'),fx=document.getElementById('fx'),fctx=fx.getContext('2d');
+  var W=0,Hh=0,actors=[],byId={},spritePx=36;
+  function dim(){W=scene.clientWidth;Hh=scene.clientHeight;fx.width=W;fx.height=Hh;spritePx=Math.max(22,W/GW*1.5);}
+  function t2px(col,row){return{x:col/GW*W,y:row/GH*Hh};}
+  function rand(a,b){return a+Math.random()*(b-a);}
+
+  function mkChar(p){
+    var id=p.id;var c=colOf(p);var e=ex(id);var f=t2px(p.zone.col,p.zone.row);
+    var el=document.createElement('div');el.className='char work';el.style.setProperty('--c',c);el.style.setProperty('--st',STC[statusOf(p)]||'#2bd980');
+    el.innerHTML='<div class="tag"><span class="lvl">Lv'+e.lvl+'</span><span class="dt"></span>'+esc(nameOf(p))+'</div>'+
+      '<img class="sp" src="chars/'+id+'.png" alt="'+esc(nameOf(p))+'"/>'+
+      '<div class="act"></div>';
+    scene.appendChild(el);el.addEventListener('click',function(){openPerson(p);});
+    var o={p:p,id:id,el:el,c:c,x:f.x,y:f.y,hx:f.x,hy:f.y,tx:f.x,ty:f.y,state:'work',phase:'',face:1,
+      alarm:(statusOf(p)==='down'),task:'',tStart:0,tDur:0,
+      img:el.querySelector('img.sp'),act:el.querySelector('.act'),lvlEl:el.querySelector('.lvl')};
     actors.push(o);byId[id]=o;startTask(o,performance.now());
   }
-  function startTask(o,ts){var pool=o.a._meta.tasks||['pracuji'];o.task=pool[Math.floor(Math.random()*pool.length)];o.tStart=ts;o.tDur=rand(4500,9000);o.tlabel.textContent=o.task;o.el.classList.add('work');o.el.classList.remove('walk');}
-  function completeTask(o,ts){var e=ex(o.id);e.exp+=Math.floor(rand(10,22));var up=false;while(e.exp>=need(e.lvl)){e.exp-=need(e.lvl);e.lvl++;up=true;}save();
-    if(up){o.lvlEl.textContent='Lv'+e.lvl;var l=document.createElement('div');l.className='lup';l.textContent='LEVEL UP! '+rankOf(e.lvl).n;o.el.appendChild(l);setTimeout(function(){l.remove();},1700);pushTk('🎖️ <b>'+esc(o.a.name)+'</b> postoupil na <b>Lv'+e.lvl+' · '+rankOf(e.lvl).n+'</b>');}
-    think(o,'✓');
-    if(/vylepšit|zlepšení|návrh|PROPOSALS/i.test(o.task))pushTk('🔧 <b>'+esc(o.a.name)+'</b>: '+esc(o.task)+' <span class="ld">→ otestováno → návrh</span>');
+  function startTask(o,ts){var pool=o.p.meta.tasks||['pracuji'];o.task=pool[Math.floor(Math.random()*pool.length)];o.tStart=ts;o.tDur=rand(5000,9500);o.act.textContent=o.task;o.el.classList.add('work');o.el.classList.remove('walk');updateRosterCard(o);}
+  function completeTask(o,ts){var e=ex(o.id);e.exp+=Math.floor(rand(11,21));var up=false;while(e.exp>=need(e.lvl)){e.exp-=need(e.lvl);e.lvl++;up=true;}save();
+    if(up){o.lvlEl.textContent='Lv'+e.lvl;var l=document.createElement('div');l.className='lup';l.textContent='LEVEL UP!';o.el.appendChild(l);setTimeout(function(){l.remove();},1700);
+      pushRep(o,'<b>'+esc(nameOf(o.p))+'</b> postoupil na <b>Lv'+e.lvl+' · '+rankOf(e.lvl).n+'</b> 🎖️');}
+    think(o,'✓');updateRosterCard(o);
   }
-  function place(o){o.el.style.left=o.x+'px';o.el.style.top=o.y+'px';o.img.style.width=spritePx+'px';o.img.style.height=spritePx+'px';
-    o.img.style.transform='scaleX('+o.face+')';if(o.alarm)o.el.classList.add('alarm');}
-  function wander(o){var hx=o.hx,hy=o.hy;o.tx=hx+rand(-1,1)*W/GW*1.3;o.ty=hy+rand(-.5,.6)*Hh/GH*1.2;o.state='walk';o.phase='out';}
-  var lastThink=0;function think(o,sym){var now=performance.now();if(now-lastThink<800)return;lastThink=now;var t=document.createElement('div');t.className='think';t.textContent=sym||['💡','⚙️','📊','🔧','📁','🔍','🛡️'][Math.floor(Math.random()*7)];o.el.appendChild(t);setTimeout(function(){t.remove();},1100);}
+  function place(o){o.el.style.left=o.x+'px';o.el.style.top=o.y+'px';o.img.style.width=spritePx+'px';o.img.style.height=spritePx+'px';o.img.style.transform='scaleX('+o.face+')';if(o.alarm)o.el.classList.add('alarm');}
+  function wander(o){o.tx=o.hx+rand(-1,1)*W/GW*1.0;o.ty=o.hy+rand(-.4,.5)*Hh/GH*1.0;o.state='walk';o.phase='out';}
+  var lastThink=0;function think(o,sym){var now=performance.now();if(now-lastThink<700)return;lastThink=now;var t=document.createElement('div');t.className='think';t.textContent=sym||['💡','⚙️','📊','🔧','📁','🔍','🛡️','📨'][Math.floor(Math.random()*8)];o.el.appendChild(t);setTimeout(function(){t.remove();},1100);}
 
-  var tkBuf=[];function pushTk(html){tkBuf.unshift(html);if(tkBuf.length>2)tkBuf.pop();document.getElementById('tk1').innerHTML=tkBuf[0]||'';document.getElementById('tk2').innerHTML=tkBuf[1]||'';}
-
-  function build(){
-    dim();renderTown();
-    [].slice.call(scene.querySelectorAll('.char')).forEach(function(e){e.remove();});actors=[];byId={};
-    crew.forEach(mkChar);actors.forEach(place);
+  function build(){dim();renderTown();
+    [].slice.call(scene.querySelectorAll('.char,.distlabel')).forEach(function(e){e.remove();});actors=[];byId={};
+    // popisky okrsku
+    addDist('VELÍN · agenti',8/GW,0.5/GH);addDist('APARTMÁNY · boti',26/GW,0.5/GH);
+    people.forEach(mkChar);actors.forEach(place);buildRoster();
   }
+  function addDist(txt,fx2,fy2){var d=document.createElement('div');d.className='distlabel';d.textContent=txt;d.style.left=(fx2*W)+'px';d.style.top=(fy2*Hh)+'px';scene.appendChild(d);}
 
-  // ---- spojnice (porady/hierarchie) ----
+  // ---- roster (kdo co dela) ----
+  var rgrid=document.getElementById('rgrid'),cardById={};
+  function buildRoster(){rgrid.innerHTML='';cardById={};
+    people.forEach(function(p){var e=ex(p.id);var c=colOf(p);var st=STC[statusOf(p)]||'#2bd980';
+      var d=document.createElement('div');d.className='rcard';d.style.setProperty('--c',c);
+      d.innerHTML='<img src="chars/'+p.id+'.png" alt=""/><div class="rmid"><div class="rnm">'+esc(nameOf(p))+
+        ' <span class="lv">Lv'+e.lvl+'</span></div><div class="rtask" id="rt_'+p.id+'">'+esc(metric(p.id)||p.meta.title||'')+'</div></div>'+
+        '<span class="rdot" style="background:'+st+';box-shadow:0 0 6px '+st+'"></span>';
+      d.addEventListener('click',function(){openPerson(p);});rgrid.appendChild(d);cardById[p.id]=d;});
+  }
+  function updateRosterCard(o){var el=document.getElementById('rt_'+o.id);if(el)el.textContent=o.task+' · '+(metric(o.id)||'');var e=ex(o.id);var lv=cardById[o.id]&&cardById[o.id].querySelector('.lv');if(lv)lv.textContent='Lv'+e.lvl;}
+
+  // ---- reporty feed ----
+  var rfeed=document.getElementById('rfeed');
+  function nowt(){var d=new Date(),p=function(n){return(n<10?'0':'')+n;};return p(d.getHours())+':'+p(d.getMinutes());}
+  function pushRep(o,html){var c=o?o.c:'#5fe08a';var line=document.createElement('div');line.className='rline';line.style.setProperty('--c',c);
+    line.innerHTML=html+' <span class="t">'+nowt()+'</span>';rfeed.insertBefore(line,rfeed.firstChild);
+    while(rfeed.children.length>14)rfeed.removeChild(rfeed.lastChild);}
+
+  // ---- spojnice porad ----
   var dashOff=0;
   function drawFx(){fctx.clearRect(0,0,W,Hh);dashOff=(dashOff+.6)%16;
-    function line(ax,ay,bx,by,col){fctx.save();fctx.strokeStyle=col;fctx.globalAlpha=.45;fctx.lineWidth=1.4;fctx.setLineDash([5,11]);fctx.lineDashOffset=-dashOff;fctx.beginPath();fctx.moveTo(ax,ay);fctx.lineTo(bx,by);fctx.stroke();fctx.restore();}
-    for(var s in SUPER){var so=byId[s];if(!so)continue;SUPER[s].forEach(function(t){var to=byId[t];if(to)line(so.x,so.y-spritePx*.5,to.x,to.y-spritePx*.5,so.c);});}
-  }
+    if(!meet)return;var hub=meet==='bot'?t2px(M.botyard.cx,M.botyard.cy):t2px(M.plaza.cx,M.plaza.cy);
+    fctx.save();fctx.globalAlpha=.4;fctx.setLineDash([5,11]);fctx.lineDashOffset=-dashOff;
+    actors.forEach(function(o){if(meet==='bot'&&o.p.kind!=='bot')return;if(meet==='agent'&&o.p.kind!=='agent')return;
+      fctx.strokeStyle=o.c;fctx.lineWidth=1.3;fctx.beginPath();fctx.moveTo(o.x,o.y-spritePx*.45);fctx.lineTo(hub.x,hub.y-6);fctx.stroke();});
+    fctx.restore();}
 
-  var SPEED=64,nextMeet=performance.now()+rand(18000,30000),meet=null,meetEnd=0;
+  var SPEED=58,meet=null,meetEnd=0,nextMeet=performance.now()+rand(12000,18000),meetKinds=['agent','bot','town'],mi=0;
+  function gather(kind){meet=kind;var hubT=kind==='bot'?M.botyard:M.plaza;
+    var grp=actors.filter(function(o){return kind==='town'?true:(kind==='bot'?o.p.kind==='bot':o.p.kind==='agent');});
+    grp.forEach(function(o,i){var ang=i/grp.length*6.28;var p=t2px(hubT.cx+Math.cos(ang)*2.4,hubT.cy+1+Math.sin(ang)*1.6);o.tx=p.x;o.ty=p.y;o.state='walk';o.phase='meet';});
+    if(kind==='bot')pushRep(byId.hlidaci||null,'🤝 <b>Boti</b> řeší apartmány na dvorku — úklidy, příjezdy, ceny');
+    else if(kind==='town')pushRep(byId.velitel||null,'👑 <b>Starosta</b> svolal celé městečko na náměstí');
+    else pushRep(byId.velitel||null,'👑 <b>Starosta</b> svolal poradu agentů');
+  }
   function loop(ts){if(!loop.p)loop.p=ts;var dt=Math.min(50,ts-loop.p);loop.p=ts;
-    if(!meet&&ts>nextMeet){meet='gather';crew.forEach(function(a,i){var o=byId[(a.id||a._id||'').toLowerCase()];if(!o)return;var ang=i/crew.length*6.28;var p=t2px(PLAZA.cx+Math.cos(ang)*2.2,PLAZA.cy+1+Math.sin(ang)*1.5);o.tx=p.x;o.ty=p.y;o.state='walk';o.phase='meet';});pushTk('👑 <b>Starosta</b> svolal poradu na náměstí');}
+    if(!meet&&ts>nextMeet){gather(meetKinds[mi%meetKinds.length]);mi++;}
     actors.forEach(function(o){
       if(o.state==='walk'){var dx=o.tx-o.x,dy=o.ty-o.y,dist=Math.hypot(dx,dy);
         if(dist>2){var mv=SPEED*dt/1000;o.x+=dx/dist*Math.min(mv,dist);o.y+=dy/dist*Math.min(mv,dist);o.face=dx<-.5?-1:(dx>.5?1:o.face);o.el.classList.add('walk');o.el.classList.remove('work');}
-        else{o.el.classList.remove('walk');if(o.phase==='meet')o.state='meet';else if(o.phase==='out'){o.state='idle';o.iuntil=ts+rand(900,2200);}else{o.state='work';startTask(o,ts);}}
-      }else if(o.state==='work'){var pr=Math.min(1,(ts-o.tStart)/o.tDur);o.tprog.style.width=(pr*100)+'%';
-        if(pr>=1){completeTask(o,ts);if(Math.random()<.5)wander(o);else startTask(o,ts);}
+        else{o.el.classList.remove('walk');if(o.phase==='meet')o.state='meet';else if(o.phase==='out'){o.state='idle';o.iuntil=ts+rand(800,1800);}else{o.state='work';startTask(o,ts);}}
+      }else if(o.state==='work'){var pr=Math.min(1,(ts-o.tStart)/o.tDur);
+        if(pr>=1){completeTask(o,ts);if(Math.random()<.3)wander(o);else startTask(o,ts);}
       }else if(o.state==='idle'){if(ts>o.iuntil){o.tx=o.hx;o.ty=o.hy;o.state='walk';o.phase='back';}}
       place(o);});
-    if(meet==='gather'&&crew.every(function(a){var o=byId[(a.id||a._id||'').toLowerCase()];return !o||o.state==='meet';})){meet='hold';meetEnd=ts+4600;}
-    if(meet==='hold'&&ts>meetEnd){meet=null;nextMeet=ts+rand(20000,34000);crew.forEach(function(a){var o=byId[(a.id||a._id||'').toLowerCase()];if(o){o.tx=o.hx;o.ty=o.hy;o.state='walk';o.phase='back';}});}
+    var inMeet=meet?actors.filter(function(o){return meet==='town'?true:(meet==='bot'?o.p.kind==='bot':o.p.kind==='agent');}):[];
+    if(meet&&!meetEnd&&inMeet.every(function(o){return o.state==='meet';}))meetEnd=ts+4200;
+    if(meet&&meetEnd&&ts>meetEnd){meet=null;meetEnd=0;nextMeet=ts+rand(13000,20000);actors.forEach(function(o){if(o.state==='meet'){o.tx=o.hx;o.ty=o.hy;o.state='walk';o.phase='back';}});}
     drawFx();requestAnimationFrame(loop);}
 
   function clock(){var d=new Date(),p=function(n){return(n<10?'0':'')+n;};document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
   clock();setInterval(clock,1000);
 
-  SHEET.onload=function(){build();requestAnimationFrame(loop);};
-  SHEET.onerror=function(){build();requestAnimationFrame(loop);};
+  function start(){build();requestAnimationFrame(loop);
+    // uvodni realne reporty
+    pushRep(byId.adam,'🔵 <b>Adam</b>: '+metric('adam'));
+    pushRep(byId.usage,'📊 <b>Usage</b>: '+metric('usage')+' · '+(U.urgency==='ok'?'klid':'sleduj'));
+    pushRep(byId.nina,'🟢 <b>Nina</b>: '+metric('nina'));
+    pushRep(byId.tereza,'🟡 <b>Tereza</b>: '+metric('tereza'));
+  }
+  SHEET.onload=start;SHEET.onerror=start;
   var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(build,250);});
 
-  pushTk('⚙️ Městečko ožilo · agenti makají ve svých zónách…');
-  var IMP=['🔧 <b>Adam</b>: hledám jak vylepšit <b>Příjezďáka</b> <span class="ld">→ návrh → test</span>',
-    '📊 <b>Usage</b>: session 2,4 % · weekly 17 % <span class="ld">→ klid</span>',
-    '👑 <b>Starosta</b> → <b>Viktor</b>: ověř testy před nasazením',
-    '📡 <b>Nina</b>: n8n OK · 0 výpadků','🛡️ <b>Klára</b>: audit balíčků · 0 zranitelností',
-    '🟡 <b>Tereza</b>: 3 nové TODO seřazeny dle priority'];
-  setInterval(function(){pushTk(IMP[Math.floor(Math.random()*IMP.length)]);},6500);
+  // periodicky realny report
+  var repFns=[function(){return [byId.adam,'🔵 <b>Adam</b>: '+metric('adam')];},
+    function(){return [byId.klara,'🟣 <b>Klára</b>: '+metric('klara')];},
+    function(){return [byId.viktor,'🟠 <b>Viktor</b>: '+metric('viktor')];},
+    function(){return [byId.usage,'📊 <b>Usage</b>: '+metric('usage')];},
+    function(){return [byId.nina,'🟢 <b>Nina</b>: '+metric('nina')];},
+    function(){return [byId.cenovy,'💰 <b>Cenový bot</b>: počítám volná okna bytů'];},
+    function(){return [byId.uklidovy,'🧹 <b>Úklidový bot</b>: rozpis úklidů odeslán do skupiny'];},
+    function(){return [byId.prijezdovy,'📨 <b>Příjezdový bot</b>: digest příjezdů na 7:00'];}];
+  setInterval(function(){var r=repFns[Math.floor(Math.random()*repFns.length)]();if(r[0]!==undefined)pushRep(r[0],r[1]);},5500);
 
-  var dn=(D.businesses||[]).reduce(function(s,b){return s+((b.agents||[]).filter(function(a){return a.status==='down';}).length);},0);
-  document.getElementById('sysl').innerHTML=(dn?'⚠️ '+dn+' alarm':'✅ všichni makají')+' · '+crew.length+' agentů · klikni na postavu';
+  var dn=people.filter(function(p){return statusOf(p)==='down';}).length;
+  var wip=people.filter(function(p){return statusOf(p)==='wip';}).length;
+  document.getElementById('sysl').innerHTML=(dn?'⚠️ '+dn+' alarm · ':'')+(wip?'🟡 '+wip+' se ladí · ':'✅ vše běží · ')+people.length+' obyvatel';
 
   // ---- detail panel ----
   var scrim=document.getElementById('scrim'),panel=document.getElementById('panel');
   window.closePanel=function(){scrim.classList.remove('on');panel.classList.remove('on');};
   function open(html,c){document.getElementById('pbody').innerHTML=html;panel.style.setProperty('--c',c||'#5fe08a');scrim.classList.add('on');panel.classList.add('on');}
-  window.openAgent=function(a){var c=a.accent||a.color||'#5fe08a';var m=a._meta||{};var id=a._id2||'';var e=ex(id);var rk=rankOf(e.lvl);var isVel=a._kind==='chief';
-    var util=Math.min(99,38+e.lvl*7);var col=STC[a.status||'operational'];
-    var sup=SUPER[id]||[];var watchedBy=Object.keys(SUPER).filter(function(k){return SUPER[k].indexOf(id)>=0;});
-    open('<div class="phead"><div class="pav"><img src="chars/'+id+'.png" alt=""/></div><div><div class="pn">'+esc(a.name)+'</div><div class="prole" style="color:'+c+'">'+esc(m.title||a.role||'')+'</div>'+
+  window.openPerson=function(p){var c=colOf(p);var m=p.meta||{};var id=p.id;var e=ex(id);var rk=rankOf(e.lvl);var st=statusOf(p);var col=STC[st]||'#2bd980';
+    var util=Math.min(99,38+e.lvl*7);var isVel=id==='velitel';
+    open('<div class="phead"><div class="pav"><img src="chars/'+id+'.png" alt=""/></div><div><div class="pn">'+esc(nameOf(p))+'</div><div class="prole" style="color:'+c+'">'+esc(m.title||p.data.role||'')+'</div>'+
       '<div class="rank">'+rk.i+' '+rk.n+' · Lv'+e.lvl+'</div></div></div>'+
       '<div class="expw"><div class="r"><span>EXP</span><b>'+e.exp+' / '+need(e.lvl)+'</b></div><div class="expbar"><i style="width:'+(e.exp/need(e.lvl)*100)+'%"></i></div></div>'+
-      '<div class="pst" style="background:color-mix(in srgb,'+col+' 16%,transparent);color:'+col+'"><span style="width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block"></span>'+(isVel?'STAROSTA · KOORDINÁTOR':(a.status==='wip'?'LADÍ SE':a.status==='down'?'ALARM':'ONLINE · PRACUJE'))+'</div>'+
-      '<div class="psec"><h4>Účel — chce být nejlepší v</h4><p>'+esc(m.best||a.role||'své práci')+'</p></div>'+
+      '<div class="pst" style="background:color-mix(in srgb,'+col+' 16%,transparent);color:'+col+'"><span style="width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block"></span>'+(isVel?'STAROSTA · KOORDINÁTOR':(st==='wip'?'LADÍ SE':st==='down'?'ALARM':'ONLINE · PRACUJE'))+(p.kind==='bot'?' · BOT':'')+'</div>'+
+      '<div class="psec"><h4>Právě řeší (reálně)</h4><p>'+esc(metric(id)||m.best||'svou práci')+'</p></div>'+
+      '<div class="psec"><h4>Účel — chce být nejlepší v</h4><p>'+esc(m.best||p.data.role||'své práci')+'</p></div>'+
       (m.per?'<div class="psec"><h4>Povaha</h4><p>'+esc(m.per)+'</p></div>':'')+
       '<div class="stat2"><div><div class="k">Hodnost</div><div class="v" style="color:var(--gd)">'+rk.i+'</div></div><div><div class="k">Využití</div><div class="v" style="color:'+c+'">'+util+'%</div></div></div>'+
-      ((sup.length||watchedBy.length)?'<div class="psec"><h4>Hierarchie</h4><p>'+(watchedBy.length?'Hlídá ho: <b>'+watchedBy.map(cap).join(', ')+'</b><br>':'')+(sup.length?'Dohlíží na: <b>'+sup.map(cap).join(', ')+'</b>':'')+'</p></div>':'')+
-      (a.interval?'<div class="psec"><h4>Parametry</h4><div class="pchips">'+[a.interval?'⏱ <b>'+esc(a.interval)+'</b>':'',a.chat?'💬 '+esc(a.chat):''].filter(Boolean).map(function(x){return '<span class="pchip">'+x+'</span>';}).join('')+'</div></div>':''),c);};
+      (p.data.interval?'<div class="psec"><h4>Parametry</h4><div class="pchips">'+['⏱ <b>'+esc(p.data.interval)+'</b>',p.data.chat?'💬 '+esc(p.data.chat):''].filter(Boolean).map(function(x){return '<span class="pchip">'+x+'</span>';}).join('')+'</div></div>':''),c);};
 })();
 </script>
 </body>
