@@ -4,62 +4,66 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"/>
 <meta name="theme-color" content="#0a1410"/>
-<title>VELÍN · městečko agentů</title>
+<title>VELÍN · kancelář agentů</title>
 <style>
-  :root{--bg:#0a1208;--panel:rgba(14,24,16,.86);--stroke:rgba(150,210,150,.18);--text:#eafff0;--muted:#9bb79b;--dim:#5b7a5b;
-    --cy:#5fe08a;--ok:#2bd980;--warn:#ffb02e;--down:#ff4d6a;--gd:#ffd34d;--na:#566087;}
+  :root{--bg:#0e0f14;--panel:rgba(18,20,28,.88);--stroke:rgba(150,180,210,.16);--text:#eaf1ff;--muted:#9aa6c2;--dim:#5b6580;
+    --cy:#5fa8e0;--ok:#2bd980;--warn:#ffb02e;--down:#ff4d6a;--gd:#ffd34d;--na:#566087;}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;height:100%}
-  body{background:radial-gradient(120% 90% at 50% 0%,#15240f,#0a1208 70%);color:var(--text);min-height:100vh;overflow:hidden;
+  body{background:radial-gradient(120% 90% at 50% 0%,#1a1d28,#0c0d12 70%);color:var(--text);min-height:100vh;overflow:hidden;
     font:14px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-  .top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 14px;background:linear-gradient(180deg,rgba(8,14,8,.94),transparent)}
+  .top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 14px;background:linear-gradient(180deg,rgba(10,11,16,.94),transparent)}
   .brand{display:flex;align-items:center;gap:10px}
-  .core{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#d6ffcf,#5fe08a 45%,#185034 78%);box-shadow:0 0 16px rgba(95,224,138,.7);animation:cpulse 3s ease-in-out infinite}
+  .core{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#cfe6ff,#5fa8e0 45%,#1d3a55 78%);box-shadow:0 0 16px rgba(95,168,224,.7);animation:cpulse 3s ease-in-out infinite}
   @keyframes cpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
   .ttl{font-weight:800;letter-spacing:.06em;font-size:14px}.ttl b{color:var(--cy)}
   .tsub{color:var(--muted);font-size:9px;letter-spacing:.14em;text-transform:uppercase}
-  .clock{font-weight:700;font-size:14px;color:#dfffe9;font-variant-numeric:tabular-nums;text-align:right}
+  .clock{font-weight:700;font-size:14px;color:#dfeaff;font-variant-numeric:tabular-nums;text-align:right}
   .nav{position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:31;display:flex;gap:6px;background:var(--panel);border:1px solid var(--stroke);border-radius:30px;padding:4px}
   .nav a{color:var(--muted);text-decoration:none;font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:20px}
-  .nav a.on{background:rgba(95,224,138,.18);color:var(--cy)}
+  .nav a.on{background:rgba(95,168,224,.18);color:var(--cy)}
 
   .stage{position:fixed;inset:44px 8px 172px;z-index:5;display:flex;align-items:center;justify-content:center}
-  .scene{position:relative;aspect-ratio:34/22;max-width:100%;max-height:100%;width:auto;height:100%;
-    border-radius:14px;overflow:hidden;box-shadow:0 24px 70px -30px #000,inset 0 0 0 2px rgba(150,210,150,.12);background:#5fa044}
-  @media (max-aspect-ratio:34/22){.scene{width:100%;height:auto}}
+  .scene{position:relative;aspect-ratio:44/30;max-width:100%;max-height:100%;width:auto;height:100%;
+    border-radius:14px;overflow:hidden;box-shadow:0 24px 70px -30px #000,inset 0 0 0 2px rgba(150,180,210,.12);background:#2a2a30}
+  @media (max-aspect-ratio:44/30){.scene{width:100%;height:auto}}
   #town{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;z-index:1}
   #fx{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
-  .distlabel{position:absolute;z-index:3;font-size:10px;font-weight:800;letter-spacing:.18em;color:#fff;text-shadow:0 1px 4px #000,0 0 2px #000;pointer-events:none;opacity:.82}
+  .distlabel{position:absolute;z-index:3;font-size:10px;font-weight:800;letter-spacing:.16em;color:#fff;text-shadow:0 1px 4px #000,0 0 2px #000;pointer-events:none;opacity:.85;transform:translateX(-50%)}
+  .roomlabel{position:absolute;z-index:3;font-size:9px;font-weight:800;letter-spacing:.12em;color:#ffe9b0;text-shadow:0 1px 3px #000;pointer-events:none;opacity:.9;transform:translate(-50%,-50%)}
 
   .char{position:absolute;z-index:6;transform:translate(-50%,-100%);will-change:left,top;cursor:pointer}
-  .char img.sp{display:block;image-rendering:pixelated;filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))}
-  .char.walk img.sp{animation:bob .4s ease-in-out infinite}
+  .sp{display:block;image-rendering:pixelated;background-repeat:no-repeat;filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))}
+  .char.work .sp{animation:twitch 2.1s steps(1) infinite}
+  @keyframes twitch{0%,100%{transform:translate(0,0)}22%{transform:translate(.6px,0)}44%{transform:translate(-.5px,.4px)}66%{transform:translate(.4px,-.3px)}88%{transform:translate(-.4px,0)}}
+  .char.walk .sp{animation:bob .42s ease-in-out infinite}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-  .char.alarm img.sp{animation:shake .22s infinite}@keyframes shake{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
-  .tag{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:2px;white-space:nowrap;font-size:9px;font-weight:700;display:flex;align-items:center;gap:3px;padding:0 5px;border-radius:20px;background:rgba(6,12,8,.85);border:1px solid color-mix(in srgb,var(--c) 50%,transparent);line-height:14px}
+  .char.alarm .sp{animation:shake .22s infinite}@keyframes shake{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
+  .tag{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:2px;white-space:nowrap;font-size:9px;font-weight:700;display:flex;align-items:center;gap:3px;padding:0 5px;border-radius:20px;background:rgba(10,12,18,.85);border:1px solid color-mix(in srgb,var(--c) 50%,transparent);line-height:14px;z-index:8}
   .tag .lvl{font-size:7.5px;font-weight:800;color:var(--gd);background:rgba(255,211,77,.16);border-radius:10px;padding:0 4px}
   .tag .dt{width:4px;height:4px;border-radius:50%;background:var(--st,#2bd980);box-shadow:0 0 5px var(--st,#2bd980)}
-  .act{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:1px;font-size:7.5px;color:#dfffe6;white-space:nowrap;text-shadow:0 1px 3px #000;opacity:0;transition:opacity .2s;max-width:96px;overflow:hidden;text-overflow:ellipsis}
-  .char.work .act{opacity:.95}
-  .think{position:absolute;bottom:100%;left:66%;margin-bottom:16px;font-size:12px;opacity:0;animation:think 1.1s ease-out}
+  .act{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:1px;font-size:7.5px;color:#dfe8ff;white-space:nowrap;text-shadow:0 1px 3px #000;opacity:0;transition:opacity .2s;max-width:96px;overflow:hidden;text-overflow:ellipsis}
+  .char.work .act{opacity:.9}
+  .think{position:absolute;bottom:100%;left:64%;margin-bottom:14px;font-size:12px;opacity:0;animation:think 1.1s ease-out;z-index:9}
   @keyframes think{0%{opacity:0;transform:translateY(4px) scale(.6)}30%{opacity:1}100%{opacity:0;transform:translateY(-12px)}}
-  .bubble{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:18px;white-space:normal;width:max-content;max-width:148px;
-    font-size:10px;font-weight:600;line-height:1.3;color:#13311c;background:#eafff0;border:1.5px solid color-mix(in srgb,var(--c) 55%,#9fd0a8);
-    padding:5px 9px;border-radius:10px;box-shadow:0 4px 12px -4px #000;z-index:9;animation:bpop .25s ease-out}
-  .bubble::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#eafff0}
+  .bubble{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:16px;white-space:normal;width:max-content;max-width:150px;
+    font-size:10px;font-weight:600;line-height:1.3;color:#10243a;background:#eaf4ff;border:1.5px solid color-mix(in srgb,var(--c) 55%,#9fc0e0);
+    padding:5px 9px;border-radius:10px;box-shadow:0 4px 12px -4px #000;z-index:10;animation:bpop .25s ease-out}
+  .bubble .cmd{font-family:ui-monospace,Consolas,monospace;font-weight:800;color:#0a66c2}
+  .bubble::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#eaf4ff}
   @keyframes bpop{0%{opacity:0;transform:translate(-50%,6px) scale(.7)}100%{opacity:1;transform:translate(-50%,0) scale(1)}}
-  .lup{position:absolute;bottom:112%;left:50%;transform:translateX(-50%);font-size:9px;font-weight:800;color:var(--gd);white-space:nowrap;text-shadow:0 0 8px var(--gd);opacity:0;animation:lup 1.7s ease-out}
+  .lup{position:absolute;bottom:112%;left:50%;transform:translateX(-50%);font-size:9px;font-weight:800;color:var(--gd);white-space:nowrap;text-shadow:0 0 8px var(--gd);opacity:0;animation:lup 1.7s ease-out;z-index:10}
   @keyframes lup{0%{opacity:0;transform:translate(-50%,6px)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-22px)}}
 
   /* ---- dolni panel: roster + reporty ---- */
-  .dock{position:fixed;bottom:0;left:0;right:0;z-index:26;height:166px;display:flex;gap:10px;padding:8px 12px;background:linear-gradient(0deg,rgba(8,14,8,.97),rgba(8,14,8,.78));border-top:1px solid var(--stroke)}
+  .dock{position:fixed;bottom:0;left:0;right:0;z-index:26;height:166px;display:flex;gap:10px;padding:8px 12px;background:linear-gradient(0deg,rgba(10,11,16,.97),rgba(10,11,16,.78));border-top:1px solid var(--stroke)}
   .roster{flex:1 1 auto;overflow:hidden;display:flex;flex-direction:column;gap:5px;min-width:0}
   .rhead{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:7px}
-  .rhead b{color:#cdeccd}
-  .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(184px,1fr));gap:5px;overflow-y:auto;padding-right:4px}
+  .rhead b{color:#cfe0ff}
+  .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:5px;overflow-y:auto;padding-right:4px}
   .rcard{display:flex;align-items:center;gap:7px;padding:4px 7px;border-radius:9px;background:rgba(255,255,255,.035);border:1px solid color-mix(in srgb,var(--c) 30%,var(--stroke));cursor:pointer}
   .rcard:hover{background:rgba(255,255,255,.07)}
-  .rcard img{width:24px;height:24px;image-rendering:pixelated;flex:none;filter:drop-shadow(0 1px 1px #000)}
+  .av{flex:none;image-rendering:pixelated;background-repeat:no-repeat}
   .rmid{min-width:0;flex:1}
   .rnm{font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px}
   .rnm .lv{font-size:8px;font-weight:800;color:var(--gd);background:rgba(255,211,77,.14);border-radius:8px;padding:0 4px}
@@ -69,30 +73,29 @@
   .reports .rhead::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:blinkd 1.2s infinite}
   @keyframes blinkd{50%{opacity:.35}}
   .rfeed{overflow-y:auto;display:flex;flex-direction:column;gap:3px;padding-right:4px}
-  .rline{font-size:10.5px;line-height:1.4;color:#d8f3d8;padding:3px 8px;border-radius:7px;background:rgba(255,255,255,.03);border-left:2px solid var(--c,#5fe08a)}
+  .rline{font-size:10.5px;line-height:1.4;color:#dce6fb;padding:3px 8px;border-radius:7px;background:rgba(255,255,255,.03);border-left:2px solid var(--c,#5fa8e0)}
   .rline b{color:#fff}.rline .t{color:var(--dim);font-size:9px}
   @media(max-width:720px){.nav{display:none}.stage{inset:42px 4px 210px}.dock{height:204px;flex-direction:column}.reports{flex:none;max-width:none;height:78px}}
 
-  .scrim{position:fixed;inset:0;z-index:40;background:rgba(2,6,3,.62);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:.25s}.scrim.on{opacity:1;pointer-events:auto}
-  .panel{position:fixed;top:0;right:0;bottom:0;z-index:41;width:min(420px,92vw);transform:translateX(100%);transition:transform .3s cubic-bezier(.3,.8,.3,1);background:linear-gradient(180deg,rgba(16,28,18,.98),rgba(8,14,9,.98));border-left:1px solid color-mix(in srgb,var(--c,#5fe08a) 40%,transparent);box-shadow:-30px 0 80px -30px #000;overflow-y:auto;padding:22px}
+  .scrim{position:fixed;inset:0;z-index:40;background:rgba(4,5,8,.62);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:.25s}.scrim.on{opacity:1;pointer-events:auto}
+  .panel{position:fixed;top:0;right:0;bottom:0;z-index:41;width:min(420px,92vw);transform:translateX(100%);transition:transform .3s cubic-bezier(.3,.8,.3,1);background:linear-gradient(180deg,rgba(20,23,32,.98),rgba(10,11,16,.98));border-left:1px solid color-mix(in srgb,var(--c,#5fa8e0) 40%,transparent);box-shadow:-30px 0 80px -30px #000;overflow-y:auto;padding:22px}
   .panel.on{transform:none}.panel .x{position:absolute;top:14px;right:16px;color:var(--muted);font-size:23px;cursor:pointer}
-  .phead{display:flex;align-items:center;gap:14px}.pav{width:74px;height:74px;flex:none;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border-radius:14px;border:1px solid var(--stroke)}
-  .pav img{image-rendering:pixelated;width:58px;height:58px}
+  .phead{display:flex;align-items:center;gap:14px}.pav{width:74px;height:74px;flex:none;display:flex;align-items:flex-end;justify-content:center;background:rgba(255,255,255,.04);border-radius:14px;border:1px solid var(--stroke);overflow:hidden}
   .pn{font-weight:800;font-size:19px}.prole{font-size:12px;font-weight:600}
   .rank{display:inline-flex;align-items:center;gap:6px;margin-top:7px;font-size:11px;font-weight:800;letter-spacing:.05em;padding:4px 11px;border-radius:20px;background:rgba(255,211,77,.14);color:var(--gd);border:1px solid rgba(255,211,77,.3)}
   .expw{margin-top:12px}.expw .r{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px}.expw .r b{color:var(--text)}
   .expbar{height:9px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;border:1px solid var(--stroke)}
   .expbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gd),#fff);box-shadow:0 0 10px -1px var(--gd)}
   .pst{display:inline-flex;align-items:center;gap:6px;margin:12px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:4px 11px;border-radius:20px}
-  .psec{margin-top:14px}.psec h4{margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.psec p{margin:0;color:#d6f0d6;font-size:13.5px;line-height:1.55}
+  .psec{margin-top:14px}.psec h4{margin:0 0 6px;font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}.psec p{margin:0;color:#dbe6fb;font-size:13.5px;line-height:1.55}
   .stat2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.stat2 div{background:rgba(255,255,255,.03);border:1px solid var(--stroke);border-radius:10px;padding:8px 10px}
   .stat2 .k{font-size:10px;color:var(--muted)}.stat2 .v{font-size:16px;font-weight:800}
   .pchips{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}.pchip{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--stroke);background:rgba(255,255,255,.04);color:var(--muted)}.pchip b{color:var(--text)}
 </style>
 </head>
 <body>
-<div class="top"><div class="brand"><div class="core"></div><div><div class="ttl">VEL<b>Í</b>N · městečko</div><div class="tsub" id="sysl">…</div></div></div><div class="clock" id="clock">--:--:--</div></div>
-<div class="nav"><a href="index.html">Přehled</a><a class="on" href="room.html">🏘️ Městečko</a></div>
+<div class="top"><div class="brand"><div class="core"></div><div><div class="ttl">VEL<b>Í</b>N · kancelář</div><div class="tsub" id="sysl">…</div></div></div><div class="clock" id="clock">--:--:--</div></div>
+<div class="nav"><a href="index.html">Přehled</a><a class="on" href="room.html">🏢 Kancelář</a></div>
 <div class="stage"><div class="scene" id="scene"><canvas id="town"></canvas><canvas id="fx"></canvas></div></div>
 <div class="dock">
   <div class="roster">
@@ -108,15 +111,19 @@
 <div class="panel" id="panel"><span class="x" onclick="closePanel()">✕</span><div id="pbody"></div></div>
 
 <script src="data.js"></script>
-<script src="assets/townmap.js"></script>
+<script src="assets/officemap.js"></script>
 <script>
 (function(){
-  var D=window.DASHBOARD_DATA||{};var M=window.TOWNMAP||{};
+  var D=window.DASHBOARD_DATA||{};var M=window.OFFICEMAP||{};
   var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
   var STC={operational:'#2bd980',wip:'#ffb02e',down:'#ff4d6a',planned:'#3b9dff',na:'#566087'};
   var RANKS=[{l:1,n:'Nováček',i:'•'},{l:3,n:'Operátor',i:'◆'},{l:6,n:'Specialista',i:'★'},{l:10,n:'Veterán',i:'✦'},{l:15,n:'Velmistr',i:'♛'}];
   function rankOf(lvl){var r=RANKS[0];for(var i=0;i<RANKS.length;i++)if(lvl>=RANKS[i].l)r=RANKS[i];return r;}
   function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+
+  // ===== sprite atlas (char sheet 16x32, generator Gray Matter) =====
+  var SHW=896,SHH=640;                 // rozmer char sheetu
+  var FR={down:[0,0],up:[2,0],sideR:[3,0],sideL:[3,0]};  // idle frames (col,row); up = zada k nam
 
   // ---- realna data -> metriky ----
   var P=(D.projects||[]).filter(function(p){return p.kind==='local';});
@@ -130,7 +137,7 @@
   var U=D.usage||{};
   function uPct(o){return o&&o.pct!=null?o.pct:'?';}
   function metric(id){switch(id){
-    case 'velitel':return 'koordinuje '+(7)+' agentů · digest 20:00';
+    case 'velitel':return 'koordinuje 7 agentů · digest 20:00';
     case 'adam':return 'git: '+GIT.un+' necommit · '+GIT.be+' pozadu';
     case 'klara':return NOLOCK+' bez lockfile · 0 zranitelností';
     case 'viktor':return NOTEST+' build bez testů · '+P.length+' projektů';
@@ -142,9 +149,9 @@
 
   // ---- meta postav ----
   var META={
-    velitel:{kind:'agent',title:'Starosta',best:'koordinaci',per:'Sebere, co parta dokázala, a pošle ti souhrn. Nervózní, když něco spadne.',tasks:['Sbírám reporty agentů','Skládám denní digest','Hlídám, co spadlo','Zadávám úkol agentovi']},
+    velitel:{kind:'agent',title:'Šéf · velitel',best:'koordinaci',per:'Sebere, co parta dokázala, a pošle ti souhrn. Nervózní, když něco spadne.',tasks:['Sbírám reporty agentů','Skládám denní digest','Hlídám, co spadlo','Zadávám úkol agentovi'],room:'pracovna'},
     adam:{kind:'agent',title:'Strážce Gitu',best:'pořádku v kódu',per:'Puntičkář. Hlídá změny a hledá, co vylepšit.',tasks:['Kontroluji git stav','Hledám necommitnuté změny','Navrhuji co pushnout','Píšu návrh do PROPOSALS']},
-    klara:{kind:'agent',title:'Štít · čarodějka',best:'bezpečnosti',per:'Ostražitá. Loví zranitelnosti a zastaralé balíčky.',tasks:['Audit závislostí','Hledám zranitelnosti','Kontroluji lockfile','Navrhuji upgrade']},
+    klara:{kind:'agent',title:'Štít · bezpečnost',best:'bezpečnosti',per:'Ostražitá. Loví zranitelnosti a zastaralé balíčky.',tasks:['Audit závislostí','Hledám zranitelnosti','Kontroluji lockfile','Navrhuji upgrade']},
     viktor:{kind:'agent',title:'Kovář buildů',best:'kvalitě',per:'Neúnavný. Všechno musí projít testy.',tasks:['Spouštím testy','Píšu chybějící test','Ověřuji build','Kontroluji regrese']},
     usage:{kind:'agent',title:'Mudrc limitů',best:'hlídání tokenů',per:'Bdělý strážce. Počítá spotřebu a varuje před limitem.',tasks:['Počítám tokeny 5h okna','Kontroluji weekly limit','Hlídám kontext >150k','Předpovídám vyčerpání']},
     tereza:{kind:'agent',title:'Lovkyně úkolů',best:'pořádku v úkolech',per:'Miluje seznamy a priority.',tasks:['Třídím TODO','Stanovuji priority','Hledám FIXME v kódu']},
@@ -155,16 +162,17 @@
     hlidaci:{kind:'bot',title:'Hlídací bot',best:'spolehlivosti',per:'Ostraha. Drží n8n naživu.',tasks:['Ping n8n','Kontroluji uptime','Restart při pádu']}
   };
 
-  // ---- sestaveni seznamu postav z dat + zon ----
+  // ---- sestaveni postav ze seats ----
   var chief=D.chief;if(chief){chief._id='velitel';}
   var agentData={};if(chief)agentData['velitel']=chief;(D.agents||[]).forEach(function(a){agentData[(a.id||'').toLowerCase()]=a;});
   var botData={};APT.agents.forEach(function(a){botData[(a.id||'').toLowerCase()]=a;});
+  function dataOf(id){return agentData[id]||botData[id]||{name:cap(id)};}
+  var kindOf=function(id){return (META[id]&&META[id].kind)||'agent';};
 
-  var people=[]; // {id,kind,data,zone,meta}
-  (M.agents||[]).forEach(function(z){var id=z.id;people.push({id:id,kind:'agent',data:agentData[id]||{name:cap(id)},zone:z,meta:META[id]||{tasks:[]}});});
-  (M.bots||[]).forEach(function(z){var id=z.id;people.push({id:id,kind:'bot',data:botData[id]||{name:cap(id)},zone:z,meta:META[id]||{tasks:[]}});});
+  var people=[]; // {id,kind,data,seat,meta}
+  (M.seats||[]).forEach(function(s){var id=s.id;people.push({id:id,kind:kindOf(id),data:dataOf(id),seat:s,meta:META[id]||{tasks:[]}});});
   function nameOf(p){return p.data.name||cap(p.id);}
-  function colOf(p){return p.data.accent||p.data.color||(p.kind==='bot'?'#0ea5e9':'#5fe08a');}
+  function colOf(p){return p.data.accent||p.data.color||(p.kind==='bot'?'#0ea5e9':'#5fa8e0');}
   function statusOf(p){return p.data.status||'operational';}
 
   // ---- EXP ----
@@ -173,175 +181,196 @@
   function need(lvl){return 60+lvl*25;}
   function save(){try{localStorage.setItem('velin_exp',JSON.stringify(EXP));}catch(e){}}
 
-  // ---- canvas mapa ----
+  // ---- canvas mapa: 4 vrstvy, 2 sheety (rb=floor/walls, of=furn/furn2) ----
   var townC=document.getElementById('town'),tctx=townC.getContext('2d');
-  var SHEET=new Image();SHEET.src='assets/town.png';
-  var GW=M.gw||34,GH=M.gh||22,SS=4;
-  function drawTile(idx,x,y){if(idx<0)return;var sx=(idx%12)*16,sy=Math.floor(idx/12)*16;tctx.drawImage(SHEET,sx,sy,16,16,x*16*SS,y*16*SS,16*SS,16*SS);}
-  function renderTown(){townC.width=GW*16*SS;townC.height=GH*16*SS;tctx.imageSmoothingEnabled=false;
-    var gr=M.ground||[],ov=M.over||[];
-    for(var y=0;y<GH;y++)for(var x=0;x<GW;x++)drawTile(gr[y]?gr[y][x]:0,x,y);
-    for(var y2=0;y2<GH;y2++)for(var x2=0;x2<GW;x2++)drawTile(ov[y2]?ov[y2][x2]:-1,x2,y2);
+  var RB=new Image();RB.src='assets/office_rb.png';
+  var OFI=new Image();OFI.src='assets/office.png';
+  var GW=M.gw||44,GH=M.gh||30,SS=4;
+  function dT(img,idx,x,y){if(idx==null||idx<0)return;var sx=(idx%16)*16,sy=Math.floor(idx/16)*16;tctx.drawImage(img,sx,sy,16,16,x*16*SS,y*16*SS,16*SS,16*SS);}
+  function renderMap(){townC.width=GW*16*SS;townC.height=GH*16*SS;tctx.imageSmoothingEnabled=false;
+    var fl=M.floor||[],wa=M.walls||[],fu=M.furn||[],f2=M.furn2||[];
+    for(var y=0;y<GH;y++)for(var x=0;x<GW;x++)dT(RB,fl[y]?fl[y][x]:91,x,y);
+    for(var y2=0;y2<GH;y2++)for(var x2=0;x2<GW;x2++){if(wa[y2]&&wa[y2][x2]>=0)dT(RB,wa[y2][x2],x2,y2);}
+    for(var y3=0;y3<GH;y3++)for(var x3=0;x3<GW;x3++){if(fu[y3]&&fu[y3][x3]>=0)dT(OFI,fu[y3][x3],x3,y3);}
+    for(var y4=0;y4<GH;y4++)for(var x4=0;x4<GW;x4++){if(f2[y4]&&f2[y4][x4]>=0)dT(OFI,f2[y4][x4],x4,y4);}
   }
 
-  // ---- postavy DOM ----
+  // ---- geometrie sceny ----
   var scene=document.getElementById('scene'),fx=document.getElementById('fx'),fctx=fx.getContext('2d');
-  var W=0,Hh=0,actors=[],byId={},spritePx=36;
-  function dim(){W=scene.clientWidth;Hh=scene.clientHeight;fx.width=W;fx.height=Hh;spritePx=Math.max(22,W/GW*1.5);}
-  function t2px(col,row){return{x:col/GW*W,y:row/GH*Hh};}
-  function tileCenter(x,y){return{x:(x+0.5)/GW*W,y:(y+0.6)/GH*Hh};}
+  var W=0,Hh=0,actors=[],byId={},tilePx=16,cw=20;
+  function dim(){W=scene.clientWidth;Hh=scene.clientHeight;fx.width=W;fx.height=Hh;tilePx=W/GW;cw=tilePx*1.25;}
+  function px(col,row){return{x:col/GW*W,y:row/GH*Hh};}
+  function seatXY(s){return{x:(s.col+0.5)/GW*W,y:(s.row+0.55)/GH*Hh};} // dolni kotva sedici postavy
   function rand(a,b){return a+Math.random()*(b-a);}
 
-  // ---- pohyb po cestickach: BFS na road gridu ----
-  var ROAD=M.road||[];
-  function isRoad(x,y){return x>=0&&x<GW&&y>=0&&y<GH&&ROAD[y]&&ROAD[y][x]===1;}
-  function nearestRoad(x,y){if(isRoad(x,y))return{x:x,y:y};
-    for(var r=1;r<8;r++){for(var dy=-r;dy<=r;dy++)for(var dx=-r;dx<=r;dx++){if(Math.abs(dx)!==r&&Math.abs(dy)!==r)continue;if(isRoad(x+dx,y+dy))return{x:x+dx,y:y+dy};}}return{x:x,y:y};}
+  // ---- walk grid + BFS ----
+  var WALK=M.walk||[];
+  function isWalk(x,y){return x>=0&&x<GW&&y>=0&&y<GH&&WALK[y]&&WALK[y][x]===1;}
+  function nearestWalk(x,y){if(isWalk(x,y))return{x:x,y:y};
+    for(var r=1;r<10;r++){for(var dy=-r;dy<=r;dy++)for(var dx=-r;dx<=r;dx++){if(Math.abs(dx)!==r&&Math.abs(dy)!==r)continue;if(isWalk(x+dx,y+dy))return{x:x+dx,y:y+dy};}}return{x:x,y:y};}
   function bfs(sx,sy,gx,gy){if(sx===gx&&sy===gy)return[{x:gx,y:gy}];
     var key=function(x,y){return x+','+y;},prev={},seen={},q=[[sx,sy]];seen[key(sx,sy)]=1;
     var dirs=[[1,0],[-1,0],[0,1],[0,-1]],head=0,found=false;
     while(head<q.length){var cur=q[head++];if(cur[0]===gx&&cur[1]===gy){found=true;break;}
-      for(var i=0;i<4;i++){var nx=cur[0]+dirs[i][0],ny=cur[1]+dirs[i][1];if(!isRoad(nx,ny)||seen[key(nx,ny)])continue;seen[key(nx,ny)]=1;prev[key(nx,ny)]=cur;q.push([nx,ny]);}}
+      for(var i=0;i<4;i++){var nx=cur[0]+dirs[i][0],ny=cur[1]+dirs[i][1];if(!isWalk(nx,ny)||seen[key(nx,ny)])continue;seen[key(nx,ny)]=1;prev[key(nx,ny)]=cur;q.push([nx,ny]);}}
     if(!found)return null;var path=[],c=[gx,gy];while(c){path.unshift({x:c[0],y:c[1]});c=prev[key(c[0],c[1])];}return path;}
-  function makePath(px,py,tcol,trow){var s=nearestRoad(Math.floor(px/W*GW),Math.floor(py/Hh*GH)),gT=nearestRoad(Math.round(tcol),Math.round(trow));
-    var tiles=bfs(s.x,s.y,gT.x,gT.y);var wp=[];if(tiles)tiles.forEach(function(t){wp.push(tileCenter(t.x,t.y));});wp.push({x:tcol/GW*W,y:trow/GH*Hh});return wp;}
-  function setWalk(o,tcol,trow,phase){o.tx=tcol/GW*W;o.ty=trow/GH*Hh;o.path=makePath(o.x,o.y,tcol,trow);o.state='walk';o.phase=phase;}
+  function makePath(curx,cury,tcol,trow){var s=nearestWalk(Math.round(curx/W*GW),Math.round(cury/Hh*GH)),g=nearestWalk(Math.round(tcol),Math.round(trow));
+    var tiles=bfs(s.x,s.y,g.x,g.y);var wp=[];if(tiles)tiles.forEach(function(t){wp.push(px(t.x+0.5,t.y+0.6));});return wp;}
+  function setWalk(o,tcol,trow,phase,faceDir){o.tcol=tcol;o.trow=trow;o.tx=tcol/GW*W;o.ty=trow/GH*Hh;o.path=makePath(o.x,o.y,tcol,trow);o.state='walk';o.phase=phase;o.seatFace=faceDir||'up';}
 
+  // ---- vytvoreni postavy ----
   function mkChar(p){
-    var id=p.id;var c=colOf(p);var e=ex(id);var f=t2px(p.zone.col,p.zone.row);
+    var id=p.id;var c=colOf(p);var e=ex(id);var s=p.seat;var f=seatXY(s);
     var el=document.createElement('div');el.className='char work';el.style.setProperty('--c',c);el.style.setProperty('--st',STC[statusOf(p)]||'#2bd980');
     el.innerHTML='<div class="tag"><span class="lvl">Lv'+e.lvl+'</span><span class="dt"></span>'+esc(nameOf(p))+'</div>'+
-      '<img class="sp" src="chars/'+id+'.png" alt="'+esc(nameOf(p))+'"/>'+
-      '<div class="act"></div>';
+      '<div class="sp"></div><div class="act"></div>';
     scene.appendChild(el);el.addEventListener('click',function(){openPerson(p);});
-    var o={p:p,id:id,el:el,c:c,x:f.x,y:f.y,hx:f.x,hy:f.y,hcol:p.zone.col,hrow:p.zone.row,tx:f.x,ty:f.y,path:[],state:'work',phase:'',face:1,
+    var o={p:p,id:id,el:el,c:c,x:f.x,y:f.y,hcol:s.col,hrow:s.row,seatFace:s.dir||'up',
+      tcol:s.col,trow:s.row,tx:f.x,ty:f.y,path:[],state:'work',phase:'',face:1,seated:true,vx:0,vy:0,
       alarm:(statusOf(p)==='down'),task:'',tStart:0,tDur:0,lastBub:0,
-      img:el.querySelector('img.sp'),act:el.querySelector('.act'),lvlEl:el.querySelector('.lvl')};
+      sp:el.querySelector('.sp'),act:el.querySelector('.act'),lvlEl:el.querySelector('.lvl')};
+    var sc0=cw/16;o.sp.style.backgroundImage='url(chars-office/'+id+'.png)';o.sp.style.backgroundSize=(SHW*sc0)+'px '+(SHH*sc0)+'px';
     actors.push(o);byId[id]=o;startTask(o,performance.now());
   }
-  function startTask(o,ts){var pool=o.p.meta.tasks||['pracuji'];o.task=pool[Math.floor(Math.random()*pool.length)];o.tStart=ts;o.tDur=rand(5000,9500);o.act.textContent=o.task;o.el.classList.add('work');o.el.classList.remove('walk');updateRosterCard(o);}
+  function startTask(o,ts){var pool=o.p.meta.tasks||['pracuji'];o.task=pool[Math.floor(Math.random()*pool.length)];o.tStart=ts;o.tDur=rand(5500,10500);o.act.textContent=o.task;o.el.classList.add('work');o.el.classList.remove('walk');updateRosterCard(o);}
   function completeTask(o,ts){var e=ex(o.id);e.exp+=Math.floor(rand(11,21));var up=false;while(e.exp>=need(e.lvl)){e.exp-=need(e.lvl);e.lvl++;up=true;}save();
     if(up){o.lvlEl.textContent='Lv'+e.lvl;var l=document.createElement('div');l.className='lup';l.textContent='LEVEL UP!';o.el.appendChild(l);setTimeout(function(){l.remove();},1700);
       pushRep(o,'<b>'+esc(nameOf(o.p))+'</b> postoupil na <b>Lv'+e.lvl+' · '+rankOf(e.lvl).n+'</b> 🎖️');}
-    think(o,'✓');if(Math.random()<.55)bubble(o);updateRosterCard(o);
+    think(o,'✓');if(Math.random()<.5)bubble(o);updateRosterCard(o);
   }
-  function place(o){o.el.style.left=o.x+'px';o.el.style.top=o.y+'px';o.img.style.width=spritePx+'px';o.img.style.height=spritePx+'px';o.img.style.transform='scaleX('+o.face+')';if(o.alarm)o.el.classList.add('alarm');}
-  function wander(o){ // projde se kousek po cestě a vrátí se
-    var hc=Math.round(o.hcol),hr=Math.round(o.hrow),best=null;
-    for(var r=2;r<=4;r++){for(var d=0;d<6;d++){var ang=Math.random()*6.28;var cx=hc+Math.round(Math.cos(ang)*r),cy=hr+Math.round(Math.sin(ang)*r);if(isRoad(cx,cy)){best={x:cx,y:cy};break;}}if(best)break;}
-    if(best)setWalk(o,best.x+0.5,best.y+0.6,'out');else{o.state='work';startTask(o,performance.now());}}
-  var lastThink=0;function think(o,sym){var now=performance.now();if(now-lastThink<700)return;lastThink=now;var t=document.createElement('div');t.className='think';t.textContent=sym||['💡','⚙️','📊','🔧','📁','🔍','🛡️','📨'][Math.floor(Math.random()*8)];o.el.appendChild(t);setTimeout(function(){t.remove();},1100);}
-  // ---- bublina /write: dulezita zprava nad postavou (throttled, bez spamu) ----
+  // ---- vykresleni postavy (frame podle stavu) ----
+  function frameFor(o){
+    if(o.state==='walk'){
+      if(Math.abs(o.vx)>Math.abs(o.vy))return o.vx<0?FR.sideL:FR.sideR;
+      return o.vy<0?FR.up:FR.down;
+    }
+    var d=(o.state==='meet')?o.seatFace:'up';
+    return d==='down'?FR.down:(d==='left'?FR.sideL:(d==='right'||d==='side'?FR.sideR:FR.up));
+  }
+  function place(o){
+    var seated=(o.state==='work'||o.state==='meet'||o.state==='idle');
+    var fr=frameFor(o);
+    o.sp.style.width=cw+'px';o.sp.style.height=(seated?cw*1.5:cw*2)+'px'; // sed = orez nohou, chuze = cele telo
+    o.sp.style.backgroundPosition=(-fr[0]*cw)+'px '+(-fr[1]*2*cw)+'px';
+    o.el.style.left=o.x+'px';o.el.style.top=o.y+'px';
+    if(o.alarm)o.el.classList.add('alarm');
+  }
+  var lastThink=0;function think(o,sym){var now=performance.now();if(now-lastThink<650)return;lastThink=now;var t=document.createElement('div');t.className='think';t.textContent=sym||['💡','⚙️','📊','🔧','📁','🔍','🛡️','📨'][Math.floor(Math.random()*8)];o.el.appendChild(t);setTimeout(function(){t.remove();},1100);}
+
+  // ---- bublina /write (throttled) ----
   var lastBubble=0;
   var BUBBLE={
-    velitel:'Skládám denní digest pro Pavla 👑',adam:'Pozor: '+GIT.be+' commity pozadu — navrhuji pull!',
-    klara:'Audit balíčků hotov — 0 zranitelností 🛡️',viktor:NOTEST+' projekt bez testů — píšu test ⚙️',
-    usage:'Hlídám tokeny: weekly '+uPct(U.weekly7d)+'% ⚡',tereza:'Seřadila jsem '+TODOS+' TODO dle priority',
-    nina:BOTLIVE+'/'+APT.agents.length+' služeb běží 📡',uklidovy:'Rozesílám rozpis úklidů do skupiny 🧹',
-    prijezdovy:'Digest příjezdů na 7:00 odeslán 📨',cenovy:'Orphan gap v bytě — navrhuji slevu 💰',hlidaci:'Ping n8n 200 OK · uptime 100 % 🛡️'
+    velitel:'<span class="cmd">/digest</span> skládám souhrn pro Pavla 👑',adam:'<span class="cmd">/git</span> '+GIT.be+' commitů pozadu — pull!',
+    klara:'<span class="cmd">/audit</span> balíčky OK · 0 zranitelností 🛡️',viktor:'<span class="cmd">/test</span> '+NOTEST+' projekt bez testů ⚙️',
+    usage:'<span class="cmd">/usage</span> weekly '+uPct(U.weekly7d)+'% ⚡',tereza:'<span class="cmd">/todo</span> seřazeno '+TODOS+' úkolů',
+    nina:'<span class="cmd">/ping</span> '+BOTLIVE+'/'+APT.agents.length+' služeb běží 📡',uklidovy:'<span class="cmd">/write</span> rozpis úklidů do skupiny 🧹',
+    prijezdovy:'<span class="cmd">/write</span> digest příjezdů 7:00 odeslán 📨',cenovy:'<span class="cmd">/price</span> orphan gap → navrhuji slevu 💰',hlidaci:'<span class="cmd">/ping</span> n8n 200 OK · uptime 100 % 🛡️'
   };
-  function bubble(o){var now=performance.now();if(now-lastBubble<5500||now-o.lastBub<22000)return;var msg=BUBBLE[o.id];if(!msg)return;
-    lastBubble=now;o.lastBub=now;var b=document.createElement('div');b.className='bubble';b.textContent=msg;o.el.appendChild(b);setTimeout(function(){if(b.parentNode)b.remove();},3900);}
+  function bubble(o){var now=performance.now();if(now-lastBubble<5200||now-o.lastBub<21000)return;var msg=BUBBLE[o.id];if(!msg)return;
+    lastBubble=now;o.lastBub=now;var b=document.createElement('div');b.className='bubble';b.innerHTML=msg;o.el.appendChild(b);setTimeout(function(){if(b.parentNode)b.remove();},3900);}
 
-  function build(){dim();renderTown();
-    [].slice.call(scene.querySelectorAll('.char,.distlabel')).forEach(function(e){e.remove();});actors=[];byId={};
-    // popisky okrsku
-    addDist('VELÍN · agenti',8/GW,0.5/GH);addDist('APARTMÁNY · boti',26/GW,0.5/GH);
+  function addLabel(cls,txt,colF,rowF){var d=document.createElement('div');d.className=cls;d.textContent=txt;d.style.left=(colF/GW*W)+'px';d.style.top=(rowF/GH*Hh)+'px';scene.appendChild(d);}
+  function build(){dim();renderMap();
+    [].slice.call(scene.querySelectorAll('.char,.distlabel,.roomlabel')).forEach(function(e){e.remove();});actors=[];byId={};
+    addLabel('distlabel','VELÍN · agenti',22,0.7);addLabel('distlabel','APARTMÁNY · boti',39,0.7);
+    addLabel('roomlabel','PRACOVNA ŠÉFA',5.5,1.6);addLabel('roomlabel','ZASEDAČKA',21.5,20.4);
     people.forEach(mkChar);actors.forEach(place);buildRoster();
   }
-  function addDist(txt,fx2,fy2){var d=document.createElement('div');d.className='distlabel';d.textContent=txt;d.style.left=(fx2*W)+'px';d.style.top=(fy2*Hh)+'px';scene.appendChild(d);}
 
-  // ---- roster (kdo co dela) ----
+  // ---- roster ----
+  function avStyle(id,w){var sc=w/16;return 'width:'+w+'px;height:'+(w*2)+'px;background-image:url(chars-office/'+id+'.png);background-size:'+(SHW*sc)+'px '+(SHH*sc)+'px;background-position:0 0';}
   var rgrid=document.getElementById('rgrid'),cardById={};
   function buildRoster(){rgrid.innerHTML='';cardById={};
     people.forEach(function(p){var e=ex(p.id);var c=colOf(p);var st=STC[statusOf(p)]||'#2bd980';
       var d=document.createElement('div');d.className='rcard';d.style.setProperty('--c',c);
-      d.innerHTML='<img src="chars/'+p.id+'.png" alt=""/><div class="rmid"><div class="rnm">'+esc(nameOf(p))+
+      d.innerHTML='<div class="av" style="'+avStyle(p.id,15)+'"></div><div class="rmid"><div class="rnm">'+esc(nameOf(p))+
         ' <span class="lv">Lv'+e.lvl+'</span></div><div class="rtask" id="rt_'+p.id+'">'+esc(metric(p.id)||p.meta.title||'')+'</div></div>'+
         '<span class="rdot" style="background:'+st+';box-shadow:0 0 6px '+st+'"></span>';
       d.addEventListener('click',function(){openPerson(p);});rgrid.appendChild(d);cardById[p.id]=d;});
   }
   function updateRosterCard(o){var el=document.getElementById('rt_'+o.id);if(el)el.textContent=o.task+' · '+(metric(o.id)||'');var e=ex(o.id);var lv=cardById[o.id]&&cardById[o.id].querySelector('.lv');if(lv)lv.textContent='Lv'+e.lvl;}
 
-  // ---- reporty feed ----
+  // ---- reporty ----
   var rfeed=document.getElementById('rfeed');
   function nowt(){var d=new Date(),p=function(n){return(n<10?'0':'')+n;};return p(d.getHours())+':'+p(d.getMinutes());}
-  function pushRep(o,html){var c=o?o.c:'#5fe08a';var line=document.createElement('div');line.className='rline';line.style.setProperty('--c',c);
+  function pushRep(o,html){var c=o?o.c:'#5fa8e0';var line=document.createElement('div');line.className='rline';line.style.setProperty('--c',c);
     line.innerHTML=html+' <span class="t">'+nowt()+'</span>';rfeed.insertBefore(line,rfeed.firstChild);
     while(rfeed.children.length>14)rfeed.removeChild(rfeed.lastChild);}
 
   // ---- spojnice porad ----
   var dashOff=0;
   function drawFx(){fctx.clearRect(0,0,W,Hh);dashOff=(dashOff+.6)%16;
-    if(!meet)return;var hub=meet==='bot'?t2px(M.botyard.cx,M.botyard.cy):t2px(M.plaza.cx,M.plaza.cy);
-    fctx.save();fctx.globalAlpha=.4;fctx.setLineDash([5,11]);fctx.lineDashOffset=-dashOff;
-    actors.forEach(function(o){if(meet==='bot'&&o.p.kind!=='bot')return;if(meet==='agent'&&o.p.kind!=='agent')return;
-      fctx.strokeStyle=o.c;fctx.lineWidth=1.3;fctx.beginPath();fctx.moveTo(o.x,o.y-spritePx*.45);fctx.lineTo(hub.x,hub.y-6);fctx.stroke();});
+    if(!meet)return;var hub=px(M.meeting?M.meeting.cx:21.5,M.meeting?M.meeting.cy:23.5);
+    fctx.save();fctx.globalAlpha=.35;fctx.setLineDash([5,11]);fctx.lineDashOffset=-dashOff;
+    actors.forEach(function(o){if(!inMeetGroup(o))return;fctx.strokeStyle=o.c;fctx.lineWidth=1.2;fctx.beginPath();fctx.moveTo(o.x,o.y-cw*.55);fctx.lineTo(hub.x,hub.y);fctx.stroke();});
     fctx.restore();}
 
-  var SPEED=58,meet=null,meetEnd=0,nextMeet=performance.now()+rand(12000,18000),meetKinds=['agent','bot','town'],mi=0;
-  function gather(kind){meet=kind;var hubT=kind==='bot'?M.botyard:M.plaza;
-    var grp=actors.filter(function(o){return kind==='town'?true:(kind==='bot'?o.p.kind==='bot':o.p.kind==='agent');});
-    grp.forEach(function(o,i){var ang=i/grp.length*6.28;setWalk(o,hubT.cx+Math.cos(ang)*2.2,hubT.cy+1+Math.sin(ang)*1.4,'meet');});
-    if(kind==='bot')pushRep(byId.hlidaci||null,'🤝 <b>Boti</b> řeší apartmány na dvorku — úklidy, příjezdy, ceny');
-    else if(kind==='town')pushRep(byId.velitel||null,'👑 <b>Starosta</b> svolal celé městečko na náměstí');
-    else pushRep(byId.velitel||null,'👑 <b>Starosta</b> svolal poradu agentů');
-  }
+  // ---- porady ----
+  var SPEED=66,meet=null,meetEnd=0,nextMeet=performance.now()+rand(11000,16000);
+  var MS=M.meetingSeats||[];
+  function inMeetGroup(o){return meet&&o.p.kind==='agent';}
+  function gather(){meet='agent';var seats=MS.slice();var grp=actors.filter(function(o){return o.p.kind==='agent';});
+    grp.forEach(function(o,i){var ms=seats[i%seats.length];if(!ms)return;setWalk(o,ms.col+0.5,ms.row+0.55,'meet',ms.dir);o.meetSeat=ms;});
+    pushRep(byId.velitel||null,'👑 <b>Šéf</b> svolal poradu agentů u stolu v zasedačce');}
+  function endMeet(ts){meet=null;meetEnd=0;nextMeet=ts+rand(15000,23000);
+    actors.forEach(function(o){if(o.state==='meet'||(o.p.kind==='agent'&&o.phase==='meet')){setWalk(o,o.hcol,o.hrow,'back','up');}});}
+
   function loop(ts){if(!loop.p)loop.p=ts;var dt=Math.min(50,ts-loop.p);loop.p=ts;
-    if(!meet&&ts>nextMeet){gather(meetKinds[mi%meetKinds.length]);mi++;}
+    if(!meet&&ts>nextMeet)gather();
     actors.forEach(function(o){
       if(o.state==='walk'){var tgt=(o.path&&o.path.length)?o.path[0]:{x:o.tx,y:o.ty};
-        var dx=tgt.x-o.x,dy=tgt.y-o.y,dist=Math.hypot(dx,dy);
-        if(dist>2){var mv=SPEED*dt/1000;o.x+=dx/dist*Math.min(mv,dist);o.y+=dy/dist*Math.min(mv,dist);o.face=dx<-.5?-1:(dx>.5?1:o.face);o.el.classList.add('walk');o.el.classList.remove('work');}
+        var dx=tgt.x-o.x,dy=tgt.y-o.y,dist=Math.hypot(dx,dy);o.vx=dx;o.vy=dy;
+        if(dist>1.5){var mv=SPEED*dt/1000;o.x+=dx/dist*Math.min(mv,dist);o.y+=dy/dist*Math.min(mv,dist);o.face=dx<-.4?-1:(dx>.4?1:o.face);o.el.classList.add('walk');o.el.classList.remove('work');}
         else if(o.path&&o.path.length){o.path.shift();}
-        else{o.el.classList.remove('walk');if(o.phase==='meet')o.state='meet';else if(o.phase==='out'){o.state='idle';o.iuntil=ts+rand(800,1800);}else{o.state='work';startTask(o,ts);}}
+        else{ // dorazil k cili (mimo cestu posledni krok primo)
+          var fx2=o.tx-o.x,fy2=o.ty-o.y;if(Math.hypot(fx2,fy2)>1.2){o.x+=fx2*.3;o.y+=fy2*.3;}
+          else{o.el.classList.remove('walk');if(o.phase==='meet'){o.state='meet';o.el.classList.add('work');}else{o.state='work';o.el.classList.add('work');startTask(o,ts);}}}
       }else if(o.state==='work'){var pr=Math.min(1,(ts-o.tStart)/o.tDur);
-        if(pr>=1){completeTask(o,ts);if(Math.random()<.28)wander(o);else startTask(o,ts);}
-      }else if(o.state==='idle'){if(ts>o.iuntil){setWalk(o,o.hcol,o.hrow,'back');}}
+        if(pr>=1){completeTask(o,ts);startTask(o,ts);}
+      }
       place(o);});
-    var inMeet=meet?actors.filter(function(o){return meet==='town'?true:(meet==='bot'?o.p.kind==='bot':o.p.kind==='agent');}):[];
-    if(meet&&!meetEnd&&inMeet.every(function(o){return o.state==='meet';}))meetEnd=ts+4200;
-    if(meet&&meetEnd&&ts>meetEnd){meet=null;meetEnd=0;nextMeet=ts+rand(13000,20000);actors.forEach(function(o){if(o.state==='meet'){setWalk(o,o.hcol,o.hrow,'back');}});}
+    var grp=meet?actors.filter(function(o){return o.p.kind==='agent';}):[];
+    if(meet&&!meetEnd&&grp.length&&grp.every(function(o){return o.state==='meet';}))meetEnd=ts+4600;
+    if(meet&&meetEnd&&ts>meetEnd)endMeet(ts);
     drawFx();requestAnimationFrame(loop);}
 
   function clock(){var d=new Date(),p=function(n){return(n<10?'0':'')+n;};document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
   clock();setInterval(clock,1000);
 
+  var loaded=0;function ready(){loaded++;if(loaded>=2)start();}
   function start(){build();requestAnimationFrame(loop);
-    // uvodni realne reporty
     pushRep(byId.adam,'🔵 <b>Adam</b>: '+metric('adam'));
     pushRep(byId.usage,'📊 <b>Usage</b>: '+metric('usage')+' · '+(U.urgency==='ok'?'klid':'sleduj'));
     pushRep(byId.nina,'🟢 <b>Nina</b>: '+metric('nina'));
     pushRep(byId.tereza,'🟡 <b>Tereza</b>: '+metric('tereza'));
   }
-  SHEET.onload=start;SHEET.onerror=start;
+  RB.onload=ready;RB.onerror=ready;OFI.onload=ready;OFI.onerror=ready;
   var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(build,250);});
 
-  // periodicky realny report
   var repFns=[function(){return [byId.adam,'🔵 <b>Adam</b>: '+metric('adam')];},
     function(){return [byId.klara,'🟣 <b>Klára</b>: '+metric('klara')];},
     function(){return [byId.viktor,'🟠 <b>Viktor</b>: '+metric('viktor')];},
     function(){return [byId.usage,'📊 <b>Usage</b>: '+metric('usage')];},
     function(){return [byId.nina,'🟢 <b>Nina</b>: '+metric('nina')];},
     function(){return [byId.cenovy,'💰 <b>Cenový bot</b>: počítám volná okna bytů'];},
-    function(){return [byId.uklidovy,'🧹 <b>Úklidový bot</b>: rozpis úklidů odeslán do skupiny'];},
+    function(){return [byId.uklidovy,'🧹 <b>Úklidový bot</b>: rozpis úklidů odeslán'];},
     function(){return [byId.prijezdovy,'📨 <b>Příjezdový bot</b>: digest příjezdů na 7:00'];}];
   setInterval(function(){var r=repFns[Math.floor(Math.random()*repFns.length)]();if(r[0]!==undefined)pushRep(r[0],r[1]);},5500);
 
   var dn=people.filter(function(p){return statusOf(p)==='down';}).length;
   var wip=people.filter(function(p){return statusOf(p)==='wip';}).length;
-  document.getElementById('sysl').innerHTML=(dn?'⚠️ '+dn+' alarm · ':'')+(wip?'🟡 '+wip+' se ladí · ':'✅ vše běží · ')+people.length+' obyvatel';
+  document.getElementById('sysl').innerHTML=(dn?'⚠️ '+dn+' alarm · ':'')+(wip?'🟡 '+wip+' se ladí · ':'✅ vše běží · ')+people.length+' v kanceláři';
 
   // ---- detail panel ----
   var scrim=document.getElementById('scrim'),panel=document.getElementById('panel');
   window.closePanel=function(){scrim.classList.remove('on');panel.classList.remove('on');};
-  function open(html,c){document.getElementById('pbody').innerHTML=html;panel.style.setProperty('--c',c||'#5fe08a');scrim.classList.add('on');panel.classList.add('on');}
+  function open(html,c){document.getElementById('pbody').innerHTML=html;panel.style.setProperty('--c',c||'#5fa8e0');scrim.classList.add('on');panel.classList.add('on');}
   window.openPerson=function(p){var c=colOf(p);var m=p.meta||{};var id=p.id;var e=ex(id);var rk=rankOf(e.lvl);var st=statusOf(p);var col=STC[st]||'#2bd980';
     var util=Math.min(99,38+e.lvl*7);var isVel=id==='velitel';
-    open('<div class="phead"><div class="pav"><img src="chars/'+id+'.png" alt=""/></div><div><div class="pn">'+esc(nameOf(p))+'</div><div class="prole" style="color:'+c+'">'+esc(m.title||p.data.role||'')+'</div>'+
+    open('<div class="phead"><div class="pav"><div class="av" style="'+avStyle(id,34)+'"></div></div><div><div class="pn">'+esc(nameOf(p))+'</div><div class="prole" style="color:'+c+'">'+esc(m.title||p.data.role||'')+'</div>'+
       '<div class="rank">'+rk.i+' '+rk.n+' · Lv'+e.lvl+'</div></div></div>'+
       '<div class="expw"><div class="r"><span>EXP</span><b>'+e.exp+' / '+need(e.lvl)+'</b></div><div class="expbar"><i style="width:'+(e.exp/need(e.lvl)*100)+'%"></i></div></div>'+
-      '<div class="pst" style="background:color-mix(in srgb,'+col+' 16%,transparent);color:'+col+'"><span style="width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block"></span>'+(isVel?'STAROSTA · KOORDINÁTOR':(st==='wip'?'LADÍ SE':st==='down'?'ALARM':'ONLINE · PRACUJE'))+(p.kind==='bot'?' · BOT':'')+'</div>'+
+      '<div class="pst" style="background:color-mix(in srgb,'+col+' 16%,transparent);color:'+col+'"><span style="width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block"></span>'+(isVel?'ŠÉF · KOORDINÁTOR':(st==='wip'?'LADÍ SE':st==='down'?'ALARM':'ONLINE · U PC'))+(p.kind==='bot'?' · BOT':'')+'</div>'+
       '<div class="psec"><h4>Právě řeší (reálně)</h4><p>'+esc(metric(id)||m.best||'svou práci')+'</p></div>'+
       '<div class="psec"><h4>Účel — chce být nejlepší v</h4><p>'+esc(m.best||p.data.role||'své práci')+'</p></div>'+
       (m.per?'<div class="psec"><h4>Povaha</h4><p>'+esc(m.per)+'</p></div>':'')+
