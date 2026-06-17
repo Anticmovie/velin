@@ -121,10 +121,10 @@
   function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 
   // ===== sprite atlas (Gray Matter Character Generator 2.0) =====
-  // frame 16x32; radek = animace (y/32); v radku bloky smeru: [right, DOWN, left, UP]
+  // frame 16x32; radek = animace (y/32); v radku bloky smeru: [right, UP, left, DOWN]
   var SHW=896,SHH=640;
   var ANIM={ idle:{r:1,n:6,fps:6}, walk:{r:2,n:6,fps:9}, sit:{r:4,n:3,fps:3}, read:{r:7,n:3,fps:4}, phone:{r:6,n:3,fps:4} };
-  var DIR={ right:0, down:1, left:2, up:3 };
+  var DIR={ right:0, down:3, left:2, up:1 };   // prohozeno down/up (sheet ma blok1=UP, blok3=DOWN)
   function frameXY(o){ var a=ANIM[o.anim]||ANIM.sit; var col=DIR[o.dir]*a.n + (o.frame % a.n); return [col,a.r]; }
 
   // ---- realna data -> metriky ----
@@ -245,7 +245,7 @@
   function tickAnim(o,dt){
     if(o.state==='walk'){ o.anim='walk'; o.dir = (Math.abs(o.vx)>Math.abs(o.vy)) ? (o.vx<0?'left':'right') : (o.vy<0?'up':'down'); }
     else if(o.state==='meet'){ o.anim='sit'; o.dir=o.seatFace||'down'; }
-    else { o.anim='sit'; o.dir='up'; }   // work/idle = sed zady k PC
+    else { o.anim='sit'; o.dir=o.seatFace||'up'; }   // work/idle = sed podle seatFace (bokem ke stolu)
     var a=ANIM[o.anim]; o.animT+=dt; var iv=1000/a.fps; if(o.animT>=iv){ o.animT-=iv; o.frame=(o.frame+1)%a.n; }
   }
   function place(o){
