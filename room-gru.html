@@ -295,7 +295,7 @@
 
   // ===== postavy =====
   var WALK=70; // px/s
-  var chars=[]; var byId={};
+  var chars=[]; var byId={}; var smallTalkT=0, lastTalk=0;
   var SHEETBASE='chars-office/'; var sheetCache={};
   function loadSheet(id){ if(sheetCache[id])return sheetCache[id]; var im=new Image(); im.src=SHEETBASE+id+'.png'; sheetCache[id]=im; return im; }
   var FALLBACK={scout:'cenovy'};
@@ -401,6 +401,7 @@
         } else { ch.x+=dx/dist*step; ch.y+=dy/dist*step; ch.dir=faceTo(ch.tileCol,ch.tileRow,next[0],next[1]); }
       }
     }
+    smallTalkT+=dt; if(smallTalkT>=3){ smallTalkT=0; maybeSmallTalk(); }
   }
   function faceTo(c,r,tc,tr){ if(tc>c)return 'right'; if(tc<c)return 'left'; if(tr>r)return 'down'; return 'up'; }
 
@@ -418,13 +419,33 @@
     for(var i=ovlItems.length-1;i>=0;i--){var it=ovlItems[i]; if(now>=it.die){it.el.remove();ovlItems.splice(i,1);continue;} positionOvl(it);} }
   function think(ch,sym){ spawnOvl(ch,'think',sym||['💡','⚙️','📊','🔧','📁','🔍','🛡️','📨'][Math.floor(Math.random()*8)],1200); }
   function bubble(ch){ var now=performance.now(); if(now-lastBubble<3800)return; var msg=BUBBLE[ch.id]; if(!msg)return; lastBubble=now; spawnOvl(ch,'bubble',msg,3800); }
+  // ===== pokec mezi postavami (vzdy v ramci jedne mistnosti) =====
+  var SMALLTALK=['Jak jde práce?','Dáš kafe? ☕','Viděls ten report?','Hotovo 👍','Držím palce','Co nového?','Pauza? 😄','Pěkná práce!','Mám nápad…','To dáme.'];
+  function roomOf(ch){ return zoneOfSeat(ch.tileCol,ch.tileRow); }
+  function maybeSmallTalk(){
+    var now=performance.now(); if(now-lastTalk<7000)return;
+    for(var i=0;i<chars.length;i++){ var a=chars[i];
+      for(var j=i+1;j<chars.length;j++){ var b=chars[j];
+        if(roomOf(a)!==roomOf(b))continue;                         // jen stejna mistnost
+        if(Math.abs(a.x-b.x)<T*1.7 && Math.abs(a.y-b.y)<T*1.1){    // a blizko sebe
+          if(Math.random()<0.6){ lastTalk=now;
+            a.dir=faceTo(a.tileCol,a.tileRow,b.tileCol,b.tileRow);
+            b.dir=faceTo(b.tileCol,b.tileRow,a.tileCol,a.tileRow);
+            spawnOvl(a,'bubble',esc(SMALLTALK[Math.floor(Math.random()*SMALLTALK.length)]),2600);
+            (function(bb){ setTimeout(function(){ if(bb&&chars.indexOf(bb)>=0)spawnOvl(bb,'bubble',esc(SMALLTALK[Math.floor(Math.random()*SMALLTALK.length)]),2400); }, 850); })(b);
+          }
+          return;
+        }
+      }
+    }
+  }
   function levelUp(ch){ spawnOvl(ch,'lup','LEVEL UP! Lv'+ch.exp.lvl+' '+rankOf(ch.exp.lvl).i,1900); }
   function completeTask(ch){
     var e=ch.exp, col=ch.ent.color||'#5fa8e0'; e.exp+=Math.floor(11+Math.random()*10); var up=false;
     while(e.exp>=need(e.lvl)){ e.exp-=need(e.lvl); e.lvl++; up=true; } save();
     if(up){ levelUp(ch); if(window.addLog)addLog('<b style="color:'+col+'">'+esc(ch.ent.name)+'</b> postoupil na <b>Lv'+e.lvl+' · '+rankOf(e.lvl).n+'</b> 🎖️',{c:col}); }
     else think(ch,'✓');
-    if(Math.random()<0.35){ bubble(ch); if(window.addLog){var msg=BUBBLE[ch.id]; if(msg)addLog('<b style="color:'+col+'">'+esc(ch.ent.name)+'</b>: '+msg,{c:col}); } }
+    if(Math.random()<0.18){ bubble(ch); }   // jen vizualni bublina, do logu nespamujeme
   }
 
   // ===== render =====
@@ -614,8 +635,8 @@
       var col = e?(e.color||'#5fa8e0'):'#7fd0ff', nm = e?e.name:'n8n';
       addLog('<b style="color:'+col+'">'+esc(nm)+'</b>: '+(rep.ok===false?'⚠️ ':'')+esc(rep.text||''),{c:col});
       if(e){ bubbleAt(e.id, rep.cmd||'', rep.text||''); if(byId[e.id])think(byId[e.id],rep.ok===false?'⚠️':'✓'); }
-    }, i*350); });
-    if(j&&j.idea) setTimeout(function(){ ideaCard(j.idea); }, reps.length*350+250);  // nápad ze zasedačky
+    }, i*1100); });   // pomalejsi tempo = cte se jako konverzace
+    if(j&&j.idea) setTimeout(function(){ ideaCard(j.idea); }, reps.length*1100+500);  // nápad ze zasedačky
     else if(!reps.length) addLog('n8n: (prázdná odpověď)');
   }
 
