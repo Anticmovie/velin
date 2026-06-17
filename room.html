@@ -192,7 +192,10 @@
   var PROD=window.PRODUCTS||{};
   var GW=M.gw||44,GH=M.gh||30,SS=4;
   function dT(img,idx,x,y){if(idx==null||idx<0)return;var sx=(idx%16)*16,sy=Math.floor(idx/16)*16;tctx.drawImage(img,sx,sy,16,16,x*16*SS,y*16*SS,16*SS,16*SS);}
-  function dObj(o){var p=PROD[o.p];if(!p)return;tctx.drawImage(PA,p.ax,p.ay,p.aw,p.ah,o.x*16*SS,o.y*16*SS,p.aw*SS,p.ah*SS);}
+  function dObj(o){var p=PROD[o.p];if(!p)return;
+    var dx=o.x*16*SS,dy=o.y*16*SS,dw=p.aw*SS,dh=p.ah*SS;
+    if(o.fy||o.fx){tctx.save();tctx.translate(dx+(o.fx?dw:0),dy+(o.fy?dh:0));tctx.scale(o.fx?-1:1,o.fy?-1:1);tctx.drawImage(PA,p.ax,p.ay,p.aw,p.ah,0,0,dw,dh);tctx.restore();}
+    else tctx.drawImage(PA,p.ax,p.ay,p.aw,p.ah,dx,dy,dw,dh);}
   function renderMap(){townC.width=GW*16*SS;townC.height=GH*16*SS;tctx.imageSmoothingEnabled=false;
     var fl=M.floor||[],wa=M.walls||[],fu=M.furn||[],f2=M.furn2||[],obj=M.objects||[];
     for(var y=0;y<GH;y++)for(var x=0;x<GW;x++)dT(RB,fl[y]?fl[y][x]:91,x,y);
