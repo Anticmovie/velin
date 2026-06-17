@@ -170,6 +170,22 @@
   .ufc-lab{font-size:11.5px;font-weight:600;color:var(--text);flex:none;min-width:54px}
   .ufc-val{font-size:11.5px;font-weight:600;margin-left:auto;text-align:right}
 
+  /* sticky kriticky pruh pres celou sirku */
+  #sticky-alert{position:fixed;top:0;left:0;right:0;z-index:60;display:none}
+  #sticky-alert.show{display:block;animation:stickyDrop .35s cubic-bezier(.2,.9,.3,1.2)}
+  @keyframes stickyDrop{from{transform:translateY(-100%)}to{transform:translateY(0)}}
+  .sa-bar{display:flex;align-items:center;gap:12px;padding:9px 20px;
+    background:linear-gradient(90deg,#7f1020,#b8132e 50%,#7f1020);
+    border-bottom:2px solid #ff4d6a;box-shadow:0 4px 22px rgba(184,19,46,.5);color:#ffe3e8}
+  .sa-ic{font-size:16px;flex:none;animation:saPulse 1.1s ease-in-out infinite}
+  @keyframes saPulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .sa-txt{font-size:13px;font-weight:700;letter-spacing:.01em}
+  .sa-txt small{display:block;font-size:11px;font-weight:500;color:#ffc2cc;letter-spacing:0}
+  .sa-tip{margin-left:auto;font-size:11.5px;font-weight:700;background:rgba(255,255,255,.14);
+    padding:5px 12px;border-radius:20px;white-space:nowrap}
+  body.crit-active #navpill{top:52px}
+  body.crit-active .wrap{padding-top:46px}
+
   .umodels{margin-top:10px;padding-top:10px;border-top:1px solid var(--stroke);display:flex;flex-direction:column;gap:5px}
   .umod{display:flex;align-items:center;gap:8px;font-size:11px}
   .umod-name{color:var(--muted);width:0;flex:1.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -219,7 +235,8 @@
 </head>
 <body>
 <div class="bgfx"></div><div class="grid-fx"></div><div class="scan"></div>
-<div style="position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:6px;background:rgba(18,24,40,.82);border:1px solid rgba(120,160,255,.16);border-radius:30px;padding:4px;backdrop-filter:blur(8px)">
+<div id="sticky-alert"></div>
+<div id="navpill" style="position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:6px;background:rgba(18,24,40,.82);border:1px solid rgba(120,160,255,.16);border-radius:30px;padding:4px;backdrop-filter:blur(8px)">
   <a href="index.html" style="color:#33e1ff;text-decoration:none;font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px;background:rgba(51,225,255,.16)">Přehled</a>
   <a href="room.html" style="color:#8893b3;text-decoration:none;font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px">🏢 Místnost</a>
 </div>
@@ -378,6 +395,12 @@
   (function renderUsage(){
     var u=D.usage;
     if(!u){return;}
+    // demo: ?demo=crit vynuti kriticky stav (jen pro nahled vizualu)
+    if(/[?&]demo=crit/.test(location.search)){
+      u=JSON.parse(JSON.stringify(u));
+      u.urgency='critical';
+      u.alerts=['KRITICKE Session 5h: 94% (demo)'].concat(u.alerts||[]);
+    }
     document.getElementById('usage-wrap').style.display='';
 
     function fmtTok(n){
@@ -487,6 +510,28 @@
     } else {
       bannerEl.innerHTML='<div class="ualert ok"><div class="uai">🟢</div><div class="ual">'+
         '<b>Vše v normě</b>Spotřeba bezpečně pod limity. Žádná akce není potřeba.</div></div>';
+    }
+
+    // === STICKY KRITICKY PRUH (jen pri urgency=critical) ===
+    var saEl=document.getElementById('sticky-alert');
+    if(saEl){
+      if(urg==='critical'){
+        // vyber nejvaznejsi vec: prvni kriticky alert, jinak prvni alert
+        var head=alerts.find(function(a){return /KRITICK/i.test(a);})||alerts[0]||'Blížíš se limitu Claude';
+        // doporuceni dle forecastu / kontextu
+        var tip='/compact nebo /clear';
+        if(fc.session&&fc.session.willHit&&fc.session.hoursToLimit!=null&&fc.session.hoursToLimit<6){
+          tip='Session dojde za '+fc.session.hoursToLimit+' h → zpomal / přepni na Sonnet';
+        }
+        saEl.innerHTML='<div class="sa-bar"><span class="sa-ic">🔴</span>'+
+          '<span class="sa-txt">Kritická spotřeba Claude<small>'+esc(head)+'</small></span>'+
+          '<span class="sa-tip">⚡ '+esc(tip)+'</span></div>';
+        saEl.classList.add('show');
+        document.body.classList.add('crit-active');
+      } else {
+        saEl.classList.remove('show');
+        document.body.classList.remove('crit-active');
+      }
     }
 
     // === KVALITA SPOTREBY (8h+ sessions, >150k kontext) ===
