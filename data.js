@@ -248,7 +248,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "5 days ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├ş Anthropic)"
+                                     "lastCommit":  "5 days ago | Přidány UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (oficiální Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -350,7 +350,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "5 days ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
+                                     "lastCommit":  "5 days ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
