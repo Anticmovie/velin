@@ -139,6 +139,16 @@
 </style>
 </head>
 <body>
+<div id="login" style="position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background:radial-gradient(120% 90% at 50% 0%,#1a1d28,#0c0d12 70%)">
+  <div style="width:min(340px,86vw);background:var(--panel);border:1px solid var(--stroke);border-radius:18px;padding:26px 22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5)">
+    <div style="font-size:34px;margin-bottom:4px">🛰️</div>
+    <div style="font-weight:800;letter-spacing:.06em;font-size:19px">VEL<b style="color:var(--cy)">Í</b>N</div>
+    <div id="loginSub" style="color:var(--muted);font-size:12px;margin:4px 0 18px">tvůj velín · přihlas se a jeď</div>
+    <input id="loginPin" type="password" inputmode="numeric" autocomplete="off" placeholder="PIN" style="width:100%;box-sizing:border-box;background:rgba(255,255,255,.05);border:1px solid var(--stroke);border-radius:11px;color:var(--text);padding:12px 14px;font-size:17px;text-align:center;letter-spacing:.35em;outline:none;margin-bottom:10px"/>
+    <button id="loginBtn" style="width:100%;border:none;border-radius:11px;background:var(--ok);color:#04140a;font-size:15px;font-weight:800;padding:13px;cursor:pointer">🔓 Vstoupit</button>
+    <div id="loginHint" style="color:var(--muted);font-size:11px;margin-top:12px;min-height:14px"></div>
+  </div>
+</div>
 <div class="top">
   <div class="brand"><div class="core"></div><div><div class="ttl">VEL<b>Í</b>N · kancelář</div><div class="tsub">gru-ai prostředí · naši agenti</div></div></div>
   <div class="kpis">
@@ -616,10 +626,17 @@
     if(t.getAttribute('data-pane')==='ukoly'){ buildUkoly(); }
   });});
   // ===== chat příkazy =====
-  // most na n8n (online vykonavatel). URL+token v localStorage, nastav přes /connect.
+  // most na n8n (online vykonavatel). Výchozí připojení je zadrátované → funguje hned po loginu.
   function lsget(k){try{return localStorage.getItem(k)||'';}catch(e){return '';}}
   function lsset(k,v){try{localStorage.setItem(k,v);}catch(e){}}
-  var BRIDGE={url:lsget('velin_n8n_url'),token:lsget('velin_n8n_token')};
+  var DEFAULT_URL='https://n8n-production-3fc15.up.railway.app/webhook/velin';
+  var DEFAULT_TOKEN='velin_1a027abd4498abe9241a171e6beb5cc5e3ab8369';
+  // platná webhook URL = http(s) + /webhook/ + žádné tři tečky z nápovědy
+  function validUrl(u){ return /^https?:\/\/[^\s]+\/webhook\//.test(u||'') && u.indexOf('…')<0 && u.indexOf('...')<0; }
+  // self-heal: rozbité uložené URL (např. https://…/webhook/velin) zahoď a vrať se k výchozímu
+  (function(){ var s=lsget('velin_n8n_url'); if(s && !validUrl(s)){ lsset('velin_n8n_url',''); } })();
+  var BRIDGE={ url:(validUrl(lsget('velin_n8n_url'))?lsget('velin_n8n_url'):DEFAULT_URL),
+               token:(lsget('velin_n8n_token')||DEFAULT_TOKEN) };
   var ACK=['rozumím, dělám na tom','beru si to','jdu na to','provedu','OK, zpracovávám','jasně, hned to bude'];
 
   function bubbleAt(id,cmd,text){ var ch=byId[id]; if(ch)spawnOvl(ch,'bubble','<span class="cmd">'+esc(cmd||'')+'</span> '+esc(text||''),4500); }
@@ -714,12 +731,12 @@
   function sendCmd(){ var t=cmdInput.value.trim(); if(!t)return; cmdInput.value='';
     document.querySelector('.tab[data-pane=log]').click();
     if(t.indexOf('/connect')===0){ var p=t.split(/\s+/);
-      if(p.length>=2){ BRIDGE.url=p[1]; lsset('velin_n8n_url',p[1]); if(p[2]){BRIDGE.token=p[2];lsset('velin_n8n_token',p[2]);}
+      if(p.length>=2 && validUrl(p[1])){ BRIDGE.url=p[1]; lsset('velin_n8n_url',p[1]); if(p[2]){BRIDGE.token=p[2];lsset('velin_n8n_token',p[2]);}
         addLog('🔌 Napojeno na n8n: <span class="cmd">'+esc(BRIDGE.url)+'</span>',{me:true}); }
-      else addLog('Použij: <span class="cmd">/connect https://…/webhook/velin TVUJ_TOKEN</span>',{me:true});
+      else addLog('⚠️ Neplatná URL. Použij reálnou adresu, např. <span class="cmd">/connect '+esc(DEFAULT_URL)+' TOKEN</span> (ne tři tečky z příkladu).',{me:true});
       return; }
-    if(t==='/disconnect'){ BRIDGE.url='';BRIDGE.token=''; lsset('velin_n8n_url','');lsset('velin_n8n_token','');
-      addLog('🔌 Odpojeno — zpět na demo režim',{me:true}); return; }
+    if(t==='/reset'){ lsset('velin_n8n_url','');lsset('velin_n8n_token',''); BRIDGE.url=DEFAULT_URL;BRIDGE.token=DEFAULT_TOKEN;
+      addLog('♻️ Připojení obnoveno na výchozí VELÍN. Hotovo.',{me:true}); buildUkoly(); return; }
     reactToCommand(t);
   }
   document.getElementById('cmdsend').addEventListener('click',sendCmd);
@@ -766,10 +783,32 @@
   function buildUkoly(){ var pane=document.getElementById('pane-ukoly'); pane.innerHTML='<div class="tkempty">Načítám…</div>'; postUkol({action:'list'},function(j){ renderUkoly(j&&j.tasks); }); }
   window.buildUkoly=buildUkoly;
 
+  // ===== Jednoduchý login („jsem to já → jedem") =====
+  (function setupLogin(){
+    var ov=document.getElementById('login'); if(!ov)return;
+    var pin=document.getElementById('loginPin'), btn=document.getElementById('loginBtn'),
+        hint=document.getElementById('loginHint'), sub=document.getElementById('loginSub');
+    var saved=lsget('velin_pin'), sess=''; try{sess=sessionStorage.getItem('velin_session')||'';}catch(e){}
+    function enter(){ ov.style.display='none'; try{sessionStorage.setItem('velin_session','1');}catch(e){} buildUkoly(); }
+    if(sess){ ov.style.display='none'; return; }            // už přihlášen v této relaci
+    if(!saved){ sub.textContent='nastav si PIN (uloží se v tomto zařízení)'; hint.textContent='Zadej libovolný PIN a potvrď — příště už jen ten samý.'; }
+    function go(){ var v=pin.value.trim();
+      if(!saved){ if(v.length<3){ hint.textContent='⚠️ PIN aspoň 3 znaky.'; return; } lsset('velin_pin',v); enter(); return; }
+      if(v===saved){ enter(); } else { hint.textContent='⚠️ Špatný PIN. (reset: drž logo 2 s)'; pin.value=''; pin.focus(); }
+    }
+    btn.addEventListener('click',go);
+    pin.addEventListener('keydown',function(e){ if(e.key==='Enter')go(); });
+    // zapomenutý PIN: dlouhý stisk na nadpis VELÍN smaže PIN
+    var hold; sub.parentNode.addEventListener('mousedown',function(){ hold=setTimeout(function(){ lsset('velin_pin',''); saved=''; sub.textContent='PIN smazán — nastav nový'; hint.textContent='Zadej nový PIN a potvrď.'; },2000); });
+    sub.parentNode.addEventListener('mouseup',function(){ clearTimeout(hold); });
+    sub.parentNode.addEventListener('touchstart',function(){ hold=setTimeout(function(){ lsset('velin_pin',''); saved=''; sub.textContent='PIN smazán — nastav nový'; hint.textContent='Zadej nový PIN a potvrď.'; },2000); });
+    sub.parentNode.addEventListener('touchend',function(){ clearTimeout(hold); });
+    setTimeout(function(){ try{pin.focus();}catch(e){} },120);
+  })();
+
   buildRoster(); buildStav();
   addLog('<b>Velín</b> spuštěn · '+entities.length+' postav v kanceláři 🏙️');
-  if(BRIDGE.url) addLog('🔌 Napojeno na n8n — příkazy běží naživo',{c:'#2bd980'});
-  else addLog('💡 Demo režim. Pro reálné akce: <span class="cmd">/connect https://…/webhook/velin TOKEN</span>',{c:'#ffb02e'});
+  addLog('🔌 Přihlášen do VELÍNu — připojeno naživo, příkazy a schvalování běží.',{c:'#2bd980'});
   addLog('🗣️ Zkus <span class="cmd">/zasedacka rozvoj byznysu</span> — rada agentů vymyslí nápad',{c:'#5fa8e0'});
 })();
 </script>
