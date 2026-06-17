@@ -258,6 +258,9 @@
 
   <div class="strip" id="kpis"></div>
 
+  <h2 id="appr-h" style="display:none">Ke schválení <span class="ln"></span> <span id="appr-c" style="font-size:13px;color:var(--warn)"></span></h2>
+  <div id="appr"></div>
+
   <div id="usage-wrap" style="display:none">
     <h2>Limity Claude · usage <span class="ln"></span></h2>
     <div id="usage-banner"></div>
@@ -580,6 +583,46 @@
         '<div class="spark">📊</div></div>';
       kpiEl.insertAdjacentHTML('beforeend',kpiCard);
     }
+  })();
+
+  // ===== Úkoly ke schválení (most na n8n /velin-ukol) =====
+  (function appro(){
+    function lsg(k){try{return localStorage.getItem(k)||'';}catch(e){return '';}}
+    var DEF_URL='https://n8n-production-3fc15.up.railway.app/webhook/velin';
+    var DEF_TOK='velin_1a027abd4498abe9241a171e6beb5cc5e3ab8369';
+    function valid(u){return /^https?:\/\/[^\s]+\/webhook\//.test(u||'')&&u.indexOf('…')<0&&u.indexOf('...')<0;}
+    var base=valid(lsg('velin_n8n_url'))?lsg('velin_n8n_url'):DEF_URL;
+    var tok=lsg('velin_n8n_token')||DEF_TOK;
+    var url=base.replace(/\/velin\/?$/,'/velin-ukol');
+    var h=document.getElementById('appr-h'), box=document.getElementById('appr'), cnt=document.getElementById('appr-c');
+    function post(payload,cb){ fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(Object.assign({token:tok},payload))})
+      .then(function(r){return r.json();}).then(function(j){cb&&cb(j);}).catch(function(e){ box.innerHTML='<div class="empty" style="opacity:.6">⚠️ n8n nedostupné: '+esc(String(e&&e.message||e))+'</div>'; h.style.display=''; }); }
+    function pct(s){s=s||'';if(s.indexOf('✅')>=0)return 100;if(s.indexOf('👍')>=0)return 92;if(s.indexOf('⏳')>=0)return 90;if(s.indexOf('🧪')>=0)return 80;if(s.indexOf('💻')>=0)return 55;if(s.indexOf('📝')>=0)return 25;if(s.indexOf('⚠')>=0)return 60;return 10;}
+    function needs(s){s=(s||'').toLowerCase();return s.indexOf('čeká')>=0||s.indexOf('ceka')>=0||s.indexOf('problém')>=0||s.indexOf('problem')>=0;}
+    function render(tasks){ var list=(tasks||[]).filter(function(t){return needs(t.stav);});
+      if(!list.length){ h.style.display='none'; box.innerHTML=''; return; }
+      h.style.display=''; cnt.textContent='· '+list.length+' čeká na tebe';
+      box.innerHTML='<div style="display:grid;gap:10px">'+list.map(function(t){ var p=pct(t.stav);
+        return '<div style="background:var(--card,rgba(20,26,42,.7));border:1px solid color-mix(in srgb,var(--warn) 35%,var(--stroke));border-left:3px solid var(--warn);border-radius:13px;padding:13px 15px">'+
+          '<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap">'+
+            '<span style="font-size:11px;font-weight:800;color:var(--warn)">'+esc(t.stav||'')+'</span>'+
+            '<span style="font-size:11px;color:var(--muted,#9aa6c2)">👤 '+esc(t.vlastnik||'—')+' · '+esc(t.aktualizace||'')+'</span></div>'+
+          '<div style="font-weight:700;margin:6px 0 4px">'+esc(t.napad||'')+'</div>'+
+          (t.pozn?'<div style="font-size:12px;color:var(--muted,#9aa6c2);line-height:1.5;margin-bottom:8px">'+esc(t.pozn)+'</div>':'')+
+          '<div style="height:7px;border-radius:5px;background:rgba(255,255,255,.1);overflow:hidden;margin-bottom:10px"><i style="display:block;height:100%;width:'+p+'%;background:var(--warn)"></i></div>'+
+          '<div style="display:flex;gap:8px">'+
+            '<button data-id="'+esc(t.id)+'" data-s="ok" style="flex:1;border:none;border-radius:9px;background:var(--ok);color:#04140a;font-size:13px;font-weight:800;padding:10px;cursor:pointer">✓ Schválit</button>'+
+            '<button data-id="'+esc(t.id)+'" data-s="stop" style="flex:none;border:1px solid var(--stroke);border-radius:9px;background:rgba(255,255,255,.05);color:var(--text);font-size:13px;font-weight:700;padding:10px 16px;cursor:pointer">✕ Zastavit</button>'+
+          '</div></div>';
+      }).join('')+'</div>';
+      [].forEach.call(box.querySelectorAll('button'),function(b){ b.addEventListener('click',function(){
+        var id=b.getAttribute('data-id'), s=b.getAttribute('data-s');
+        var status=(s==='ok')?'👍 schváleno':'🗑️ zastaveno';
+        b.parentNode.innerHTML='<span style="font-size:12px;color:var(--ok);font-weight:700">'+(s==='ok'?'✓ schvaluji…':'✕ zastavuji…')+'</span>';
+        post({action:'status',id:id,status:status},function(j){ render(j&&j.tasks); });
+      }); });
+    }
+    post({action:'list'},function(j){ render(j&&j.tasks); });
   })();
 })();
 </script>
