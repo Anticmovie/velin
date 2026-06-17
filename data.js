@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-17 18:35",
+    "generated":  "2026-06-17 19:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -350,7 +350,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "4 days ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
+                                     "lastCommit":  "5 days ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -372,15 +372,15 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-17T16:30:01.7547626+00:00",
+                  "generatedAt":  "2026-06-17T17:00:01.7482193+00:00",
                   "session5h":  {
-                                    "total":  75756472,
-                                    "input":  26026,
-                                    "output":  627688,
-                                    "cache_c":  1382478,
-                                    "cache_r":  73720280,
-                                    "count":  348,
-                                    "pct":  55.1
+                                    "total":  69018076,
+                                    "input":  25080,
+                                    "output":  564692,
+                                    "cache_c":  1144728,
+                                    "cache_r":  67283576,
+                                    "count":  302,
+                                    "pct":  50.2
                                 },
                   "weekly7d":  {
                                    "total":  338285335,
@@ -396,20 +396,20 @@
                                    "total":  4461389,
                                    "count":  66
                                },
-                  "burnRatePerH":  15151294,
-                  "burnRatePerDay":  363631056,
+                  "burnRatePerH":  13803615,
+                  "burnRatePerDay":  331286760,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  61717575,
+                                                   "remaining":  68455971,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~55% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~50% limitu"
                                                },
                                    "weekly":  {
                                                   "remaining":  908288753,
-                                                  "hoursToLimit":  59.9,
-                                                  "etaIso":  "2026-06-20 06:24",
-                                                  "etaText":  "za 60 h (\u003e2 dny)",
+                                                  "hoursToLimit":  65.8,
+                                                  "etaIso":  "2026-06-20 12:48",
+                                                  "etaText":  "za 66 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -435,9 +435,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  75303937,
-                                             "output":  581511,
-                                             "count":  339
+                                             "total":  68565541,
+                                             "output":  518515,
+                                             "count":  293
                                          },
                                          {
                                              "model":  "claude-sonnet-4-6",
