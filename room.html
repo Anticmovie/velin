@@ -34,10 +34,9 @@
 
   .char{position:absolute;z-index:6;transform:translate(-50%,-100%);will-change:left,top;cursor:pointer}
   .sp{display:block;image-rendering:pixelated;background-repeat:no-repeat;filter:drop-shadow(0 2px 2px rgba(0,0,0,.5))}
-  .char.work .sp{animation:twitch 2.1s steps(1) infinite}
-  @keyframes twitch{0%,100%{transform:translate(0,0)}22%{transform:translate(.6px,0)}44%{transform:translate(-.5px,.4px)}66%{transform:translate(.4px,-.3px)}88%{transform:translate(-.4px,0)}}
+  /* pohyb = pravé frame animace z atlasu (sit/walk); CSS bob jen jemné nadlehčení při chůzi */
   .char.walk .sp{animation:bob .42s ease-in-out infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
   .char.alarm .sp{animation:shake .22s infinite}@keyframes shake{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
   .tag{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);margin-bottom:2px;white-space:nowrap;font-size:9px;font-weight:700;display:flex;align-items:center;gap:3px;padding:0 5px;border-radius:20px;background:rgba(10,12,18,.85);border:1px solid color-mix(in srgb,var(--c) 50%,transparent);line-height:14px;z-index:8}
   .tag .lvl{font-size:7.5px;font-weight:800;color:var(--gd);background:rgba(255,211,77,.16);border-radius:10px;padding:0 4px}
@@ -121,9 +120,12 @@
   function rankOf(lvl){var r=RANKS[0];for(var i=0;i<RANKS.length;i++)if(lvl>=RANKS[i].l)r=RANKS[i];return r;}
   function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 
-  // ===== sprite atlas (char sheet 16x32, generator Gray Matter) =====
-  var SHW=896,SHH=640;                 // rozmer char sheetu
-  var FR={down:[0,0],up:[2,0],sideR:[3,0],sideL:[3,0]};  // idle frames (col,row); up = zada k nam
+  // ===== sprite atlas (Gray Matter Character Generator 2.0) =====
+  // frame 16x32; radek = animace (y/32); v radku bloky smeru: [right, DOWN, left, UP]
+  var SHW=896,SHH=640;
+  var ANIM={ idle:{r:1,n:6,fps:6}, walk:{r:2,n:6,fps:9}, sit:{r:4,n:3,fps:3}, read:{r:7,n:3,fps:4}, phone:{r:6,n:3,fps:4} };
+  var DIR={ right:0, down:1, left:2, up:3 };
+  function frameXY(o){ var a=ANIM[o.anim]||ANIM.sit; var col=DIR[o.dir]*a.n + (o.frame % a.n); return [col,a.r]; }
 
   // ---- realna data -> metriky ----
   var P=(D.projects||[]).filter(function(p){return p.kind==='local';});
@@ -198,9 +200,9 @@
   // ---- geometrie sceny ----
   var scene=document.getElementById('scene'),fx=document.getElementById('fx'),fctx=fx.getContext('2d');
   var W=0,Hh=0,actors=[],byId={},tilePx=16,cw=20;
-  function dim(){W=scene.clientWidth;Hh=scene.clientHeight;fx.width=W;fx.height=Hh;tilePx=W/GW;cw=tilePx*1.25;}
+  function dim(){W=scene.clientWidth;Hh=scene.clientHeight;fx.width=W;fx.height=Hh;tilePx=W/GW;cw=tilePx*1.05;}
   function px(col,row){return{x:col/GW*W,y:row/GH*Hh};}
-  function seatXY(s){return{x:(s.col+0.5)/GW*W,y:(s.row+0.55)/GH*Hh};} // dolni kotva sedici postavy
+  function seatXY(s){return{x:(s.col+0.5)/GW*W,y:(s.row+1.05)/GH*Hh};} // dolni kotva sedici postavy
   function rand(a,b){return a+Math.random()*(b-a);}
 
   // ---- walk grid + BFS ----
@@ -225,8 +227,9 @@
     el.innerHTML='<div class="tag"><span class="lvl">Lv'+e.lvl+'</span><span class="dt"></span>'+esc(nameOf(p))+'</div>'+
       '<div class="sp"></div><div class="act"></div>';
     scene.appendChild(el);el.addEventListener('click',function(){openPerson(p);});
-    var o={p:p,id:id,el:el,c:c,x:f.x,y:f.y,hcol:s.col,hrow:s.row,seatFace:s.dir||'up',
-      tcol:s.col,trow:s.row,tx:f.x,ty:f.y,path:[],state:'work',phase:'',face:1,seated:true,vx:0,vy:0,
+    var o={p:p,id:id,el:el,c:c,x:f.x,y:f.y,ax:f.x,ay:f.y,hcol:s.col,hrow:s.row,seatFace:s.dir||'up',
+      tcol:s.col,trow:s.row,tx:f.x,ty:f.y,path:[],state:'work',phase:'',vx:0,vy:0,
+      anim:'sit',dir:'up',frame:0,animT:0,
       alarm:(statusOf(p)==='down'),task:'',tStart:0,tDur:0,lastBub:0,
       sp:el.querySelector('.sp'),act:el.querySelector('.act'),lvlEl:el.querySelector('.lvl')};
     var sc0=cw/16;o.sp.style.backgroundImage='url(chars-office/'+id+'.png)';o.sp.style.backgroundSize=(SHW*sc0)+'px '+(SHH*sc0)+'px';
@@ -238,19 +241,16 @@
       pushRep(o,'<b>'+esc(nameOf(o.p))+'</b> postoupil na <b>Lv'+e.lvl+' · '+rankOf(e.lvl).n+'</b> 🎖️');}
     think(o,'✓');if(Math.random()<.5)bubble(o);updateRosterCard(o);
   }
-  // ---- vykresleni postavy (frame podle stavu) ----
-  function frameFor(o){
-    if(o.state==='walk'){
-      if(Math.abs(o.vx)>Math.abs(o.vy))return o.vx<0?FR.sideL:FR.sideR;
-      return o.vy<0?FR.up:FR.down;
-    }
-    var d=(o.state==='meet')?o.seatFace:'up';
-    return d==='down'?FR.down:(d==='left'?FR.sideL:(d==='right'||d==='side'?FR.sideR:FR.up));
+  // ---- nastav animaci+smer podle stavu, posun snimek, vykresli ----
+  function tickAnim(o,dt){
+    if(o.state==='walk'){ o.anim='walk'; o.dir = (Math.abs(o.vx)>Math.abs(o.vy)) ? (o.vx<0?'left':'right') : (o.vy<0?'up':'down'); }
+    else if(o.state==='meet'){ o.anim='sit'; o.dir=o.seatFace||'down'; }
+    else { o.anim='sit'; o.dir='up'; }   // work/idle = sed zady k PC
+    var a=ANIM[o.anim]; o.animT+=dt; var iv=1000/a.fps; if(o.animT>=iv){ o.animT-=iv; o.frame=(o.frame+1)%a.n; }
   }
   function place(o){
-    var seated=(o.state==='work'||o.state==='meet'||o.state==='idle');
-    var fr=frameFor(o);
-    o.sp.style.width=cw+'px';o.sp.style.height=(seated?cw*1.5:cw*2)+'px'; // sed = orez nohou, chuze = cele telo
+    var fr=frameXY(o);
+    o.sp.style.width=cw+'px';o.sp.style.height=(cw*2)+'px';
     o.sp.style.backgroundPosition=(-fr[0]*cw)+'px '+(-fr[1]*2*cw)+'px';
     o.el.style.left=o.x+'px';o.el.style.top=o.y+'px';
     if(o.alarm)o.el.classList.add('alarm');
@@ -310,25 +310,26 @@
   var MS=M.meetingSeats||[];
   function inMeetGroup(o){return meet&&o.p.kind==='agent';}
   function gather(){meet='agent';var seats=MS.slice();var grp=actors.filter(function(o){return o.p.kind==='agent';});
-    grp.forEach(function(o,i){var ms=seats[i%seats.length];if(!ms)return;setWalk(o,ms.col+0.5,ms.row+0.55,'meet',ms.dir);o.meetSeat=ms;});
+    grp.forEach(function(o,i){var ms=seats[i%seats.length];if(!ms)return;setWalk(o,ms.col+0.5,ms.row+1.05,'meet',ms.dir);o.meetSeat=ms;});
     pushRep(byId.velitel||null,'👑 <b>Šéf</b> svolal poradu agentů u stolu v zasedačce');}
   function endMeet(ts){meet=null;meetEnd=0;nextMeet=ts+rand(15000,23000);
-    actors.forEach(function(o){if(o.state==='meet'||(o.p.kind==='agent'&&o.phase==='meet')){setWalk(o,o.hcol,o.hrow,'back','up');}});}
+    actors.forEach(function(o){if(o.state==='meet'||(o.p.kind==='agent'&&o.phase==='meet')){setWalk(o,o.hcol+0.5,o.hrow+1.05,'back','up');}});}
 
   function loop(ts){if(!loop.p)loop.p=ts;var dt=Math.min(50,ts-loop.p);loop.p=ts;
     if(!meet&&ts>nextMeet)gather();
     actors.forEach(function(o){
       if(o.state==='walk'){var tgt=(o.path&&o.path.length)?o.path[0]:{x:o.tx,y:o.ty};
         var dx=tgt.x-o.x,dy=tgt.y-o.y,dist=Math.hypot(dx,dy);o.vx=dx;o.vy=dy;
-        if(dist>1.5){var mv=SPEED*dt/1000;o.x+=dx/dist*Math.min(mv,dist);o.y+=dy/dist*Math.min(mv,dist);o.face=dx<-.4?-1:(dx>.4?1:o.face);o.el.classList.add('walk');o.el.classList.remove('work');}
+        if(dist>1.5){var mv=SPEED*dt/1000;o.x+=dx/dist*Math.min(mv,dist);o.y+=dy/dist*Math.min(mv,dist);o.el.classList.add('walk');}
         else if(o.path&&o.path.length){o.path.shift();}
-        else{ // dorazil k cili (mimo cestu posledni krok primo)
-          var fx2=o.tx-o.x,fy2=o.ty-o.y;if(Math.hypot(fx2,fy2)>1.2){o.x+=fx2*.3;o.y+=fy2*.3;}
-          else{o.el.classList.remove('walk');if(o.phase==='meet'){o.state='meet';o.el.classList.add('work');}else{o.state='work';o.el.classList.add('work');startTask(o,ts);}}}
+        else{ // posledni krok primo k sedadlu (mimo walk grid)
+          var fx2=o.tx-o.x,fy2=o.ty-o.y;if(Math.hypot(fx2,fy2)>1.5){o.x+=fx2*.3;o.y+=fy2*.3;o.vx=fx2;o.vy=fy2;}
+          else{o.x=o.tx;o.y=o.ty;o.vx=0;o.vy=0;o.el.classList.remove('walk');o.frame=0;
+            if(o.phase==='meet'){o.state='meet';}else{o.state='work';startTask(o,ts);}}}
       }else if(o.state==='work'){var pr=Math.min(1,(ts-o.tStart)/o.tDur);
         if(pr>=1){completeTask(o,ts);startTask(o,ts);}
       }
-      place(o);});
+      tickAnim(o,dt);place(o);});
     var grp=meet?actors.filter(function(o){return o.p.kind==='agent';}):[];
     if(meet&&!meetEnd&&grp.length&&grp.every(function(o){return o.state==='meet';}))meetEnd=ts+4600;
     if(meet&&meetEnd&&ts>meetEnd)endMeet(ts);
