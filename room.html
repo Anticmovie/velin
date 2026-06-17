@@ -29,6 +29,7 @@
   @media (max-aspect-ratio:44/30){.scene{width:100%;height:auto}}
   #town{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;z-index:1}
   #fx{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+  #townfg{position:absolute;inset:0;width:100%;height:100%;z-index:7;pointer-events:none;image-rendering:pixelated}
   .distlabel{position:absolute;z-index:3;font-size:10px;font-weight:800;letter-spacing:.16em;color:#fff;text-shadow:0 1px 4px #000,0 0 2px #000;pointer-events:none;opacity:.85;transform:translateX(-50%)}
   .roomlabel{position:absolute;z-index:3;font-size:9px;font-weight:800;letter-spacing:.12em;color:#ffe9b0;text-shadow:0 1px 3px #000;pointer-events:none;opacity:.9;transform:translate(-50%,-50%)}
 
@@ -95,7 +96,7 @@
 <body>
 <div class="top"><div class="brand"><div class="core"></div><div><div class="ttl">VEL<b>Í</b>N · kancelář</div><div class="tsub" id="sysl">…</div></div></div><div class="clock" id="clock">--:--:--</div></div>
 <div class="nav"><a href="index.html">Přehled</a><a class="on" href="room.html">🏢 Kancelář</a></div>
-<div class="stage"><div class="scene" id="scene"><canvas id="town"></canvas><canvas id="fx"></canvas></div></div>
+<div class="stage"><div class="scene" id="scene"><canvas id="town"></canvas><canvas id="fx"></canvas><canvas id="townfg"></canvas></div></div>
 <div class="dock">
   <div class="roster">
     <div class="rhead" id="rh1">Kdo co právě dělá · <b>VELÍN agenti</b> + <b>APARTMÁNY boti</b></div>
@@ -209,8 +210,9 @@
 
   // ---- geometrie sceny ----
   var scene=document.getElementById('scene'),fx=document.getElementById('fx'),fctx=fx.getContext('2d');
+  var fgC=document.getElementById('townfg'),fgctx=fgC.getContext('2d');
   var W=0,Hh=0,actors=[],byId={},tilePx=16,cw=20;
-  function dim(){W=scene.clientWidth;Hh=scene.clientHeight;fx.width=W;fx.height=Hh;tilePx=W/GW;cw=tilePx*1.05;}
+  function dim(){W=scene.clientWidth;Hh=scene.clientHeight;fx.width=W;fx.height=Hh;fgC.width=W;fgC.height=Hh;fgctx.imageSmoothingEnabled=false;tilePx=W/GW;cw=tilePx*1.05;}
   function px(col,row){return{x:col/GW*W,y:row/GH*Hh};}
   function seatXY(s){return{x:(s.col+0.5)/GW*W,y:(s.row+1.05)/GH*Hh};} // dolni kotva sedici postavy
   function rand(a,b){return a+Math.random()*(b-a);}
@@ -254,8 +256,7 @@
   // ---- nastav animaci+smer podle stavu, posun snimek, vykresli ----
   function tickAnim(o,dt){
     if(o.state==='walk'){ o.anim='walk'; o.dir = (Math.abs(o.vx)>Math.abs(o.vy)) ? (o.vx<0?'left':'right') : (o.vy<0?'up':'down'); }
-    else if(o.state==='meet'){ o.anim='sit'; o.dir=o.seatFace||'down'; }
-    else { o.anim='sit'; o.dir=o.seatFace||'up'; }   // work/idle = sed podle seatFace (bokem ke stolu)
+    else { o.anim='idle'; o.dir=o.seatFace||'up'; }   // panacek jen STOJI (idle), otoceny dle seatFace; zidle se domaluje navrch
     var a=ANIM[o.anim]; o.animT+=dt; var iv=1000/a.fps; if(o.animT>=iv){ o.animT-=iv; o.frame=(o.frame+1)%a.n; }
   }
   function place(o){
@@ -315,8 +316,18 @@
     actors.forEach(function(o){if(!inMeetGroup(o))return;fctx.strokeStyle=o.c;fctx.lineWidth=1.2;fctx.beginPath();fctx.moveTo(o.x,o.y-cw*.55);fctx.lineTo(hub.x,hub.y);fctx.stroke();});
     fctx.restore();}
 
+  // ---- zidle: opieradlo (zadni strana) navrch pres panacka => dojem sezeni, ale jen stoji ----
+  var CHAIR_BACK='P102';
+  function renderChairs(){ fgctx.clearRect(0,0,W,Hh); var ch=PROD[CHAIR_BACK]; if(!ch)return;
+    for(var i=0;i<actors.length;i++){ var o=actors[i];
+      if(o.state==='walk')continue;                 // jen kdyz stoji u stolu
+      if((o.seatFace||'up')!=='up')continue;         // jen zady k nam -> opieradlo navrch
+      var chW=cw*1.12, chH=cw*1.5;
+      fgctx.drawImage(PA, ch.ax,ch.ay,ch.aw,ch.ah, o.x-chW/2, o.y-chH+cw*0.12, chW, chH);
+    } }
+
   // ---- porady ----
-  var SPEED=66,meet=null,meetEnd=0,nextMeet=performance.now()+rand(11000,16000);
+  var SPEED=66,meet=null,meetEnd=0,nextMeet=Infinity;   // PORADY VYPNUTE - panacci jen stoji u stolu
   var MS=M.meetingSeats||[];
   function inMeetGroup(o){return meet&&o.p.kind==='agent';}
   function gather(){meet='agent';var seats=MS.slice();var grp=actors.filter(function(o){return o.p.kind==='agent';});
@@ -343,7 +354,7 @@
     var grp=meet?actors.filter(function(o){return o.p.kind==='agent';}):[];
     if(meet&&!meetEnd&&grp.length&&grp.every(function(o){return o.state==='meet';}))meetEnd=ts+4600;
     if(meet&&meetEnd&&ts>meetEnd)endMeet(ts);
-    drawFx();requestAnimationFrame(loop);}
+    drawFx();renderChairs();requestAnimationFrame(loop);}
 
   function clock(){var d=new Date(),p=function(n){return(n<10?'0':'')+n;};document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
   clock();setInterval(clock,1000);
