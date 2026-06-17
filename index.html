@@ -163,6 +163,13 @@
   .uburn-row{display:flex;gap:18px;font-size:11.5px;color:var(--muted);padding:10px 0 0;border-top:1px solid var(--stroke);margin-top:10px}
   .uburn-row b{color:var(--text)}
 
+  .ufc{margin-top:10px;padding-top:10px;border-top:1px solid var(--stroke)}
+  .ufc-head{font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:7px}
+  .ufc-row{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:7px;background:color-mix(in srgb,var(--fcc) 9%,transparent);margin-bottom:5px;border:1px solid color-mix(in srgb,var(--fcc) 22%,transparent)}
+  .ufc-ic{font-size:12px;flex:none}
+  .ufc-lab{font-size:11.5px;font-weight:600;color:var(--text);flex:none;min-width:54px}
+  .ufc-val{font-size:11.5px;font-weight:600;margin-left:auto;text-align:right}
+
   .umodels{margin-top:10px;padding-top:10px;border-top:1px solid var(--stroke);display:flex;flex-direction:column;gap:5px}
   .umod{display:flex;align-items:center;gap:8px;font-size:11px}
   .umod-name{color:var(--muted);width:0;flex:1.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -416,6 +423,20 @@
 
     var burnH=u.burnRatePerH||0;
     var burnD=u.burnRatePerDay||0;
+    var fc=u.forecast||{};
+
+    function fcRow(label, f){
+      if(!f)return'';
+      var hit=f.willHit===true;
+      var soon=hit&&f.hoursToLimit!=null&&f.hoursToLimit<24;
+      var col=soon?'var(--down)':(hit?'var(--warn)':'var(--ok)');
+      var ico=soon?'⛔':(hit?'⚠️':'✅');
+      return '<div class="ufc-row" style="--fcc:'+col+'">'+
+        '<span class="ufc-ic">'+ico+'</span>'+
+        '<span class="ufc-lab">'+esc(label)+'</span>'+
+        '<span class="ufc-val" style="color:'+col+'">'+esc(f.etaText||'—')+'</span>'+
+        '</div>';
+    }
 
     var meters=[
       {label:'Session · 5h okno', pct:s.pct!=null?s.pct:-1, tokens:s.total, extra:
@@ -433,6 +454,8 @@
       '<div class="ulab">Burn rate</div>'+
       '<div class="uval">'+fmtTok(burnH)+'<small>tok / hod</small></div>'+
       '<div class="uburn-row"><span>projekce <b>'+fmtTok(burnD)+' / den</b></span></div>'+
+      '<div class="ufc"><div class="ufc-head">Předpověď vyčerpání (při tomto tempu)</div>'+
+        fcRow('Session', fc.session)+fcRow('Weekly', fc.weekly)+'</div>'+
       ((u.modelBreakdown&&u.modelBreakdown.length)?
         '<div class="umodels"><div class="ulab" style="margin-bottom:6px">Modely (session 5h)</div>'+
         (function(){
