@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-17 17:05",
+    "generated":  "2026-06-17 17:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,20 +372,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-17T15:00:01.7400399+00:00",
+                  "generatedAt":  "2026-06-17T15:30:01.7903537+00:00",
                   "session5h":  {
-                                    "total":  72966262,
-                                    "input":  35088,
-                                    "output":  646116,
-                                    "cache_c":  1687055,
-                                    "cache_r":  70598003,
-                                    "count":  378,
-                                    "pct":  53.1
+                                    "total":  79058770,
+                                    "input":  34828,
+                                    "output":  671195,
+                                    "cache_c":  1489278,
+                                    "cache_r":  76863469,
+                                    "count":  387,
+                                    "pct":  57.5
                                 },
                   "weekly7d":  {
-                                   "total":  313251018,
-                                   "count":  1290,
-                                   "pct":  25.1
+                                   "total":  326223032,
+                                   "count":  1336,
+                                   "pct":  26.2
                                },
                   "sonnet5h":  {
                                    "total":  452535,
@@ -396,20 +396,20 @@
                                    "total":  4461389,
                                    "count":  66
                                },
-                  "burnRatePerH":  14593252,
-                  "burnRatePerDay":  350238048,
+                  "burnRatePerH":  15811754,
+                  "burnRatePerDay":  379482096,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  64507785,
+                                                   "remaining":  58415277,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~53% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~58% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  933323070,
-                                                  "hoursToLimit":  64,
-                                                  "etaIso":  "2026-06-20 09:00",
-                                                  "etaText":  "za 64 h (\u003e2 dny)",
+                                                  "remaining":  920351056,
+                                                  "hoursToLimit":  58.2,
+                                                  "etaIso":  "2026-06-20 03:42",
+                                                  "etaText":  "za 58 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -422,7 +422,7 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "DRAHY PROVOZ: 84% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
+                                 "DRAHY PROVOZ: 81% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 86% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny"
                              ],
                   "limits":  {
@@ -435,9 +435,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  72513727,
-                                             "output":  599939,
-                                             "count":  369
+                                             "total":  78606235,
+                                             "output":  625018,
+                                             "count":  378
                                          },
                                          {
                                              "model":  "claude-sonnet-4-6",
@@ -453,12 +453,12 @@
                                          }
                                      ],
                   "quality":  {
-                                  "longSessionPct":  84,
+                                  "longSessionPct":  81,
                                   "longSessionTok":  263388545,
                                   "sessionsLong":  2,
                                   "sessionsTotal":  7,
                                   "highCtxPct":  86,
-                                  "highCtxTok":  267890107,
+                                  "highCtxTok":  280862121,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
