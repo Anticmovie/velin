@@ -727,7 +727,11 @@
     fetch(u,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(Object.assign({token:BRIDGE.token},payload))})
      .then(function(r){return r.json();}).then(function(j){ if(cb)cb(j); }).catch(function(e){ addLog('⚠️ Úkoly n8n: '+esc(String(e&&e.message||e)),{c:'#ff4d6a'}); }); }
   function renderUkoly(tasks){ var pane=document.getElementById('pane-ukoly');
-    var html='<button class="tkrefresh" id="tkR">↻ Obnovit</button>';
+    var html='<div style="display:flex;gap:6px;margin-bottom:9px">'+
+      '<input id="tkNew" placeholder="Nový úkol / prompt z telefonu…" style="flex:1;min-width:0;background:rgba(255,255,255,.05);border:1px solid var(--stroke);border-radius:9px;color:var(--text);padding:8px 10px;font-size:12px;outline:none"/>'+
+      '<button id="tkAdd" title="Přidat do fronty" style="flex:none;width:38px;border:none;border-radius:9px;background:var(--cy);color:#04121d;font-size:15px;font-weight:800;cursor:pointer">➕</button>'+
+      '</div>'+
+      '<button class="tkrefresh" id="tkR">↻ Obnovit</button>';
     if(!tasks||!tasks.length){ html+='<div class="tkempty">Žádné schválené úkoly.<br>Schval nápad ze zasedačky → objeví se tady.</div>'; }
     else { tasks.forEach(function(t){ var c=tkColor(t.stav); var sl=(t.stav||'').toLowerCase(); var isProb=sl.indexOf('problém')>=0||sl.indexOf('problem')>=0; var needs=isProb||sl.indexOf('čeká')>=0||sl.indexOf('ceka')>=0;
       html+='<div class="tk" style="--tkc:'+c+'"><div class="badge">'+esc(t.stav||'?')+'</div>'+
@@ -738,6 +742,10 @@
       '</div>'; }); }
     pane.innerHTML=html;
     var r=document.getElementById('tkR'); if(r)r.addEventListener('click',buildUkoly);
+    var na=document.getElementById('tkAdd'), ni=document.getElementById('tkNew');
+    function addNew(){ var v=ni.value.trim(); if(!v)return; ni.value=''; postUkol({action:'add',task:{napad:v,owner:''}},function(j){ renderUkoly(j&&j.tasks); addLog('➕ Úkol do fronty: '+esc(v),{c:'#5fa8e0'}); }); }
+    if(na)na.addEventListener('click',addNew);
+    if(ni)ni.addEventListener('keydown',function(e){if(e.key==='Enter')addNew();});
     [].forEach.call(pane.querySelectorAll('.b'),function(b){ b.addEventListener('click',function(){ var id=b.getAttribute('data-id'); var s=b.getAttribute('data-s');
       var status=(s==='ok')?'✅ aplikováno':'🗑️ zastaveno'; postUkol({action:'status',id:id,status:status},function(j){ renderUkoly(j&&j.tasks); addLog('🚦 Úkol '+esc(id)+' → '+esc(status),{c:'#2bd980'}); }); }); });
     var tc=document.getElementById('tcUkoly'); if(tc)tc.textContent=(tasks&&tasks.length)?tasks.length:'';
