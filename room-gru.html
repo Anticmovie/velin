@@ -377,9 +377,15 @@
       if(ch.state==='sit'){
         if(ch.ent.status!=='down'){ ch.taskT=(ch.taskT||0)+dt;
           if(ch.taskT>=ch.tDur/1000){ ch.taskT=0; ch.tDur=5500+Math.random()*5000; completeTask(ch); } }
+        // čtení knížky — usazená postava občas čte (anim 'read'), pak zpět na idle
+        if(ch.reading>0){ ch.reading-=dt; if(ch.reading<=0){ ch.anim='idle'; ch.frame=0; } continue; }
+        if(ch.ent.status==='down'){ continue; }
         ch.wait-=dt;
-        if(ch.wait<=0 && ch.ent.status!=='down' && Math.random()<0.45){ startWander(ch); }
-        else if(ch.wait<=0){ ch.wait=9+Math.random()*13; }
+        if(ch.wait>0) continue;
+        var roll=Math.random();
+        if(roll<0.5 && ch.stand){ startWander(ch); }                 // projde se a vrátí
+        else if(roll<0.85){ ch.anim='read'; ch.frame=0; ch.reading=3+Math.random()*4; think(ch,'📖'); ch.wait=7+Math.random()*9; } // čte knížku
+        else { ch.anim='idle'; ch.wait=6+Math.random()*8; }          // jen tak sedí
         continue;
       }
       if(ch.state==='walk'){
