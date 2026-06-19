@@ -279,7 +279,7 @@
     </div>
   </div>
 
-  <h2 id="appr-h" style="display:none">Ke schválení <span class="ln"></span> <span id="appr-c" style="font-size:13px;color:var(--warn)"></span></h2>
+  <h2 id="appr-h" style="display:none">📋 Úkoly · todolist <span class="ln"></span> <span id="appr-c" style="font-size:13px;color:var(--warn)"></span></h2>
   <div id="appr"></div>
 
   <div id="usage-wrap" style="display:none">
@@ -620,21 +620,25 @@
       .then(function(r){return r.json();}).then(function(j){cb&&cb(j);}).catch(function(e){ box.innerHTML='<div class="empty" style="opacity:.6">⚠️ n8n nedostupné: '+esc(String(e&&e.message||e))+'</div>'; h.style.display=''; }); }
     function pct(s){s=s||'';if(s.indexOf('✅')>=0)return 100;if(s.indexOf('👍')>=0)return 92;if(s.indexOf('⏳')>=0)return 90;if(s.indexOf('🧪')>=0)return 80;if(s.indexOf('💻')>=0)return 55;if(s.indexOf('📝')>=0)return 25;if(s.indexOf('⚠')>=0)return 60;return 10;}
     function needs(s){s=(s||'').toLowerCase();return s.indexOf('čeká')>=0||s.indexOf('ceka')>=0||s.indexOf('problém')>=0||s.indexOf('problem')>=0;}
-    function render(tasks){ var list=(tasks||[]).filter(function(t){return needs(t.stav);});
-      if(!list.length){ h.style.display='none'; box.innerHTML=''; return; }
-      h.style.display=''; cnt.textContent='· '+list.length+' čeká na tebe';
-      box.innerHTML='<div style="display:grid;gap:10px">'+list.map(function(t){ var p=pct(t.stav);
-        return '<div style="background:var(--card,rgba(20,26,42,.7));border:1px solid color-mix(in srgb,var(--warn) 35%,var(--stroke));border-left:3px solid var(--warn);border-radius:13px;padding:13px 15px">'+
+    function statCol(s){s=s||'';if(needs(s))return'var(--warn)';if(s.indexOf('✅')>=0||s.indexOf('👍')>=0)return'var(--ok)';if(s.indexOf('⚠')>=0)return'var(--down)';if(s.indexOf('💻')>=0||s.indexOf('🧪')>=0)return'var(--info)';if(s.indexOf('🆕')>=0||s.indexOf('📝')>=0)return'var(--vi)';return'var(--muted)';}
+    function render(tasks){
+      var list=(tasks||[]).filter(function(t){var s=(t.stav||'');return s.indexOf('✅')<0&&s.indexOf('🗑')<0&&s.indexOf('zastav')<0;});
+      var waiting=list.filter(function(t){return needs(t.stav);}).length;
+      h.style.display='';
+      cnt.textContent=waiting?('· '+waiting+' čeká na tebe'):(list.length?('· '+list.length+' aktivních'):'');
+      if(!list.length){ box.innerHTML='<div class="bempty"><b>Žádné aktivní úkoly.</b><br>Vše nasazeno ✅ — nové úkoly přidáš přes Telegram nebo „Schválit" v zasedačce.</div>'; return; }
+      box.innerHTML='<div style="display:grid;gap:10px">'+list.map(function(t){ var p=pct(t.stav); var need=needs(t.stav); var col=statCol(t.stav);
+        return '<div style="background:rgba(20,26,42,.7);border:1px solid '+(need?'color-mix(in srgb,var(--warn) 35%,var(--stroke))':'var(--stroke)')+';border-left:3px solid '+col+';border-radius:13px;padding:13px 15px">'+
           '<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap">'+
-            '<span style="font-size:11px;font-weight:800;color:var(--warn)">'+esc(t.stav||'')+'</span>'+
+            '<span style="font-size:11px;font-weight:800;color:'+col+'">'+esc(t.stav||'')+'</span>'+
             '<span style="font-size:11px;color:var(--muted,#9aa6c2)">👤 '+esc(t.vlastnik||'—')+' · '+esc(t.aktualizace||'')+'</span></div>'+
           '<div style="font-weight:700;margin:6px 0 4px">'+esc(t.napad||'')+'</div>'+
           (t.pozn?'<div style="font-size:12px;color:var(--muted,#9aa6c2);line-height:1.5;margin-bottom:8px">'+esc(t.pozn)+'</div>':'')+
-          '<div style="height:7px;border-radius:5px;background:rgba(255,255,255,.1);overflow:hidden;margin-bottom:10px"><i style="display:block;height:100%;width:'+p+'%;background:var(--warn)"></i></div>'+
-          '<div style="display:flex;gap:8px">'+
+          '<div style="height:7px;border-radius:5px;background:rgba(255,255,255,.1);overflow:hidden'+(need?';margin-bottom:10px':'')+'"><i style="display:block;height:100%;width:'+p+'%;background:'+col+'"></i></div>'+
+          (need?('<div style="display:flex;gap:8px">'+
             '<button data-id="'+esc(t.id)+'" data-s="ok" style="flex:1;border:none;border-radius:9px;background:var(--ok);color:#04140a;font-size:13px;font-weight:800;padding:10px;cursor:pointer">✓ Schválit</button>'+
             '<button data-id="'+esc(t.id)+'" data-s="stop" style="flex:none;border:1px solid var(--stroke);border-radius:9px;background:rgba(255,255,255,.05);color:var(--text);font-size:13px;font-weight:700;padding:10px 16px;cursor:pointer">✕ Zastavit</button>'+
-          '</div></div>';
+          '</div>'):'')+'</div>';
       }).join('')+'</div>';
       [].forEach.call(box.querySelectorAll('button'),function(b){ b.addEventListener('click',function(){
         var id=b.getAttribute('data-id'), s=b.getAttribute('data-s');
