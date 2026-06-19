@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-19 18:35",
+    "generated":  "2026-06-19 19:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -350,7 +350,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 days ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
+                                     "lastCommit":  "7 days ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -372,15 +372,15 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-19T16:30:02.1992887+00:00",
+                  "generatedAt":  "2026-06-19T17:00:02.2314507+00:00",
                   "session5h":  {
-                                    "total":  48938637,
-                                    "input":  3118,
-                                    "output":  198722,
-                                    "cache_c":  254693,
-                                    "cache_r":  48482104,
-                                    "count":  135,
-                                    "pct":  35.6
+                                    "total":  37418103,
+                                    "input":  2302,
+                                    "output":  140798,
+                                    "cache_c":  178827,
+                                    "cache_r":  37096176,
+                                    "count":  93,
+                                    "pct":  27.2
                                 },
                   "weekly7d":  {
                                    "total":  647823558,
@@ -396,20 +396,20 @@
                                    "total":  4461389,
                                    "count":  66
                                },
-                  "burnRatePerH":  9787727,
-                  "burnRatePerDay":  234905448,
+                  "burnRatePerH":  7483621,
+                  "burnRatePerDay":  179606904,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  88535410,
+                                                   "remaining":  100055944,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~36% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~27% limitu"
                                                },
                                    "weekly":  {
                                                   "remaining":  598750530,
-                                                  "hoursToLimit":  61.2,
-                                                  "etaIso":  "2026-06-22 07:42",
-                                                  "etaText":  "za 61 h (\u003e2 dny)",
+                                                  "hoursToLimit":  80,
+                                                  "etaIso":  "2026-06-23 03:00",
+                                                  "etaText":  "za 80 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -435,9 +435,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  48938637,
-                                             "output":  198722,
-                                             "count":  135
+                                             "total":  37418103,
+                                             "output":  140798,
+                                             "count":  93
                                          }
                                      ],
                   "quality":  {
