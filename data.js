@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-19 11:05",
+    "generated":  "2026-06-19 11:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -214,7 +214,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  3,
-                                     "lastCommit":  "3 days ago | Add improvement agent + v6.3 arrivals bot"
+                                     "lastCommit":  "4 days ago | Add improvement agent + v6.3 arrivals bot"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -225,12 +225,12 @@
                                        "hasBuild":  false,
                                        "hasTest":  false
                                    },
-                         "todos":  0,
+                         "todos":  2,
                          "status":  {
                                         "adam":  "ok",
                                         "klara":  "na",
                                         "viktor":  "na",
-                                        "tereza":  "ok",
+                                        "tereza":  "info",
                                         "nina":  "na"
                                     }
                      },
@@ -372,20 +372,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-19T09:00:01.9146727+00:00",
+                  "generatedAt":  "2026-06-19T09:30:01.8986092+00:00",
                   "session5h":  {
-                                    "total":  23953517,
-                                    "input":  5587,
-                                    "output":  57170,
-                                    "cache_c":  379216,
-                                    "cache_r":  23511544,
-                                    "count":  66,
-                                    "pct":  17.4
+                                    "total":  33094919,
+                                    "input":  5997,
+                                    "output":  90330,
+                                    "cache_c":  416325,
+                                    "cache_r":  32582267,
+                                    "count":  88,
+                                    "pct":  24.1
                                 },
                   "weekly7d":  {
-                                   "total":  533928702,
-                                   "count":  2246,
-                                   "pct":  42.8
+                                   "total":  543070104,
+                                   "count":  2268,
+                                   "pct":  43.6
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -396,20 +396,20 @@
                                    "total":  4461389,
                                    "count":  66
                                },
-                  "burnRatePerH":  4790703,
-                  "burnRatePerDay":  114976872,
+                  "burnRatePerH":  6618984,
+                  "burnRatePerDay":  158855616,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  113520530,
+                                                   "remaining":  104379128,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~17% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~24% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  712645386,
-                                                  "hoursToLimit":  148.8,
-                                                  "etaIso":  "2026-06-25 15:48",
-                                                  "etaText":  "za 149 h (\u003e2 dny)",
+                                                  "remaining":  703503984,
+                                                  "hoursToLimit":  106.3,
+                                                  "etaIso":  "2026-06-23 21:48",
+                                                  "etaText":  "za 106 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -435,18 +435,18 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  23953517,
-                                             "output":  57170,
-                                             "count":  66
+                                             "total":  33094919,
+                                             "output":  90330,
+                                             "count":  88
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  92,
-                                  "longSessionTok":  491690754,
+                                  "longSessionTok":  500832156,
                                   "sessionsLong":  5,
                                   "sessionsTotal":  10,
                                   "highCtxPct":  86,
-                                  "highCtxTok":  459241410,
+                                  "highCtxTok":  468382812,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
