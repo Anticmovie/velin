@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-19 20:35",
+    "generated":  "2026-06-19 21:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-19T18:30:02.2299612+00:00",
+                  "generatedAt":  "2026-06-19T19:00:02.2354529+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -414,7 +414,7 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  3,
+                                      "ageDays":  3.1,
                                       "stale":  false,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
