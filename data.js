@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-19 13:35",
+    "generated":  "2026-06-19 14:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,20 +372,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-19T11:30:02.1553098+00:00",
+                  "generatedAt":  "2026-06-19T12:00:02.3471631+00:00",
                   "session5h":  {
-                                    "total":  88909736,
-                                    "input":  17073,
-                                    "output":  350295,
-                                    "cache_c":  943333,
-                                    "cache_r":  87599035,
-                                    "count":  333,
-                                    "pct":  64.7
+                                    "total":  100737704,
+                                    "input":  17891,
+                                    "output":  408290,
+                                    "cache_c":  1020201,
+                                    "cache_r":  99291322,
+                                    "count":  376,
+                                    "pct":  73.3
                                 },
                   "weekly7d":  {
-                                   "total":  598884921,
-                                   "count":  2513,
-                                   "pct":  48
+                                   "total":  610712889,
+                                   "count":  2556,
+                                   "pct":  49
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -396,20 +396,20 @@
                                    "total":  4461389,
                                    "count":  66
                                },
-                  "burnRatePerH":  17781947,
-                  "burnRatePerDay":  426766728,
+                  "burnRatePerH":  20147541,
+                  "burnRatePerDay":  483540984,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  48564311,
+                                                   "remaining":  36736343,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~65% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~73% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  647689167,
-                                                  "hoursToLimit":  36.4,
-                                                  "etaIso":  "2026-06-21 01:54",
-                                                  "etaText":  "za 36,4 h ~ ne 01:54",
+                                                  "remaining":  635861199,
+                                                  "hoursToLimit":  31.6,
+                                                  "etaIso":  "2026-06-20 21:36",
+                                                  "etaText":  "za 31,6 h ~ so 21:36",
                                                   "willHit":  true
                                               }
                                },
@@ -422,7 +422,8 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "DRAHY PROVOZ: 90% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
+                                 "VAROVANI Session 5h: 73,3% (100 737 704 tokenu)",
+                                 "DRAHY PROVOZ: 89% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 86% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny"
                              ],
                   "limits":  {
@@ -435,9 +436,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  88909736,
-                                             "output":  350295,
-                                             "count":  332
+                                             "total":  100737704,
+                                             "output":  408290,
+                                             "count":  375
                                          },
                                          {
                                              "model":  "\u003csynthetic\u003e",
@@ -447,12 +448,12 @@
                                          }
                                      ],
                   "quality":  {
-                                  "longSessionPct":  90,
+                                  "longSessionPct":  89,
                                   "longSessionTok":  541117322,
                                   "sessionsLong":  5,
                                   "sessionsTotal":  11,
                                   "highCtxPct":  86,
-                                  "highCtxTok":  512670005,
+                                  "highCtxTok":  524497973,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
