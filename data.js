@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-19 16:05",
+    "generated":  "2026-06-19 16:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,15 +372,15 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-19T14:00:02.2112265+00:00",
+                  "generatedAt":  "2026-06-19T14:30:02.1581655+00:00",
                   "session5h":  {
-                                    "total":  113894856,
-                                    "input":  14604,
-                                    "output":  491847,
-                                    "cache_c":  818810,
-                                    "cache_r":  112569595,
-                                    "count":  402,
-                                    "pct":  82.8
+                                    "total":  104301534,
+                                    "input":  14192,
+                                    "output":  444407,
+                                    "cache_c":  781305,
+                                    "cache_r":  103061630,
+                                    "count":  379,
+                                    "pct":  75.9
                                 },
                   "weekly7d":  {
                                    "total":  647823558,
@@ -396,20 +396,20 @@
                                    "total":  4461389,
                                    "count":  66
                                },
-                  "burnRatePerH":  22778971,
-                  "burnRatePerDay":  546695304,
+                  "burnRatePerH":  20860307,
+                  "burnRatePerDay":  500647368,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  23579191,
+                                                   "remaining":  33172513,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~83% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~76% limitu"
                                                },
                                    "weekly":  {
                                                   "remaining":  598750530,
-                                                  "hoursToLimit":  26.3,
-                                                  "etaIso":  "2026-06-20 18:18",
-                                                  "etaText":  "za 26,3 h ~ so 18:18",
+                                                  "hoursToLimit":  28.7,
+                                                  "etaIso":  "2026-06-20 21:12",
+                                                  "etaText":  "za 28,7 h ~ so 21:12",
                                                   "willHit":  true
                                               }
                                },
@@ -422,7 +422,7 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "VAROVANI Session 5h: 82,8% (113 894 856 tokenu)",
+                                 "VAROVANI Session 5h: 75,9% (104 301 534 tokenu)",
                                  "DRAHY PROVOZ: 84% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 87% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny"
                              ],
@@ -436,9 +436,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  113894856,
-                                             "output":  491847,
-                                             "count":  401
+                                             "total":  104301534,
+                                             "output":  444407,
+                                             "count":  378
                                          },
                                          {
                                              "model":  "\u003csynthetic\u003e",
