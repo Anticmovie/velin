@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-20 08:35",
+    "generated":  "2026-06-20 09:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -248,7 +248,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "7 days ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├ş Anthropic)"
+                                     "lastCommit":  "8 days ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├ş Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-20T06:30:02.2264267+00:00",
+                  "generatedAt":  "2026-06-20T07:00:02.2215985+00:00",
                   "session5h":  {
                                     "total":  156919,
                                     "input":  2900,
@@ -408,14 +408,14 @@
                                    "weekly":  {
                                                   "remaining":  538276834,
                                                   "hoursToLimit":  17151.3,
-                                                  "etaIso":  "2028-06-03 23:48",
+                                                  "etaIso":  "2028-06-04 00:18",
                                                   "etaText":  "za 17 151 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  3.5,
+                                      "ageDays":  3.6,
                                       "stale":  false,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
