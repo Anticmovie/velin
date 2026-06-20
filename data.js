@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-20 06:05",
+    "generated":  "2026-06-20 06:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "5 days ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
+                                     "lastCommit":  "6 days ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -316,7 +316,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "5 days ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
+                                     "lastCommit":  "6 days ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -372,19 +372,19 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-19T23:00:02.3045517+00:00",
+                  "generatedAt":  "2026-06-20T04:30:02.3437854+00:00",
                   "session5h":  {
-                                    "total":  60316777,
-                                    "input":  9474,
-                                    "output":  320201,
-                                    "cache_c":  1185628,
-                                    "cache_r":  58801474,
-                                    "count":  216,
-                                    "pct":  43.9
+                                    "total":  156919,
+                                    "input":  2900,
+                                    "output":  626,
+                                    "cache_c":  12425,
+                                    "cache_r":  140968,
+                                    "count":  5,
+                                    "pct":  0.1
                                 },
                   "weekly7d":  {
-                                   "total":  708140335,
-                                   "count":  2864,
+                                   "total":  708297254,
+                                   "count":  2869,
                                    "pct":  56.8
                                },
                   "sonnet5h":  {
@@ -396,26 +396,26 @@
                                    "total":  4461389,
                                    "count":  66
                                },
-                  "burnRatePerH":  12063355,
-                  "burnRatePerDay":  289520520,
+                  "burnRatePerH":  31384,
+                  "burnRatePerDay":  753216,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  77157270,
+                                                   "remaining":  137317128,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~44% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  538433753,
-                                                  "hoursToLimit":  44.6,
-                                                  "etaIso":  "2026-06-21 21:36",
-                                                  "etaText":  "za 44,6 h ~ ne 21:36",
+                                                  "remaining":  538276834,
+                                                  "hoursToLimit":  17151.3,
+                                                  "etaIso":  "2028-06-03 21:48",
+                                                  "etaText":  "za 17 151 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  3.2,
+                                      "ageDays":  3.5,
                                       "stale":  false,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -435,16 +435,16 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  60316777,
-                                             "output":  320201,
-                                             "count":  216
+                                             "total":  156919,
+                                             "output":  626,
+                                             "count":  5
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  76,
                                   "longSessionTok":  541117322,
                                   "sessionsLong":  5,
-                                  "sessionsTotal":  12,
+                                  "sessionsTotal":  13,
                                   "highCtxPct":  87,
                                   "highCtxTok":  616728685,
                                   "longThresholdH":  8,
