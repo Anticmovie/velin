@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-21 06:05",
+    "generated":  "2026-06-21 06:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 days ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
+                                     "lastCommit":  "7 days ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -316,7 +316,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 days ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
+                                     "lastCommit":  "7 days ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -372,15 +372,15 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-20T22:00:02.5505830+00:00",
+                  "generatedAt":  "2026-06-21T04:30:02.3108631+00:00",
                   "session5h":  {
-                                    "total":  2470660,
-                                    "input":  782,
-                                    "output":  36258,
-                                    "cache_c":  111691,
-                                    "cache_r":  2321929,
-                                    "count":  25,
-                                    "pct":  1.8
+                                    "total":  0,
+                                    "input":  0,
+                                    "output":  0,
+                                    "cache_c":  0,
+                                    "cache_r":  0,
+                                    "count":  0,
+                                    "pct":  0
                                 },
                   "weekly7d":  {
                                    "total":  710543454,
@@ -396,26 +396,25 @@
                                    "total":  4461389,
                                    "count":  66
                                },
-                  "burnRatePerH":  494132,
-                  "burnRatePerDay":  11859168,
+                  "burnRatePerH":  0,
+                  "burnRatePerDay":  0,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  135003387,
+                                                   "remaining":  137474047,
                                                    "hoursToLimit":  null,
-                                                   "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~2% limitu"
+                                                   "etaText":  "tempo 0 - bez projekce",
+                                                   "willHit":  false
                                                },
                                    "weekly":  {
                                                   "remaining":  536030634,
-                                                  "hoursToLimit":  1084.8,
-                                                  "etaIso":  "2026-08-05 04:48",
-                                                  "etaText":  "za 1 085 h (\u003e2 dny)",
-                                                  "willHit":  true
+                                                  "hoursToLimit":  null,
+                                                  "etaText":  "tempo 0 - bez projekce",
+                                                  "willHit":  false
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  4.2,
+                                      "ageDays":  4.5,
                                       "stale":  false,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -433,12 +432,7 @@
                                  "critPct":  90
                              },
                   "modelBreakdown":  [
-                                         {
-                                             "model":  "claude-opus-4-8",
-                                             "total":  2470660,
-                                             "output":  36258,
-                                             "count":  25
-                                         }
+
                                      ],
                   "quality":  {
                                   "longSessionPct":  77,
