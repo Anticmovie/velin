@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-21 15:35",
+    "generated":  "2026-06-21 16:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,15 +372,15 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-21T13:30:02.3035405+00:00",
+                  "generatedAt":  "2026-06-21T14:00:02.3733892+00:00",
                   "session5h":  {
-                                    "total":  58470558,
-                                    "input":  5367,
-                                    "output":  235124,
-                                    "cache_c":  284611,
-                                    "cache_r":  57945456,
-                                    "count":  164,
-                                    "pct":  42.5
+                                    "total":  42785399,
+                                    "input":  2508,
+                                    "output":  166013,
+                                    "cache_c":  195090,
+                                    "cache_r":  42421788,
+                                    "count":  105,
+                                    "pct":  31.1
                                 },
                   "weekly7d":  {
                                    "total":  778798780,
@@ -396,26 +396,26 @@
                                    "total":  4461389,
                                    "count":  66
                                },
-                  "burnRatePerH":  11694112,
-                  "burnRatePerDay":  280658688,
+                  "burnRatePerH":  8557080,
+                  "burnRatePerDay":  205369920,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  79003489,
+                                                   "remaining":  94688648,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~43% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~31% limitu"
                                                },
                                    "weekly":  {
                                                   "remaining":  467775308,
-                                                  "hoursToLimit":  40,
-                                                  "etaIso":  "2026-06-23 07:30",
-                                                  "etaText":  "za 40 h ~ út 07:30",
+                                                  "hoursToLimit":  54.7,
+                                                  "etaIso":  "2026-06-23 22:42",
+                                                  "etaText":  "za 55 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  4.8,
+                                      "ageDays":  4.9,
                                       "stale":  false,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -435,9 +435,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  58470558,
-                                             "output":  235124,
-                                             "count":  164
+                                             "total":  42785399,
+                                             "output":  166013,
+                                             "count":  105
                                          }
                                      ],
                   "quality":  {
