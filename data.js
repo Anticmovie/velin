@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-21 18:35",
+    "generated":  "2026-06-21 19:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -350,7 +350,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "8 days ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
+                                     "lastCommit":  "9 days ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-21T16:30:02.4036279+00:00",
+                  "generatedAt":  "2026-06-21T17:00:02.3783613+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  769518874,
-                                   "count":  3048,
-                                   "pct":  61.7
+                                   "total":  763927219,
+                                   "count":  3025,
+                                   "pct":  61.3
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  477055214,
+                                                  "remaining":  482646869,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -440,7 +440,7 @@
                                   "sessionsLong":  6,
                                   "sessionsTotal":  12,
                                   "highCtxPct":  88,
-                                  "highCtxTok":  675181290,
+                                  "highCtxTok":  669589635,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
