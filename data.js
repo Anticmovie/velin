@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-21 23:35",
+    "generated":  "2026-06-22 00:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-21T21:30:02.4149957+00:00",
+                  "generatedAt":  "2026-06-21T22:00:02.4279439+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  760979214,
-                                   "count":  3014,
-                                   "pct":  61
+                                   "total":  757561523,
+                                   "count":  3002,
+                                   "pct":  60.8
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  485594874,
+                                                  "remaining":  489012565,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -421,7 +421,7 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "POZOR: 71% spotreby z dlouhych sessions (8h+)",
+                                 "POZOR: 72% spotreby z dlouhych sessions (8h+)",
                                  "DRAHY PROVOZ: 88% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny"
                              ],
                   "limits":  {
@@ -435,12 +435,12 @@
 
                                      ],
                   "quality":  {
-                                  "longSessionPct":  71,
+                                  "longSessionPct":  72,
                                   "longSessionTok":  543744901,
                                   "sessionsLong":  6,
                                   "sessionsTotal":  12,
                                   "highCtxPct":  88,
-                                  "highCtxTok":  666641630,
+                                  "highCtxTok":  663223939,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
