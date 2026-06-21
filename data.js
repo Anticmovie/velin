@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-21 17:05",
+    "generated":  "2026-06-21 17:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,20 +372,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-21T15:00:02.3694882+00:00",
+                  "generatedAt":  "2026-06-21T15:30:02.3474430+00:00",
                   "session5h":  {
-                                    "total":  27018931,
-                                    "input":  1529,
-                                    "output":  88339,
-                                    "cache_c":  107076,
-                                    "cache_r":  26821987,
-                                    "count":  60,
-                                    "pct":  19.7
+                                    "total":  18717678,
+                                    "input":  997,
+                                    "output":  60204,
+                                    "cache_c":  73381,
+                                    "cache_r":  18583096,
+                                    "count":  40,
+                                    "pct":  13.6
                                 },
                   "weekly7d":  {
-                                   "total":  778798780,
-                                   "count":  3125,
-                                   "pct":  62.5
+                                   "total":  777653844,
+                                   "count":  3103,
+                                   "pct":  62.4
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -396,20 +396,20 @@
                                    "total":  4461389,
                                    "count":  66
                                },
-                  "burnRatePerH":  5403786,
-                  "burnRatePerDay":  129690864,
+                  "burnRatePerH":  3743536,
+                  "burnRatePerDay":  89844864,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  110455116,
+                                                   "remaining":  118756369,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~20% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~14% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  467775308,
-                                                  "hoursToLimit":  86.6,
-                                                  "etaIso":  "2026-06-25 07:36",
-                                                  "etaText":  "za 87 h (\u003e2 dny)",
+                                                  "remaining":  468920244,
+                                                  "hoursToLimit":  125.3,
+                                                  "etaIso":  "2026-06-26 22:48",
+                                                  "etaText":  "za 125 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -435,9 +435,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  27018931,
-                                             "output":  88339,
-                                             "count":  60
+                                             "total":  18717678,
+                                             "output":  60204,
+                                             "count":  40
                                          }
                                      ],
                   "quality":  {
