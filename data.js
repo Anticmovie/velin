@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-22 22:35",
+    "generated":  "2026-06-22 23:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-22T20:30:02.4153119+00:00",
+                  "generatedAt":  "2026-06-22T21:00:02.4027297+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  759848700,
-                                   "count":  2906,
-                                   "pct":  61
+                                   "total":  746153571,
+                                   "count":  2865,
+                                   "pct":  59.9
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  486725388,
+                                                  "remaining":  500420517,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -414,7 +414,7 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  6.1,
+                                      "ageDays":  6.2,
                                       "stale":  false,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -436,11 +436,11 @@
                                      ],
                   "quality":  {
                                   "longSessionPct":  83,
-                                  "longSessionTok":  630022210,
+                                  "longSessionTok":  616327081,
                                   "sessionsLong":  7,
                                   "sessionsTotal":  11,
                                   "highCtxPct":  88,
-                                  "highCtxTok":  669875222,
+                                  "highCtxTok":  656180093,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
