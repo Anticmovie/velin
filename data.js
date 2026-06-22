@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-22 18:35",
+    "generated":  "2026-06-22 19:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -350,7 +350,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "9 days ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
+                                     "lastCommit":  "10 days ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-22T16:30:02.3406121+00:00",
+                  "generatedAt":  "2026-06-22T17:00:02.3145564+00:00",
                   "session5h":  {
                                     "total":  35000490,
                                     "input":  1582,
@@ -408,7 +408,7 @@
                                    "weekly":  {
                                                   "remaining":  467205060,
                                                   "hoursToLimit":  66.7,
-                                                  "etaIso":  "2026-06-25 13:12",
+                                                  "etaIso":  "2026-06-25 13:42",
                                                   "etaText":  "za 67 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
