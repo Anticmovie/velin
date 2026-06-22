@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-22 06:05",
+    "generated":  "2026-06-22 06:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "7 days ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
+                                     "lastCommit":  "8 days ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -316,7 +316,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "7 days ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
+                                     "lastCommit":  "8 days ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-21T22:00:02.4279439+00:00",
+                  "generatedAt":  "2026-06-22T04:30:01.8803675+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  757561523,
-                                   "count":  3002,
-                                   "pct":  60.8
+                                   "total":  744368538,
+                                   "count":  2962,
+                                   "pct":  59.7
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  489012565,
+                                                  "remaining":  502205550,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -414,15 +414,15 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  5.2,
+                                      "ageDays":  5.5,
                                       "stale":  false,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "POZOR: 72% spotreby z dlouhych sessions (8h+)",
-                                 "DRAHY PROVOZ: 88% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny"
+                                 "DRAHY PROVOZ: 83% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
+                                 "DRAHY PROVOZ: 87% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -435,12 +435,12 @@
 
                                      ],
                   "quality":  {
-                                  "longSessionPct":  72,
-                                  "longSessionTok":  543744901,
-                                  "sessionsLong":  6,
-                                  "sessionsTotal":  12,
-                                  "highCtxPct":  88,
-                                  "highCtxTok":  663223939,
+                                  "longSessionPct":  83,
+                                  "longSessionTok":  614542048,
+                                  "sessionsLong":  7,
+                                  "sessionsTotal":  11,
+                                  "highCtxPct":  87,
+                                  "highCtxTok":  650030954,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
