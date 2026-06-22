@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-23 00:35",
+    "generated":  "2026-06-23 01:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-22T22:30:02.4634339+00:00",
+                  "generatedAt":  "2026-06-22T23:00:02.4005280+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  703489422,
-                                   "count":  2776,
-                                   "pct":  56.4
+                                   "total":  682664831,
+                                   "count":  2743,
+                                   "pct":  54.8
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  543084666,
+                                                  "remaining":  563909257,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -421,7 +421,7 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "DRAHY PROVOZ: 82% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
+                                 "DRAHY PROVOZ: 81% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 87% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny"
                              ],
                   "limits":  {
@@ -435,12 +435,12 @@
 
                                      ],
                   "quality":  {
-                                  "longSessionPct":  82,
-                                  "longSessionTok":  573662932,
+                                  "longSessionPct":  81,
+                                  "longSessionTok":  552838341,
                                   "sessionsLong":  7,
                                   "sessionsTotal":  11,
                                   "highCtxPct":  87,
-                                  "highCtxTok":  613515944,
+                                  "highCtxTok":  592691353,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
