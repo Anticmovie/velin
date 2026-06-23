@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-23 01:35",
+    "generated":  "2026-06-23 02:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-22T23:30:02.4432713+00:00",
+                  "generatedAt":  "2026-06-23T00:00:02.4196484+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  682664831,
-                                   "count":  2743,
-                                   "pct":  54.8
+                                   "total":  675135761,
+                                   "count":  2732,
+                                   "pct":  54.2
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  563909257,
+                                                  "remaining":  571438327,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -436,11 +436,11 @@
                                      ],
                   "quality":  {
                                   "longSessionPct":  81,
-                                  "longSessionTok":  552838341,
+                                  "longSessionTok":  545309271,
                                   "sessionsLong":  7,
                                   "sessionsTotal":  11,
                                   "highCtxPct":  87,
-                                  "highCtxTok":  592691353,
+                                  "highCtxTok":  585162283,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
