@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-23 11:05",
+    "generated":  "2026-06-23 11:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -214,7 +214,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  3,
-                                     "lastCommit":  "7 days ago | Add improvement agent + v6.3 arrivals bot"
+                                     "lastCommit":  "8 days ago | Add improvement agent + v6.3 arrivals bot"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-23T09:00:02.4821589+00:00",
+                  "generatedAt":  "2026-06-23T09:30:01.6098075+00:00",
                   "session5h":  {
                                     "total":  646655,
                                     "input":  46,
@@ -383,9 +383,9 @@
                                     "pct":  0.5
                                 },
                   "weekly7d":  {
-                                   "total":  666568188,
-                                   "count":  2720,
-                                   "pct":  53.5
+                                   "total":  658360387,
+                                   "count":  2679,
+                                   "pct":  52.8
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,10 +406,10 @@
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  580005900,
-                                                  "hoursToLimit":  4484.7,
-                                                  "etaIso":  "2026-12-27 07:42",
-                                                  "etaText":  "za 4 485 h (\u003e2 dny)",
+                                                  "remaining":  588213701,
+                                                  "hoursToLimit":  4548.1,
+                                                  "etaIso":  "2026-12-29 23:36",
+                                                  "etaText":  "za 4 548 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -422,7 +422,7 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "POZOR: 74% spotreby z dlouhych sessions (8h+)",
+                                 "POZOR: 75% spotreby z dlouhych sessions (8h+)",
                                  "DRAHY PROVOZ: 87% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny"
                              ],
                   "limits":  {
@@ -441,12 +441,12 @@
                                          }
                                      ],
                   "quality":  {
-                                  "longSessionPct":  74,
+                                  "longSessionPct":  75,
                                   "longSessionTok":  494365829,
                                   "sessionsLong":  6,
                                   "sessionsTotal":  11,
                                   "highCtxPct":  87,
-                                  "highCtxTok":  576594710,
+                                  "highCtxTok":  569991032,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
