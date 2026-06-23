@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-23 06:05",
+    "generated":  "2026-06-23 06:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "8 days ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
+                                     "lastCommit":  "9 days ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -316,7 +316,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "8 days ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
+                                     "lastCommit":  "9 days ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-23T04:00:02.5743050+00:00",
+                  "generatedAt":  "2026-06-23T04:30:02.3142214+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -414,7 +414,7 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  6.4,
+                                      "ageDays":  6.5,
                                       "stale":  false,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
