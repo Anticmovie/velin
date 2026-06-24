@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-24 14:05",
+    "generated":  "2026-06-24 14:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-24T12:00:02.5895369+00:00",
+                  "generatedAt":  "2026-06-24T12:30:02.7021098+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,18 +383,18 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  553175714,
-                                   "count":  2194,
-                                   "pct":  44.4
+                                   "total":  552356883,
+                                   "count":  2184,
+                                   "pct":  44.3
                                },
                   "sonnet5h":  {
                                    "total":  0,
                                    "count":  0,
-                                   "pct":  0.3
+                                   "pct":  0
                                },
                   "sonnet7d":  {
-                                   "total":  452535,
-                                   "count":  8
+                                   "total":  0,
+                                   "count":  0
                                },
                   "burnRatePerH":  0,
                   "burnRatePerDay":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  693398374,
+                                                  "remaining":  694217205,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -441,7 +441,7 @@
                                   "sessionsLong":  5,
                                   "sessionsTotal":  9,
                                   "highCtxPct":  88,
-                                  "highCtxTok":  485943352,
+                                  "highCtxTok":  485577056,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
