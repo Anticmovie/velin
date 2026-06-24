@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-24 21:35",
+    "generated":  "2026-06-24 22:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-24T19:30:02.6753693+00:00",
+                  "generatedAt":  "2026-06-24T20:00:02.6410744+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  463599894,
-                                   "count":  1794,
-                                   "pct":  37.2
+                                   "total":  458952768,
+                                   "count":  1772,
+                                   "pct":  36.8
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  782974194,
+                                                  "remaining":  787621320,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -441,7 +441,7 @@
                                   "sessionsLong":  4,
                                   "sessionsTotal":  8,
                                   "highCtxPct":  89,
-                                  "highCtxTok":  411183149,
+                                  "highCtxTok":  406536023,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
