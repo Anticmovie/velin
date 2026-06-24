@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-24 11:05",
+    "generated":  "2026-06-24 11:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -214,7 +214,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  3,
-                                     "lastCommit":  "8 days ago | Add improvement agent + v6.3 arrivals bot"
+                                     "lastCommit":  "9 days ago | Add improvement agent + v6.3 arrivals bot"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-24T09:00:02.8225104+00:00",
+                  "generatedAt":  "2026-06-24T09:30:02.8937493+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  594825100,
-                                   "count":  2419,
-                                   "pct":  47.7
+                                   "total":  585470777,
+                                   "count":  2388,
+                                   "pct":  47
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  651748988,
+                                                  "remaining":  661103311,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -421,7 +421,7 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "POZOR: 66% spotreby z dlouhych sessions (8h+)",
+                                 "POZOR: 67% spotreby z dlouhych sessions (8h+)",
                                  "DRAHY PROVOZ: 87% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
                                  "KALIBRACE STARA 7,7 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
@@ -436,12 +436,12 @@
 
                                      ],
                   "quality":  {
-                                  "longSessionPct":  66,
+                                  "longSessionPct":  67,
                                   "longSessionTok":  392031415,
                                   "sessionsLong":  5,
                                   "sessionsTotal":  9,
                                   "highCtxPct":  87,
-                                  "highCtxTok":  518838598,
+                                  "highCtxTok":  509484275,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
