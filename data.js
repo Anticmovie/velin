@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-25 20:05",
+    "generated":  "2026-06-25 20:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-25T18:00:02.5810636+00:00",
+                  "generatedAt":  "2026-06-25T18:30:02.6649087+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  395600042,
-                                   "count":  1441,
-                                   "pct":  31.7
+                                   "total":  389729919,
+                                   "count":  1404,
+                                   "pct":  31.3
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  850974046,
+                                                  "remaining":  856844169,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -421,7 +421,7 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "DRAHY PROVOZ: 90% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
+                                 "DRAHY PROVOZ: 91% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
                                  "KALIBRACE STARA 9 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
@@ -435,12 +435,12 @@
 
                                      ],
                   "quality":  {
-                                  "longSessionPct":  56,
+                                  "longSessionPct":  57,
                                   "longSessionTok":  221781942,
                                   "sessionsLong":  3,
                                   "sessionsTotal":  6,
-                                  "highCtxPct":  90,
-                                  "highCtxTok":  357927673,
+                                  "highCtxPct":  91,
+                                  "highCtxTok":  354297610,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
