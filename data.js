@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-25 23:35",
+    "generated":  "2026-06-26 00:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-25T21:30:01.7612569+00:00",
+                  "generatedAt":  "2026-06-25T22:00:01.9102268+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  351302035,
-                                   "count":  1274,
-                                   "pct":  28.2
+                                   "total":  348941262,
+                                   "count":  1268,
+                                   "pct":  28
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  895272053,
+                                                  "remaining":  897632826,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -421,7 +421,7 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "POZOR: 63% spotreby z dlouhych sessions (8h+)",
+                                 "POZOR: 64% spotreby z dlouhych sessions (8h+)",
                                  "DRAHY PROVOZ: 90% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
                                  "KALIBRACE STARA 9,2 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
@@ -436,12 +436,12 @@
 
                                      ],
                   "quality":  {
-                                  "longSessionPct":  63,
+                                  "longSessionPct":  64,
                                   "longSessionTok":  221781942,
                                   "sessionsLong":  3,
                                   "sessionsTotal":  6,
                                   "highCtxPct":  90,
-                                  "highCtxTok":  315869726,
+                                  "highCtxTok":  313508953,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
