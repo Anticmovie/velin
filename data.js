@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-25 21:35",
+    "generated":  "2026-06-25 22:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-25T19:30:02.8915162+00:00",
+                  "generatedAt":  "2026-06-25T20:00:02.8129876+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  374199099,
-                                   "count":  1339,
-                                   "pct":  30
+                                   "total":  361602482,
+                                   "count":  1301,
+                                   "pct":  29
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  872374989,
+                                                  "remaining":  884971606,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -421,7 +421,8 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "DRAHY PROVOZ: 91% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
+                                 "POZOR: 61% spotreby z dlouhych sessions (8h+)",
+                                 "DRAHY PROVOZ: 90% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
                                  "KALIBRACE STARA 9,1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
@@ -435,12 +436,12 @@
 
                                      ],
                   "quality":  {
-                                  "longSessionPct":  59,
+                                  "longSessionPct":  61,
                                   "longSessionTok":  221781942,
                                   "sessionsLong":  3,
                                   "sessionsTotal":  6,
-                                  "highCtxPct":  91,
-                                  "highCtxTok":  338766790,
+                                  "highCtxPct":  90,
+                                  "highCtxTok":  326170173,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
