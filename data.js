@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-25 09:05",
+    "generated":  "2026-06-25 09:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-25T07:00:02.4735386+00:00",
+                  "generatedAt":  "2026-06-25T07:30:02.8467835+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,8 +383,8 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  405555388,
-                                   "count":  1571,
+                                   "total":  405281448,
+                                   "count":  1562,
                                    "pct":  32.5
                                },
                   "sonnet5h":  {
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  841018700,
+                                                  "remaining":  841292640,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -437,7 +437,7 @@
                                      ],
                   "quality":  {
                                   "longSessionPct":  69,
-                                  "longSessionTok":  280677483,
+                                  "longSessionTok":  280403543,
                                   "sessionsLong":  4,
                                   "sessionsTotal":  7,
                                   "highCtxPct":  88,
