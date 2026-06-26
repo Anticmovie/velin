@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-26 03:05",
+    "generated":  "2026-06-26 03:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-26T01:00:01.6855016+00:00",
+                  "generatedAt":  "2026-06-26T01:30:01.7244739+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,8 +383,8 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  313424797,
-                                   "count":  1083,
+                                   "total":  312467788,
+                                   "count":  1080,
                                    "pct":  25.1
                                },
                   "sonnet5h":  {
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  933149291,
+                                                  "remaining":  934106300,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -421,7 +421,6 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "POZOR: 60% spotreby z dlouhych sessions (8h+)",
                                  "DRAHY PROVOZ: 91% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
                                  "KALIBRACE STARA 9,3 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
@@ -436,12 +435,12 @@
 
                                      ],
                   "quality":  {
-                                  "longSessionPct":  60,
-                                  "longSessionTok":  188639732,
-                                  "sessionsLong":  3,
+                                  "longSessionPct":  37,
+                                  "longSessionTok":  114302638,
+                                  "sessionsLong":  2,
                                   "sessionsTotal":  5,
                                   "highCtxPct":  91,
-                                  "highCtxTok":  283840228,
+                                  "highCtxTok":  282883219,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
