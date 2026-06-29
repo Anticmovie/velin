@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-26 17:05",
+    "generated":  "2026-06-29 18:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -214,7 +214,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  3,
-                                     "lastCommit":  "11 days ago | Add improvement agent + v6.3 arrivals bot"
+                                     "lastCommit":  "2 weeks ago | Add improvement agent + v6.3 arrivals bot"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "12 days ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
+                                     "lastCommit":  "2 weeks ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -316,7 +316,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "12 days ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
+                                     "lastCommit":  "2 weeks ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -350,7 +350,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "13 days ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
+                                     "lastCommit":  "2 weeks ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-26T15:00:01.9490743+00:00",
+                  "generatedAt":  "2026-06-29T16:00:02.3259221+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,9 +383,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  174619415,
-                                   "count":  612,
-                                   "pct":  14
+                                   "total":  5877422,
+                                   "count":  61,
+                                   "pct":  0.5
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  1071954673,
+                                                  "remaining":  1240696666,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -414,16 +414,14 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  9.9,
+                                      "ageDays":  12.9,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "POZOR: 65% spotreby z dlouhych sessions (8h+)",
-                                 "DRAHY PROVOZ: 90% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 9,9 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 12,9 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -436,12 +434,12 @@
 
                                      ],
                   "quality":  {
-                                  "longSessionPct":  65,
-                                  "longSessionTok":  114302638,
-                                  "sessionsLong":  2,
-                                  "sessionsTotal":  3,
-                                  "highCtxPct":  90,
-                                  "highCtxTok":  156562470,
+                                  "longSessionPct":  0,
+                                  "longSessionTok":  0,
+                                  "sessionsLong":  0,
+                                  "sessionsTotal":  1,
+                                  "highCtxPct":  11,
+                                  "highCtxTok":  646655,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
