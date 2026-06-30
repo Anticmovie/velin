@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-06-30 12:35",
+    "generated":  "2026-06-30 13:05",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-06-30T10:30:01.6272828+00:00",
+                  "generatedAt":  "2026-06-30T11:00:01.6483234+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -383,8 +383,8 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  16427664,
-                                   "count":  146,
+                                   "total":  15908521,
+                                   "count":  136,
                                    "pct":  1.3
                                },
                   "sonnet5h":  {
@@ -406,7 +406,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  1230146424,
+                                                  "remaining":  1230665567,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -438,7 +438,7 @@
                                   "longSessionTok":  0,
                                   "sessionsLong":  0,
                                   "sessionsTotal":  2,
-                                  "highCtxPct":  34,
+                                  "highCtxPct":  35,
                                   "highCtxTok":  5548118,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
