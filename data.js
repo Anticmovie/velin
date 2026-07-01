@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-02 01:05",
+    "generated":  "2026-07-02 01:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-01T23:00:01.9102066+00:00",
+                  "generatedAt":  "2026-07-01T23:30:01.8729787+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -414,7 +414,7 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  15.2,
+                                      "ageDays":  15.3,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -422,7 +422,7 @@
                   "urgency":  "warn",
                   "alerts":  [
                                  "POZOR: 73% spotreby pri kontextu \u003e150k",
-                                 "KALIBRACE STARA 15,2 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 15,3 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
