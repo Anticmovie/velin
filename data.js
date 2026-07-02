@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-02 12:05",
+    "generated":  "2026-07-02 12:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,7 +372,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-02T10:00:01.9860501+00:00",
+                  "generatedAt":  "2026-07-02T10:30:02.0336887+00:00",
                   "session5h":  {
                                     "total":  151726559,
                                     "input":  11745,
@@ -402,15 +402,15 @@
                                    "session":  {
                                                    "remaining":  0,
                                                    "hoursToLimit":  0,
-                                                   "etaIso":  "2026-07-02 12:00",
-                                                   "etaText":  "za 0 min ~ 12:00",
+                                                   "etaIso":  "2026-07-02 12:30",
+                                                   "etaText":  "za 0 min ~ 12:30",
                                                    "willHit":  true
                                                },
                                    "weekly":  {
                                                   "remaining":  1047442139,
                                                   "hoursToLimit":  34.5,
-                                                  "etaIso":  "2026-07-03 22:30",
-                                                  "etaText":  "za 34,5 h ~ pá 22:30",
+                                                  "etaIso":  "2026-07-03 23:00",
+                                                  "etaText":  "za 34,5 h ~ pá 23:00",
                                                   "willHit":  true
                                               }
                                },
