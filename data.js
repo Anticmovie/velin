@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-02 21:05",
+    "generated":  "2026-07-02 21:35",
     "summary":  {
                     "total":  5,
                     "local":  5,
@@ -372,15 +372,15 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-02T19:00:01.7505036+00:00",
+                  "generatedAt":  "2026-07-02T19:30:01.7234277+00:00",
                   "session5h":  {
-                                    "total":  93757767,
-                                    "input":  9428,
-                                    "output":  242175,
-                                    "cache_c":  309181,
-                                    "cache_r":  93196983,
-                                    "count":  145,
-                                    "pct":  68.2
+                                    "total":  78375904,
+                                    "input":  8280,
+                                    "output":  193277,
+                                    "cache_c":  245390,
+                                    "cache_r":  77928957,
+                                    "count":  116,
+                                    "pct":  57
                                 },
                   "weekly7d":  {
                                    "total":  410329519,
@@ -396,20 +396,20 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  18751553,
-                  "burnRatePerDay":  450037272,
+                  "burnRatePerH":  15675181,
+                  "burnRatePerDay":  376204344,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  43716280,
+                                                   "remaining":  59098143,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~68% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~57% limitu"
                                                },
                                    "weekly":  {
                                                   "remaining":  836244569,
-                                                  "hoursToLimit":  44.6,
-                                                  "etaIso":  "2026-07-04 17:36",
-                                                  "etaText":  "za 44,6 h ~ so 17:36",
+                                                  "hoursToLimit":  53.3,
+                                                  "etaIso":  "2026-07-05 02:48",
+                                                  "etaText":  "za 53 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -436,9 +436,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  93757767,
-                                             "output":  242175,
-                                             "count":  145
+                                             "total":  78375904,
+                                             "output":  193277,
+                                             "count":  116
                                          }
                                      ],
                   "quality":  {
