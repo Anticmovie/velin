@@ -22,7 +22,7 @@ aktualizovano: 2026-07-03
 | 10 | 29 | 52 | ★★★☆☆ | 9.1/10 | 4.79/5 | 20 000 | 398 749 | 1534 | 15 % |
 | 3 | korunni | 51 | ★★★☆☆ | ⚠️ | ⚠️ | 29 100 | — | — | 33 % |
 | 12 | mezibranska mala | 34 | ★★☆☆☆ | ⚠️ | ⚠️ | 34 000 | — | — | 35 % |
-| 13 | mezibranska velka | 29 | ★☆☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 27 % |
+| 13 | mezibranska velka | 31 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 32 % |
 | — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 80 % |
 | — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 30 % |
 | — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 42 % |
@@ -30,7 +30,7 @@ aktualizovano: 2026-07-03
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
 - **mezibranska mala** (skore 34) — neznamy (chybi historie)
-- **mezibranska velka** (skore 29) — neznamy (chybi historie)
+- **mezibranska velka** (skore 31) — neznamy (chybi historie)
 
 ## ⚠️ Chybi data (doplnit pro presne profily)
 - **Hodnoceni (Booking/Airbnb):** chybi u korunni, mezibranska velka, mezibranska mala
