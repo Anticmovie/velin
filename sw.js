@@ -1,5 +1,5 @@
 // VELÍN Chat — service worker (PWA offline shell + web push)
-const CACHE = 'velin-v2';
+const CACHE = 'velin-v3';
 const SHELL = ['chat.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {

@@ -40,6 +40,15 @@ header .back{font-size:22px;background:none;border:none;color:var(--acc);display
 .cmid .ls{font-size:13px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cmid .byt{font-size:11px;color:var(--acc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
 .unread{background:var(--unread);color:#fff;font-size:11px;font-weight:700;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 6px;flex:none}
+.conv{border-left:3px solid transparent}
+.conv.st-new{border-left-color:var(--unread);background:linear-gradient(90deg,rgba(255,90,95,.07),transparent)}
+.conv.st-wait{border-left-color:#ffab3d}
+.conv.st-new .nm,.conv.st-wait .nm{font-weight:800}
+.stpill{font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;margin-top:3px;padding:2px 8px;border-radius:10px}
+.stpill.new{color:#fff;background:var(--unread)}
+.stpill.wait{color:#ffce8a;background:rgba(255,171,61,.16)}
+.stpill.done{color:#8fb8ff;background:rgba(79,140,255,.14)}
+.hcount{margin-left:auto;font-size:12px;color:#ffab3d;font-weight:700}
 /* ---- filters ---- */
 .filters{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;border-bottom:1px solid var(--line);background:#111a30}
 .chip{background:var(--card);border:1px solid var(--line);color:var(--dim);padding:6px 13px;border-radius:16px;font-size:13px;white-space:nowrap}
@@ -111,28 +120,39 @@ async function loadConvs(){
   if(error){ el('list').innerHTML='<div class="empty">Chyba připojení: '+error.message+'</div>'; return; }
   CONVS=data||[]; renderList();
 }
+// stav konverzace: nová (nepřečteno) > čeká na odpověď (host psal naposled) > odpovězeno (ty naposled)
+function stav(c){
+  if(c.unread>0) return {cls:'new',pill:'new',t:c.unread+(c.unread>1?' nové zprávy':' nová zpráva')};
+  if(c.posledni_smer==='in') return {cls:'wait',pill:'wait',t:'⏳ Čeká na odpověď'};
+  if(c.posledni_smer==='out') return {cls:'',pill:'done',t:'✓ Odpovězeno'};
+  return {cls:'',pill:'',t:''};
+}
+const rank=c=> c.unread>0?0 : c.posledni_smer==='in'?1 : 2;
+function needsAction(c){ return c.unread>0 || c.posledni_smer==='in'; }
 function renderFilters(){
   const byty=[...new Set(CONVS.map(c=>c.byt_nazev).filter(Boolean))];
-  const chips=[['vse','Vše'],['unread','Nepřečtené']].concat(byty.map(b=>[b,b]));
-  el('filters').innerHTML=chips.map(([k,l])=>`<span class="chip ${FILTER===k?'on':''}" onclick="setF('${k.replace(/'/g,"\\'")}')">${l}</span>`).join('');
+  const na=CONVS.filter(needsAction).length;
+  const chips=[['vse','Vše'],['ceka','⏳ Čeká'+(na?' '+na:'')],['unread','Nepřečtené']].concat(byty.map(b=>[b,b]));
+  el('filters').innerHTML=chips.map(([k,l])=>`<span class="chip ${FILTER===k?'on':''}" onclick="setF('${(k+'').replace(/'/g,"\\'")}')">${l}</span>`).join('');
 }
 function setF(k){ FILTER=k; renderFilters(); renderList(); }
 function renderList(){
-  let list=CONVS.slice();
+  let list=CONVS.slice().sort((a,b)=> rank(a)-rank(b) || (b.last_at||'').localeCompare(a.last_at||''));
   if(FILTER==='unread') list=list.filter(c=>c.unread>0);
+  else if(FILTER==='ceka') list=list.filter(needsAction);
   else if(FILTER!=='vse') list=list.filter(c=>c.byt_nazev===FILTER);
-  const tot=CONVS.reduce((a,c)=>a+(c.unread||0),0);
-  el('hbadge').textContent = tot? (tot+' nepřečtených') : (CONVS.length+' konverzací');
-  if(!list.length){ el('list').innerHTML='<div class="empty">Zatím žádné zprávy.<br><br>Sběrač na PC je bude průběžně stahovat ze všech Booking účtů sem.</div>'; return; }
-  el('list').innerHTML=list.map(c=>`
-    <div class="conv" onclick="openConv('${c.id}')">
+  const na=CONVS.filter(needsAction).length;
+  el('hbadge').innerHTML = na? `<span class="hcount">⏳ ${na} vyžaduje odpověď</span>` : (CONVS.length+' konverzací');
+  if(!list.length){ el('list').innerHTML='<div class="empty">Žádné konverzace v tomto filtru.</div>'; return; }
+  el('list').innerHTML=list.map(c=>{const s=stav(c);return `
+    <div class="conv st-${s.cls}" onclick="openConv('${c.id}')">
       <div class="ava" style="background:linear-gradient(135deg,${PCOL[c.platform]||'#555'},#2a3656)">${initials(c.guest)}
         <span class="pf" style="background:${PCOL[c.platform]||'#555'}">${PICON[c.platform]||'?'}</span></div>
       <div class="cmid">
         <div class="r1"><span class="nm">${esc(c.guest||'Host')}</span><span class="tm">${fmtT(c.last_at)}</span></div>
         <div class="r2"><span class="ls">${esc(c.last_text||'')}</span>${c.unread>0?`<span class="unread">${c.unread}</span>`:''}</div>
-        <div class="byt">🏠 ${esc(c.byt_nazev||c.byt_key||'')}</div>
-      </div></div>`).join('');
+        <div class="r2" style="margin-top:4px">${s.pill?`<span class="stpill ${s.pill}">${s.t}</span>`:''}<span class="byt">🏠 ${esc(c.byt_nazev||c.byt_key||'')}</span></div>
+      </div></div>`;}).join('');
 }
 function esc(s){ return (s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
 
@@ -158,7 +178,7 @@ async function sendReply(){
   await sb.from('zpravy').insert({id:mid,konverzace_id:curId,smer:'out',msg:t,ts:new Date().toISOString(),author:'já',stav:'pending'}).then(()=>{});
   // vloz do fronty -> PC agent to pošle do platformy
   await sb.from('odpovedi_fronta').insert({konverzace_id:curId,msg:t});
-  await sb.from('konverzace').update({last_text:'Ty: '+t,last_at:new Date().toISOString()}).eq('id',curId);
+  await sb.from('konverzace').update({last_text:'Ty: '+t,last_at:new Date().toISOString(),posledni_smer:'out',unread:0}).eq('id',curId);
   openConv(curId,true); loadConvs();
 }
 // service worker
