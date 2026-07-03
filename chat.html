@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="cs"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<title>VELÍN Chat</title>
+<meta name="theme-color" content="#0e1526">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="VELÍN">
+<style>
+:root{--bg:#0e1526;--card:#161f36;--card2:#1d2947;--line:#26324f;--txt:#eaf0fb;--dim:#8fa0c0;--acc:#4f8cff;--acc2:#7b6cff;
+--bk:#1e63d0;--ab:#ff5a5f;--pos:#25c281;--unread:#ff5a5f}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;overscroll-behavior:none}
+body{display:flex;flex-direction:column;height:100dvh}
+.hide{display:none!important}
+/* ---- PIN ---- */
+#pin{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:50;padding:24px}
+#pin h1{font-size:22px;margin:0}#pin .logo{font-size:44px}
+#pin input{background:var(--card);border:1px solid var(--line);color:var(--txt);font-size:22px;text-align:center;letter-spacing:6px;padding:12px 18px;border-radius:14px;width:200px;outline:none}
+#pin button{background:var(--acc);color:#fff;border:none;padding:12px 26px;border-radius:14px;font-size:16px;font-weight:600}
+/* ---- header ---- */
+header{padding:calc(env(safe-area-inset-top) + 12px) 16px 12px;background:linear-gradient(180deg,#141d33,#0e1526);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+header .t{font-size:19px;font-weight:800;letter-spacing:.3px}
+header .badge{margin-left:auto;font-size:12px;color:var(--dim)}
+header .back{font-size:22px;background:none;border:none;color:var(--acc);display:none}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--pos);box-shadow:0 0 8px var(--pos)}
+/* ---- inbox list ---- */
+#list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.conv{display:flex;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);align-items:center;cursor:pointer}
+.conv:active{background:var(--card)}
+.ava{width:46px;height:46px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;position:relative}
+.ava .pf{position:absolute;bottom:-3px;right:-3px;width:18px;height:18px;border-radius:50%;border:2px solid var(--bg);font-size:9px;display:flex;align-items:center;justify-content:center;color:#fff}
+.cmid{flex:1;min-width:0}
+.cmid .r1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.cmid .nm{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmid .tm{font-size:11px;color:var(--dim);flex:none}
+.cmid .r2{display:flex;justify-content:space-between;gap:8px;margin-top:2px}
+.cmid .ls{font-size:13px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmid .byt{font-size:11px;color:var(--acc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
+.unread{background:var(--unread);color:#fff;font-size:11px;font-weight:700;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 6px;flex:none}
+/* ---- filters ---- */
+.filters{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;border-bottom:1px solid var(--line);background:#111a30}
+.chip{background:var(--card);border:1px solid var(--line);color:var(--dim);padding:6px 13px;border-radius:16px;font-size:13px;white-space:nowrap}
+.chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+/* ---- thread ---- */
+#thread{flex:1;display:flex;flex-direction:column;min-height:0}
+#msgs{flex:1;overflow-y:auto;padding:14px 14px 6px;display:flex;flex-direction:column;gap:8px}
+.b{max-width:78%;padding:9px 13px;border-radius:16px;font-size:14.5px;line-height:1.35;white-space:pre-wrap;word-break:break-word}
+.b.in{background:var(--card2);align-self:flex-start;border-bottom-left-radius:5px}
+.b.out{background:var(--acc);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.b .mt{font-size:10px;opacity:.6;margin-top:3px;text-align:right}
+.b.pend{opacity:.6}
+.composer{display:flex;gap:8px;padding:10px 12px calc(env(safe-area-inset-bottom) + 10px);border-top:1px solid var(--line);background:#111a30;align-items:flex-end}
+.composer textarea{flex:1;background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:18px;padding:10px 14px;font-size:15px;resize:none;max-height:110px;outline:none;font-family:inherit}
+.composer button{background:var(--acc);border:none;color:#fff;width:42px;height:42px;border-radius:50%;font-size:19px;flex:none}
+.empty{color:var(--dim);text-align:center;padding:50px 20px;font-size:14px}
+.tinfo{text-align:center;font-size:11px;color:var(--dim);padding:6px}
+</style></head><body>
+
+<div id="pin"><div class="logo">🛰️</div><h1>VELÍN Chat</h1><input id="pinv" type="tel" inputmode="numeric" placeholder="PIN" maxlength="10"><button onclick="tryPin()">Vstoupit</button></div>
+
+<header>
+  <button class="back" id="back" onclick="showInbox()">‹</button>
+  <span class="dot" id="rt"></span>
+  <span class="t" id="htitle">Zprávy</span>
+  <span class="badge" id="hbadge"></span>
+</header>
+
+<div class="filters" id="filters"></div>
+<div id="list"></div>
+
+<div id="thread" class="hide">
+  <div id="msgs"></div>
+  <div class="composer">
+    <textarea id="reply" rows="1" placeholder="Napiš odpověď…" oninput="grow(this)"></textarea>
+    <button onclick="sendReply()">➤</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const SB_URL='https://uiynkslmvkjzzdvijkzo.supabase.co';
+const SB_KEY='sb_publishable_TARlXtpk7TbfzeFHNo1zEQ_zdaVtX-TEH';
+const PIN='7853';
+let sb, CONVS=[], curId=null, FILTER='vse';
+const PCOL={booking:'var(--bk)',airbnb:'var(--ab)'};
+const PICON={booking:'B',airbnb:'A'};
+const el=id=>document.getElementById(id);
+function tryPin(){ if(el('pinv').value.trim()===PIN){ el('pin').classList.add('hide'); localStorage.velinpin='1'; boot(); } else { el('pinv').value=''; el('pinv').placeholder='špatný PIN'; } }
+if(localStorage.velinpin==='1'){ el('pin').classList.add('hide'); }
+el('pinv').addEventListener('keydown',e=>{if(e.key==='Enter')tryPin();});
+
+function grow(t){t.style.height='auto';t.style.height=Math.min(t.scrollHeight,110)+'px';}
+function fmtT(iso){ if(!iso)return''; const d=new Date(iso),n=new Date(); const sd=d.toDateString()===n.toDateString();
+  return sd? d.toLocaleTimeString('cs',{hour:'2-digit',minute:'2-digit'}) : d.toLocaleDateString('cs',{day:'numeric',month:'numeric'}); }
+function initials(s){ return (s||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase(); }
+
+async function boot(){
+  sb=supabase.createClient(SB_URL,SB_KEY);
+  await loadConvs();
+  renderFilters();
+  // realtime
+  sb.channel('rt').on('postgres_changes',{event:'*',schema:'public',table:'zpravy'},()=>{ if(curId)openConv(curId,true); loadConvs(); })
+    .on('postgres_changes',{event:'*',schema:'public',table:'konverzace'},()=>loadConvs())
+    .subscribe(st=>{ el('rt').style.background = st==='SUBSCRIBED' ? 'var(--pos)' : 'var(--dim)'; });
+}
+async function loadConvs(){
+  const {data,error}=await sb.from('konverzace').select('*').order('last_at',{ascending:false,nullsFirst:false});
+  if(error){ el('list').innerHTML='<div class="empty">Chyba připojení: '+error.message+'</div>'; return; }
+  CONVS=data||[]; renderList();
+}
+function renderFilters(){
+  const byty=[...new Set(CONVS.map(c=>c.byt_nazev).filter(Boolean))];
+  const chips=[['vse','Vše'],['unread','Nepřečtené']].concat(byty.map(b=>[b,b]));
+  el('filters').innerHTML=chips.map(([k,l])=>`<span class="chip ${FILTER===k?'on':''}" onclick="setF('${k.replace(/'/g,"\\'")}')">${l}</span>`).join('');
+}
+function setF(k){ FILTER=k; renderFilters(); renderList(); }
+function renderList(){
+  let list=CONVS.slice();
+  if(FILTER==='unread') list=list.filter(c=>c.unread>0);
+  else if(FILTER!=='vse') list=list.filter(c=>c.byt_nazev===FILTER);
+  const tot=CONVS.reduce((a,c)=>a+(c.unread||0),0);
+  el('hbadge').textContent = tot? (tot+' nepřečtených') : (CONVS.length+' konverzací');
+  if(!list.length){ el('list').innerHTML='<div class="empty">Zatím žádné zprávy.<br><br>Sběrač na PC je bude průběžně stahovat ze všech Booking účtů sem.</div>'; return; }
+  el('list').innerHTML=list.map(c=>`
+    <div class="conv" onclick="openConv('${c.id}')">
+      <div class="ava" style="background:linear-gradient(135deg,${PCOL[c.platform]||'#555'},#2a3656)">${initials(c.guest)}
+        <span class="pf" style="background:${PCOL[c.platform]||'#555'}">${PICON[c.platform]||'?'}</span></div>
+      <div class="cmid">
+        <div class="r1"><span class="nm">${esc(c.guest||'Host')}</span><span class="tm">${fmtT(c.last_at)}</span></div>
+        <div class="r2"><span class="ls">${esc(c.last_text||'')}</span>${c.unread>0?`<span class="unread">${c.unread}</span>`:''}</div>
+        <div class="byt">🏠 ${esc(c.byt_nazev||c.byt_key||'')}</div>
+      </div></div>`).join('');
+}
+function esc(s){ return (s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+
+async function openConv(id,keep){
+  curId=id; const c=CONVS.find(x=>x.id===id)||{};
+  el('list').classList.add('hide'); el('filters').classList.add('hide');
+  el('thread').classList.remove('hide'); el('back').style.display='block';
+  el('htitle').textContent=c.guest||'Host'; el('hbadge').textContent=c.byt_nazev||'';
+  const {data}=await sb.from('zpravy').select('*').eq('konverzace_id',id).order('ts',{ascending:true});
+  const m=el('msgs'); m.innerHTML=(data||[]).map(z=>`<div class="b ${z.smer==='out'?'out':'in'} ${z.stav==='pending'?'pend':''}">${esc(z.msg)}<div class="mt">${fmtT(z.ts)}${z.smer==='out'&&z.stav==='pending'?' · odesílá se…':''}</div></div>`).join('')
+    || '<div class="tinfo">Zatím žádné zprávy ve vlákně.</div>';
+  m.scrollTop=m.scrollHeight;
+  if(!keep && c.unread>0){ await sb.from('konverzace').update({unread:0}).eq('id',id); loadConvs(); }
+}
+function showInbox(){ curId=null; el('thread').classList.add('hide'); el('list').classList.remove('hide'); el('filters').classList.remove('hide'); el('back').style.display='none'; el('htitle').textContent='Zprávy'; renderList(); }
+
+async function sendReply(){
+  const t=el('reply').value.trim(); if(!t||!curId)return;
+  const c=CONVS.find(x=>x.id===curId)||{};
+  el('reply').value=''; grow(el('reply'));
+  const mid='out-'+Date.now();
+  // optimisticky zobraz
+  await sb.from('zpravy').insert({id:mid,konverzace_id:curId,smer:'out',msg:t,ts:new Date().toISOString(),author:'já',stav:'pending'}).then(()=>{});
+  // vloz do fronty -> PC agent to pošle do platformy
+  await sb.from('odpovedi_fronta').insert({konverzace_id:curId,msg:t});
+  await sb.from('konverzace').update({last_text:'Ty: '+t,last_at:new Date().toISOString()}).eq('id',curId);
+  openConv(curId,true); loadConvs();
+}
+// service worker
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+</script></body></html>
