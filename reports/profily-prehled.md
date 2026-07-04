@@ -26,7 +26,7 @@ aktualizovano: 2026-07-04
 | — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 80 % |
 | — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 28 % |
 | — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 40 % |
-| — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 18 % |
+| — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 23 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
 - **mezibranska mala** (skore 34) — neznamy (chybi historie)
