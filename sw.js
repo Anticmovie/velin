@@ -1,24 +1,12 @@
-// VELÍN Chat — service worker (PWA offline shell + web push)
-const CACHE = 'velin-v3';
-const SHELL = ['chat.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
-
-self.addEventListener('install', e => {
-  self.skipWaiting();
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL).catch(() => {})));
-});
+// VELÍN Chat — service worker (v4): ŽÁDNÉ cachování appky (vždy čerstvá ze sítě) + web push.
+// (appka je stejně always-online kvůli Supabase; offline cache působila stale/prázdné zobrazení)
+const CACHE = 'velin-v4';
+self.addEventListener('install', e => { self.skipWaiting(); });
 self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))));
+  e.waitUntil(caches.keys().then(ks => Promise.all(ks.map(k => caches.delete(k)))));  // smaž VŠECHNY staré cache
   self.clients.claim();
 });
-// network-first pro appku, fallback cache (data jde vždy z Supabase přímo)
-self.addEventListener('fetch', e => {
-  const u = new URL(e.request.url);
-  if (u.origin !== location.origin) return; // Supabase apod. nechme projít
-  e.respondWith(fetch(e.request).then(r => {
-    const cp = r.clone(); caches.open(CACHE).then(c => c.put(e.request, cp).catch(() => {})); return r;
-  }).catch(() => caches.match(e.request)));
-});
-// web push (aktivuje se ve F web-push fázi)
+// bez fetch handleru -> prohlížeč načítá vždy z webu (žádná stará verze)
 self.addEventListener('push', e => {
   let d = {}; try { d = e.data.json(); } catch (_) {}
   e.waitUntil(self.registration.showNotification(d.title || 'VELÍN — nová zpráva', {
