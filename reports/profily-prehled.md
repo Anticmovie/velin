@@ -25,7 +25,7 @@ aktualizovano: 2026-07-05
 | 13 | mezibranska velka | 30 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 28 % |
 | — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 80 % |
 | — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 37 % |
-| — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 45 % |
+| — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 50 % |
 | — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 22 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
