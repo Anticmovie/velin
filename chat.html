@@ -48,6 +48,9 @@ header .back{font-size:22px;background:none;border:none;color:var(--acc);display
 .stpill.new{color:#fff;background:var(--unread)}
 .stpill.wait{color:#ffce8a;background:rgba(255,171,61,.16)}
 .stpill.done{color:#8fb8ff;background:rgba(79,140,255,.14)}
+.dates{font-size:11px;color:var(--dim);white-space:nowrap}
+.dates.today{color:#ffce8a;font-weight:700}
+.dates.instay{color:var(--pos);font-weight:700}
 .hcount{margin-left:auto;font-size:12px;color:#ffab3d;font-weight:700}
 /* ---- filters ---- */
 .filters{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;border-bottom:1px solid var(--line);background:#111a30}
@@ -105,6 +108,16 @@ function grow(t){t.style.height='auto';t.style.height=Math.min(t.scrollHeight,11
 function fmtT(iso){ if(!iso)return''; const d=new Date(iso),n=new Date(); const sd=d.toDateString()===n.toDateString();
   return sd? d.toLocaleTimeString('cs',{hour:'2-digit',minute:'2-digit'}) : d.toLocaleDateString('cs',{day:'numeric',month:'numeric'}); }
 function initials(s){ return (s||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase(); }
+function fmtD(iso){ if(!iso)return''; const d=new Date(iso+'T12:00'); return d.getDate()+'.'+(d.getMonth()+1)+'.'; }
+// popis pobytu: dnes check-in / hoste v byte / budouci či minulý termín
+function pobyt(c){
+  if(!c.prijezd)return null; const t=new Date().toISOString().slice(0,10);
+  const r=fmtD(c.prijezd)+'–'+fmtD(c.odjezd);
+  if(c.prijezd===t) return {cls:'today',t:'🔑 dnes check-in · '+r};
+  if(c.odjezd===t) return {cls:'today',t:'👋 dnes check-out · '+r};
+  if(c.prijezd<t&&c.odjezd>t) return {cls:'instay',t:'🏠 v bytě · '+r};
+  return {cls:'',t:'📅 '+r};
+}
 
 async function boot(){
   sb=supabase.createClient(SB_URL,SB_KEY);
@@ -132,7 +145,7 @@ function needsAction(c){ return c.unread>0 || c.posledni_smer==='in'; }
 function renderFilters(){
   const byty=[...new Set(CONVS.map(c=>c.byt_nazev).filter(Boolean))];
   const na=CONVS.filter(needsAction).length;
-  const chips=[['vse','Vše'],['ceka','⏳ Čeká'+(na?' '+na:'')],['unread','Nepřečtené']].concat(byty.map(b=>[b,b]));
+  const chips=[['vse','Vše'],['ceka','⏳ Čeká'+(na?' '+na:'')],['unread','Nepřečtené'],['p:booking','Booking'],['p:airbnb','Airbnb']].concat(byty.map(b=>[b,b]));
   el('filters').innerHTML=chips.map(([k,l])=>`<span class="chip ${FILTER===k?'on':''}" onclick="setF('${(k+'').replace(/'/g,"\\'")}')">${l}</span>`).join('');
 }
 function setF(k){ FILTER=k; renderFilters(); renderList(); }
@@ -140,6 +153,7 @@ function renderList(){
   let list=CONVS.slice().sort((a,b)=> rank(a)-rank(b) || (b.last_at||'').localeCompare(a.last_at||''));
   if(FILTER==='unread') list=list.filter(c=>c.unread>0);
   else if(FILTER==='ceka') list=list.filter(needsAction);
+  else if(FILTER.startsWith('p:')) list=list.filter(c=>c.platform===FILTER.slice(2));
   else if(FILTER!=='vse') list=list.filter(c=>c.byt_nazev===FILTER);
   const na=CONVS.filter(needsAction).length;
   el('hbadge').innerHTML = na? `<span class="hcount">⏳ ${na} vyžaduje odpověď</span>` : (CONVS.length+' konverzací');
@@ -152,6 +166,7 @@ function renderList(){
         <div class="r1"><span class="nm">${esc(c.guest||'Host')}</span><span class="tm">${fmtT(c.last_at)}</span></div>
         <div class="r2"><span class="ls">${esc(c.last_text||'')}</span>${c.unread>0?`<span class="unread">${c.unread}</span>`:''}</div>
         <div class="r2" style="margin-top:4px">${s.pill?`<span class="stpill ${s.pill}">${s.t}</span>`:''}<span class="byt">🏠 ${esc(c.byt_nazev||c.byt_key||'')}</span></div>
+        ${(p=>p?`<div class="r2" style="margin-top:3px"><span class="dates ${p.cls}">${p.t}</span></div>`:'')(pobyt(c))}
       </div></div>`;}).join('');
 }
 function esc(s){ return (s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
@@ -160,7 +175,8 @@ async function openConv(id,keep){
   curId=id; const c=CONVS.find(x=>x.id===id)||{};
   el('list').classList.add('hide'); el('filters').classList.add('hide');
   el('thread').classList.remove('hide'); el('back').style.display='block';
-  el('htitle').textContent=c.guest||'Host'; el('hbadge').textContent=c.byt_nazev||'';
+  el('htitle').textContent=c.guest||'Host';
+  const pb=pobyt(c); el('hbadge').textContent=(c.byt_nazev||'')+(pb?' · '+pb.t.replace(/^..\s?/,''):'');
   const {data}=await sb.from('zpravy').select('*').eq('konverzace_id',id).order('ts',{ascending:true});
   const m=el('msgs'); m.innerHTML=(data||[]).map(z=>`<div class="b ${z.smer==='out'?'out':'in'} ${z.stav==='pending'?'pend':''}">${esc(z.msg)}<div class="mt">${fmtT(z.ts)}${z.smer==='out'&&z.stav==='pending'?' · odesílá se…':''}</div></div>`).join('')
     || '<div class="tinfo">Zatím žádné zprávy ve vlákně.</div>';
