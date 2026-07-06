@@ -21,15 +21,15 @@ aktualizovano: 2026-07-06
 | 8 | 202 | 53 | ★★★☆☆ | 8.9/10 | 4.9/5 | 24 000 | 327 012 | 1367 | 15 % |
 | 10 | 29 | 51 | ★★★☆☆ | 9.1/10 | 4.79/5 | 20 000 | 398 749 | 1534 | 10 % |
 | 3 | korunni | 51 | ★★★☆☆ | ⚠️ | ⚠️ | 29 100 | — | — | 33 % |
-| 12 | mezibranska mala | 33 | ★★☆☆☆ | ⚠️ | ⚠️ | 34 000 | — | — | 32 % |
+| 12 | mezibranska mala | 36 | ★★☆☆☆ | ⚠️ | ⚠️ | 34 000 | — | — | 38 % |
 | 13 | mezibranska velka | 30 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 28 % |
 | — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 78 % |
-| — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 37 % |
-| — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 50 % |
-| — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 20 % |
+| — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 32 % |
+| — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 42 % |
+| — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 28 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
-- **mezibranska mala** (skore 33) — neznamy (chybi historie)
+- **mezibranska mala** (skore 36) — neznamy (chybi historie)
 - **mezibranska velka** (skore 30) — neznamy (chybi historie)
 
 ## ⚠️ Chybi data (doplnit pro presne profily)
