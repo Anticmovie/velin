@@ -1,13 +1,11 @@
 <!DOCTYPE html><html lang="cs"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>VELÍN Zprávy</title>
-<meta name="theme-color" content="#ffffff">
-<link rel="manifest" href="manifest.json">
+<title>Recepce · Zprávy hostům</title>
+<meta name="theme-color" content="#f6f4ef">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="VELÍN">
+<meta name="apple-mobile-web-app-title" content="Recepce">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,38 +15,37 @@
   --txt:#211e18;--dim:#6f6a5e;--dim2:#b5afa0;
   --ab:#ff385c;--bk:#0057d8;--pos:#177245;--posbg:#e6f2ea;
   --warn:#a96a00;--warnbg:#f9efdc;--newc:#b3362c;--newbg:#f9e7e4;
-  --ink:#211e18;
+  --ink:#211e18;--grn:#1e5c48;
   --r:18px;--sh:0 1px 2px rgba(33,30,24,.05),0 8px 28px -12px rgba(33,30,24,.12);
-  --sh2:0 2px 6px rgba(33,30,24,.06),0 16px 44px -16px rgba(33,30,24,.18);
   --serif:'Fraunces',Georgia,serif;
+  --sans:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);
-  font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  font-family:var(--sans);
   overscroll-behavior:none;font-size:15px;-webkit-font-smoothing:antialiased}
 button{font-family:inherit}
 .hide{display:none!important}
 ::-webkit-scrollbar{width:9px;height:9px}
-::-webkit-scrollbar-thumb{background:#d5d5d2;border-radius:5px;border:2px solid transparent;background-clip:content-box}
-::-webkit-scrollbar-thumb:hover{background:#bdbdba;border:2px solid transparent;background-clip:content-box}
+::-webkit-scrollbar-thumb{background:#d9d2c2;border-radius:5px;border:2px solid transparent;background-clip:content-box}
 ::-webkit-scrollbar-track{background:transparent}
 
 /* ============ PIN ============ */
 #pin{position:fixed;inset:0;background:radial-gradient(1200px 600px at 50% -10%,#efece4,#fff);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;z-index:100;padding:24px}
-#pin .logo{font-size:52px}
-#pin h1{font-family:var(--serif);font-size:30px;margin:0;font-weight:700;letter-spacing:-.5px}
+#pin .logo{font-size:48px}
+#pin h1{font-family:var(--serif);font-size:32px;margin:0;font-weight:700;letter-spacing:-.5px}
 #pin p{margin:0;color:var(--dim);font-size:14px}
 #pin input{border:1.5px solid var(--line2);background:#fff;color:var(--txt);font-size:24px;text-align:center;letter-spacing:8px;padding:14px 18px;border-radius:16px;width:220px;outline:none;box-shadow:var(--sh)}
 #pin input:focus{border-color:var(--ink)}
-#pin button{background:var(--ink);color:#fff;border:none;padding:14px 38px;border-radius:16px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:var(--sh)}
+#pin button{background:var(--grn);color:#fff;border:none;padding:14px 38px;border-radius:16px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:var(--sh)}
 
 /* ============ LAYOUT ============ */
 #app{display:grid;grid-template-columns:408px minmax(0,1fr) 348px;height:100dvh;height:100vh;background:var(--bg2)}
 .pane{min-width:0;display:flex;flex-direction:column;min-height:0;background:var(--bg)}
 #paneList{border-right:1px solid var(--line)}
-#paneThread{background:linear-gradient(180deg,#fbfbfa,#f7f7f5)}
+#paneThread{background:linear-gradient(180deg,#fbfaf7,#f6f4ef)}
 #paneDetail{border-left:1px solid var(--line)}
-@media(max-width:1280px){#app{grid-template-columns:390px minmax(0,1fr)}#paneDetail{position:fixed;right:0;top:0;bottom:0;width:min(370px,94vw);z-index:40;box-shadow:-16px 0 60px rgba(0,0,0,.16);transform:translateX(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+@media(max-width:1280px){#app{grid-template-columns:390px minmax(0,1fr)}#paneDetail{position:fixed;right:0;top:0;bottom:0;width:min(370px,94vw);z-index:40;box-shadow:-16px 0 60px rgba(0,0,0,.16);transform:translateX(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1);background:var(--bg)}
   #paneDetail.open{transform:none}}
 @media(max-width:780px){
   #app{grid-template-columns:1fr}
@@ -60,37 +57,42 @@ button{font-family:inherit}
 .lhead{padding:calc(env(safe-area-inset-top) + 20px) 22px 6px}
 .lhead .row{display:flex;align-items:baseline;gap:10px}
 .lhead h1{font-family:var(--serif);font-size:30px;font-weight:700;margin:0;letter-spacing:-.5px;flex:1}
+.lhead h1 em{font-style:italic;color:var(--grn)}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--dim2);flex:none;align-self:center}
 .dot.on{background:var(--pos);box-shadow:0 0 0 3px var(--posbg)}
 #hcount{font-size:12.5px;color:var(--dim);font-weight:500}
-#search{margin:14px 20px 4px;display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid transparent;border-radius:26px;padding:11px 17px;transition:all .15s}
+/* dnesni provoz */
+#todaybar{display:flex;gap:7px;padding:12px 20px 0;overflow-x:auto;scrollbar-width:none}
+#todaybar::-webkit-scrollbar{display:none}
+.tb{flex:none;display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:8px 13px;font-size:12.5px;font-weight:600;color:var(--dim)}
+.tb b{font-family:var(--serif);font-size:19px;color:var(--txt);font-weight:600}
+.tb.hot{background:var(--warnbg);border-color:#ecd9b4;color:var(--warn)}
+.tb.hot b{color:var(--warn)}
+#search{margin:12px 20px 4px;display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid transparent;border-radius:26px;padding:11px 17px;transition:all .15s}
 #search:focus-within{background:#fff;border-color:var(--line2);box-shadow:var(--sh)}
 #search svg{flex:none;opacity:.5}
-#search input{border:none;background:none;outline:none;font-size:14.5px;width:100%;color:var(--txt)}
+#search input{border:none;background:none;outline:none;font-size:14.5px;width:100%;color:var(--txt);font-family:inherit}
 .filters{display:flex;gap:7px;padding:12px 20px 10px;overflow-x:auto;scrollbar-width:none}
 .filters::-webkit-scrollbar{display:none}
 .chip{background:#fff;border:1px solid var(--line2);color:var(--txt);padding:8px 15px;border-radius:22px;font-size:13px;white-space:nowrap;cursor:pointer;font-weight:600;transition:all .15s}
 .chip:hover{border-color:var(--ink);transform:translateY(-1px)}
 .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 #list{flex:1;overflow-y:auto;padding:2px 12px 24px}
-/* sekce */
 .sect{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;padding:12px 10px 8px;background:linear-gradient(180deg,#fff 78%,rgba(255,255,255,0));font-size:12px;font-weight:800;letter-spacing:.7px;text-transform:uppercase}
 .sect.wait{color:var(--warn)}
 .sect.ok{color:var(--dim)}
 .sect .cnt{background:var(--warnbg);color:var(--warn);border-radius:10px;padding:1px 8px;font-size:11.5px;letter-spacing:0}
 .sect.ok .cnt{background:var(--bg2);color:var(--dim)}
-/* radek konverzace */
-.conv{display:flex;gap:13px;padding:13px 12px;border-radius:var(--r);cursor:pointer;align-items:flex-start;position:relative;transition:background .12s,transform .12s;border:1px solid transparent}
+.conv{display:flex;gap:13px;padding:13px 12px;border-radius:var(--r);cursor:pointer;align-items:flex-start;position:relative;transition:background .12s;border:1px solid transparent}
 .conv:hover{background:var(--bg2)}
 .conv.sel{background:#fff;border-color:var(--line);box-shadow:var(--sh)}
-.conv.act{background:linear-gradient(135deg,#fff8f0,#fff);border-color:#f4e3cd;box-shadow:0 1px 2px rgba(180,89,0,.05)}
-.conv.act:hover{background:linear-gradient(135deg,#fff3e4,#fff)}
-.conv.act.sel{border-color:#eed4b4;box-shadow:var(--sh)}
+.conv.act{background:linear-gradient(135deg,#fdf6e9,#fff);border-color:#f0e2c8}
+.conv.act:hover{background:linear-gradient(135deg,#faf0dc,#fff)}
 .ava{width:52px;height:52px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff;position:relative;letter-spacing:.5px;box-shadow:inset 0 -10px 18px rgba(0,0,0,.12)}
 .ava .pf{position:absolute;bottom:-3px;right:-5px;width:22px;height:22px;border-radius:50%;border:2.5px solid #fff;font-size:10.5px;font-weight:900;display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 1px 3px rgba(0,0,0,.18)}
 .cmid{flex:1;min-width:0}
 .cmid .r1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.cmid .nm{font-weight:750;font-size:15.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.15px}
+.cmid .nm{font-weight:700;font-size:15.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cmid .tm{font-size:12px;color:var(--dim);flex:none;font-weight:500}
 .conv.act .tm{color:var(--warn);font-weight:700}
 .cmid .ls{font-size:13.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px;line-height:1.35}
@@ -103,8 +105,8 @@ button{font-family:inherit}
 .chipm.dt.instay{background:var(--posbg);color:var(--pos)}
 .chipm.dt.today{background:var(--warnbg);color:var(--warn)}
 .chipm.wait{background:var(--warnbg);color:var(--warn)}
-.chipm.new{background:var(--newc);color:#fff;box-shadow:0 2px 8px -2px rgba(217,38,67,.5)}
-.bdg{position:absolute;top:14px;right:12px;min-width:20px;height:20px;border-radius:10px;background:var(--newc);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 6px;box-shadow:0 2px 8px -2px rgba(217,38,67,.6)}
+.chipm.new{background:var(--newc);color:#fff}
+.bdg{position:absolute;top:14px;right:12px;min-width:20px;height:20px;border-radius:10px;background:var(--newc);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 6px}
 .empty{color:var(--dim);text-align:center;padding:60px 24px;font-size:14.5px;line-height:1.6}
 
 /* ============ THREAD PANE ============ */
@@ -115,8 +117,8 @@ button{font-family:inherit}
 @media(max-width:780px){.thead .back{display:flex}}
 .thead .ava{width:44px;height:44px;font-size:16px}
 .thead .tt{flex:1;min-width:0}
-.thead .tt .n{font-weight:800;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.3px;display:flex;align-items:center;gap:8px}
-.thead .tt .n .st{font-size:11px;font-weight:800;padding:3px 9px;border-radius:9px;letter-spacing:.2px}
+.thead .tt .n{font-weight:800;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:8px}
+.thead .tt .n .st{font-size:11px;font-weight:800;padding:3px 9px;border-radius:9px}
 .thead .tt .n .st.wait{background:var(--warnbg);color:var(--warn)}
 .thead .tt .n .st.new{background:var(--newc);color:#fff}
 .thead .tt .n .st.done{background:var(--posbg);color:var(--pos)}
@@ -134,40 +136,39 @@ button{font-family:inherit}
 .mcap b{color:var(--txt);font-weight:750;font-size:12.5px}
 .b{padding:11px 16px;border-radius:20px;font-size:14.8px;line-height:1.45;white-space:pre-wrap;word-break:break-word;margin-top:2.5px}
 .grp.in .b{background:#fff;border:1px solid var(--line);border-bottom-left-radius:7px;box-shadow:var(--sh)}
-.grp.out .b{background:var(--ink);color:#fff;border-bottom-right-radius:7px;box-shadow:0 2px 10px -3px rgba(26,26,26,.4)}
+.grp.out .b{background:var(--grn);color:#fff;border-bottom-right-radius:7px}
 .grp.pend .b{opacity:.55}
 .pendtxt{font-size:11px;color:var(--dim);margin-top:4px}
 .trx{font-size:11px;color:var(--dim);margin-top:5px;padding:0 5px;cursor:pointer;user-select:none;font-weight:600}
 .trx:hover{color:var(--txt)}
 .b .orig{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(128,128,128,.4);opacity:.75;font-size:13.5px}
 .langbar{display:flex;align-items:center;gap:10px;padding:9px 22px 0;font-size:12.5px;color:var(--dim)}
-.langbar .sw{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);background:#fff;border-radius:18px;padding:6px 13px;cursor:pointer;font-weight:700;color:var(--txt);transition:all .15s}
-.langbar .sw.on{background:#e9f1fd;border-color:#b9d2f5;color:var(--bk)}
+.langbar .sw{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);background:#fff;border-radius:18px;padding:6px 13px;cursor:pointer;font-weight:700;color:var(--txt)}
+.langbar .sw.on{background:var(--posbg);border-color:#bcd8c6;color:var(--pos)}
 .composer{display:flex;gap:10px;padding:12px 20px calc(env(safe-area-inset-bottom) + 16px);align-items:flex-end}
 .composer .box{flex:1;display:flex;align-items:flex-end;background:#fff;border:1.5px solid var(--line2);border-radius:24px;transition:all .15s;box-shadow:var(--sh)}
-.composer .box:focus-within{border-color:var(--ink)}
+.composer .box:focus-within{border-color:var(--grn)}
 .composer textarea{flex:1;background:none;border:none;color:var(--txt);padding:12px 18px;font-size:15px;resize:none;max-height:130px;outline:none;font-family:inherit;line-height:1.4}
-.composer button{background:var(--ink);border:none;color:#fff;width:46px;height:46px;border-radius:50%;flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s;box-shadow:var(--sh)}
+.composer button{background:var(--grn);border:none;color:#fff;width:46px;height:46px;border-radius:50%;flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s;box-shadow:var(--sh)}
 .composer button:hover{transform:scale(1.06)}
-.composer button:active{transform:scale(.96)}
 #noconv{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--dim)}
 #noconv .big{font-size:56px;filter:grayscale(.2)}
-#noconv .t{font-size:17px;font-weight:700;color:var(--txt);letter-spacing:-.3px}
+#noconv .t{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--txt)}
 
 /* ============ DETAIL PANE ============ */
 .dhead{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 18px) 22px 10px}
-.dhead h2{font-size:16px;font-weight:800;margin:0;flex:1;letter-spacing:-.2px}
+.dhead h2{font-family:var(--serif);font-size:18px;font-weight:600;margin:0;flex:1}
 #detail{flex:1;overflow-y:auto;padding:4px 20px 28px}
 .dprof{text-align:center;padding:16px 0 18px}
 .dprof .ava{width:88px;height:88px;font-size:31px;margin:0 auto}
-.dprof .n{font-size:21px;font-weight:800;margin-top:13px;letter-spacing:-.5px}
+.dprof .n{font-family:var(--serif);font-size:23px;font-weight:600;margin-top:13px}
 .dprof .s{font-size:13.5px;color:var(--dim);margin-top:5px;font-weight:500}
 .card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:12px;box-shadow:var(--sh)}
 .card .lbl{font-size:10.5px;font-weight:800;color:var(--dim);text-transform:uppercase;letter-spacing:.8px}
 .cico{display:grid;grid-template-columns:1fr 1fr}
 .cico>div{padding:2px 6px}
 .cico>div:first-child{border-right:1px solid var(--line)}
-.cico .v{font-size:17px;font-weight:800;margin-top:6px;letter-spacing:-.3px}
+.cico .v{font-family:var(--serif);font-size:19px;font-weight:600;margin-top:6px}
 .cico .w{font-size:12.5px;color:var(--dim);margin-top:2px}
 .krow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9.5px 0;border-bottom:1px solid var(--line);font-size:14px}
 .krow:last-child{border-bottom:none;padding-bottom:2px}
@@ -176,24 +177,23 @@ button{font-family:inherit}
 .krow .v{font-weight:700;text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .krow .v.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;background:var(--bg2);padding:3px 8px;border-radius:8px}
 .pill{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;padding:6px 13px;border-radius:12px}
-.pill.pl-booking{background:#e9f1fd;color:var(--bk)}
+.pill.pl-booking{background:#e7eff8;color:var(--bk)}
 .pill.pl-airbnb{background:var(--newbg);color:var(--ab)}
 .pill.ok{background:var(--posbg);color:var(--pos)}
 .pill.warn{background:var(--warnbg);color:var(--warn)}
 .pill.new{background:var(--newc);color:#fff}
-.openlink{display:block;text-align:center;margin-top:14px;padding:13px;background:var(--ink);border-radius:14px;color:#fff;text-decoration:none;font-weight:800;font-size:14px;box-shadow:var(--sh);transition:transform .12s}
-.openlink:hover{transform:translateY(-1px)}
 .hlcard{margin-top:12px;border-radius:var(--r);padding:14px 16px;font-weight:800;text-align:center;font-size:14.5px}
-.hlcard.today{background:linear-gradient(135deg,#fff2e2,#ffe9d2);color:var(--warn)}
-.hlcard.instay{background:linear-gradient(135deg,#e7f4ec,#dcefe4);color:var(--pos)}
+.hlcard.today{background:linear-gradient(135deg,#f9efdc,#f4e6c8);color:var(--warn)}
+.hlcard.instay{background:linear-gradient(135deg,#e6f2ea,#daecdfd9);color:var(--pos)}
 </style></head><body>
 
-<div id="pin"><div class="logo">🛰️</div><h1>VELÍN Zprávy</h1><p>Sjednocená schránka Booking + Airbnb</p><input id="pinv" type="tel" inputmode="numeric" placeholder="PIN" maxlength="10"><button onclick="tryPin()">Vstoupit</button></div>
+<div id="pin"><div class="logo">🛎️</div><h1>Recep<em>ce</em></h1><p>Zprávy hostům &amp; dnešní provoz</p><input id="pinv" type="tel" inputmode="numeric" placeholder="PIN" maxlength="10"><button onclick="tryPin()">Vstoupit</button></div>
 
 <div id="app">
   <!-- ===== SEZNAM ===== -->
   <div class="pane" id="paneList">
-    <div class="lhead"><div class="row"><h1>Zprávy</h1><span class="dot" id="rt"></span><span id="hcount"></span></div></div>
+    <div class="lhead"><div class="row"><h1>Recep<em>ce</em></h1><span class="dot" id="rt"></span><span id="hcount"></span></div></div>
+    <div id="todaybar"></div>
     <div id="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input id="q" placeholder="Hledat hosta nebo byt…" oninput="renderList()"></div>
     <div class="filters" id="filters"></div>
     <div id="list"></div>
@@ -201,7 +201,7 @@ button{font-family:inherit}
 
   <!-- ===== VLÁKNO ===== -->
   <div class="pane" id="paneThread">
-    <div id="noconv"><div class="big">💬</div><div class="t">Vyber konverzaci</div><div style="font-size:13.5px">Všechny platformy, apartmány a jazyky na jednom místě</div></div>
+    <div id="noconv"><div class="big">🛎️</div><div class="t">Vyber konverzaci</div><div style="font-size:13.5px">Odpověď hostovi dorazí rovnou na Booking / Airbnb</div></div>
     <div id="twrap" class="hide" style="display:flex;flex-direction:column;flex:1;min-height:0">
       <div class="thead">
         <button class="iconbtn back" onclick="closeThread()">‹</button>
@@ -232,7 +232,7 @@ button{font-family:inherit}
 <script>
 const SB_URL='https://uiynkslmvkjzzdvijkzo.supabase.co';
 const SB_KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
-const PIN='7853';
+const PIN='4870';               // PIN pro tym (recepce) — zmen dle potreby; NENI to PIN VELINu
 let sb, CONVS=[], curId=null, FILTER='vse', TR_OUT=true;
 const PCOL={booking:'var(--bk)',airbnb:'var(--ab)'};
 const PICON={booking:'B',airbnb:'A'};
@@ -249,13 +249,12 @@ async function gtx(text,tl,sl){
 const el=id=>document.getElementById(id);
 const esc=s=>(s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
 const initials=s=>(s||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
-const avaStyle=c=>`background:linear-gradient(140deg,${PCOL[c.platform]||'#888'},#3d4a63)`;
-/* unikatni pastelova barva apartmanu (hash -> hue) — okamzita orientace v seznamu */
+const avaStyle=c=>`background:linear-gradient(140deg,${PCOL[c.platform]||'#888'},#4a4436)`;
 function hue(s){ let h=0; for(const ch of (s||'')) h=(h*31+ch.charCodeAt(0))>>>0; return h%360; }
 function aptChip(c,extra){ const k=c.byt_key||c.byt_nazev||'?', h=hue(k);
-  return `<span class="chipm apt" style="background:hsl(${h},68%,93%);color:hsl(${h},55%,30%);border-color:hsl(${h},50%,85%)">🏠 ${esc(c.byt_nazev||k)}</span>${extra||''}`; }
+  return `<span class="chipm apt" style="background:hsl(${h},58%,93%);color:hsl(${h},48%,30%);border-color:hsl(${h},42%,85%)">🏠 ${esc(c.byt_nazev||k)}</span>${extra||''}`; }
 
-function tryPin(){ if(el('pinv').value.trim()===PIN){ el('pin').classList.add('hide'); localStorage.velinpin='1'; boot(); } else { el('pinv').value=''; el('pinv').placeholder='špatný PIN'; } }
+function tryPin(){ if(el('pinv').value.trim()===PIN){ el('pin').classList.add('hide'); localStorage.velintym='1'; boot(); } else { el('pinv').value=''; el('pinv').placeholder='špatný PIN'; } }
 el('pinv').addEventListener('keydown',e=>{if(e.key==='Enter')tryPin();});
 
 /* ---------- format ---------- */
@@ -306,21 +305,34 @@ async function boot(){
 async function loadConvs(){
   const {data,error}=await sb.from('konverzace').select('*').order('last_at',{ascending:false,nullsFirst:false});
   if(error){ el('list').innerHTML='<div class="empty">Chyba připojení:<br>'+esc(error.message)+'</div>'; return; }
-  CONVS=data||[]; renderFilters(); renderList();
+  CONVS=data||[]; renderToday(); renderFilters(); renderList();
+}
+
+/* ---------- dnesni provoz ---------- */
+function renderToday(){
+  const t=new Date().toISOString().slice(0,10);
+  const arr=CONVS.filter(c=>c.prijezd===t), dep=CONVS.filter(c=>c.odjezd===t);
+  const stay=CONVS.filter(c=>c.prijezd&&c.prijezd<t&&c.odjezd&&c.odjezd>t);
+  const wait=CONVS.filter(needsAction).length;
+  el('todaybar').innerHTML=
+    `<span class="tb ${wait?'hot':''}">⏳ <b>${wait}</b> čeká</span>`+
+    `<span class="tb">🔑 <b>${arr.length}</b> příjezd${arr.length===1?'':'y'}</span>`+
+    `<span class="tb">👋 <b>${dep.length}</b> odjezd${dep.length===1?'':'y'}</span>`+
+    `<span class="tb">🏠 <b>${stay.length}</b> v bytech</span>`;
 }
 
 /* ---------- list ---------- */
 function renderFilters(){
   const byty=[...new Set(CONVS.map(c=>c.byt_nazev).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'cs'));
   const na=CONVS.filter(needsAction).length;
-  const chips=[['vse','Vše'],['ceka','⏳ Čeká '+na],['unread','Nepřečtené'],['p:booking','Booking'],['p:airbnb','Airbnb']].concat(byty.map(b=>['b:'+b,'🏠 '+b]));
+  const chips=[['vse','Vše'],['ceka','⏳ Čeká '+na],['dnes','🔑 Dnešní pohyb'],['unread','Nepřečtené'],['p:booking','Booking'],['p:airbnb','Airbnb']].concat(byty.map(b=>['b:'+b,'🏠 '+b]));
   el('filters').innerHTML=chips.map(([k,l])=>`<span class="chip ${FILTER===k?'on':''}" onclick="setF('${(k+'').replace(/'/g,"\\'")}')">${l}</span>`).join('');
   el('hcount').textContent = na? na+' čeká na odpověď' : CONVS.length+' konverzací';
 }
 function setF(k){ FILTER=k; renderFilters(); renderList(); }
 function convRow(c){
   const s=stav(c),p=pobyt(c);
-  const pre=c.posledni_smer==='out'?'<b>Ty:</b> ':'';
+  const pre=c.posledni_smer==='out'?'<b>My:</b> ':'';
   return `<div class="conv ${needsAction(c)?'act':''} ${c.unread>0?'unrd':''} ${c.id===curId?'sel':''}" onclick="openConv('${c.id}')">
     <div class="ava" style="${avaStyle(c)}">${initials(c.guest)}<span class="pf" style="background:${PCOL[c.platform]||'#888'}">${PICON[c.platform]||'?'}</span></div>
     <div class="cmid">
@@ -337,9 +349,11 @@ function convRow(c){
 }
 function renderList(){
   const q=(el('q').value||'').toLowerCase().trim();
+  const t=new Date().toISOString().slice(0,10);
   let list=CONVS.slice();
   if(FILTER==='unread') list=list.filter(c=>c.unread>0);
   else if(FILTER==='ceka') list=list.filter(needsAction);
+  else if(FILTER==='dnes') list=list.filter(c=>c.prijezd===t||c.odjezd===t);
   else if(FILTER.startsWith('p:')) list=list.filter(c=>c.platform===FILTER.slice(2));
   else if(FILTER.startsWith('b:')) list=list.filter(c=>c.byt_nazev===FILTER.slice(2));
   if(q) list=list.filter(c=>((c.guest||'')+' '+(c.byt_nazev||'')+' '+(c.byt_key||'')).toLowerCase().includes(q));
@@ -361,7 +375,7 @@ async function openConv(id,keep){
   el('tava').style.cssText=avaStyle(c); el('tava').textContent=initials(c.guest);
   const s=stav(c),p=pobyt(c);
   el('tname').innerHTML=esc(c.guest||'Host')+(s?` <span class="st ${s.pill}">${s.t}</span>`:' <span class="st done">✓ odpovězeno</span>');
-  el('tsub').innerHTML=aptChip(c, p?`<span class="chipm dt ${p.cls}">${p.t}</span>`:'')+`<span class="chipm" style="background:${c.platform==='booking'?'#e9f1fd':'var(--newbg)'};color:${PCOL[c.platform]||'#888'}">${PNAME[c.platform]||c.platform}</span>`;
+  el('tsub').innerHTML=aptChip(c, p?`<span class="chipm dt ${p.cls}">${p.t}</span>`:'')+`<span class="chipm" style="background:${c.platform==='booking'?'#e7eff8':'var(--newbg)'};color:${PCOL[c.platform]||'#888'}">${PNAME[c.platform]||c.platform}</span>`;
   renderDetail(c); renderLangbar(c);
   const {data}=await sb.from('zpravy').select('*').eq('konverzace_id',id).order('ts',{ascending:true});
   const msgs=data||[];
@@ -371,7 +385,7 @@ async function openConv(id,keep){
     if(day&&day!==lastDay){ html+=`<div class="dsep">${dsepLabel(z.ts)}</div>`; lastDay=day; lastSmer=''; }
     const showCap = z.smer!==lastSmer;
     lastSmer=z.smer;
-    const author = z.smer==='out' ? 'Ty' : (z.author||c.guest||'Host');
+    const author = z.smer==='out' ? 'My' : (z.author||c.guest||'Host');
     const hasTr = z.preklad && z.jazyk && z.jazyk!=='cs';
     const main = (z.smer==='in' && hasTr) ? z.preklad : z.msg;
     const other = (z.smer==='in' && hasTr) ? z.msg : (hasTr ? z.preklad : null);
@@ -418,10 +432,9 @@ async function translateMissing(c,msgs){
   if(done&&curId===c.id) openConv(c.id,true);
 }
 
-/* ---------- detail ---------- */
+/* ---------- detail (bez adminovych odkazu — recepce nema pristup do extranetu) ---------- */
 function renderDetail(c){
   const p=pobyt(c),s=stav(c),n=nights(c.prijezd,c.odjezd);
-  const link = c.platform==='airbnb' ? 'https://www.airbnb.com/hosting/messages/'+c.id.replace(/^ab-/,'') : 'https://admin.booking.com/';
   el('detail').innerHTML=`
     <div class="dprof">
       <div class="ava" style="${avaStyle(c)}">${initials(c.guest)}</div>
@@ -439,13 +452,10 @@ function renderDetail(c){
     ${p&&(p.cls==='today'||p.cls==='instay')?`<div class="hlcard ${p.cls}">${p.t}</div>`:''}
     <div class="card">
       <div class="krow"><span class="k">Apartmán</span><span class="v">${aptChip(c)}</span></div>
-      <div class="krow"><span class="k">Klíč bytu</span><span class="v">${esc(c.byt_key||'')}</span></div>
-      <div class="krow"><span class="k">Účet</span><span class="v">${esc(c.ucet||'')}</span></div>
-      ${c.jazyk&&c.jazyk!=='cs'?`<div class="krow"><span class="k">Jazyk hosta</span><span class="v">🌐 ${langName(c.jazyk).replace(/ě$|ině$/,m=>m==='ě'?'a':'ina')}</span></div>`:''}
+      ${c.jazyk&&c.jazyk!=='cs'?`<div class="krow"><span class="k">Jazyk hosta</span><span class="v">🌐 ${langName(c.jazyk)}</span></div>`:''}
       ${c.reservation_code?`<div class="krow"><span class="k">Rezervace</span><span class="v mono">${esc(c.reservation_code)}</span></div>`:''}
       <div class="krow"><span class="k">Poslední zpráva</span><span class="v">${relT(c.last_at)}</span></div>
-    </div>
-    <a class="openlink" href="${link}" target="_blank" rel="noopener">Otevřít na ${PNAME[c.platform]||c.platform} ↗</a>`;
+    </div>`;
 }
 
 /* ---------- odeslani ---------- */
@@ -460,13 +470,12 @@ async function sendReply(){
     catch(e){}
   }
   const mid='out-'+Date.now();
-  await sb.from('zpravy').insert({id:mid,konverzace_id:curId,smer:'out',msg:outMsg,preklad:orig,jazyk,ts:new Date().toISOString(),author:'já',stav:'pending'}).then(()=>{});
+  await sb.from('zpravy').insert({id:mid,konverzace_id:curId,smer:'out',msg:outMsg,preklad:orig,jazyk,ts:new Date().toISOString(),author:'recepce',stav:'pending'}).then(()=>{});
   await sb.from('odpovedi_fronta').insert({konverzace_id:curId,msg:outMsg});
   await sb.from('konverzace').update({last_text:outMsg,last_at:new Date().toISOString(),posledni_smer:'out',unread:0}).eq('id',curId);
   openConv(curId,true); loadConvs();
 }
 el('reply')?.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey&&window.innerWidth>780){ e.preventDefault(); sendReply(); } });
 
-if(localStorage.velinpin==='1'){ el('pin').classList.add('hide'); boot(); }
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+if(localStorage.velintym==='1'){ el('pin').classList.add('hide'); boot(); }
 </script></body></html>
