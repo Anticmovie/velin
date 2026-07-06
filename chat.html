@@ -199,7 +199,7 @@ button{font-family:inherit}
 .hlcard.instay{background:linear-gradient(135deg,#e7f4ec,#dcefe4);color:var(--pos)}
 </style></head><body>
 
-<div id="pin"><div class="logo">🛰️</div><h1>VELÍN Zprávy</h1><p>Sjednocená schránka Booking + Airbnb</p><input id="pinv" type="tel" inputmode="numeric" placeholder="PIN" maxlength="10"><button onclick="tryPin()">Vstoupit</button></div>
+<div id="pin"><div class="logo">🛰️</div><h1>VELÍN Zprávy</h1><p>Sjednocená schránka Booking + Airbnb</p><input id="pinv" type="password" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="heslo" maxlength="24" style="letter-spacing:2px;font-size:18px"><button onclick="tryPin()">Vstoupit</button></div>
 
 <div id="app">
   <!-- ===== SEZNAM ===== -->
@@ -226,6 +226,8 @@ button{font-family:inherit}
         <span id="langhint"></span>
       </div>
       <div class="composer">
+        <button class="iconbtn" onclick="document.getElementById('foto').click()" title="Nahrát fotku" style="width:44px;height:44px">📎</button>
+        <input id="foto" type="file" accept="image/*" class="hide" onchange="nahrajFoto(this)">
         <div class="box"><textarea id="reply" rows="1" placeholder="Napiš zprávu…" oninput="grow(this)"></textarea></div>
         <button id="sendbtn" onclick="sendReply()" title="Odeslat"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button>
       </div>
@@ -243,7 +245,8 @@ button{font-family:inherit}
 <script>
 const SB_URL='https://uiynkslmvkjzzdvijkzo.supabase.co';
 const SB_KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
-const PIN='785230';
+const PIN='Antic78523';
+const DIRKEY='velin_pin_'+location.pathname.replace(/[^/]*$/,'');   // sdilene prihlaseni v ramci /velin/
 let sb, CONVS=[], curId=null, FILTER='vse', TR_OUT=true;
 const PCOL={booking:'var(--bk)',airbnb:'var(--ab)'};
 const PICON={booking:'B',airbnb:'A'};
@@ -266,7 +269,7 @@ function hue(s){ let h=0; for(const ch of (s||'')) h=(h*31+ch.charCodeAt(0))>>>0
 function aptChip(c,extra){ const k=c.byt_key||c.byt_nazev||'?', h=hue(k);
   return `<span class="chipm apt" style="background:hsl(${h},68%,93%);color:hsl(${h},55%,30%);border-color:hsl(${h},50%,85%)">🏠 ${esc(c.byt_nazev||k)}</span>${extra||''}`; }
 
-function tryPin(){ if(el('pinv').value.trim()===PIN){ el('pin').classList.add('hide'); localStorage.velinpin='1'; boot(); } else { el('pinv').value=''; el('pinv').placeholder='špatný PIN'; } }
+function tryPin(){ if(el('pinv').value.trim()===PIN){ el('pin').classList.add('hide'); try{localStorage.setItem(DIRKEY,PIN);}catch(e){} boot(); } else { el('pinv').value=''; el('pinv').placeholder='špatné heslo'; } }
 el('pinv').addEventListener('keydown',e=>{if(e.key==='Enter')tryPin();});
 
 /* ---------- format ---------- */
@@ -388,12 +391,13 @@ async function openConv(id,keep){
     const main = (z.smer==='in' && hasTr) ? z.preklad : z.msg;
     const other = (z.smer==='in' && hasTr) ? z.msg : (hasTr ? z.preklad : null);
     const trCap = hasTr ? (z.smer==='in' ? '🌐 přeloženo z '+langName(z.jazyk,1) : '🌐 posláno v '+langName(z.jazyk)) : '';
+    const foto=z.priloha?`<a href="${esc(z.priloha)}" target="_blank" rel="noopener"><img src="${esc(z.priloha)}" style="display:block;max-width:min(320px,100%);border-radius:12px;margin:4px 0 2px" loading="lazy"></a>`:'';
     html+=`<div class="grp ${z.smer==='out'?'out':'in'} ${z.stav==='pending'?'pend':''}">
       ${z.smer==='in'&&showCap?`<div class="gava" style="${avaStyle(c)}">${initials(author)}</div>`:(z.smer==='in'?'<div class="gava" style="visibility:hidden"></div>':'')}
       <div class="gcol">
         ${showCap?`<div class="mcap"><b>${esc(author)}</b><span>${fmtClock(z.ts)}</span></div>`:''}
-        <div class="b">${esc(main)}${other?`<span class="orig hide">${esc(other)}</span>`:''}</div>
-        ${hasTr?`<div class="trx" onclick="this.previousElementSibling.querySelector('.orig').classList.toggle('hide')">${trCap} · originál</div>`:''}
+        <div class="b">${foto}${esc(main)}${other?`<span class="orig hide">${esc(other)}</span>`:''}</div>
+        <div class="trx">${hasTr?`<span onclick="this.closest('.gcol').querySelector('.orig').classList.toggle('hide')">${trCap} · originál</span> · `:''}<span onclick="kopiruj(this)" data-t="${encodeURIComponent(z.msg||'')}">⧉ kopírovat</span></div>
         ${z.stav==='pending'?'<div class="pendtxt">odesílá se…</div>':''}
       </div>
     </div>`;
@@ -416,7 +420,7 @@ function renderLangbar(c){
 }
 function toggleLang(){ TR_OUT=!TR_OUT; const c=CONVS.find(x=>x.id===curId); if(c)renderLangbar(c); }
 async function translateMissing(c,msgs){
-  const todo=msgs.filter(z=>z.smer==='in'&&!z.jazyk&&(z.msg||'').trim()).slice(-15);
+  const todo=msgs.filter(z=>z.smer==='in'&&!z.jazyk&&(z.msg||'').trim()).slice(-40);
   let done=0;
   for(const z of todo){
     try{
@@ -479,6 +483,25 @@ async function sendReply(){
 }
 el('reply')?.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey&&window.innerWidth>780){ e.preventDefault(); sendReply(); } });
 
-if(localStorage.velinpin==='1'){ el('pin').classList.add('hide'); boot(); }
+/* ---------- kopirovani + fotky ---------- */
+function kopiruj(elm){ const t=decodeURIComponent(elm.dataset.t||''); navigator.clipboard.writeText(t).then(()=>{ const o=elm.textContent; elm.textContent='✓ zkopírováno'; setTimeout(()=>elm.textContent=o,1200); }).catch(()=>{}); }
+function zmensiFoto(file){ return new Promise((res,rej)=>{ const img=new Image(); img.onload=()=>{ const MAX=1600; let w=img.width,h=img.height; if(Math.max(w,h)>MAX){const k=MAX/Math.max(w,h);w=Math.round(w*k);h=Math.round(h*k);} const cv=document.createElement('canvas'); cv.width=w; cv.height=h; cv.getContext('2d').drawImage(img,0,0,w,h); cv.toBlob(b=>b?res(b):rej(new Error('konverze selhala')),'image/jpeg',.82); }; img.onerror=rej; img.src=URL.createObjectURL(file); }); }
+async function nahrajFoto(inp){
+  const f=inp.files&&inp.files[0]; inp.value=''; if(!f||!curId)return;
+  const c=CONVS.find(x=>x.id===curId)||{};
+  try{
+    const blob=await zmensiFoto(f);
+    const cesta=curId.replace(/[^a-zA-Z0-9-]/g,'_')+'/'+Date.now()+'.jpg';
+    const {error}=await sb.storage.from('chat-prilohy').upload(cesta,blob,{contentType:'image/jpeg'});
+    if(error)throw error;
+    const url=sb.storage.from('chat-prilohy').getPublicUrl(cesta).data.publicUrl;
+    const mid='out-'+Date.now();
+    await sb.from('zpravy').insert({id:mid,konverzace_id:curId,smer:'out',msg:'📷 fotka',priloha:url,ts:new Date().toISOString(),author:'já'});
+    await sb.from('konverzace').update({last_text:'📷 fotka',last_at:new Date().toISOString()}).eq('id',curId);
+    openConv(curId,true); loadConvs();
+  }catch(e){ alert('Nahrání fotky selhalo: '+(e.message||e)); }
+}
+
+if(localStorage.getItem(DIRKEY)===PIN){ el('pin').classList.add('hide'); boot(); }
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 </script></body></html>

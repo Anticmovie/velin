@@ -140,9 +140,11 @@
   @media(hover:hover) and (pointer:fine){ .mv:hover{background:rgba(139,124,255,.06)} }
   .mv .cas{flex:none;width:46px;font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--vi2);cursor:default}
   .mv .cas.neznam{color:var(--dim);font-weight:500}
-  .mv .g{flex:1;min-width:0;font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mv .g{flex:none;max-width:58%;min-width:0;font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* vodici teckovana linka spojuje jmeno s bytem — radek je "spojity" a zarovnany */
+  .mv .lead{flex:1;min-width:10px;align-self:center;border-bottom:1px dotted rgba(139,124,255,.3);transform:translateY(1px)}
   /* nazev bytu: JEDNOTNA barva i velikost, zarovnany sloupec (kratky klic bytu) */
-  .bytk{flex:none;width:96px;text-align:right;font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+  .bytk{flex:none;text-align:right;font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap}
   .mv.outr .g{color:var(--body)}
   .dnic{padding:2px 14px 6px;color:var(--dim);font-size:11.5px}
   .dfoot{margin-top:auto;padding:8px 14px 10px;display:flex;gap:10px;font-size:10.5px;color:var(--dim)}
@@ -421,7 +423,7 @@
       function kratke(g){g=(g||'Host').trim();if(g.length<=17)return g;var p=g.split(/\s+/);return p[0]+(p[1]?' '+p[1][0]+'.':'');}
       function mvRow(c,dir){
         var cas=(dir==='in')?((c.prijezd_cas&&c.prijezd_cas!=='?')?'<span class="cas" title="'+esc(c.prijezd_cas_zdroj||'z chatu')+'">'+esc(c.prijezd_cas)+'</span>':'<span class="cas neznam">—</span>'):'<span class="cas neznam"></span>';
-        return '<div class="mv'+(dir==='out'?' outr':'')+'" title="'+esc((c.guest||'')+' · '+(c.byt_nazev||''))+'">'+cas+'<span class="g">'+esc(kratke(c.guest))+'</span><span class="bytk">'+esc(c.byt_key||c.byt_nazev||'')+'</span></div>';
+        return '<div class="mv'+(dir==='out'?' outr':'')+'" title="'+esc((c.guest||'')+' · '+(c.byt_nazev||''))+'">'+cas+'<span class="g">'+esc(kratke(c.guest))+'</span><span class="lead"></span><span class="bytk">'+esc(c.byt_key||c.byt_nazev||'')+'</span></div>';
       }
       var days='';
       for(var i=0;i<4;i++){
