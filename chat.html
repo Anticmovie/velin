@@ -101,7 +101,7 @@ const PCOL={booking:'var(--bk)',airbnb:'var(--ab)'};
 const PICON={booking:'B',airbnb:'A'};
 const el=id=>document.getElementById(id);
 function tryPin(){ if(el('pinv').value.trim()===PIN){ el('pin').classList.add('hide'); localStorage.velinpin='1'; boot(); } else { el('pinv').value=''; el('pinv').placeholder='špatný PIN'; } }
-if(localStorage.velinpin==='1'){ el('pin').classList.add('hide'); }
+if(localStorage.velinpin==='1'){ el('pin').classList.add('hide'); boot(); }
 el('pinv').addEventListener('keydown',e=>{if(e.key==='Enter')tryPin();});
 
 function grow(t){t.style.height='auto';t.style.height=Math.min(t.scrollHeight,110)+'px';}
