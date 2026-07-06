@@ -327,6 +327,7 @@ p.vs{color:var(--dim);font-size:12.5px;margin:0 0 16px}
               <button class="iconbtn back" onclick="closeThread()">‹</button>
               <div class="ava" id="tava"></div>
               <div class="tt"><div class="n" id="tname"></div><div class="sub" id="tsub"></div></div>
+              <button class="iconbtn" id="vlangbtn" title="Jazyk zobrazení konverzace (čeština / ruština / originál)" onclick="cycleViewLang()" style="width:auto;padding:0 12px;border-radius:18px;font-size:12px;font-weight:700">CZ</button>
               <button class="iconbtn" title="Detail rezervace" onclick="toggleDetail()">ⓘ</button>
             </div>
             <div id="msgs"></div>
@@ -375,6 +376,9 @@ const SB_KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
 const PIN='78523';         // PIN pro tym — zadava se JEDNOU, odemkne i kalendar (sdileny klic slozky)
 const DIRKEY='velin_pin_'+location.pathname.replace(/[^/]*$/,'');
 let sb, CONVS=[], curId=null, FILTER='vse', TR_OUT=true, TAB='dnes';
+/* zobrazovaci jazyk vlakna: cs (vychozi) / ru / orig — preklada se na pozadi, nic neblokuje */
+let VIEW_LANG=localStorage.chatviewlang||'cs';
+const TRC={};
 const PCOL={booking:'var(--bk)',airbnb:'var(--ab)'};
 const PICON={booking:'B',airbnb:'A'};
 const PNAME={booking:'Booking.com',airbnb:'Airbnb'};
@@ -580,6 +584,8 @@ async function openConv(id,keep){
   renderDetail(c); renderLangbar(c);
   const {data}=await sb.from('zpravy').select('*').eq('konverzace_id',id).order('ts',{ascending:true});
   const msgs=data||[];
+  const RU_TODO=[];
+  const vb=el('vlangbtn'); if(vb)vb.textContent=VIEW_LANG==='ru'?'RU':(VIEW_LANG==='orig'?'🌐':'CZ');
   const m=el('msgs'); let html='',lastDay='',lastSmer='';
   for(const z of msgs){
     const day=z.ts?new Date(z.ts).toDateString():'';
@@ -588,24 +594,48 @@ async function openConv(id,keep){
     lastSmer=z.smer;
     const author = z.smer==='out' ? 'My' : (z.author||c.guest||'Host');
     const hasTr = z.preklad && z.jazyk && z.jazyk!=='cs';
-    const main = (z.smer==='in' && hasTr) ? z.preklad : z.msg;
-    const other = (z.smer==='in' && hasTr) ? z.msg : (hasTr ? z.preklad : null);
-    const trCap = hasTr ? (z.smer==='in' ? '🌐 přeloženo z '+langName(z.jazyk,1) : '🌐 posláno v '+langName(z.jazyk)) : '';
+    let main, other=null, trCap='';
+    if(VIEW_LANG==='orig'){ main=z.msg; }
+    else if(VIEW_LANG==='ru'){ main=TRC[z.id+'|ru']||z.msg; if(!TRC[z.id+'|ru']&&(z.msg||'').trim())RU_TODO.push(z); trCap=TRC[z.id+'|ru']?'🌐 RU':''; }
+    else{
+      main=(z.smer==='in' && hasTr) ? z.preklad : z.msg;
+      other=(z.smer==='in' && hasTr) ? z.msg : (hasTr ? z.preklad : null);
+      trCap=hasTr ? (z.smer==='in' ? '🌐 přeloženo z '+langName(z.jazyk,1) : '🌐 posláno v '+langName(z.jazyk)) : '';
+    }
     const foto=z.priloha?`<a href="${esc(z.priloha)}" target="_blank" rel="noopener"><img src="${esc(z.priloha)}" style="display:block;max-width:min(320px,100%);border-radius:12px;margin:4px 0 2px" loading="lazy"></a>`:'';
     html+=`<div class="grp ${z.smer==='out'?'out':'in'} ${z.stav==='pending'?'pend':''}">
       ${z.smer==='in'&&showCap?`<div class="gava" style="${avaStyle(c)}">${initials(author)}</div>`:(z.smer==='in'?'<div class="gava" style="visibility:hidden"></div>':'')}
       <div class="gcol">
         ${showCap?`<div class="mcap"><b>${esc(author)}</b><span>${fmtClock(z.ts)}</span></div>`:''}
-        <div class="b">${foto}${esc(main)}${other?`<span class="orig hide">${esc(other)}</span>`:''}</div>
-        <div class="trx">${hasTr?`<span onclick="this.closest('.gcol').querySelector('.orig').classList.toggle('hide')">${trCap} · originál</span> · `:''}<span onclick="kopiruj(this)" data-t="${encodeURIComponent(z.msg||'')}">⧉ kopírovat</span></div>
+        <div class="b">${foto}<span class="btxt" data-mid="${esc(z.id)}">${esc(main)}</span>${other?`<span class="orig hide">${esc(other)}</span>`:''}</div>
+        <div class="trx">${(VIEW_LANG==='cs'&&hasTr)?`<span onclick="this.closest('.gcol').querySelector('.orig').classList.toggle('hide')">${trCap} · originál</span> · `:''}<span onclick="kopiruj(this)" data-t="${encodeURIComponent(z.msg||'')}">⧉ kopírovat</span></div>
         ${z.stav==='pending'?'<div class="pendtxt">odesílá se…</div>':''}
       </div>
     </div>`;
   }
   m.innerHTML=html||'<div class="empty">Zatím žádné zprávy ve vlákně.</div>';
   m.scrollTop=m.scrollHeight;
+  if(VIEW_LANG==='ru')prelozZobrazeni(RU_TODO,'ru',id);
   if(!keep){ renderList(); if(c.unread>0){ await sb.from('konverzace').update({unread:0}).eq('id',id); loadConvs(); } }
   translateMissing(c,msgs);
+}
+/* prepinac zobrazovaciho jazyka vlakna: CZ -> RU -> originál (neblokuje — preklady dobihaji na pozadi) */
+function cycleViewLang(){
+  VIEW_LANG=VIEW_LANG==='cs'?'ru':(VIEW_LANG==='ru'?'orig':'cs');
+  try{localStorage.chatviewlang=VIEW_LANG;}catch(e){}
+  if(curId)openConv(curId,true);
+}
+async function prelozZobrazeni(list,lang,forId){
+  for(const z of list.slice(-40)){
+    if(curId!==forId||VIEW_LANG!==lang)return;
+    try{
+      const t=await gtx((z.msg||'').slice(0,4500),lang);
+      if(t.text&&t.text.trim())TRC[z.id+'|'+lang]=t.text;
+      const elm=document.querySelector('.btxt[data-mid="'+(CSS&&CSS.escape?CSS.escape(z.id):z.id)+'"]');
+      if(elm&&TRC[z.id+'|'+lang]&&curId===forId&&VIEW_LANG===lang)elm.textContent=TRC[z.id+'|'+lang];
+    }catch(e){ return; }
+    await new Promise(r=>setTimeout(r,250));
+  }
 }
 function closeThread(){ curId=null; el('paneThread').classList.remove('open'); el('twrap').classList.add('hide'); el('noconv').classList.remove('hide'); renderList(); }
 function toggleDetail(force){ const d=el('paneDetail'); d.classList.toggle('open', force!==undefined?force:!d.classList.contains('open')); }
