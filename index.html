@@ -3,217 +3,237 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#f6f4ef" />
+<meta name="theme-color" content="#ffffff" />
 <title>VELÍN · Řídicí středisko</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
 <style>
+  /* ============================================================
+     Design tokens — Airbnb design language (awesome-design-md/airbnb)
+     canvas #fff · ink #222 · jediny akcent Rausch #ff385c (setrne)
+     jedina vrstva stinu · radiusy 8/14/full · Inter (Cereal substitut)
+     ============================================================ */
   :root{
-    --paper:#f6f4ef; --card:#ffffff; --card2:#fbfaf7;
-    --ink:#211e18; --ink2:#5c574b; --mut:#8d8779; --faint:#b5afa0;
-    --line:#e8e3d7; --line2:#d9d2c2;
-    --grn:#1e5c48; --grnbg:#e8f1ec;
-    --ok:#177245; --okbg:#e6f2ea;
-    --warn:#a96a00; --warnbg:#f9efdc;
-    --down:#b3362c; --downbg:#f9e7e4;
-    --info:#2b6cb0; --infobg:#e7eff8;
-    --na:#8d8779; --nabg:#efece4;
-    --bk:#0057d8; --ab:#ff385c;
-    --r:16px;
-    --sh:0 1px 2px rgba(33,30,24,.04), 0 10px 30px -18px rgba(33,30,24,.25);
-    --serif:'Fraunces',Georgia,serif;
-    --sans:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --rausch:#ff385c; --rausch-active:#e00b41; --rausch-soft:#ffd1da;
+    --ink:#222222; --body:#3f3f3f; --muted:#6a6a6a; --muted-soft:#929292;
+    --hairline:#dddddd; --hairline-soft:#ebebeb;
+    --canvas:#ffffff; --soft:#f7f7f7; --strong:#f2f2f2;
+    --ok:#008a05; --okbg:#e8f4e9; --warn:#c67b00; --warnbg:#fdf3e0; --err:#c13515; --errbg:#fbeae5; --info:#428bff;
+    --r-sm:8px; --r-md:14px; --r-full:9999px;
+    --shadow:rgba(0,0,0,.02) 0 0 0 1px, rgba(0,0,0,.04) 0 2px 6px 0, rgba(0,0,0,.1) 0 4px 8px 0;
+    /* animace — emilkowalski/skills: silne custom easingy, <300 ms */
+    --ease-out:cubic-bezier(.23,1,.32,1);
+    --ease-drawer:cubic-bezier(.32,.72,0,1);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
-  body{background:var(--paper);color:var(--ink);font:15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+  body{background:var(--canvas);color:var(--ink);font:16px/1.5 'Inter',Circular,-apple-system,system-ui,Roboto,'Helvetica Neue',sans-serif;-webkit-font-smoothing:antialiased}
   a{color:inherit}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px}
 
-  /* ===== header ===== */
-  .top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;padding:30px 2px 18px;flex-wrap:wrap}
-  .wordmark{font-family:var(--serif);font-weight:700;font-size:42px;line-height:.9;letter-spacing:-.02em}
-  .wordmark em{font-style:italic;color:var(--grn)}
-  .tagline{margin-top:7px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:600}
-  .tagline b{color:var(--ok);font-weight:700}
-  .tagline b.bad{color:var(--down)}
-  .hclock{text-align:right}
-  .hclock .c{font-family:var(--serif);font-size:34px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1}
-  .hclock .d{font-size:12.5px;color:var(--mut);margin-top:4px}
-  nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);
-    margin:0 -20px;padding:10px 20px;border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
-  nav::-webkit-scrollbar{display:none}
-  nav a{text-decoration:none;font-size:13.5px;font-weight:600;color:var(--ink2);padding:8px 15px;border-radius:22px;white-space:nowrap;transition:all .15s}
-  nav a:hover{background:var(--card);color:var(--ink);box-shadow:var(--sh)}
-  nav a.on{background:var(--ink);color:var(--paper)}
+  /* ===== top nav (Airbnb top-nav: bila, 80px, hairline, tab s podtrzenim) ===== */
+  .nav{position:sticky;top:0;z-index:50;background:var(--canvas);border-bottom:1px solid var(--hairline-soft);height:64px;display:flex;align-items:center;gap:16px;padding:0 24px}
+  .wordmark{font-size:22px;font-weight:700;letter-spacing:-.5px;color:var(--rausch);text-decoration:none;flex:none}
+  .tabs{display:flex;gap:4px;margin:0 auto;overflow-x:auto;scrollbar-width:none;height:100%}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs a{display:flex;align-items:center;padding:0 14px;font-size:14.5px;font-weight:500;color:var(--muted);text-decoration:none;white-space:nowrap;position:relative;transition:color 200ms ease}
+  .tabs a:hover{color:var(--ink)}
+  .tabs a.on{color:var(--ink);font-weight:600}
+  .tabs a.on::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:2px;background:var(--ink)}
+  .tabs a .bdg{margin-left:6px;background:var(--rausch);color:#fff;font-size:11px;font-weight:600;border-radius:var(--r-full);padding:1px 7px}
+  .navr{flex:none;display:flex;align-items:center;gap:12px}
+  .clock{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .tympill{border:1px solid var(--hairline);border-radius:var(--r-full);padding:8px 14px;font-size:13.5px;font-weight:600;text-decoration:none;transition:box-shadow 200ms ease,transform 160ms var(--ease-out);background:var(--canvas)}
+  .tympill:active{transform:scale(.97)}
+  @media(hover:hover) and (pointer:fine){ .tympill:hover{box-shadow:var(--shadow)} }
 
-  h2{font-family:var(--serif);font-size:23px;font-weight:600;letter-spacing:-.01em;margin:40px 2px 4px;display:flex;align-items:baseline;gap:12px}
-  h2 small{font-family:var(--sans);font-size:12px;font-weight:600;color:var(--mut);letter-spacing:.1em;text-transform:uppercase}
-  .hsub{color:var(--mut);font-size:13.5px;margin:0 2px 16px}
-
-  /* ===== DNES ===== */
-  .today-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
-  @media(max-width:960px){.today-grid{grid-template-columns:repeat(2,1fr)}}
-  .tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--sh);
-    display:flex;flex-direction:column;gap:2px;min-height:118px;text-decoration:none;transition:transform .15s,border-color .15s;position:relative}
-  a.tile:hover{transform:translateY(-2px);border-color:var(--line2)}
-  .tile .lb{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
-  .tile .num{font-family:var(--serif);font-size:44px;font-weight:600;line-height:1.05;font-variant-numeric:tabular-nums;margin-top:6px}
-  .tile .sub{font-size:12.5px;color:var(--ink2);margin-top:auto;line-height:1.4}
-  .tile.hot{background:linear-gradient(150deg,#fdf3e3,var(--card) 70%);border-color:#ecd9b4}
-  .tile.hot .num{color:var(--warn)}
-  .tile.ok0 .num{color:var(--faint)}
-  .tile .go{position:absolute;top:14px;right:16px;color:var(--faint);font-size:16px}
-  .arrlist{margin-top:14px;display:grid;gap:8px}
-  .arr{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:10px 14px;box-shadow:var(--sh)}
-  .arr .ic{width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:15px}
-  .arr .ic.in{background:var(--okbg)} .arr .ic.out{background:var(--warnbg)}
-  .arr .who{flex:1;min-width:0}
-  .arr .who .g{font-weight:650;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .arr .who .b{font-size:12px;color:var(--mut);margin-top:1px}
-  .arr .tag{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:9px;white-space:nowrap}
-  .arr .tag.in{background:var(--okbg);color:var(--ok)} .arr .tag.out{background:var(--warnbg);color:var(--warn)}
-  .todayline{font-size:13px;color:var(--mut);margin-top:12px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px 96px}
+  h1.page{font-size:28px;font-weight:700;line-height:1.43;margin:36px 0 2px}
+  .pagesub{color:var(--muted);font-size:14px;margin:0 0 8px}
+  h2{font-size:21px;font-weight:700;line-height:1.43;margin:56px 0 4px;display:flex;align-items:baseline;gap:10px}
+  h2 small{font-size:13px;font-weight:500;color:var(--muted)}
+  .hsub{color:var(--muted);font-size:14px;margin:0 0 20px}
 
   /* ===== alert ===== */
-  .alert{display:flex;gap:12px;align-items:flex-start;border-radius:var(--r);padding:14px 17px;margin-top:14px;font-size:13.5px;line-height:1.5;border:1px solid}
-  .alert.warn{background:var(--warnbg);border-color:#ecd9b4;color:#6d4a08}
-  .alert.crit{background:var(--downbg);border-color:#eac4be;color:#7c261e}
-  .alert b{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+  .alert{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--hairline);border-radius:var(--r-md);padding:16px 18px;margin-top:20px;font-size:14px;line-height:1.5}
+  .alert.warn{background:var(--warnbg);border-color:#f2dfb8;color:#7a4d02}
+  .alert.crit{background:var(--errbg);border-color:#f0cdc2;color:#8c2005}
+  .alert b{display:block;font-size:14px;margin-bottom:2px}
 
-  /* ===== moduly ===== */
-  .mods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+  /* ===== DNES — dlazdice: 64px cisla (jediny hlasity typograficky moment, viz Airbnb rating-display) ===== */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px}
+  @media(max-width:960px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .tile{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-md);padding:20px;min-height:150px;display:flex;flex-direction:column;text-decoration:none;position:relative;
+    transition:box-shadow 200ms ease,transform 160ms var(--ease-out)}
+  .tile:active{transform:scale(.98)}
+  @media(hover:hover) and (pointer:fine){ .tile:hover{box-shadow:var(--shadow)} }
+  .tile .lb{font-size:13px;font-weight:500;color:var(--muted)}
+  .tile .num{font-size:64px;font-weight:700;line-height:1.1;letter-spacing:-1px;font-variant-numeric:tabular-nums;margin-top:4px}
+  .tile.hot .num{color:var(--rausch)}
+  .tile.zero .num{color:var(--muted-soft)}
+  .tile .sub{font-size:13px;color:var(--muted);margin-top:auto;line-height:1.45}
+  .tile .go{position:absolute;top:16px;right:18px;color:var(--muted-soft);font-size:15px;transition:transform 200ms var(--ease-out)}
+  @media(hover:hover) and (pointer:fine){ .tile:hover .go{transform:translateX(3px);color:var(--ink)} }
+  /* Skeleton/Shimmer behem nacitani (emil skill: perceived performance) */
+  .skel .num,.skel .sub{color:transparent!important;border-radius:6px;background:linear-gradient(90deg,var(--strong) 25%,var(--soft) 50%,var(--strong) 75%);background-size:200% 100%;animation:shimmer 1.2s linear infinite}
+  @keyframes shimmer{to{background-position:-200% 0}}
+  /* Stagger + fade/slide entrance pres @starting-style (nikdy scale(0)) */
+  .tile,.arr{opacity:1;transform:translateY(0);transition:opacity 300ms var(--ease-out),transform 300ms var(--ease-out),box-shadow 200ms ease}
+  @starting-style{ .tile,.arr{opacity:0;transform:translateY(8px)} }
+  .tile:nth-child(2){transition-delay:40ms}.tile:nth-child(3){transition-delay:80ms}.tile:nth-child(4){transition-delay:120ms}
+  .arr:nth-child(2){transition-delay:40ms}.arr:nth-child(3){transition-delay:80ms}.arr:nth-child(4){transition-delay:120ms}.arr:nth-child(5){transition-delay:160ms}.arr:nth-child(n+6){transition-delay:200ms}
+
+  .arrlist{margin-top:16px;display:grid;gap:10px}
+  .arr{display:flex;align-items:center;gap:14px;border:1px solid var(--hairline-soft);border-radius:var(--r-md);padding:12px 16px;background:var(--canvas)}
+  .arr .ic{width:38px;height:38px;border-radius:var(--r-full);flex:none;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--soft)}
+  .arr .who{flex:1;min-width:0}
+  .arr .who .g{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .arr .who .b{font-size:13.5px;color:var(--muted);margin-top:1px}
+  .arr .tag{font-size:12px;font-weight:600;padding:5px 12px;border-radius:var(--r-full);white-space:nowrap;border:1px solid var(--hairline)}
+  .arr .tag.in{background:var(--okbg);color:var(--ok);border-color:transparent}
+  .arr .tag.out{background:var(--soft);color:var(--body);border-color:transparent}
+  .none{color:var(--muted);font-size:14px;margin-top:14px}
+
+  /* ===== moduly (property-card princip: karta 14px, hover = jediny stin) ===== */
+  .mods{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
   @media(max-width:960px){.mods{grid-template-columns:repeat(2,1fr)}}
-  .mod{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px 16px;box-shadow:var(--sh);
-    text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:transform .15s,border-color .15s;position:relative;overflow:hidden}
-  .mod:hover{transform:translateY(-2px);border-color:var(--line2)}
-  .mod::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--mc,var(--grn))}
-  .mod .t{font-family:var(--serif);font-size:18.5px;font-weight:600;letter-spacing:-.01em}
-  .mod .d{font-size:13px;color:var(--ink2);line-height:1.45}
-  .mod .k{margin-top:8px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mc,var(--grn))}
+  .mod{border:1px solid var(--hairline-soft);border-radius:var(--r-md);overflow:hidden;text-decoration:none;background:var(--canvas);
+    transition:box-shadow 200ms ease,transform 160ms var(--ease-out)}
+  .mod:active{transform:scale(.98)}
+  @media(hover:hover) and (pointer:fine){ .mod:hover{box-shadow:var(--shadow)} }
+  .mod .ph{height:86px;display:flex;align-items:center;justify-content:center;font-size:34px;background:var(--soft)}
+  .mod .bd{padding:14px 16px 16px}
+  .mod .t{font-size:16px;font-weight:600;line-height:1.25}
+  .mod .d{font-size:14px;color:var(--muted);line-height:1.43;margin-top:3px}
+  .mod .k{display:inline-block;margin-top:10px;font-size:14px;font-weight:500;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
 
-  /* ===== úkoly ===== */
-  .task{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--tc,var(--na));border-radius:13px;padding:14px 16px;box-shadow:var(--sh)}
-  .task+.task{margin-top:10px}
-  .task .st{font-size:11px;font-weight:800;letter-spacing:.06em;color:var(--tc,var(--na));text-transform:uppercase}
-  .task .who{float:right;font-size:12px;color:var(--mut)}
-  .task .nm{font-weight:650;font-size:15px;margin:6px 0 3px}
-  .task .po{font-size:13px;color:var(--ink2);line-height:1.5;margin-bottom:8px}
-  .task .bar{height:5px;border-radius:4px;background:var(--paper);overflow:hidden;margin:8px 0 0}
-  .task .bar i{display:block;height:100%;background:var(--tc,var(--na))}
-  .task .btns{display:flex;gap:8px;margin-top:12px}
-  .task .btns button{border:none;border-radius:10px;font:600 13.5px var(--sans);padding:10px 16px;cursor:pointer}
-  .task .btns .yes{flex:1;background:var(--grn);color:#fff}
-  .task .btns .no{background:var(--paper);border:1px solid var(--line2);color:var(--ink)}
+  /* ===== ukoly ===== */
+  .task{border:1px solid var(--hairline-soft);border-radius:var(--r-md);padding:16px 18px;background:var(--canvas)}
+  .task+.task{margin-top:12px}
+  .task .st{font-size:12px;font-weight:600;color:var(--tc,var(--muted))}
+  .task .who{float:right;font-size:13px;color:var(--muted)}
+  .task .nm{font-weight:600;font-size:16px;margin:6px 0 3px;line-height:1.3}
+  .task .po{font-size:14px;color:var(--body);line-height:1.5;margin-bottom:8px}
+  .task .bar{height:4px;border-radius:4px;background:var(--strong);overflow:hidden;margin-top:10px}
+  .task .bar i{display:block;height:100%;background:var(--tc,var(--muted));border-radius:4px;transition:width 400ms var(--ease-out)}
+  .task .btns{display:flex;gap:10px;margin-top:14px}
+  .task .btns button{border:none;border-radius:var(--r-sm);font:500 15px 'Inter',sans-serif;padding:12px 20px;cursor:pointer;transition:transform 160ms var(--ease-out),background 200ms ease}
+  .task .btns button:active{transform:scale(.97)}
+  .task .btns .yes{flex:1;background:var(--rausch);color:#fff}
+  .task .btns .yes:active{background:var(--rausch-active)}
+  .task .btns .no{background:var(--canvas);border:1px solid var(--ink);color:var(--ink)}
 
-  /* ===== provoz (agenti) ===== */
-  .bizgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;margin-top:16px}
-  .biz{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
-  .biz .bh{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line);background:var(--card2)}
-  .biz .bh .nm{font-family:var(--serif);font-weight:600;font-size:16.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .biz .bh .ct{font-size:11.5px;color:var(--mut);font-weight:600}
-  .biz .rows{padding:6px 8px 10px}
-  .agrow{display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:10px;cursor:pointer}
-  .agrow:hover{background:var(--card2)}
-  .agrow .em{width:30px;height:30px;border-radius:9px;background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+  /* ===== provoz ===== */
+  .bizgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-top:20px}
+  .biz{border:1px solid var(--hairline-soft);border-radius:var(--r-md);background:var(--canvas);overflow:hidden}
+  .biz .bh{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--hairline-soft)}
+  .biz .bh .nm{font-weight:600;font-size:16px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .biz .bh .ct{font-size:13px;color:var(--muted)}
+  .biz .rows{padding:8px 10px 10px}
+  .agrow{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:var(--r-sm);cursor:pointer;transition:background 200ms ease}
+  @media(hover:hover) and (pointer:fine){ .agrow:hover{background:var(--soft)} }
+  .agrow .em{width:32px;height:32px;border-radius:var(--r-full);background:var(--strong);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
   .agrow .mid{flex:1;min-width:0}
-  .agrow .nm{font-weight:650;font-size:13.5px;display:flex;align-items:center;gap:7px}
-  .agrow .rl{font-size:11.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .agrow .det{display:none;font-size:11.5px;color:var(--ink2);margin-top:3px;line-height:1.45}
+  .agrow .nm{font-weight:600;font-size:14px;display:flex;align-items:center;gap:7px}
+  .agrow .rl{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .agrow .det{display:none;font-size:12.5px;color:var(--body);margin-top:3px;line-height:1.45}
   .agrow.open .det{display:block}
   .sdot{width:7px;height:7px;border-radius:50%;flex:none}
-  .stag{font-size:9.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:6px}
+  .stag{font-size:11px;font-weight:600;padding:2px 8px;border-radius:var(--r-full)}
 
   /* ===== usage ===== */
-  .ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:16px}
-  .um{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px 16px;box-shadow:var(--sh)}
-  .um .lb{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);display:flex;justify-content:space-between;align-items:center}
-  .um .lb .tag{font-size:9.5px;font-weight:800;padding:2px 8px;border-radius:8px;letter-spacing:.04em}
-  .um .v{font-family:var(--serif);font-size:27px;font-weight:600;margin:8px 0 10px;line-height:1;font-variant-numeric:tabular-nums}
-  .um .v small{font-family:var(--sans);font-size:11.5px;color:var(--mut);font-weight:500}
-  .um .tr{height:6px;border-radius:4px;background:var(--paper);overflow:hidden}
-  .um .tr i{display:block;height:100%;border-radius:4px}
-  .um .meta{font-size:11.5px;color:var(--mut);margin-top:8px;display:flex;gap:12px;flex-wrap:wrap}
-  .um .meta b{color:var(--ink)}
+  .ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:20px}
+  .um{border:1px solid var(--hairline-soft);border-radius:var(--r-md);padding:16px 18px;background:var(--canvas)}
+  .um .lb{font-size:13px;font-weight:500;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+  .um .lb .tag{font-size:11px;font-weight:600;padding:2px 9px;border-radius:var(--r-full)}
+  .um .v{font-size:30px;font-weight:700;letter-spacing:-.5px;margin:8px 0 12px;line-height:1;font-variant-numeric:tabular-nums}
+  .um .v small{font-size:13px;color:var(--muted);font-weight:400;letter-spacing:0}
+  .um .tr{height:4px;border-radius:4px;background:var(--strong);overflow:hidden}
+  .um .tr i{display:block;height:100%;border-radius:4px;transition:width 400ms var(--ease-out)}
+  .um .meta{font-size:13px;color:var(--muted);margin-top:10px;display:flex;gap:14px;flex-wrap:wrap}
+  .um .meta b{color:var(--ink);font-weight:600}
 
   /* ===== projekty ===== */
-  .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px;margin-top:14px}
-  .pc{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:13px 15px;box-shadow:var(--sh)}
-  .pc .nm{font-weight:650;font-size:14px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
-  .pc .bd{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);white-space:nowrap}
-  .pc .dt{font-size:12px;color:var(--ink2);margin-top:6px;line-height:1.5}
-  .pc .dt code{background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:0 5px;font-size:11px}
-  .ghead{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin:20px 2px 0;display:flex;gap:8px;align-items:center}
-  .ghead::after{content:"";flex:1;height:1px;background:var(--line)}
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;margin-top:16px}
+  .pc{border:1px solid var(--hairline-soft);border-radius:var(--r-md);padding:14px 16px;background:var(--canvas)}
+  .pc .nm{font-weight:600;font-size:15px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .pc .bd2{font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;text-transform:uppercase;letter-spacing:.32px}
+  .pc .dt{font-size:13.5px;color:var(--muted);margin-top:5px;line-height:1.5}
+  .pc .dt code{background:var(--soft);border-radius:4px;padding:0 5px;font-size:12px}
+  .ghead{font-size:13px;font-weight:600;color:var(--muted);margin:24px 0 0;display:flex;gap:10px;align-items:center}
+  .ghead::after{content:"";flex:1;height:1px;background:var(--hairline-soft)}
 
-  .sticky-crit{position:fixed;top:0;left:0;right:0;z-index:60;display:none;background:var(--down);color:#fff;padding:10px 18px;font-size:13.5px;font-weight:600;text-align:center}
+  .sticky-crit{position:fixed;top:0;left:0;right:0;z-index:60;display:none;background:var(--err);color:#fff;padding:10px 18px;font-size:14px;font-weight:500;text-align:center}
   .sticky-crit.show{display:block}
-  body.crit nav{top:41px}
+  body.crit .nav{top:41px}
 
-  footer{margin-top:52px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--mut);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-  .empty{background:var(--card2);border:1px dashed var(--line2);border-radius:13px;padding:16px;color:var(--mut);font-size:13.5px;text-align:center;margin-top:14px}
+  footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--hairline-soft);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .empty{border:1px dashed var(--hairline);border-radius:var(--r-md);padding:18px;color:var(--muted);font-size:14px;text-align:center;margin-top:16px;background:var(--soft)}
 
   @media(max-width:640px){
-    .wrap{padding:0 14px 70px}
-    .top{padding:22px 2px 14px}
-    .wordmark{font-size:34px}
-    .hclock .c{font-size:26px}
-    .today-grid{grid-template-columns:repeat(2,1fr);gap:9px}
-    .tile{padding:14px;min-height:100px}
-    .tile .num{font-size:36px}
-    .mods{grid-template-columns:1fr;gap:9px}
+    .nav{padding:0 14px;gap:8px;height:56px}
+    .clock{display:none}
+    .wrap{padding:0 16px 80px}
+    h1.page{font-size:24px;margin-top:26px}
+    h2{font-size:19px;margin-top:44px}
+    .tiles{grid-template-columns:repeat(2,1fr);gap:10px}
+    .tile{padding:14px;min-height:120px}
+    .tile .num{font-size:44px}
+    .mods{grid-template-columns:1fr;gap:12px}
     .bizgrid,.pgrid,.ugrid{grid-template-columns:1fr}
-    h2{font-size:20px;margin-top:32px}
+  }
+  /* Reduced motion: pohyb pryc, opacity zustava */
+  @media(prefers-reduced-motion:reduce){
+    .tile,.arr{transition:opacity 200ms ease;transform:none}
+    @starting-style{ .tile,.arr{transform:none} }
+    .tile:active,.mod:active,.tympill:active,.task .btns button:active{transform:none}
   }
 </style>
 </head>
 <body>
 <div class="sticky-crit" id="scrit"></div>
 
-<div class="wrap">
-  <div class="top">
-    <div>
-      <div class="wordmark">VEL<em>ÍN</em></div>
-      <div class="tagline" id="sysline">řídicí středisko</div>
-    </div>
-    <div class="hclock">
-      <div class="c" id="clock">--:--</div>
-      <div class="d" id="dnesdate">—</div>
-    </div>
-  </div>
-
-  <nav>
+<nav class="nav">
+  <a class="wordmark" href="index.html">velín</a>
+  <div class="tabs">
     <a class="on" href="index.html">Přehled</a>
-    <a href="byty-rpg.html">Byty &amp; ceny</a>
-    <a href="chat.html">Zprávy <span id="navmsg"></span></a>
+    <a href="byty-rpg.html">Byty a ceny</a>
+    <a href="chat.html">Zprávy<span class="bdg" id="navmsg" style="display:none"></span></a>
     <a href="vydelky-mesicne.html">Výdělky</a>
     <a href="sprava-provize.html">Provize</a>
     <a href="room-gru.html">Kancelář</a>
-    <a href="tym.html">Recepce (tým)</a>
-  </nav>
+  </div>
+  <div class="navr">
+    <span class="clock" id="clock">--:--</span>
+    <a class="tympill" href="tym.html">🛎️ Recepce</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <h1 class="page" id="hello">Dnes</h1>
+  <p class="pagesub" id="dnesdate">—</p>
 
   <div id="alerts"></div>
 
-  <h2>Dnes <small id="dnestamp"></small></h2>
-  <div class="today-grid" id="todaytiles">
-    <div class="tile"><span class="lb">Čeká na odpověď</span><span class="num">…</span></div>
-    <div class="tile"><span class="lb">Příjezdy dnes</span><span class="num">…</span></div>
-    <div class="tile"><span class="lb">Odjezdy dnes</span><span class="num">…</span></div>
-    <div class="tile"><span class="lb">Hosté v bytech</span><span class="num">…</span></div>
+  <div class="tiles" id="todaytiles">
+    <a class="tile skel" href="chat.html"><span class="lb">Čeká na odpověď</span><span class="num">0</span><span class="sub">načítám…</span></a>
+    <a class="tile skel" href="byty-rpg.html"><span class="lb">Příjezdy dnes</span><span class="num">0</span><span class="sub">načítám…</span></a>
+    <a class="tile skel" href="byty-rpg.html"><span class="lb">Odjezdy dnes</span><span class="num">0</span><span class="sub">načítám…</span></a>
+    <a class="tile skel" href="chat.html"><span class="lb">Hosté v bytech</span><span class="num">0</span><span class="sub">načítám…</span></a>
   </div>
   <div class="arrlist" id="arrlist"></div>
 
   <h2>Moduly</h2>
+  <p class="hsub">Všechno na jednom místě — byty, zprávy, peníze i tým.</p>
   <div class="mods">
-    <a class="mod" href="byty-rpg.html" style="--mc:var(--grn)"><span class="t">Byty &amp; ceny</span><span class="d">14 bytů — profily, super kalendář Booking+Airbnb, návrhy cen a nasazení.</span><span class="k">Otevřít →</span></a>
-    <a class="mod" href="chat.html" style="--mc:var(--info)"><span class="t">Zprávy</span><span class="d">Sjednocená schránka hostů, auto-překlady, odpovědi rovnou na platformu.</span><span class="k">Otevřít →</span></a>
-    <a class="mod" href="vydelky-mesicne.html" style="--mc:#7a5af0"><span class="t">Výdělky</span><span class="d">Měsíční výdělky vlastních bytů podle platformy.</span><span class="k">Otevřít →</span></a>
-    <a class="mod" href="sprava-provize.html" style="--mc:#b3543a"><span class="t">Provize</span><span class="d">Byty ve správě — provize a vyúčtování.</span><span class="k">Otevřít →</span></a>
-    <a class="mod" href="room-gru.html" style="--mc:var(--warn)"><span class="t">Kancelář</span><span class="d">Zasedačka s agenty — vizuální režim VELÍNu.</span><span class="k">Otevřít →</span></a>
-    <a class="mod" href="tym.html" style="--mc:var(--ink)"><span class="t">Recepce — tým</span><span class="d">Samostatný vstup pro pracovníky: zprávy hostů a dnešní provoz. Bez přístupu do VELÍNu.</span><span class="k">Otevřít →</span></a>
+    <a class="mod" href="byty-rpg.html"><div class="ph">🏠</div><div class="bd"><div class="t">Byty a ceny</div><div class="d">14 bytů, super kalendář Booking + Airbnb, návrhy cen a nasazení jedním klikem.</div><span class="k">Otevřít</span></div></a>
+    <a class="mod" href="chat.html"><div class="ph">💬</div><div class="bd"><div class="t">Zprávy</div><div class="d">Sjednocená schránka hostů, auto-překlady, odpovědi rovnou na platformu.</div><span class="k">Otevřít</span></div></a>
+    <a class="mod" href="vydelky-mesicne.html"><div class="ph">📈</div><div class="bd"><div class="t">Výdělky</div><div class="d">Měsíční výdělky vlastních bytů podle platformy.</div><span class="k">Otevřít</span></div></a>
+    <a class="mod" href="sprava-provize.html"><div class="ph">🤝</div><div class="bd"><div class="t">Provize</div><div class="d">Byty ve správě — provize a vyúčtování.</div><span class="k">Otevřít</span></div></a>
+    <a class="mod" href="room-gru.html"><div class="ph">🏙️</div><div class="bd"><div class="t">Kancelář</div><div class="d">Zasedačka s agenty — vizuální režim VELÍNu.</div><span class="k">Otevřít</span></div></a>
+    <a class="mod" href="tym.html"><div class="ph">🛎️</div><div class="bd"><div class="t">Recepce — tým</div><div class="d">Samostatný vstup pro pracovníky: zprávy hostů a dnešní provoz, bez přístupu do VELÍNu.</div><span class="k">Otevřít</span></div></a>
   </div>
 
   <h2 id="appr-h" style="display:none">Úkoly <small id="appr-c"></small></h2>
@@ -239,35 +259,35 @@
 (function(){
   var D=window.DASHBOARD_DATA||{};
   var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
-  var STC={operational:'var(--ok)',wip:'var(--warn)',down:'var(--down)',planned:'var(--info)',na:'var(--na)'};
-  var STB={operational:'var(--okbg)',wip:'var(--warnbg)',down:'var(--downbg)',planned:'var(--infobg)',na:'var(--nabg)'};
+  var STC={operational:'var(--ok)',wip:'var(--warn)',down:'var(--err)',planned:'var(--info)',na:'var(--muted-soft)'};
+  var STB={operational:'var(--okbg)',wip:'var(--warnbg)',down:'var(--errbg)',planned:'#e9f1ff',na:'var(--soft)'};
   var STL={operational:'běží',wip:'ladí se',down:'padlo',planned:'plán',na:'—'};
 
   function tick(){var d=new Date();function p(n){return(n<10?'0':'')+n;}
     document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes());}
   tick();setInterval(tick,15e3);
   var now=new Date();
-  document.getElementById('dnesdate').textContent=now.toLocaleDateString('cs',{weekday:'long',day:'numeric',month:'long'});
-  document.getElementById('dnestamp').textContent='živě ze schránky';
+  var H=now.getHours();
+  document.getElementById('hello').textContent=(H<10?'Dobré ráno':H<18?'Dnes':'Dobrý večer');
+  document.getElementById('dnesdate').textContent=now.toLocaleDateString('cs',{weekday:'long',day:'numeric',month:'long'})+' · živě ze schránky';
   document.getElementById('foot').textContent='data '+(D.generated||'—');
 
-  /* ---- provoz / agenti ---- */
+  /* ---- provoz ---- */
   var biz=D.businesses||[]; var allAg=[]; biz.forEach(function(b){(b.agents||[]).forEach(function(a){allAg.push(a);});});
   var down=allAg.filter(function(a){return a.status==='down';}).length;
   var wip=allAg.filter(function(a){return a.status==='wip';}).length;
-  document.getElementById('sysline').innerHTML='řídicí středisko · '+(down?'<b class="bad">'+down+' agent'+(down>1?'i':'')+' mimo provoz</b>':'<b>systém v provozu</b>');
   document.getElementById('provoz-sub').textContent=allAg.length+' agentů · '+(down?down+' padlo':'vše běží')+(wip?' · '+wip+' ladí':'');
 
   document.getElementById('biz').innerHTML=biz.map(function(b){
     var inner=(b.agents||[]).map(function(a){
-      var col=STC[a.status]||'var(--na)', bg=STB[a.status]||'var(--nabg)';
+      var col=STC[a.status]||'var(--muted-soft)', bg=STB[a.status]||'var(--soft)';
       var meta=[a.workflow?'⚙️ '+esc(a.workflow):'',a.chat?'💬 '+esc(a.chat):'',a.detail?esc(a.detail):''].filter(Boolean).join(' · ');
       return '<div class="agrow" onclick="this.classList.toggle(\'open\')">'+
         '<div class="em">'+(a.emoji||esc((a.name||'?').charAt(0)))+'</div>'+
         '<div class="mid"><div class="nm">'+esc(a.name)+'<span class="sdot" style="background:'+col+'"></span>'+
         '<span class="stag" style="background:'+bg+';color:'+col+'">'+(STL[a.status]||esc(a.status)||'')+'</span></div>'+
         '<div class="rl">'+esc(a.role||'')+'</div>'+(meta?'<div class="det">'+meta+'</div>':'')+'</div></div>';
-    }).join('')||'<div class="empty" style="margin:8px">Bez agentů.</div>';
+    }).join('')||'<div class="empty" style="margin:10px">Bez agentů.</div>';
     return '<div class="biz"><div class="bh"><div class="nm">'+(b.emoji?b.emoji+' ':'')+esc(b.name)+'</div>'+
       '<div class="ct">'+(b.agents||[]).length+' agentů</div></div><div class="rows">'+inner+'</div></div>';
   }).join('');
@@ -285,13 +305,13 @@
         det+=(g.isRepo?('větev <code>'+esc(g.branch||'?')+'</code>'+(g.uncommitted?' · <code>'+esc(g.uncommitted)+'</code> neuloženo':' · čisto')):'bez gitu');
         if(p.todos)det+=' · '+p.todos+' TODO';
       } else { det+=esc(p.notes||'')+(p.chat?' · <code>'+esc(p.chat)+'</code>':''); }
-      return '<div class="pc"><div class="nm">'+esc(p.name)+'<span class="bd">'+esc(p.kind==='external'?(p.platform||'host'):(p.type||''))+'</span></div><div class="dt">'+det+'</div></div>';
+      return '<div class="pc"><div class="nm">'+esc(p.name)+'<span class="bd2">'+esc(p.kind==='external'?(p.platform||'host'):(p.type||''))+'</span></div><div class="dt">'+det+'</div></div>';
     }).join('');
     ph+='</div>';
   });
   document.getElementById('projects').innerHTML=ph||'<div class="empty">Žádné projekty.</div>';
 
-  /* ---- DNES: živě ze Supabase ---- */
+  /* ---- DNES: zive ze Supabase (shimmer -> stagger vstup) ---- */
   (function dnes(){
     var SB='https://uiynkslmvkjzzdvijkzo.supabase.co/rest/v1';
     var KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
@@ -305,32 +325,33 @@
       var dep=cs.filter(function(c){return c.odjezd===today;});
       var stay=cs.filter(function(c){return c.prijezd&&c.prijezd<today&&c.odjezd&&c.odjezd>today;});
       function tile(lb,n,sub,href,hot){
-        return '<a class="tile '+(hot&&n?'hot':(n?'':'ok0'))+'" href="'+href+'"><span class="go">→</span><span class="lb">'+lb+'</span><span class="num">'+n+'</span><span class="sub">'+sub+'</span></a>';
+        return '<a class="tile '+(hot&&n?'hot':(n?'':'zero'))+'" href="'+href+'"><span class="go">→</span><span class="lb">'+lb+'</span><span class="num">'+n+'</span><span class="sub">'+sub+'</span></a>';
       }
-      function names(list){return list.slice(0,3).map(function(c){return esc((c.guest||'').split(' ')[0])+' · '+esc(c.byt_nazev||c.byt_key||'');}).join('<br>')||'nikdo';}
+      function names(list){return list.slice(0,2).map(function(c){return esc((c.guest||'').split(' ')[0])+' · '+esc(c.byt_nazev||c.byt_key||'');}).join('<br>')||'nikdo';}
       document.getElementById('todaytiles').innerHTML=
         tile('Čeká na odpověď',wait.length,wait.length?'nejstarší: '+esc((wait[wait.length-1]||{}).guest||''):'vše zodpovězeno','chat.html',true)+
         tile('Příjezdy dnes',arr.length,names(arr),'byty-rpg.html')+
         tile('Odjezdy dnes',dep.length,names(dep),'byty-rpg.html')+
-        tile('Hosté v bytech',stay.length,stay.length?stay.slice(0,3).map(function(c){return esc(c.byt_nazev||c.byt_key||'');}).join(' · '):'prázdno','chat.html');
-      if(wait.length)document.getElementById('navmsg').textContent='('+wait.length+')';
+        tile('Hosté v bytech',stay.length,stay.length?stay.slice(0,2).map(function(c){return esc(c.byt_nazev||c.byt_key||'');}).join(' · '):'prázdno','chat.html');
+      if(wait.length){var nb=document.getElementById('navmsg');nb.textContent=wait.length;nb.style.display='';}
       var rows=arr.map(function(c){return {c:c,dir:'in'};}).concat(dep.map(function(c){return {c:c,dir:'out'};}));
       document.getElementById('arrlist').innerHTML=rows.map(function(x){
         var c=x.c;
-        return '<div class="arr"><div class="ic '+x.dir+'">'+(x.dir==='in'?'🔑':'👋')+'</div>'+
-          '<div class="who"><div class="g">'+esc(c.guest||'Host')+'</div><div class="b">'+esc(c.byt_nazev||c.byt_key||'')+(c.prijezd?' · '+c.prijezd.slice(8,10).replace(/^0/,'')+'.'+c.prijezd.slice(5,7).replace(/^0/,'')+'.–'+(c.odjezd?c.odjezd.slice(8,10).replace(/^0/,'')+'.'+c.odjezd.slice(5,7).replace(/^0/,'')+'.':'?'):'')+'</div></div>'+
+        function d(s){return s?s.slice(8,10).replace(/^0/,'')+'.'+s.slice(5,7).replace(/^0/,'')+'.':'?';}
+        return '<div class="arr"><div class="ic">'+(x.dir==='in'?'🔑':'👋')+'</div>'+
+          '<div class="who"><div class="g">'+esc(c.guest||'Host')+'</div><div class="b">'+esc(c.byt_nazev||c.byt_key||'')+(c.prijezd?' · '+d(c.prijezd)+'–'+d(c.odjezd):'')+'</div></div>'+
           '<span class="tag '+x.dir+'">'+(x.dir==='in'?'check-in':'check-out')+'</span></div>';
-      }).join('')+ (rows.length?'':'<div class="todayline">Dnes žádné příjezdy ani odjezdy (podle konverzací ve schránce).</div>');
+      }).join('')||'<div class="none">Dnes žádné příjezdy ani odjezdy (podle konverzací ve schránce).</div>';
     })
-    .catch(function(){ document.getElementById('dnestamp').textContent='schránka nedostupná'; });
+    .catch(function(){ document.getElementById('dnesdate').textContent+=' · schránka nedostupná'; });
   })();
 
-  /* ---- usage (jen když je) ---- */
+  /* ---- usage ---- */
   (function(){
     var u=D.usage; if(!u)return;
     document.getElementById('usage-wrap').style.display='';
     function fmt(n){if(!n||n<0)return'—';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return Math.round(n/1e3)+'k';return String(n);}
-    function col(p){if(p<0)return['var(--na)','var(--nabg)','?'];if(p>=90)return['var(--down)','var(--downbg)','kritické'];if(p>=70)return['var(--warn)','var(--warnbg)','pozor'];return['var(--ok)','var(--okbg)','ok'];}
+    function col(p){if(p<0)return['var(--muted-soft)','var(--soft)','?'];if(p>=90)return['var(--err)','var(--errbg)','kritické'];if(p>=70)return['var(--warn)','var(--warnbg)','pozor'];return['var(--ok)','var(--okbg)','ok'];}
     function m(lb,pct,tok,extra){var c=col(pct!=null?pct:-1);var w=pct>=0?Math.min(100,pct):0;
       return '<div class="um"><div class="lb">'+lb+'<span class="tag" style="background:'+c[1]+';color:'+c[0]+'">'+c[2]+'</span></div>'+
       '<div class="v">'+(pct>=0?pct.toFixed(1)+'%':'?')+' <small>'+fmt(tok)+' tok</small></div>'+
@@ -356,7 +377,7 @@
     }
   })();
 
-  /* ---- úkoly (n8n) ---- */
+  /* ---- ukoly (n8n) ---- */
   (function(){
     function lsg(k){try{return localStorage.getItem(k)||'';}catch(e){return '';}}
     var DEF_URL='https://n8n-production-3fc15.up.railway.app/webhook/velin';
@@ -370,7 +391,7 @@
       .then(function(r){return r.json();}).then(function(j){cb&&cb(j);}).catch(function(e){box.innerHTML='<div class="empty">n8n nedostupné: '+esc(String(e&&e.message||e))+'</div>';h.style.display='';});}
     function pct(s){s=s||'';if(s.indexOf('✅')>=0)return 100;if(s.indexOf('👍')>=0)return 92;if(s.indexOf('⏳')>=0)return 90;if(s.indexOf('🧪')>=0)return 80;if(s.indexOf('💻')>=0)return 55;if(s.indexOf('📝')>=0)return 25;if(s.indexOf('⚠')>=0)return 60;return 10;}
     function needs(s){s=(s||'').toLowerCase();return s.indexOf('čeká')>=0||s.indexOf('ceka')>=0||s.indexOf('problém')>=0||s.indexOf('problem')>=0;}
-    function scol(s){s=s||'';if(needs(s))return'var(--warn)';if(s.indexOf('✅')>=0||s.indexOf('👍')>=0)return'var(--ok)';if(s.indexOf('⚠')>=0)return'var(--down)';if(s.indexOf('💻')>=0||s.indexOf('🧪')>=0)return'var(--info)';return'var(--na)';}
+    function scol(s){s=s||'';if(needs(s))return'var(--warn)';if(s.indexOf('✅')>=0||s.indexOf('👍')>=0)return'var(--ok)';if(s.indexOf('⚠')>=0)return'var(--err)';if(s.indexOf('💻')>=0||s.indexOf('🧪')>=0)return'var(--info)';return'var(--muted-soft)';}
     function render(tasks){
       var list=(tasks||[]).filter(function(t){var s=(t.stav||'');return s.indexOf('✅')<0&&s.indexOf('🗑')<0&&s.indexOf('zastav')<0;});
       var waiting=list.filter(function(t){return needs(t.stav);}).length;
@@ -382,11 +403,11 @@
           '<span class="st">'+esc(t.stav||'')+'</span><div class="nm">'+esc(t.napad||'')+'</div>'+
           (t.pozn?'<div class="po">'+esc(t.pozn)+'</div>':'')+
           '<div class="bar"><i style="width:'+p+'%"></i></div>'+
-          (need?'<div class="btns"><button class="yes" data-id="'+esc(t.id)+'" data-s="ok">✓ Schválit</button><button class="no" data-id="'+esc(t.id)+'" data-s="stop">✕ Zastavit</button></div>':'')+'</div>';
+          (need?'<div class="btns"><button class="yes" data-id="'+esc(t.id)+'" data-s="ok">Schválit</button><button class="no" data-id="'+esc(t.id)+'" data-s="stop">Zastavit</button></div>':'')+'</div>';
       }).join('');
       [].forEach.call(box.querySelectorAll('button'),function(b){b.addEventListener('click',function(){
         var id=b.getAttribute('data-id'),s=b.getAttribute('data-s');
-        b.parentNode.innerHTML='<span style="font-size:12.5px;color:var(--ok);font-weight:700">'+(s==='ok'?'✓ schvaluji…':'✕ zastavuji…')+'</span>';
+        b.parentNode.innerHTML='<span style="font-size:13px;color:var(--ok);font-weight:600">'+(s==='ok'?'✓ schvaluji…':'✕ zastavuji…')+'</span>';
         post({action:'status',id:id,status:(s==='ok')?'👍 schváleno':'🗑️ zastaveno'},function(j){render(j&&j.tasks);});
       });});
     }
