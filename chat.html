@@ -111,6 +111,12 @@ button{font-family:inherit}
 .mrow.out .b{background:var(--accent);color:#fff;border-bottom-right-radius:6px}
 .mrow.pend .b{opacity:.55}
 .pendtxt{font-size:11px;color:var(--dim);margin-top:3px}
+.trx{font-size:11px;color:var(--dim);margin-top:4px;padding:0 4px;cursor:pointer;user-select:none}
+.trx:hover{color:var(--txt)}
+.b .orig{display:block;margin-top:7px;padding-top:7px;border-top:1px dashed rgba(128,128,128,.35);opacity:.75;font-size:13.5px}
+.langbar{display:flex;align-items:center;gap:8px;padding:7px 18px 0;font-size:12.5px;color:var(--dim)}
+.langbar .sw{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:16px;padding:5px 12px;cursor:pointer;font-weight:600;color:var(--txt);transition:all .12s}
+.langbar .sw.on{background:#e8f0fe;border-color:var(--bk);color:var(--bk)}
 .composer{display:flex;gap:10px;padding:12px 18px calc(env(safe-area-inset-bottom) + 14px);align-items:flex-end;border-top:1px solid var(--line)}
 .composer textarea{flex:1;background:var(--bg);border:1px solid var(--line2);color:var(--txt);border-radius:22px;padding:12px 17px;font-size:15px;resize:none;max-height:120px;outline:none;font-family:inherit;line-height:1.35}
 .composer textarea:focus{border-color:var(--txt)}
@@ -172,6 +178,10 @@ button{font-family:inherit}
         <button class="iconbtn" title="Detail rezervace" onclick="toggleDetail()">ⓘ</button>
       </div>
       <div id="msgs"></div>
+      <div class="langbar hide" id="langbar">
+        <span class="sw on" id="langsw" onclick="toggleLang()">🌐 Odesílat v: <b id="langname"></b></span>
+        <span id="langhint">host píše cizím jazykem — tvoje odpověď se přeloží automaticky</span>
+      </div>
       <div class="composer">
         <textarea id="reply" rows="1" placeholder="Napiš zprávu…" oninput="grow(this)"></textarea>
         <button id="sendbtn" onclick="sendReply()" title="Odeslat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button>
@@ -191,10 +201,20 @@ button{font-family:inherit}
 const SB_URL='https://uiynkslmvkjzzdvijkzo.supabase.co';
 const SB_KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
 const PIN='7853';
-let sb, CONVS=[], curId=null, FILTER='vse';
+let sb, CONVS=[], curId=null, FILTER='vse', TR_OUT=true;
 const PCOL={booking:'var(--bk)',airbnb:'var(--ab)'};
 const PICON={booking:'B',airbnb:'A'};
 const PNAME={booking:'Booking.com',airbnb:'Airbnb'};
+const LANGS={en:'angličtině',de:'němčině',ru:'ruštině',uk:'ukrajinštině',pl:'polštině',es:'španělštině',fr:'francouzštině',it:'italštině','zh-cn':'čínštině','zh-tw':'čínštině',zh:'čínštině',ko:'korejštině',ja:'japonštině',nl:'nizozemštině',pt:'portugalštině',tr:'turečtině',ro:'rumunštině',hu:'maďarštině',el:'řečtině',lv:'lotyštině',lt:'litevštině',he:'hebrejštině',iw:'hebrejštině',ar:'arabštině',da:'dánštině',sv:'švédštině',no:'norštině',fi:'finštině',et:'estonštině',hr:'chorvatštině',sr:'srbštině',bg:'bulharštině',ka:'gruzínštině',hy:'arménštině',az:'ázerbájdžánštině',hi:'hindštině',id:'indonéštině',vi:'vietnamštině',th:'thajštině'};
+const LANGZ={en:'angličtiny',de:'němčiny',ru:'ruštiny',uk:'ukrajinštiny',pl:'polštiny',es:'španělštiny',fr:'francouzštiny',it:'italštiny','zh-cn':'čínštiny','zh-tw':'čínštiny',zh:'čínštiny',ko:'korejštiny',ja:'japonštiny',nl:'nizozemštiny',pt:'portugalštiny',tr:'turečtiny',ro:'rumunštiny',hu:'maďarštiny',el:'řečtiny',lv:'lotyštiny',lt:'litevštiny',he:'hebrejštiny',iw:'hebrejštiny',ar:'arabštiny',da:'dánštiny',sv:'švédštiny',no:'norštiny',fi:'finštiny',et:'estonštiny',hr:'chorvatštiny',sr:'srbštiny',bg:'bulharštiny'};
+const langName=(l,z)=> (z?LANGZ:LANGS)[(l||'').toLowerCase()] || (l||'').toUpperCase();
+// Google translate (gtx, bez klice) — CORS overen z github.io
+async function gtx(text,tl,sl){
+  const r=await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl='+(sl||'auto')+'&tl='+tl+'&dt=t',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'q='+encodeURIComponent(text)});
+  if(!r.ok)throw new Error('translate '+r.status);
+  const j=await r.json();
+  return {text:(j[0]||[]).map(s=>s[0]).join(''),lang:(j[2]||'').toLowerCase()};
+}
 const el=id=>document.getElementById(id);
 const esc=s=>(s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
 const initials=s=>(s||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
@@ -297,24 +317,57 @@ async function openConv(id,keep){
   el('tname').textContent=c.guest||'Host';
   const p=pobyt(c);
   el('tsub').textContent=[c.byt_nazev||c.byt_key, p? (fmtD(c.prijezd)+'–'+fmtD(c.odjezd)) : null, PNAME[c.platform]].filter(Boolean).join(' · ');
-  renderDetail(c);
+  renderDetail(c); renderLangbar(c);
   const {data}=await sb.from('zpravy').select('*').eq('konverzace_id',id).order('ts',{ascending:true});
+  const msgs=data||[];
   const m=el('msgs'); let html='',lastDay='',lastSmer='';
-  for(const z of (data||[])){
+  for(const z of msgs){
     const day=z.ts?new Date(z.ts).toDateString():'';
     if(day&&day!==lastDay){ html+=`<div class="dsep">${dsepLabel(z.ts)}</div>`; lastDay=day; lastSmer=''; }
     const showCap = z.smer!==lastSmer;
     lastSmer=z.smer;
     const author = z.smer==='out' ? 'Ty' : (z.author||c.guest||'Host');
+    // prichozi cizi zprava: hlavni text = cesky preklad, original na rozkliknuti
+    // odchozi prelozena: hlavni text = co se poslalo hostovi, cesky original na rozkliknuti
+    const hasTr = z.preklad && z.jazyk && z.jazyk!=='cs';
+    const main = (z.smer==='in' && hasTr) ? z.preklad : z.msg;
+    const other = (z.smer==='in' && hasTr) ? z.msg : (hasTr ? z.preklad : null);
+    const trCap = hasTr ? (z.smer==='in' ? '🌐 přeloženo z '+langName(z.jazyk,1) : '🌐 posláno v '+langName(z.jazyk)) : '';
     html+=`<div class="mrow ${z.smer==='out'?'out':'in'} ${z.stav==='pending'?'pend':''}">
       ${showCap?`<div class="mcap"><b>${esc(author)}</b><span>${fmtClock(z.ts)}</span></div>`:''}
-      <div class="b">${esc(z.msg)}</div>
+      <div class="b">${esc(main)}${other?`<span class="orig hide">${esc(other)}</span>`:''}</div>
+      ${hasTr?`<div class="trx" onclick="this.previousElementSibling.querySelector('.orig').classList.toggle('hide')">${trCap} · originál</div>`:''}
       ${z.stav==='pending'?'<div class="pendtxt">odesílá se…</div>':''}
     </div>`;
   }
   m.innerHTML=html||'<div class="empty">Zatím žádné zprávy ve vlákně.</div>';
   m.scrollTop=m.scrollHeight;
   if(!keep){ renderList(); if(c.unread>0){ await sb.from('konverzace').update({unread:0}).eq('id',id); loadConvs(); } }
+  translateMissing(c,msgs); // cerstve zpravy bez prekladu dolozit on-the-fly
+}
+/* jazykova lista nad composerem */
+function guestLang(c){ const l=(c.jazyk||'').toLowerCase(); return (l&&l!=='cs'&&l!=='sk'&&l!=='??')?l:null; }
+function renderLangbar(c){
+  const l=guestLang(c);
+  el('langbar').classList.toggle('hide',!l);
+  if(l){ el('langname').textContent=langName(l); el('langsw').classList.toggle('on',TR_OUT);
+    el('langhint').textContent=TR_OUT?'napiš česky — hostovi dorazí překlad':'odešle se přesně to, co napíšeš'; }
+}
+function toggleLang(){ TR_OUT=!TR_OUT; const c=CONVS.find(x=>x.id===curId); if(c)renderLangbar(c); }
+/* prichozi zpravy, ktere jeste nezpracoval prekladac: preloz v prohlizeci a uloz vsem */
+async function translateMissing(c,msgs){
+  const todo=msgs.filter(z=>z.smer==='in'&&!z.jazyk&&(z.msg||'').trim()).slice(-15);
+  let done=0;
+  for(const z of todo){
+    try{
+      const t=await gtx(z.msg.slice(0,4500),'cs');
+      const jazyk=t.lang||'??';
+      await sb.from('zpravy').update({jazyk,preklad:(jazyk==='cs'||!t.text||t.text===z.msg)?null:t.text}).eq('id',z.id);
+      if(jazyk!=='cs'&&jazyk!=='??'&&!c.jazyk){ await sb.from('konverzace').update({jazyk}).eq('id',c.id); c.jazyk=jazyk; }
+      done++;
+    }catch(e){ break; }
+  }
+  if(done&&curId===c.id) openConv(c.id,true);
 }
 function closeThread(){ curId=null; el('paneThread').classList.remove('open'); el('twrap').classList.add('hide'); el('noconv').classList.remove('hide'); renderList(); }
 function toggleDetail(force){ const d=el('paneDetail'); d.classList.toggle('open', force!==undefined?force:!d.classList.contains('open')); }
@@ -342,6 +395,7 @@ function renderDetail(c){
       <div class="krow"><span class="k">Apartmán</span><span class="v">${esc(c.byt_nazev||'')}</span></div>
       <div class="krow"><span class="k">Klíč bytu</span><span class="v">${esc(c.byt_key||'')}</span></div>
       <div class="krow"><span class="k">Účet</span><span class="v">${esc(c.ucet||'')}</span></div>
+      ${c.jazyk&&c.jazyk!=='cs'?`<div class="krow"><span class="k">Jazyk hosta</span><span class="v">🌐 ${langName(c.jazyk).replace(/ě$|ině$/,m=>m==='ě'?'a':'ina')}</span></div>`:''}
       ${c.reservation_code?`<div class="krow"><span class="k">Rezervace</span><span class="v mono">${esc(c.reservation_code)}</span></div>`:''}
       <div class="krow"><span class="k">Poslední zpráva</span><span class="v">${fmtT(c.last_at)}</span></div>
     </div>
@@ -351,11 +405,19 @@ function renderDetail(c){
 /* ---------- odeslání ---------- */
 async function sendReply(){
   const t=el('reply').value.trim(); if(!t||!curId)return;
+  const c=CONVS.find(x=>x.id===curId)||{};
   el('reply').value=''; grow(el('reply'));
+  // preklad odpovedi do jazyka hosta (kdyz je zapnuty a jazyk znamy)
+  let outMsg=t, orig=null, jazyk=null;
+  const gl=guestLang(c);
+  if(TR_OUT&&gl){
+    try{ const tr=await gtx(t,gl,'cs'); if(tr.text&&tr.text.trim()&&tr.text!==t){ outMsg=tr.text; orig=t; jazyk=gl; } }
+    catch(e){ /* preklad nedostupny -> posle se original */ }
+  }
   const mid='out-'+Date.now();
-  await sb.from('zpravy').insert({id:mid,konverzace_id:curId,smer:'out',msg:t,ts:new Date().toISOString(),author:'já',stav:'pending'}).then(()=>{});
-  await sb.from('odpovedi_fronta').insert({konverzace_id:curId,msg:t}); // PC agent to posle do platformy
-  await sb.from('konverzace').update({last_text:t,last_at:new Date().toISOString(),posledni_smer:'out',unread:0}).eq('id',curId);
+  await sb.from('zpravy').insert({id:mid,konverzace_id:curId,smer:'out',msg:outMsg,preklad:orig,jazyk,ts:new Date().toISOString(),author:'já',stav:'pending'}).then(()=>{});
+  await sb.from('odpovedi_fronta').insert({konverzace_id:curId,msg:outMsg}); // PC agent to posle do platformy
+  await sb.from('konverzace').update({last_text:outMsg,last_at:new Date().toISOString(),posledni_smer:'out',unread:0}).eq('id',curId);
   openConv(curId,true); loadConvs();
 }
 el('reply')?.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey&&window.innerWidth>760){ e.preventDefault(); sendReply(); } });
