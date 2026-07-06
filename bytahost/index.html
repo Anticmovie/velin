@@ -294,6 +294,9 @@ p.vs{color:var(--dim);font-size:12.5px;margin:0 0 16px}
       <button class="on" data-v="dnes" onclick="setTab('dnes')">◈ Dnes</button>
       <button data-v="zpravy" onclick="setTab('zpravy')">✉ Zprávy <span class="b hide" id="tb1">0</span></button>
       <button data-v="byty" onclick="setTab('byty')">⌂ Byty</button>
+      <button onclick="location.href='kalendar.html#kalendar'">▤ Kalendář</button>
+      <button onclick="location.href='vydelky.html'">◍ Výdělky</button>
+      <button onclick="location.href='provize.html'">% Provize</button>
     </div>
     <span class="cnt" id="topcnt"></span>
   </div>
@@ -344,6 +347,13 @@ p.vs{color:var(--dim);font-size:12.5px;margin:0 0 16px}
     <div class="view hide2" id="view-byty">
       <h2 class="vh">Byty</h2><p class="vs">Aktuální stav podle konverzací — kdo je v bytě, kdy přijede další host.</p>
       <div class="byty" id="bytygrid"></div>
+      <h2 class="vh" style="margin-top:26px">Nástroje</h2>
+      <div class="byty">
+        <a class="bcard" href="kalendar.html#kalendar" style="text-decoration:none;color:inherit"><div class="bn">▤ Multi Calendar</div><div class="st2">Kalendář všech bytů · úprava cen a min-nocí · návrhy</div></a>
+        <a class="bcard" href="kalendar.html" style="text-decoration:none;color:inherit"><div class="bn">⌂ Profily bytů</div><div class="st2">Karty bytů — skóre, hodnocení, kalendář po bytu</div></a>
+        <a class="bcard" href="vydelky.html" style="text-decoration:none;color:inherit"><div class="bn">◍ Výdělky</div><div class="st2">Měsíční výdělky podle platformy</div></a>
+        <a class="bcard" href="provize.html" style="text-decoration:none;color:inherit"><div class="bn">% Provize</div><div class="st2">Byty ve správě a vyúčtování</div></a>
+      </div>
     </div>
   </div>
 
@@ -351,6 +361,8 @@ p.vs{color:var(--dim);font-size:12.5px;margin:0 0 16px}
     <button class="on" data-v="dnes" onclick="setTab('dnes')"><span class="i">◈</span>Dnes</button>
     <button data-v="zpravy" onclick="setTab('zpravy')"><span class="i">✉</span>Zprávy<span class="b hide" id="tb2">0</span></button>
     <button data-v="byty" onclick="setTab('byty')"><span class="i">⌂</span>Byty</button>
+    <button onclick="location.href='kalendar.html#kalendar'"><span class="i">▤</span>Kalendář</button>
+    <button onclick="location.href='vydelky.html'"><span class="i">◍</span>Výdělky</button>
   </div>
 </div>
 
