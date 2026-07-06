@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELÍN · Řídicí středisko</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#533afd;
+    --primary-deep:#4434d4;
+    --primary-press:#2e2b8c;
+    --primary-soft:#665efd;
+    --primary-subdued:#b9b9f9;
+    --brand-dark:#1c1e54;
+    --ink:#0d253d;
+    --ink-secondary:#273951;
+    --ink-mute:#64748d;
+    --canvas:#ffffff;
+    --canvas-soft:#f6f9fc;
+    --canvas-cream:#f5e9d4;
+    --hairline:#e3e8ee;
+    --ruby:#ea2261;
+    --magenta:#f96bee;
+    --lemon:#9b6829;
+    --shadow-1:rgba(0,55,112,0.08) 0 1px 3px;
+    --shadow-2:rgba(0,55,112,0.08) 0 8px 24px, rgba(0,55,112,0.04) 0 2px 6px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased;text-size-adjust:100%}
+  body{
+    font-family:'Inter','SF Pro Display',system-ui,-apple-system,sans-serif;
+    font-feature-settings:"ss01";
+    font-weight:300;
+    font-size:15px;
+    line-height:1.4;
+    color:var(--ink);
+    background:var(--canvas);
+    overflow-x:hidden;
+  }
+  .tnum{font-feature-settings:"ss01","tnum";letter-spacing:-0.42px}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,0.86);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--hairline);
+  }
+  .nav-inner{
+    max-width:1200px;margin:0 auto;
+    padding:14px 24px;
+    display:flex;align-items:center;gap:28px;
+  }
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-weight:500;font-size:18px;letter-spacing:-0.22px;color:var(--ink);
+  }
+  .logo-mark{
+    width:28px;height:28px;border-radius:8px;
+    background:linear-gradient(135deg,var(--primary) 0%,var(--primary-soft) 55%,var(--magenta) 130%);
+    display:grid;place-items:center;
+    color:#fff;font-size:13px;font-weight:600;
+    box-shadow:var(--shadow-1);
+  }
+  .nav-links{display:flex;align-items:center;gap:4px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-link{
+    position:relative;
+    display:flex;align-items:center;gap:7px;
+    padding:8px 13px;border-radius:9999px;
+    font-size:14px;font-weight:400;color:#61718a;
+    text-decoration:none;white-space:nowrap;
+    transition:color .18s ease,background-color .18s ease,transform .12s ease;
+  }
+  .nav-link:hover{color:var(--ink);background:var(--canvas-soft)}
+  .nav-link:active{transform:scale(.97)}
+  .nav-link.active{color:var(--primary-deep);background:rgba(83,58,253,0.08);font-weight:500}
+  .nav-badge{
+    font-feature-settings:"tnum";
+    background:var(--ruby);color:#fff;
+    font-size:11px;font-weight:600;line-height:1;
+    padding:3px 7px;border-radius:9999px;
+  }
+  .nav-cta{
+    flex-shrink:0;
+    background:var(--primary);color:#fff;
+    font-size:14px;font-weight:400;line-height:1;
+    padding:9px 16px;border-radius:9999px;border:none;cursor:pointer;
+    transition:background-color .18s ease,transform .12s ease,box-shadow .18s ease;
+  }
+  .nav-cta:hover{background:var(--primary-deep);box-shadow:var(--shadow-1)}
+  .nav-cta:active{background:var(--primary-press);transform:scale(.97)}
+
+  /* ---------- HERO / GRADIENT MESH ---------- */
+  .hero{position:relative;overflow:hidden;padding:56px 24px 148px}
+  .hero-mesh{
+    position:absolute;inset:-40% -10% 18% -10%;
+    transform:skewY(-6deg);transform-origin:0 100%;
+    background:
+      radial-gradient(38% 55% at 12% 66%, rgba(245,233,212,0.95) 0%, rgba(245,233,212,0) 100%),
+      radial-gradient(42% 60% at 34% 38%, rgba(249,107,238,0.42) 0%, rgba(249,107,238,0) 100%),
+      radial-gradient(46% 62% at 58% 60%, rgba(102,94,253,0.40) 0%, rgba(102,94,253,0) 100%),
+      radial-gradient(36% 55% at 80% 34%, rgba(234,34,97,0.32) 0%, rgba(234,34,97,0) 100%),
+      radial-gradient(40% 60% at 96% 70%, rgba(185,185,249,0.65) 0%, rgba(185,185,249,0) 100%),
+      linear-gradient(112deg, #fdf6ea 0%, #f3ecff 34%, #ece9ff 55%, #fdeef5 78%, #f6f9fc 100%);
+    filter:saturate(1.08);
+  }
+  .hero-mesh::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(255,255,255,0) 55%, rgba(255,255,255,0.85) 100%);
+  }
+  .hero-inner{position:relative;max-width:1200px;margin:0 auto}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:rgba(255,255,255,0.7);
+    border:1px solid rgba(255,255,255,0.9);
+    color:var(--primary-deep);
+    font-size:10px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;
+    padding:6px 12px;border-radius:9999px;margin-bottom:20px;
+    box-shadow:var(--shadow-1);
+  }
+  .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--primary)}
+  .hero h1{
+    font-size:56px;font-weight:300;line-height:1.03;letter-spacing:-1.4px;
+    max-width:640px;
+  }
+  .hero h1 em{font-style:normal;color:var(--primary-deep)}
+  .hero p{
+    margin-top:16px;font-size:16px;color:var(--ink-secondary);max-width:520px;
+  }
+  .hero-date{
+    margin-top:22px;display:inline-flex;align-items:center;gap:10px;
+    font-size:13px;font-weight:400;letter-spacing:-0.39px;color:var(--ink-mute);
+    font-feature-settings:"ss01","tnum";
+  }
+  .hero-date b{font-weight:500;color:var(--ink)}
+
+  /* ---------- BENTO ---------- */
+  .bento-wrap{position:relative;max-width:1200px;margin:-96px auto 0;padding:0 24px 64px}
+  .section-label{
+    font-size:10px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;
+    color:var(--ink-mute);margin:40px 0 14px;
+  }
+  .bento-wrap .section-label:first-child{margin-top:0}
+  .bento{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    grid-auto-rows:minmax(128px,auto);
+    gap:16px;
+  }
+  .tile{
+    background:var(--canvas);
+    border:1px solid var(--hairline);
+    border-radius:12px;
+    padding:24px;
+    box-shadow:var(--shadow-1);
+    display:flex;flex-direction:column;
+    transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+    opacity:0;
+    animation:rise .28s ease forwards;
+  }
+  .tile:hover{transform:translateY(-3px);box-shadow:var(--shadow-2);border-color:#d5ddea}
+  .tile:active{transform:scale(.97)}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .tile:nth-child(1){animation-delay:.02s}
+  .tile:nth-child(2){animation-delay:.06s}
+  .tile:nth-child(3){animation-delay:.10s}
+  .tile:nth-child(4){animation-delay:.14s}
+  .tile:nth-child(5){animation-delay:.18s}
+  .tile:nth-child(6){animation-delay:.22s}
+  .tile:nth-child(7){animation-delay:.26s}
+
+  .span-2{grid-column:span 2}
+  .row-2{grid-row:span 2}
+
+  .tile-kicker{
+    font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
+    color:var(--ink-mute);
+  }
+  .tile-metric{
+    font-feature-settings:"ss01","tnum";
+    font-weight:300;letter-spacing:-1.4px;line-height:1.03;
+    font-size:44px;margin-top:auto;
+  }
+  .tile-sub{font-size:13px;letter-spacing:-0.39px;color:var(--ink-mute);margin-top:6px}
+
+  /* urgent 2x2 */
+  .tile-urgent{
+    background:var(--brand-dark);
+    border-color:var(--brand-dark);
+    color:#fff;position:relative;overflow:hidden;
+  }
+  .tile-urgent::before{
+    content:"";position:absolute;inset:auto -30% -55% -30%;height:80%;
+    background:
+      radial-gradient(50% 80% at 30% 100%, rgba(234,34,97,0.55) 0%, rgba(234,34,97,0) 100%),
+      radial-gradient(50% 80% at 75% 100%, rgba(83,58,253,0.75) 0%, rgba(83,58,253,0) 100%);
+    filter:blur(6px);
+    pointer-events:none;
+  }
+  .tile-urgent .tile-kicker{color:var(--primary-subdued)}
+  .tile-urgent .tile-metric{font-size:96px;letter-spacing:-3px;position:relative}
+  .tile-urgent .tile-sub{color:rgba(255,255,255,0.66);position:relative}
+  .urgent-flag{
+    position:relative;
+    align-self:flex-start;
+    display:inline-flex;align-items:center;gap:7px;
+    margin-top:14px;
+    background:rgba(234,34,97,0.18);
+    border:1px solid rgba(234,34,97,0.45);
+    color:#ffd2e1;
+    font-size:11px;font-weight:500;letter-spacing:.2px;
+    padding:5px 11px;border-radius:9999px;
+  }
+  .urgent-flag .pulse{
+    width:7px;height:7px;border-radius:50%;background:var(--ruby);
+    animation:pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  .tile-urgent .tile-cta{
+    position:relative;
+    margin-top:20px;align-self:flex-start;
+    background:#fff;color:var(--primary-press);
+    font-size:14px;font-weight:500;line-height:1;
+    padding:10px 18px;border-radius:9999px;border:none;cursor:pointer;
+    transition:transform .12s ease,box-shadow .18s ease;
+  }
+  .tile-urgent .tile-cta:hover{box-shadow:0 4px 14px rgba(0,0,0,0.35)}
+  .tile-urgent .tile-cta:active{transform:scale(.97)}
+
+  .metric-accent-in{color:var(--primary-deep)}
+  .metric-accent-out{color:var(--ink)}
+
+  .tile-icon{
+    width:34px;height:34px;border-radius:9px;
+    display:grid;place-items:center;font-size:15px;
+    margin-bottom:12px;flex-shrink:0;
+  }
+  .icon-indigo{background:rgba(83,58,253,0.10);color:var(--primary-deep)}
+  .icon-cream{background:var(--canvas-cream);color:var(--lemon)}
+  .icon-ruby{background:rgba(234,34,97,0.10);color:var(--ruby)}
+  .icon-soft{background:var(--canvas-soft);color:var(--ink-secondary)}
+
+  /* movements */
+  .tile-list-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:12px}
+  .tile-title{font-size:18px;font-weight:300;letter-spacing:-0.18px}
+  .tile-count-pill{
+    font-feature-settings:"tnum";
+    background:var(--primary-subdued);color:var(--primary-deep);
+    font-size:10px;font-weight:600;letter-spacing:.4px;
+    padding:4px 8px;border-radius:9999px;
+  }
+  .move-list{list-style:none;display:flex;flex-direction:column}
+  .move-item{
+    display:flex;align-items:center;gap:12px;
+    padding:9px 0;
+    border-bottom:1px solid var(--canvas-soft);
+    transition:background-color .15s ease;
+  }
+  .move-item:last-child{border-bottom:none;padding-bottom:0}
+  .move-item:first-child{padding-top:0}
+  .avatar{
+    width:30px;height:30px;border-radius:50%;flex-shrink:0;
+    display:grid;place-items:center;
+    font-size:11px;font-weight:600;color:#fff;
+  }
+  .av-1{background:linear-gradient(135deg,#665efd,#533afd)}
+  .av-2{background:linear-gradient(135deg,#f96bee,#ea2261)}
+  .av-3{background:linear-gradient(135deg,#4434d4,#1c1e54)}
+  .av-4{background:linear-gradient(135deg,#ea2261,#9b6829)}
+  .av-5{background:linear-gradient(135deg,#b9b9f9,#665efd);color:var(--primary-press)}
+  .av-6{background:linear-gradient(135deg,#0d253d,#273951)}
+  .move-meta{min-width:0;flex:1}
+  .move-name{font-size:14px;font-weight:400;letter-spacing:-0.1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .move-flat{font-size:12px;color:var(--ink-mute);letter-spacing:-0.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .move-dates{
+    font-feature-settings:"ss01","tnum";
+    font-size:12px;letter-spacing:-0.36px;color:var(--ink-secondary);
+    background:var(--canvas-soft);border:1px solid var(--hairline);
+    padding:3px 9px;border-radius:9999px;white-space:nowrap;
+  }
+  .move-out .move-dates{background:transparent}
+
+  /* modules */
+  .mod-grid .tile{cursor:pointer}
+  .mod-title{font-size:16px;font-weight:400;letter-spacing:-0.16px;display:flex;align-items:center;gap:8px}
+  .mod-desc{font-size:13px;letter-spacing:-0.2px;color:var(--ink-mute);margin-top:5px;flex:1}
+  .mod-link{
+    margin-top:14px;font-size:13px;font-weight:500;color:var(--primary);
+    display:inline-flex;align-items:center;gap:5px;
+    transition:gap .18s ease;
+  }
+  .tile:hover .mod-link{gap:9px}
+  .mod-badge{
+    font-feature-settings:"tnum";
+    background:var(--ruby);color:#fff;font-size:10px;font-weight:600;
+    padding:2px 7px;border-radius:9999px;
+  }
+
+  /* agents */
+  .agent-list{list-style:none;display:flex;flex-direction:column;margin-top:2px}
+  .agent-item{
+    display:flex;align-items:center;gap:12px;
+    padding:10px 0;border-bottom:1px solid var(--canvas-soft);
+  }
+  .agent-item:last-child{border-bottom:none;padding-bottom:0}
+  .agent-name{font-size:14px;font-weight:400;flex:1}
+  .agent-name span{color:var(--ink-mute);font-weight:300}
+  .status{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:11px;font-weight:500;letter-spacing:.2px;
+    padding:4px 11px;border-radius:9999px;
+  }
+  .status .sdot{width:6px;height:6px;border-radius:50%}
+  .status-run{background:rgba(83,58,253,0.08);color:var(--primary-deep)}
+  .status-run .sdot{background:var(--primary);animation:pulse 2s ease-in-out infinite}
+  .status-tune{background:var(--canvas-cream);color:var(--lemon)}
+  .status-tune .sdot{background:var(--lemon)}
+
+  /* limits */
+  .limit-row{margin-top:16px}
+  .limit-row:first-of-type{margin-top:auto}
+  .limit-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .limit-label{font-size:13px;letter-spacing:-0.2px;color:var(--ink-secondary)}
+  .limit-val{font-feature-settings:"ss01","tnum";font-size:14px;font-weight:500;letter-spacing:-0.42px}
+  .bar{height:6px;border-radius:9999px;background:var(--canvas-soft);border:1px solid var(--hairline);overflow:hidden}
+  .bar-fill{
+    height:100%;border-radius:9999px;
+    background:linear-gradient(90deg,var(--primary-soft),var(--primary));
+    transform-origin:left;animation:grow .28s ease .1s both;
+  }
+  @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .limit-note{font-size:11px;color:var(--ink-mute);margin-top:14px}
+
+  /* cream tile */
+  .tile-cream{background:var(--canvas-cream);border-color:#ecdcc0}
+  .tile-cream .tile-kicker{color:var(--lemon)}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--hairline);
+    background:var(--canvas);
+    padding:40px 24px 48px;
+  }
+  .footer-inner{
+    max-width:1200px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-size:13px;letter-spacing:-0.39px;color:var(--ink-mute);
+  }
+  .footer-inner .logo{font-size:14px;color:var(--ink-mute)}
+  .footer-inner .logo-mark{width:22px;height:22px;font-size:10px;border-radius:6px}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:1023px){
+    .bento{grid-template-columns:repeat(2,1fr)}
+    .hero h1{font-size:44px;letter-spacing:-1px}
+    .tile-urgent .tile-metric{font-size:72px}
+  }
+  @media (max-width:719px){
+    .bento{grid-template-columns:1fr}
+    .span-2,.row-2{grid-column:auto;grid-row:auto}
+    .hero{padding:40px 20px 128px}
+    .hero h1{font-size:36px;letter-spacing:-0.8px}
+    .bento-wrap{padding:0 20px 48px;margin-top:-84px}
+    .tile-urgent .tile-metric{font-size:64px}
+    .tile-metric{font-size:38px}
+    .nav-inner{padding:12px 16px;gap:14px}
+    .nav-cta{display:none}
+    .move-dates{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+    .tile{opacity:1}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="logo-mark">V</span>VELÍN</div>
+    <div class="nav-links">
+      <a class="nav-link active" href="#">Přehled</a>
+      <a class="nav-link" href="#">Byty a ceny</a>
+      <a class="nav-link" href="#">Zprávy <span class="nav-badge">33</span></a>
+      <a class="nav-link" href="#">Výdělky</a>
+      <a class="nav-link" href="#">Provize</a>
+      <a class="nav-link" href="#">Kancelář</a>
+      <a class="nav-link" href="#">Recepce</a>
+    </div>
+    <button class="nav-cta">Nová akce</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-mesh"></div>
+  <div class="hero-inner">
+    <span class="hero-eyebrow"><span class="dot"></span>Řídicí středisko</span>
+    <h1>Dobré ráno.<br>Provoz <em>14 apartmánů</em> pod kontrolou.</h1>
+    <p>Jedno místo pro zprávy hostů, příjezdy, ceny a agenty — Praha, Airbnb i Booking.</p>
+    <div class="hero-date tnum">Pondělí <b>6.&nbsp;července&nbsp;2026</b> · poslední sken 07:42 · 14 bytů online</div>
+  </div>
+</header>
+
+<main class="bento-wrap">
+
+  <!-- DNES -->
+  <div class="section-label">Dnes</div>
+  <section class="bento">
+    <!-- 2x2 urgent -->
+    <article class="tile tile-urgent span-2 row-2">
+      <div class="tile-kicker">Čeká na odpověď</div>
+      <span class="urgent-flag"><span class="pulse"></span>Vyžaduje pozornost</span>
+      <div class="tile-metric tnum">33</div>
+      <div class="tile-sub">zpráv od hostů napříč Airbnb a Bookingem</div>
+      <button class="tile-cta">Otevřít schránku →</button>
+    </article>
+
+    <article class="tile">
+      <div class="tile-icon icon-indigo">↓</div>
+      <div class="tile-kicker">Příjezdy dnes</div>
+      <div class="tile-metric tnum metric-accent-in">6</div>
+    </article>
+
+    <article class="tile">
+      <div class="tile-icon icon-soft">↑</div>
+      <div class="tile-kicker">Odjezdy dnes</div>
+      <div class="tile-metric tnum metric-accent-out">3</div>
+    </article>
+
+    <article class="tile span-2 tile-cream">
+      <div class="tile-icon icon-cream">⌂</div>
+      <div class="tile-kicker">Hosté v bytech</div>
+      <div class="tile-metric tnum">20</div>
+      <div class="tile-sub">právě ubytovaných osob ve 14 bytech</div>
+    </article>
+  </section>
+
+  <!-- POHYBY DNE -->
+  <div class="section-label">Pohyby dne</div>
+  <section class="bento">
+    <!-- wide 2x1 arrivals -->
+    <article class="tile span-2">
+      <div class="tile-list-head">
+        <div class="tile-title">Check-in dnes</div>
+        <span class="tile-count-pill tnum">6 PŘÍJEZDŮ</span>
+      </div>
+      <ul class="move-list">
+        <li class="move-item">
+          <span class="avatar av-1">梦</span>
+          <span class="move-meta"><span class="move-name">梦玲</span><span class="move-flat">THE BOHEMIA PEARL</span></span>
+          <span class="move-dates">6.&thinsp;7. – 18.&thinsp;7.</span>
+        </li>
+        <li class="move-item">
+          <span class="avatar av-2">EM</span>
+          <span class="move-meta"><span class="move-name">Elena Marchenko</span><span class="move-flat">THE GARDEN GRAND</span></span>
+          <span class="move-dates">6.&thinsp;7. – 9.&thinsp;7.</span>
+        </li>
+        <li class="move-item">
+          <span class="avatar av-3">JA</span>
+          <span class="move-meta"><span class="move-name">Jibran Ahmed</span><span class="move-flat">florenc 1</span></span>
+          <span class="move-dates">6.&thinsp;7. – 8.&thinsp;7.</span>
+        </li>
+        <li class="move-item">
+          <span class="avatar av-4">MS</span>
+          <span class="move-meta"><span class="move-name">Martina Svobodová</span><span class="move-flat">THE VLTAVA</span></span>
+          <span class="move-dates">6.&thinsp;7. – 10.&thinsp;7.</span>
+        </li>
+        <li class="move-item">
+          <span class="avatar av-5">CZ</span>
+          <span class="move-meta"><span class="move-name">Cyprian Zawadzki</span><span class="move-flat">THE BASILEJ</span></span>
+          <span class="move-dates">6.&thinsp;7. – 10.&thinsp;7.</span>
+        </li>
+        <li class="move-item">
+          <span class="avatar av-6">JH</span>
+          <span class="move-meta"><span class="move-name">Jan Handlovsky</span><span class="move-flat">THE ROYAL STUDIO</span></span>
+          <span class="move-dates">6.&thinsp;7. – 7.&thinsp;7.</span>
+        </li>
+      </ul>
+    </article>
+
+    <!-- wide 2x1 departures -->
+    <article class="tile span-2">
+      <div class="tile-list-head">
+        <div class="tile-title">Check-out dnes</div>
+        <span class="tile-count-pill tnum">3 ODJEZDY</span>
+      </div>
+      <ul class="move-list">
+        <li class="move-item move-out">
+          <span class="avatar av-3">MZ</span>
+          <span class="move-meta"><span class="move-name">Mykola Zakharchuk</span><span class="move-flat">THE BASILEJ</span></span>
+          <span class="move-dates">do 11:00</span>
+        </li>
+        <li class="move-item move-out">
+          <span class="avatar av-2">JM</span>
+          <span class="move-meta"><span class="move-name">Julie Miazga</span><span class="move-flat">THE VLTAVA</span></span>
+          <span class="move-dates">do 11:00</span>
+        </li>
+        <li class="move-item move-out">
+          <span class="avatar av-1">Z</span>
+          <span class="move-meta"><span class="move-name">Zaur</span><span class="move-flat">THE ROYAL STUDIO</span></span>
+          <span class="move-dates">do 11:00</span>
+        </li>
+      </ul>
+      <div class="limit-note" style="margin-top:auto;padding-top:14px">Po odjezdu se automaticky plánuje úklid — hlídá Úklidový agent.</div>
+    </article>
+  </section>
+
+  <!-- MODULY -->
+  <div class="section-label">Moduly</div>
+  <section class="bento mod-grid">
+    <article class="tile">
+      <div class="tile-icon icon-indigo">🏠</div>
+      <div class="mod-title">Byty a ceny</div>
+      <div class="mod-desc">Kalendáře, ceny a min-noci pro 14 bytů na obou platformách.</div>
+      <span class="mod-link">Otevřít <span>→</span></span>
+    </article>
+    <article class="tile">
+      <div class="tile-icon icon-ruby">💬</div>
+      <div class="mod-title">Zprávy <span class="mod-badge tnum">33</span></div>
+      <div class="mod-desc">Sjednocená schránka Airbnb + Booking s auto-překladem.</div>
+      <span class="mod-link">Otevřít <span>→</span></span>
+    </article>
+    <article class="tile">
+      <div class="tile-icon icon-indigo">📈</div>
+      <div class="mod-title">Výdělky</div>
+      <div class="mod-desc">Payouty, faktury a měsíční přehledy per byt.</div>
+      <span class="mod-link">Otevřít <span>→</span></span>
+    </article>
+    <article class="tile">
+      <div class="tile-icon icon-cream">🤝</div>
+      <div class="mod-title">Provize</div>
+      <div class="mod-desc">Vyúčtování majitelům — Florenc, Vlastislavova a spol.</div>
+      <span class="mod-link">Otevřít <span>→</span></span>
+    </article>
+    <article class="tile">
+      <div class="tile-icon icon-soft">🗂</div>
+      <div class="mod-title">Kancelář</div>
+      <div class="mod-desc">Účetnictví, pobytové poplatky, dokumenty a reporty.</div>
+      <span class="mod-link">Otevřít <span>→</span></span>
+    </article>
+    <article class="tile">
+      <div class="tile-icon icon-indigo">🛎</div>
+      <div class="mod-title">Recepce — tým</div>
+      <div class="mod-desc">Směny, předání klíčů a pokyny pro tým na místě.</div>
+      <span class="mod-link">Otevřít <span>→</span></span>
+    </article>
+  </section>
+
+  <!-- PROVOZ -->
+  <div class="section-label">Provoz</div>
+  <section class="bento">
+    <article class="tile span-2">
+      <div class="tile-list-head">
+        <div class="tile-title">Agenti</div>
+        <span class="tile-count-pill tnum">5 AKTIVNÍCH</span>
+      </div>
+      <ul class="agent-list">
+        <li class="agent-item">
+          <span class="agent-name">Úklidový <span>· plán úklidů po check-outu</span></span>
+          <span class="status status-run"><span class="sdot"></span>Běží</span>
+        </li>
+        <li class="agent-item">
+          <span class="agent-name">Příjezdový <span>· reálné časy příjezdů v 7:00</span></span>
+          <span class="status status-tune"><span class="sdot"></span>Ladí se</span>
+        </li>
+        <li class="agent-item">
+          <span class="agent-name">Hlídací <span>· dohled nad kalendáři a iCal</span></span>
+          <span class="status status-run"><span class="sdot"></span>Běží</span>
+        </li>
+        <li class="agent-item">
+          <span class="agent-name">Cenový <span>· volná okna a urgenční pásma</span></span>
+          <span class="status status-tune"><span class="sdot"></span>Ladí se</span>
+        </li>
+        <li class="agent-item">
+          <span class="agent-name">Scout <span>· konkurence a poptávka po čtvrtích</span></span>
+          <span class="status status-tune"><span class="sdot"></span>Ladí se</span>
+        </li>
+      </ul>
+    </article>
+
+    <article class="tile span-2">
+      <div class="tile-list-head">
+        <div class="tile-title">Limity Claude</div>
+        <span class="tile-count-pill tnum">OK</span>
+      </div>
+      <div class="limit-row">
+        <div class="limit-head"><span class="limit-label">Session</span><span class="limit-val">41&nbsp;%</span></div>
+        <div class="bar"><div class="bar-fill" style="width:41%"></div></div>
+      </div>
+      <div class="limit-row">
+        <div class="limit-head"><span class="limit-label">Weekly</span><span class="limit-val">52&nbsp;%</span></div>
+        <div class="bar"><div class="bar-fill" style="width:52%;animation-delay:.18s"></div></div>
+      </div>
+      <div class="limit-note">Alert na Telegram se posílá až nad 90 % — do té doby ticho.</div>
+    </article>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="logo"><span class="logo-mark">V</span>VELÍN · řídicí středisko</div>
+    <div>Varianta 3 · Stripe · bento grid</div>
+  </div>
+</footer>
+
+</body>
+</html>

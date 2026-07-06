@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELÍN · Přehled</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#121212;
+    --surface:#181818;
+    --surface-2:#1f1f1f;
+    --surface-hover:#282828;
+    --card:#252525;
+    --green:#1ed760;
+    --green-border:#1db954;
+    --text:#ffffff;
+    --muted:#b3b3b3;
+    --warn:#ffa42b;
+    --info:#539df5;
+    --neg:#f3727f;
+    --shadow-heavy:rgba(0,0,0,0.5) 0px 8px 24px;
+    --shadow-med:rgba(0,0,0,0.3) 0px 8px 8px;
+    --font:'Figtree','Helvetica Neue',Helvetica,Arial,'Hiragino Sans','Meiryo',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:16px;line-height:1.4;}
+  a{text-decoration:none;color:inherit;}
+
+  /* ============ TOP NAV ============ */
+  .topnav{
+    position:sticky;top:0;z-index:50;
+    display:flex;align-items:center;gap:20px;
+    padding:12px 24px;
+    background:rgba(18,18,18,.88);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+  }
+  .brand{display:flex;align-items:center;gap:10px;flex:0 0 auto;}
+  .brand-mark{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--green);
+    display:flex;align-items:center;justify-content:center;
+    color:#000;font-weight:800;font-size:17px;
+  }
+  .brand-name{font-weight:800;font-size:17px;letter-spacing:.5px;}
+  .nav-pills{
+    display:flex;align-items:center;gap:8px;
+    overflow-x:auto;scrollbar-width:none;flex:1 1 auto;
+  }
+  .nav-pills::-webkit-scrollbar{display:none;}
+  .pill{
+    flex:0 0 auto;
+    padding:8px 16px;border-radius:9999px;
+    background:var(--surface-2);color:var(--muted);
+    font-size:14px;font-weight:400;white-space:nowrap;
+    display:flex;align-items:center;gap:8px;
+    transition:background-color .18s ease,color .18s ease,transform .12s ease;
+    cursor:pointer;
+  }
+  .pill:hover{background:#2a2a2a;color:var(--text);}
+  .pill:active{transform:scale(.96);}
+  .pill.active{background:#fff;color:#000;font-weight:700;}
+  .pill .badge{
+    background:var(--green);color:#000;
+    font-size:10.5px;font-weight:700;line-height:1.33;
+    padding:2px 7px;border-radius:9999px;
+  }
+  .pill.active .badge{background:#000;color:var(--green);}
+  .avatar-btn{
+    flex:0 0 auto;width:34px;height:34px;border-radius:50%;
+    background:var(--surface-2);color:var(--text);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;
+    box-shadow:rgb(18,18,18) 0px 1px 0px, rgb(124,124,124) 0px 0px 0px 1px inset;
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    background:linear-gradient(180deg,#1e4634 0%,#173124 45%,#121212 100%);
+    padding:32px 24px 36px;
+  }
+  .hero-inner{max-width:1280px;margin:0 auto;}
+  .hero h1{font-size:32px;font-weight:800;letter-spacing:-.3px;}
+  .hero .hero-sub{color:var(--muted);font-size:14px;margin-top:4px;}
+  .tiles{
+    margin-top:24px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  }
+  .tile{
+    display:flex;align-items:center;gap:14px;
+    background:rgba(255,255,255,.07);
+    border-radius:6px;overflow:hidden;
+    padding-right:14px;
+    cursor:pointer;
+    transition:background-color .18s ease,transform .12s ease;
+    box-shadow:var(--shadow-med);
+  }
+  .tile:hover{background:rgba(255,255,255,.14);}
+  .tile:active{transform:scale(.98);}
+  .tile-art{
+    width:64px;height:64px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#2c2c2c,#191919);
+  }
+  .tile-art svg{width:26px;height:26px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+  .tile-num{font-size:24px;font-weight:800;line-height:1.1;}
+  .tile-label{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;}
+  .tile.hot{box-shadow:0 0 0 1px var(--green-border), var(--shadow-med);}
+  .tile.hot .tile-art{background:linear-gradient(135deg,#1ed760,#0f7a38);}
+  .tile.hot .tile-art svg{stroke:#000;}
+  .tile.hot .tile-num{color:var(--green);}
+
+  /* ============ SECTIONS ============ */
+  main{max-width:1280px;margin:0 auto;padding:8px 24px 40px;}
+  section{margin-top:36px;}
+  .sec-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .sec-head h2{font-size:24px;font-weight:700;letter-spacing:-.2px;}
+  .sec-head .see-all{
+    font-size:12px;font-weight:700;color:var(--muted);
+    text-transform:uppercase;letter-spacing:1.4px;
+    transition:color .15s ease;
+  }
+  .sec-head .see-all:hover{color:#fff;text-decoration:underline;}
+
+  /* ============ CAROUSELS ============ */
+  .carousel{
+    display:flex;gap:16px;
+    overflow-x:auto;
+    scroll-snap-type:x proximity;
+    padding:4px 4px 14px;
+    margin:0 -4px;
+  }
+  .carousel::-webkit-scrollbar{height:8px;}
+  .carousel::-webkit-scrollbar-track{background:transparent;}
+  .carousel::-webkit-scrollbar-thumb{background:#333;border-radius:9999px;}
+  .carousel::-webkit-scrollbar-thumb:hover{background:#4d4d4d;}
+  .carousel{scrollbar-width:thin;scrollbar-color:#333 transparent;}
+
+  .card{
+    flex:0 0 auto;
+    scroll-snap-align:start;
+    background:var(--surface);
+    border-radius:8px;
+    padding:14px;
+    cursor:pointer;
+    position:relative;
+    transition:background-color .2s ease,transform .12s ease;
+  }
+  .card:hover{background:var(--surface-hover);box-shadow:var(--shadow-med);}
+  .card:active{transform:scale(.97);}
+
+  /* guest cards */
+  .guest-card{width:176px;}
+  .guest-art{
+    width:148px;height:148px;border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:52px;font-weight:800;color:rgba(255,255,255,.92);
+    box-shadow:var(--shadow-heavy);
+    margin-bottom:12px;
+    position:relative;
+  }
+  .g1{background:linear-gradient(135deg,#4b5d52,#1c2620);}
+  .g2{background:linear-gradient(135deg,#5a4b63,#241d29);}
+  .g3{background:linear-gradient(135deg,#3d5566,#18222a);}
+  .g4{background:linear-gradient(135deg,#655d43,#28241a);}
+  .g5{background:linear-gradient(135deg,#4d4d4d,#1a1a1a);}
+  .g6{background:linear-gradient(135deg,#38564e,#141f1c);}
+  .g7{background:linear-gradient(135deg,#5f4646,#251b1b);}
+  .g8{background:linear-gradient(135deg,#46505f,#1a1e25);}
+  .g9{background:linear-gradient(135deg,#585858,#202020);}
+  .guest-tag{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:10.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .guest-tag .dot{width:7px;height:7px;border-radius:50%;}
+  .tag-in{color:var(--green);}
+  .tag-in .dot{background:var(--green);}
+  .tag-out{color:var(--info);}
+  .tag-out .dot{background:var(--info);}
+  .guest-name{
+    font-size:16px;font-weight:700;line-height:1.25;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .guest-flat{
+    font-size:13px;font-weight:600;color:var(--muted);margin-top:3px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .guest-dates{font-size:12px;color:var(--muted);margin-top:3px;}
+
+  /* hover play button (Spotify signature) */
+  .play-fab{
+    position:absolute;right:10px;bottom:10px;
+    width:44px;height:44px;border-radius:50%;
+    background:var(--green);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow-heavy);
+    opacity:0;transform:translateY(8px);
+    transition:opacity .2s ease,transform .2s ease;
+    pointer-events:none;
+  }
+  .play-fab svg{width:18px;height:18px;fill:#000;}
+  .card:hover .play-fab{opacity:1;transform:translateY(0);}
+
+  /* module cards */
+  .mod-card{width:172px;}
+  .mod-art{
+    width:144px;height:144px;border-radius:6px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow-heavy);
+    margin-bottom:12px;position:relative;
+  }
+  .mod-art svg{width:52px;height:52px;stroke:#fff;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+  .m1{background:linear-gradient(135deg,#3a3a3a,#161616);}
+  .m2{background:linear-gradient(135deg,#2f4a3d,#121d18);}
+  .m3{background:linear-gradient(135deg,#454034,#1b1912);}
+  .m4{background:linear-gradient(135deg,#34414a,#131a1e);}
+  .m5{background:linear-gradient(135deg,#443647,#191320);}
+  .m6{background:linear-gradient(135deg,#473636,#1d1414);}
+  .mod-name{font-size:16px;font-weight:700;}
+  .mod-desc{font-size:13px;color:var(--muted);margin-top:3px;}
+  .mod-badge{
+    position:absolute;top:10px;right:10px;
+    background:var(--green);color:#000;
+    font-size:12px;font-weight:800;
+    padding:3px 9px;border-radius:9999px;
+    box-shadow:var(--shadow-med);
+  }
+
+  /* ============ PROVOZ ============ */
+  .agents{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .agent{
+    display:flex;align-items:center;gap:12px;
+    background:var(--surface);border-radius:9999px;
+    padding:12px 20px;
+    cursor:pointer;
+    transition:background-color .2s ease,transform .12s ease;
+  }
+  .agent:hover{background:var(--surface-hover);}
+  .agent:active{transform:scale(.98);}
+  .agent .dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto;}
+  .agent.run .dot{background:var(--green);box-shadow:0 0 8px rgba(30,215,96,.6);}
+  .agent.tune .dot{background:var(--warn);box-shadow:0 0 8px rgba(255,164,43,.5);}
+  .agent-name{font-size:14px;font-weight:700;flex:1 1 auto;}
+  .agent-status{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.4px;}
+  .agent.run .agent-status{color:var(--green);}
+  .agent.tune .agent-status{color:var(--warn);}
+
+  /* ============ LIMITY ============ */
+  .limits{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .limit-card{
+    background:var(--surface);border-radius:8px;padding:20px;
+    transition:background-color .2s ease;cursor:default;
+  }
+  .limit-card:hover{background:var(--surface-hover);}
+  .limit-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;}
+  .limit-name{font-size:14px;font-weight:700;}
+  .limit-pct{font-size:24px;font-weight:800;color:var(--green);}
+  .bar{height:6px;border-radius:9999px;background:#333;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:9999px;background:var(--green);}
+  .limit-note{font-size:12px;color:var(--muted);margin-top:10px;}
+
+  /* ============ FOOTER ============ */
+  footer{
+    border-top:1px solid #282828;
+    margin-top:44px;padding:20px 24px 28px;
+    text-align:center;
+    font-size:12px;color:var(--muted);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:900px){
+    .tiles{grid-template-columns:repeat(2,1fr);}
+    .limits{grid-template-columns:1fr;}
+    .hero h1{font-size:26px;}
+  }
+  @media (max-width:520px){
+    .topnav{padding:10px 16px;gap:12px;}
+    .brand-name{display:none;}
+    .hero{padding:24px 16px 28px;}
+    main{padding:8px 16px 32px;}
+    .tile-art{width:52px;height:52px;}
+    .tile-num{font-size:19px;}
+    .tile-label{font-size:11px;}
+    .guest-card{width:156px;}
+    .guest-art{width:128px;height:128px;font-size:44px;}
+    .mod-card{width:152px;}
+    .mod-art{width:124px;height:124px;}
+    .sec-head h2{font-size:20px;}
+    .agents{grid-template-columns:1fr 1fr;}
+    .agent{padding:10px 14px;}
+    .agent-status{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav class="topnav">
+  <a class="brand" href="#">
+    <span class="brand-mark">V</span>
+    <span class="brand-name">VELÍN</span>
+  </a>
+  <div class="nav-pills">
+    <a class="pill active" href="#">Přehled</a>
+    <a class="pill" href="#">Byty a ceny</a>
+    <a class="pill" href="#">Zprávy <span class="badge">33</span></a>
+    <a class="pill" href="#">Výdělky</a>
+    <a class="pill" href="#">Provize</a>
+    <a class="pill" href="#">Kancelář</a>
+    <a class="pill" href="#">Recepce</a>
+  </div>
+  <a class="avatar-btn" href="#">P</a>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero">
+  <div class="hero-inner">
+    <h1>Dobrý večer</h1>
+    <div class="hero-sub">Neděle 6. července · 14 apartmánů · Praha</div>
+
+    <div class="tiles">
+      <div class="tile hot">
+        <div class="tile-art">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <div>
+          <div class="tile-num">33</div>
+          <div class="tile-label">Čeká na odpověď</div>
+        </div>
+      </div>
+      <div class="tile">
+        <div class="tile-art">
+          <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        </div>
+        <div>
+          <div class="tile-num">6</div>
+          <div class="tile-label">Příjezdy dnes</div>
+        </div>
+      </div>
+      <div class="tile">
+        <div class="tile-art">
+          <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <div>
+          <div class="tile-num">3</div>
+          <div class="tile-label">Odjezdy dnes</div>
+        </div>
+      </div>
+      <div class="tile">
+        <div class="tile-art">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div>
+          <div class="tile-num">20</div>
+          <div class="tile-label">Hosté v bytech</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== DNEŠNÍ POHYB ===================== -->
+  <section>
+    <div class="sec-head">
+      <h2>Dnešní pohyb</h2>
+      <a class="see-all" href="#">Zobrazit vše</a>
+    </div>
+    <div class="carousel">
+
+      <div class="card guest-card">
+        <div class="guest-art g1">梦
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="guest-tag tag-in"><span class="dot"></span>Check-in</div>
+        <div class="guest-name" title="梦玲">梦玲</div>
+        <div class="guest-flat">THE BOHEMIA PEARL</div>
+        <div class="guest-dates">6.&thinsp;7. – 18.&thinsp;7.</div>
+      </div>
+
+      <div class="card guest-card">
+        <div class="guest-art g2">EM
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="guest-tag tag-in"><span class="dot"></span>Check-in</div>
+        <div class="guest-name" title="Elena Marchenko">Elena Marchenko</div>
+        <div class="guest-flat">THE GARDEN GRAND</div>
+        <div class="guest-dates">6.&thinsp;7. – 9.&thinsp;7.</div>
+      </div>
+
+      <div class="card guest-card">
+        <div class="guest-art g3">JA
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="guest-tag tag-in"><span class="dot"></span>Check-in</div>
+        <div class="guest-name" title="Jibran Ahmed">Jibran Ahmed</div>
+        <div class="guest-flat">florenc 1</div>
+        <div class="guest-dates">6.&thinsp;7. – 8.&thinsp;7.</div>
+      </div>
+
+      <div class="card guest-card">
+        <div class="guest-art g4">MS
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="guest-tag tag-in"><span class="dot"></span>Check-in</div>
+        <div class="guest-name" title="Martina Svobodová">Martina Svobodová</div>
+        <div class="guest-flat">THE VLTAVA</div>
+        <div class="guest-dates">6.&thinsp;7. – 10.&thinsp;7.</div>
+      </div>
+
+      <div class="card guest-card">
+        <div class="guest-art g5">CZ
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="guest-tag tag-in"><span class="dot"></span>Check-in</div>
+        <div class="guest-name" title="Cyprian Zawadzki">Cyprian Zawadzki</div>
+        <div class="guest-flat">THE BASILEJ</div>
+        <div class="guest-dates">6.&thinsp;7. – 10.&thinsp;7.</div>
+      </div>
+
+      <div class="card guest-card">
+        <div class="guest-art g6">JH
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="guest-tag tag-in"><span class="dot"></span>Check-in</div>
+        <div class="guest-name" title="Jan Handlovsky">Jan Handlovsky</div>
+        <div class="guest-flat">THE ROYAL STUDIO</div>
+        <div class="guest-dates">6.&thinsp;7. – 7.&thinsp;7.</div>
+      </div>
+
+      <div class="card guest-card">
+        <div class="guest-art g7">MZ
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="guest-tag tag-out"><span class="dot"></span>Check-out</div>
+        <div class="guest-name" title="Mykola Zakharchuk">Mykola Zakharchuk</div>
+        <div class="guest-flat">THE BASILEJ</div>
+        <div class="guest-dates">odjezd dnes</div>
+      </div>
+
+      <div class="card guest-card">
+        <div class="guest-art g8">JM
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="guest-tag tag-out"><span class="dot"></span>Check-out</div>
+        <div class="guest-name" title="Julie Miazga">Julie Miazga</div>
+        <div class="guest-flat">THE VLTAVA</div>
+        <div class="guest-dates">odjezd dnes</div>
+      </div>
+
+      <div class="card guest-card">
+        <div class="guest-art g9">Z
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="guest-tag tag-out"><span class="dot"></span>Check-out</div>
+        <div class="guest-name" title="Zaur">Zaur</div>
+        <div class="guest-flat">THE ROYAL STUDIO</div>
+        <div class="guest-dates">odjezd dnes</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== MODULY ===================== -->
+  <section>
+    <div class="sec-head">
+      <h2>Moduly</h2>
+      <a class="see-all" href="#">Zobrazit vše</a>
+    </div>
+    <div class="carousel">
+
+      <div class="card mod-card">
+        <div class="mod-art m1">
+          <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h1M9 12h1M9 15h1M14 9h1M14 12h1M14 15h1"/></svg>
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="mod-name">Byty a ceny</div>
+        <div class="mod-desc">14 bytů · kalendáře &amp; ceny</div>
+      </div>
+
+      <div class="card mod-card">
+        <div class="mod-art m2">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span class="mod-badge">33</span>
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="mod-name">Zprávy</div>
+        <div class="mod-desc">sjednocená schránka hostů</div>
+      </div>
+
+      <div class="card mod-card">
+        <div class="mod-art m3">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="mod-name">Výdělky</div>
+        <div class="mod-desc">payouty &amp; faktury</div>
+      </div>
+
+      <div class="card mod-card">
+        <div class="mod-art m4">
+          <svg viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="mod-name">Provize</div>
+        <div class="mod-desc">podíly &amp; vyúčtování</div>
+      </div>
+
+      <div class="card mod-card">
+        <div class="mod-art m5">
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="mod-name">Kancelář</div>
+        <div class="mod-desc">účetnictví &amp; poplatky</div>
+      </div>
+
+      <div class="card mod-card">
+        <div class="mod-art m6">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <div class="play-fab"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+        </div>
+        <div class="mod-name">Recepce — tým</div>
+        <div class="mod-desc">Adam · Klára · Viktor</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== PROVOZ ===================== -->
+  <section>
+    <div class="sec-head">
+      <h2>Provoz</h2>
+      <a class="see-all" href="#">Detail agentů</a>
+    </div>
+    <div class="agents">
+      <div class="agent run"><span class="dot"></span><span class="agent-name">Úklidový</span><span class="agent-status">Běží</span></div>
+      <div class="agent tune"><span class="dot"></span><span class="agent-name">Příjezdový</span><span class="agent-status">Ladí se</span></div>
+      <div class="agent run"><span class="dot"></span><span class="agent-name">Hlídací</span><span class="agent-status">Běží</span></div>
+      <div class="agent tune"><span class="dot"></span><span class="agent-name">Cenový</span><span class="agent-status">Ladí se</span></div>
+      <div class="agent tune"><span class="dot"></span><span class="agent-name">Scout</span><span class="agent-status">Ladí se</span></div>
+    </div>
+  </section>
+
+  <!-- ===================== LIMITY ===================== -->
+  <section>
+    <div class="sec-head">
+      <h2>Limity Claude</h2>
+    </div>
+    <div class="limits">
+      <div class="limit-card">
+        <div class="limit-top">
+          <span class="limit-name">Session</span>
+          <span class="limit-pct">41&thinsp;%</span>
+        </div>
+        <div class="bar"><div class="bar-fill" style="width:41%"></div></div>
+        <div class="limit-note">Aktuální 5h okno · v pohodě</div>
+      </div>
+      <div class="limit-card">
+        <div class="limit-top">
+          <span class="limit-name">Weekly</span>
+          <span class="limit-pct">52&thinsp;%</span>
+        </div>
+        <div class="bar"><div class="bar-fill" style="width:52%"></div></div>
+        <div class="limit-note">Týdenní limit · reset ve čtvrtek</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Varianta 5 · Spotify · dark carousely</footer>
+
+</body>
+</html>

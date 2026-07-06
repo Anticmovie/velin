@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELÍN · Přehled</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#5e6ad2;
+    --primary-hover:#828fff;
+    --primary-focus:#5e69d1;
+    --ink:#f7f8f8;
+    --ink-muted:#d0d6e0;
+    --ink-subtle:#8a8f98;
+    --ink-tertiary:#62666d;
+    --canvas:#010102;
+    --surface-1:#0f1011;
+    --surface-2:#141516;
+    --surface-3:#18191a;
+    --surface-4:#191a1b;
+    --hairline:#23252a;
+    --hairline-strong:#34343a;
+    --hairline-tertiary:#3e3e44;
+    --success:#27a644;
+    --ease:cubic-bezier(0.23,1,0.32,1);
+    --r-xs:4px; --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-pill:9999px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  body{
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,'SF Pro Display',system-ui,'Segoe UI',Roboto,sans-serif;
+    font-size:16px;line-height:1.5;letter-spacing:-0.05px;
+    min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none;}
+  .mono{font-family:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;font-size:13px;letter-spacing:0;}
+
+  /* ---------- Shell ---------- */
+  .shell{display:flex;min-height:100vh;}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width:244px;flex-shrink:0;
+    background:var(--canvas);
+    border-right:1px solid var(--hairline);
+    padding:16px 12px;
+    display:flex;flex-direction:column;gap:4px;
+    position:sticky;top:0;height:100vh;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    padding:8px 10px 20px;
+  }
+  .brand-mark{
+    width:26px;height:26px;border-radius:var(--r-sm);
+    background:var(--primary);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;color:#fff;letter-spacing:0;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.18);
+  }
+  .brand-name{font-size:15px;font-weight:600;letter-spacing:-0.2px;}
+  .brand-sub{font-size:11px;color:var(--ink-tertiary);font-weight:400;letter-spacing:0;margin-top:-1px;}
+  .nav-label{
+    font-size:11px;font-weight:500;letter-spacing:0.4px;text-transform:uppercase;
+    color:var(--ink-tertiary);padding:12px 10px 6px;
+  }
+  .nav-item{
+    display:flex;align-items:center;gap:10px;
+    padding:7px 10px;border-radius:var(--r-md);
+    font-size:14px;font-weight:500;letter-spacing:0;
+    color:var(--ink-subtle);
+    transition:background .16s var(--ease),color .16s var(--ease),transform .12s var(--ease);
+    position:relative;
+  }
+  .nav-item svg{width:16px;height:16px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+  .nav-item:hover{background:var(--surface-2);color:var(--ink);}
+  .nav-item:active{transform:scale(0.97);}
+  .nav-item.active{background:var(--surface-2);color:var(--ink);}
+  .nav-item.active::before{
+    content:"";position:absolute;left:-12px;top:6px;bottom:6px;width:2px;
+    background:var(--primary);border-radius:var(--r-pill);
+  }
+  .nav-badge{
+    margin-left:auto;
+    background:var(--primary);color:#fff;
+    font-size:11px;font-weight:600;letter-spacing:0;
+    padding:1px 7px;border-radius:var(--r-pill);
+    line-height:1.5;
+  }
+  .sidebar-foot{
+    margin-top:auto;padding:10px;
+    border-top:1px solid var(--hairline);
+    font-size:12px;color:var(--ink-tertiary);letter-spacing:0;
+    display:flex;align-items:center;gap:8px;
+  }
+  .sidebar-foot .dot{width:6px;height:6px;border-radius:50%;background:var(--success);flex-shrink:0;}
+
+  /* ---------- Main ---------- */
+  .main{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .topbar{
+    height:56px;flex-shrink:0;
+    border-bottom:1px solid var(--hairline);
+    display:flex;align-items:center;gap:12px;
+    padding:0 28px;
+    background:var(--canvas);
+    position:sticky;top:0;z-index:5;
+  }
+  .topbar h1{font-size:15px;font-weight:600;letter-spacing:-0.2px;}
+  .topbar .crumb{color:var(--ink-tertiary);font-size:13px;letter-spacing:0;}
+  .topbar-date{
+    margin-left:auto;
+    background:var(--surface-2);color:var(--ink-muted);
+    font-size:12px;letter-spacing:0;
+    padding:3px 10px;border-radius:var(--r-pill);
+    border:1px solid var(--hairline);
+  }
+  .content{
+    padding:28px;max-width:1080px;width:100%;margin:0 auto;
+    display:flex;flex-direction:column;gap:36px;
+    flex:1;
+  }
+
+  /* Section headers */
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;}
+  .sec-head h2{font-size:13px;font-weight:500;letter-spacing:0.4px;text-transform:uppercase;color:var(--ink-subtle);}
+  .sec-head .count{font-size:12px;color:var(--ink-tertiary);letter-spacing:0;}
+
+  /* ---------- Metrics ---------- */
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .metric{
+    background:var(--surface-1);
+    border:1px solid var(--hairline);
+    border-radius:var(--r-lg);
+    padding:18px 20px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+    transition:background .18s var(--ease),border-color .18s var(--ease),transform .12s var(--ease);
+    cursor:default;
+  }
+  .metric:hover{background:var(--surface-2);border-color:var(--hairline-strong);}
+  .metric:active{transform:scale(0.97);}
+  .metric .m-label{font-size:12px;color:var(--ink-subtle);letter-spacing:0;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+  .metric .m-value{font-size:32px;font-weight:600;letter-spacing:-1.0px;line-height:1.15;font-variant-numeric:tabular-nums;}
+  .metric .m-meta{font-size:12px;color:var(--ink-tertiary);letter-spacing:0;margin-top:4px;}
+  .metric.urgent{
+    border-color:rgba(94,106,210,.55);
+    background:linear-gradient(180deg,rgba(94,106,210,.10),rgba(94,106,210,.03)),var(--surface-1);
+  }
+  .metric.urgent:hover{border-color:var(--primary);}
+  .metric.urgent .m-value{color:var(--primary-hover);}
+  .m-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+  .m-dot.lav{background:var(--primary);box-shadow:0 0 0 3px rgba(94,106,210,.18);}
+  .m-dot.grn{background:var(--success);}
+  .m-dot.gry{background:var(--ink-tertiary);}
+
+  /* ---------- Issue list (pohyby) ---------- */
+  .panel{
+    background:var(--surface-1);
+    border:1px solid var(--hairline);
+    border-radius:var(--r-lg);
+    overflow:hidden;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+  }
+  .panel-group-head{
+    display:flex;align-items:center;gap:8px;
+    padding:8px 16px;
+    background:var(--surface-2);
+    border-bottom:1px solid var(--hairline);
+    font-size:12px;font-weight:500;color:var(--ink-muted);letter-spacing:0;
+  }
+  .panel-group-head:not(:first-child){border-top:1px solid var(--hairline);}
+  .panel-group-head .gcount{color:var(--ink-tertiary);font-weight:400;}
+  .row{
+    display:flex;align-items:center;gap:12px;
+    padding:9px 16px;
+    border-bottom:1px solid var(--hairline);
+    font-size:14px;letter-spacing:0;
+    transition:background .15s var(--ease);
+    cursor:default;
+  }
+  .row:last-child{border-bottom:none;}
+  .row:hover{background:var(--surface-2);}
+  .row:active{background:var(--surface-3);}
+  .row .ico{
+    width:22px;height:22px;border-radius:var(--r-sm);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .row .ico svg{width:13px;height:13px;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none;}
+  .ico.in{background:rgba(39,166,68,.12);}
+  .ico.in svg{stroke:var(--success);}
+  .ico.out{background:rgba(138,143,152,.12);}
+  .ico.out svg{stroke:var(--ink-subtle);}
+  .row .who{font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .row .flat{
+    color:var(--ink-subtle);font-size:12px;
+    background:var(--surface-3);
+    border:1px solid var(--hairline);
+    padding:1px 8px;border-radius:var(--r-xs);
+    white-space:nowrap;
+  }
+  .row .dates{margin-left:auto;color:var(--ink-tertiary);font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap;}
+  .row .tag{
+    font-size:11px;font-weight:500;padding:1px 8px;border-radius:var(--r-pill);white-space:nowrap;
+  }
+  .tag.tin{color:var(--success);background:rgba(39,166,68,.1);border:1px solid rgba(39,166,68,.25);}
+  .tag.tout{color:var(--ink-subtle);background:var(--surface-3);border:1px solid var(--hairline-strong);}
+
+  /* ---------- Moduly ---------- */
+  .modules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .mod{
+    background:var(--surface-1);
+    border:1px solid var(--hairline);
+    border-radius:var(--r-lg);
+    padding:18px 20px;
+    display:flex;align-items:flex-start;gap:14px;
+    transition:background .18s var(--ease),border-color .18s var(--ease),transform .12s var(--ease);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+  }
+  .mod:hover{background:var(--surface-2);border-color:var(--hairline-strong);}
+  .mod:active{transform:scale(0.97);}
+  .mod-ico{
+    width:34px;height:34px;border-radius:var(--r-md);flex-shrink:0;
+    background:var(--surface-3);border:1px solid var(--hairline-strong);
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .18s var(--ease);
+  }
+  .mod:hover .mod-ico{border-color:var(--primary);}
+  .mod-ico svg{width:16px;height:16px;stroke:var(--ink-muted);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+  .mod h3{font-size:14px;font-weight:600;letter-spacing:-0.1px;display:flex;align-items:center;gap:8px;}
+  .mod p{font-size:12px;color:var(--ink-subtle);letter-spacing:0;margin-top:3px;line-height:1.45;}
+  .mod .nav-badge{margin-left:0;}
+  .mod-arrow{margin-left:auto;color:var(--ink-tertiary);opacity:0;transform:translateX(-4px);transition:opacity .18s var(--ease),transform .18s var(--ease);align-self:center;}
+  .mod:hover .mod-arrow{opacity:1;transform:translateX(0);}
+
+  /* ---------- Provoz + Limity ---------- */
+  .bottom-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:12px;align-items:start;}
+  .agent-row{
+    display:flex;align-items:center;gap:12px;
+    padding:10px 16px;
+    border-bottom:1px solid var(--hairline);
+    font-size:14px;letter-spacing:0;
+    transition:background .15s var(--ease);
+  }
+  .agent-row:last-child{border-bottom:none;}
+  .agent-row:hover{background:var(--surface-2);}
+  .agent-row .a-name{font-weight:500;}
+  .a-status{
+    margin-left:auto;display:flex;align-items:center;gap:7px;
+    font-size:12px;padding:2px 10px;border-radius:var(--r-pill);
+  }
+  .a-status .s-dot{width:6px;height:6px;border-radius:50%;}
+  .a-status.run{color:var(--success);background:rgba(39,166,68,.08);border:1px solid rgba(39,166,68,.22);}
+  .a-status.run .s-dot{background:var(--success);animation:pulse 2.2s var(--ease) infinite;}
+  .a-status.tune{color:var(--ink-subtle);background:var(--surface-3);border:1px solid var(--hairline-strong);}
+  .a-status.tune .s-dot{background:var(--ink-subtle);}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(39,166,68,.35);}50%{box-shadow:0 0 0 4px rgba(39,166,68,0);}}
+  .agent-ava{
+    width:24px;height:24px;border-radius:var(--r-pill);flex-shrink:0;
+    background:var(--surface-3);border:1px solid var(--hairline-strong);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0;
+  }
+
+  .limits{padding:18px 20px;display:flex;flex-direction:column;gap:18px;}
+  .limit .l-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .limit .l-name{font-size:13px;font-weight:500;letter-spacing:0;color:var(--ink-muted);}
+  .limit .l-val{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink);}
+  .bar{
+    height:6px;border-radius:var(--r-pill);
+    background:var(--surface-3);
+    border:1px solid var(--hairline);
+    overflow:hidden;
+  }
+  .bar-fill{
+    height:100%;border-radius:var(--r-pill);
+    background:var(--primary);
+    transform-origin:left;
+    animation:grow .9s var(--ease) both;
+    animation-delay:.35s;
+  }
+  @keyframes grow{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+  .limit .l-meta{font-size:11px;color:var(--ink-tertiary);letter-spacing:0;margin-top:6px;}
+
+  /* ---------- Footer ---------- */
+  .foot{
+    padding:28px;text-align:center;
+    font-size:12px;color:var(--ink-tertiary);letter-spacing:0;
+    border-top:1px solid var(--hairline);
+  }
+
+  /* ---------- Stagger entry ---------- */
+  .fade{opacity:0;transform:translateY(8px);animation:enter .5s var(--ease) forwards;}
+  @keyframes enter{to{opacity:1;transform:translateY(0);}}
+  .d1{animation-delay:.03s}.d2{animation-delay:.08s}.d3{animation-delay:.13s}
+  .d4{animation-delay:.18s}.d5{animation-delay:.23s}.d6{animation-delay:.28s}
+
+  /* ---------- Mobile tab bar ---------- */
+  .tabbar{display:none;}
+
+  @media (max-width:1024px){
+    .metrics{grid-template-columns:repeat(2,1fr);}
+    .modules{grid-template-columns:repeat(2,1fr);}
+    .bottom-grid{grid-template-columns:1fr;}
+  }
+
+  @media (max-width:780px){
+    .sidebar{display:none;}
+    .content{padding:20px 16px 84px;gap:28px;}
+    .topbar{padding:0 16px;}
+    .metrics{gap:10px;}
+    .metric{padding:14px 16px;}
+    .metric .m-value{font-size:26px;letter-spacing:-0.6px;}
+    .modules{grid-template-columns:1fr;}
+    .row{flex-wrap:wrap;row-gap:2px;}
+    .row .dates{margin-left:34px;width:100%;}
+    .foot{padding-bottom:96px;}
+    .tabbar{
+      display:flex;position:fixed;bottom:0;left:0;right:0;z-index:20;
+      background:rgba(15,16,17,.92);
+      -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+      border-top:1px solid var(--hairline);
+      padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+    }
+    .tab{
+      flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+      padding:6px 2px;border-radius:var(--r-md);
+      font-size:10px;font-weight:500;letter-spacing:0;color:var(--ink-subtle);
+      transition:color .16s var(--ease),transform .12s var(--ease);
+      position:relative;
+    }
+    .tab svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+    .tab:active{transform:scale(0.97);}
+    .tab.active{color:var(--ink);}
+    .tab.active::after{
+      content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);
+      width:18px;height:2px;background:var(--primary);border-radius:var(--r-pill);
+    }
+    .tab .tb-badge{
+      position:absolute;top:2px;right:calc(50% - 20px);
+      background:var(--primary);color:#fff;
+      font-size:9px;font-weight:600;padding:0 5px;border-radius:var(--r-pill);
+      line-height:1.5;
+    }
+  }
+  @media (max-width:480px){
+    .metrics{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;}
+    .fade{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">V</div>
+      <div>
+        <div class="brand-name">VELÍN</div>
+        <div class="brand-sub">14 apartmánů · Praha</div>
+      </div>
+    </div>
+
+    <div class="nav-label">Pracoviště</div>
+    <a class="nav-item active" href="#">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      Přehled
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg>
+      Byty a ceny
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.6A8 8 0 1 1 21 12Z"/></svg>
+      Zprávy
+      <span class="nav-badge">33</span>
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 3 6-7 3 3"/><path d="M3 21h18"/></svg>
+      Výdělky
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      Provize
+    </a>
+
+    <div class="nav-label">Organizace</div>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16M4 10h5"/></svg>
+      Kancelář
+    </a>
+    <a class="nav-item" href="#">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.3c2.7.1 4.4 1.7 5 4.7"/></svg>
+      Recepce
+    </a>
+
+    <div class="sidebar-foot">
+      <span class="dot"></span>
+      Systém online · 6. 7. 2026
+    </div>
+  </aside>
+
+  <!-- ========== MAIN ========== -->
+  <div class="main">
+    <header class="topbar">
+      <h1>Přehled</h1>
+      <span class="crumb">/ řídicí středisko</span>
+      <span class="topbar-date">pondělí 6. července</span>
+    </header>
+
+    <main class="content">
+
+      <!-- DNES: metriky -->
+      <section class="fade d1">
+        <div class="sec-head"><h2>Dnes</h2><span class="count">4 metriky</span></div>
+        <div class="metrics">
+          <div class="metric urgent">
+            <div class="m-label"><span class="m-dot lav"></span>Čeká na odpověď</div>
+            <div class="m-value">33</div>
+            <div class="m-meta">zpráv od hostů · urgentní</div>
+          </div>
+          <div class="metric">
+            <div class="m-label"><span class="m-dot grn"></span>Příjezdy dnes</div>
+            <div class="m-value">6</div>
+            <div class="m-meta">check-in od 15:00</div>
+          </div>
+          <div class="metric">
+            <div class="m-label"><span class="m-dot gry"></span>Odjezdy dnes</div>
+            <div class="m-value">3</div>
+            <div class="m-meta">check-out do 11:00</div>
+          </div>
+          <div class="metric">
+            <div class="m-label"><span class="m-dot gry"></span>Hosté v bytech</div>
+            <div class="m-value">20</div>
+            <div class="m-meta">napříč 14 byty</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- POHYBY -->
+      <section class="fade d2">
+        <div class="sec-head"><h2>Dnešní pohyby</h2><span class="count">6 příjezdů · 3 odjezdy</span></div>
+        <div class="panel">
+          <div class="panel-group-head">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#27a644" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7 7 7-7"/></svg>
+            Check-in <span class="gcount">· 6</span>
+          </div>
+          <div class="row">
+            <span class="ico in"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg></span>
+            <span class="who">梦玲</span>
+            <span class="flat">THE BOHEMIA PEARL</span>
+            <span class="dates">6.&nbsp;7. – 18.&nbsp;7.</span>
+            <span class="tag tin">check-in</span>
+          </div>
+          <div class="row">
+            <span class="ico in"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg></span>
+            <span class="who">Elena Marchenko</span>
+            <span class="flat">THE GARDEN GRAND</span>
+            <span class="dates">6.&nbsp;7. – 9.&nbsp;7.</span>
+            <span class="tag tin">check-in</span>
+          </div>
+          <div class="row">
+            <span class="ico in"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg></span>
+            <span class="who">Jibran Ahmed</span>
+            <span class="flat">florenc 1</span>
+            <span class="dates">6.&nbsp;7. – 8.&nbsp;7.</span>
+            <span class="tag tin">check-in</span>
+          </div>
+          <div class="row">
+            <span class="ico in"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg></span>
+            <span class="who">Martina Svobodová</span>
+            <span class="flat">THE VLTAVA</span>
+            <span class="dates">6.&nbsp;7. – 10.&nbsp;7.</span>
+            <span class="tag tin">check-in</span>
+          </div>
+          <div class="row">
+            <span class="ico in"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg></span>
+            <span class="who">Cyprian Zawadzki</span>
+            <span class="flat">THE BASILEJ</span>
+            <span class="dates">6.&nbsp;7. – 10.&nbsp;7.</span>
+            <span class="tag tin">check-in</span>
+          </div>
+          <div class="row">
+            <span class="ico in"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7 7 7-7"/></svg></span>
+            <span class="who">Jan Handlovsky</span>
+            <span class="flat">THE ROYAL STUDIO</span>
+            <span class="dates">6.&nbsp;7. – 7.&nbsp;7.</span>
+            <span class="tag tin">check-in</span>
+          </div>
+
+          <div class="panel-group-head">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8a8f98" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7-7-7 7"/></svg>
+            Check-out <span class="gcount">· 3</span>
+          </div>
+          <div class="row">
+            <span class="ico out"><svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7-7-7 7"/></svg></span>
+            <span class="who">Mykola Zakharchuk</span>
+            <span class="flat">THE BASILEJ</span>
+            <span class="dates">do 11:00</span>
+            <span class="tag tout">check-out</span>
+          </div>
+          <div class="row">
+            <span class="ico out"><svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7-7-7 7"/></svg></span>
+            <span class="who">Julie Miazga</span>
+            <span class="flat">THE VLTAVA</span>
+            <span class="dates">do 11:00</span>
+            <span class="tag tout">check-out</span>
+          </div>
+          <div class="row">
+            <span class="ico out"><svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7-7-7 7"/></svg></span>
+            <span class="who">Zaur</span>
+            <span class="flat">THE ROYAL STUDIO</span>
+            <span class="dates">do 11:00</span>
+            <span class="tag tout">check-out</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- MODULY -->
+      <section class="fade d3">
+        <div class="sec-head"><h2>Moduly</h2><span class="count">6 sekcí</span></div>
+        <div class="modules">
+          <a class="mod" href="#">
+            <span class="mod-ico"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg></span>
+            <div><h3>Byty a ceny</h3><p>Kalendáře, obsazenost a cenové edity 14 bytů.</p></div>
+            <span class="mod-arrow">›</span>
+          </a>
+          <a class="mod" href="#">
+            <span class="mod-ico"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.6A8 8 0 1 1 21 12Z"/></svg></span>
+            <div><h3>Zprávy <span class="nav-badge">33</span></h3><p>Sjednocená schránka Booking + Airbnb s překladem.</p></div>
+            <span class="mod-arrow">›</span>
+          </a>
+          <a class="mod" href="#">
+            <span class="mod-ico"><svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 3 6-7 3 3"/><path d="M3 21h18"/></svg></span>
+            <div><h3>Výdělky</h3><p>Payouty, faktury a měsíční přehledy po bytech.</p></div>
+            <span class="mod-arrow">›</span>
+          </a>
+          <a class="mod" href="#">
+            <span class="mod-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <div><h3>Provize</h3><p>Vyúčtování majitelům a podíly z pronájmů.</p></div>
+            <span class="mod-arrow">›</span>
+          </a>
+          <a class="mod" href="#">
+            <span class="mod-ico"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16M4 10h5"/></svg></span>
+            <div><h3>Kancelář</h3><p>Dokumenty, poplatky, účetnictví a administrativa.</p></div>
+            <span class="mod-arrow">›</span>
+          </a>
+          <a class="mod" href="#">
+            <span class="mod-ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.3c2.7.1 4.4 1.7 5 4.7"/></svg></span>
+            <div><h3>Recepce — tým</h3><p>Úklidy, předání klíčů a směny recepce.</p></div>
+            <span class="mod-arrow">›</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- PROVOZ + LIMITY -->
+      <section class="fade d4">
+        <div class="bottom-grid">
+          <div>
+            <div class="sec-head"><h2>Provoz — agenti</h2><span class="count">5 agentů</span></div>
+            <div class="panel">
+              <div class="agent-row">
+                <span class="agent-ava">Ú</span>
+                <span class="a-name">Úklidový agent</span>
+                <span class="a-status run"><span class="s-dot"></span>běží</span>
+              </div>
+              <div class="agent-row">
+                <span class="agent-ava">P</span>
+                <span class="a-name">Příjezdový agent</span>
+                <span class="a-status tune"><span class="s-dot"></span>ladí se</span>
+              </div>
+              <div class="agent-row">
+                <span class="agent-ava">H</span>
+                <span class="a-name">Hlídací agent</span>
+                <span class="a-status run"><span class="s-dot"></span>běží</span>
+              </div>
+              <div class="agent-row">
+                <span class="agent-ava">C</span>
+                <span class="a-name">Cenový agent</span>
+                <span class="a-status tune"><span class="s-dot"></span>ladí se</span>
+              </div>
+              <div class="agent-row">
+                <span class="agent-ava">S</span>
+                <span class="a-name">Scout</span>
+                <span class="a-status tune"><span class="s-dot"></span>ladí se</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="sec-head"><h2>Limity Claude</h2><span class="count mono">usage</span></div>
+            <div class="panel limits">
+              <div class="limit">
+                <div class="l-head"><span class="l-name">Session</span><span class="l-val">41&nbsp;%</span></div>
+                <div class="bar"><div class="bar-fill" style="width:41%"></div></div>
+                <div class="l-meta">reset za ~3 h</div>
+              </div>
+              <div class="limit">
+                <div class="l-head"><span class="l-name">Weekly</span><span class="l-val">52&nbsp;%</span></div>
+                <div class="bar"><div class="bar-fill" style="width:52%"></div></div>
+                <div class="l-meta">reset ve čtvrtek</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="foot">Varianta 1 · Linear · tmavý sidebar</footer>
+  </div>
+</div>
+
+<!-- ========== MOBILE TAB BAR ========== -->
+<nav class="tabbar">
+  <a class="tab active" href="#">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+    Přehled
+  </a>
+  <a class="tab" href="#">
+    <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg>
+    Byty
+  </a>
+  <a class="tab" href="#">
+    <span class="tb-badge">33</span>
+    <svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-8 8H4l2.2-2.6A8 8 0 1 1 21 12Z"/></svg>
+    Zprávy
+  </a>
+  <a class="tab" href="#">
+    <svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 3 6-7 3 3"/><path d="M3 21h18"/></svg>
+    Výdělky
+  </a>
+  <a class="tab" href="#">
+    <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.3c2.7.1 4.4 1.7 5 4.7"/></svg>
+    Recepce
+  </a>
+</nav>
+</body>
+</html>

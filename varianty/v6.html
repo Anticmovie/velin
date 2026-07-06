@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELÍN — Přehled</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#0066cc;
+    --primary-focus:#0071e3;
+    --ink:#1d1d1f;
+    --ink-80:#333333;
+    --ink-48:#7a7a7a;
+    --ink-muted:#6e6e73;
+    --hairline:#e0e0e0;
+    --divider-soft:#f0f0f0;
+    --canvas:#ffffff;
+    --parchment:#f5f5f7;
+    --pearl:#fafafc;
+    --green:#248a3d;
+    --orange:#b25000;
+    --red:#bf1029;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+    font-feature-settings:"ss03";
+    background:var(--canvas);
+    color:var(--ink);
+    font-size:17px;
+    line-height:1.44;
+    letter-spacing:-0.374px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Frosted sticky nav ---------- */
+  .nav{
+    position:sticky;top:0;z-index:100;
+    background:rgba(245,245,247,0.8);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    backdrop-filter:saturate(180%) blur(20px);
+    border-bottom:1px solid rgba(0,0,0,0.08);
+  }
+  .nav-inner{
+    max-width:980px;margin:0 auto;
+    height:52px;
+    display:flex;align-items:center;gap:8px;
+    padding:0 22px;
+  }
+  .nav-brand{
+    font-size:17px;font-weight:600;letter-spacing:-0.374px;
+    margin-right:8px;white-space:nowrap;
+  }
+  .nav-links{
+    display:flex;align-items:center;gap:4px;
+    overflow-x:auto;scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    flex:1;
+  }
+  .nav-links::-webkit-scrollbar{display:none;}
+  .nav a{
+    font-size:12px;font-weight:400;letter-spacing:-0.12px;
+    color:var(--ink-80);text-decoration:none;
+    padding:7px 12px;border-radius:9999px;
+    white-space:nowrap;
+    transition:background-color .25s ease,color .25s ease;
+    position:relative;
+  }
+  .nav a:hover{color:var(--ink);}
+  .nav a.active{background:var(--ink);color:#fff;}
+  .nav .badge{
+    display:inline-block;margin-left:5px;
+    background:var(--primary);color:#fff;
+    font-size:10px;font-weight:600;letter-spacing:0;
+    padding:1px 6px;border-radius:9999px;
+    vertical-align:1px;
+  }
+
+  /* ---------- Layout primitives ---------- */
+  .col{max-width:980px;margin:0 auto;padding:0 22px;}
+  section{padding:96px 0 0;}
+  .section-kicker{
+    font-size:14px;font-weight:600;letter-spacing:-0.224px;
+    color:var(--ink-48);text-transform:uppercase;
+    letter-spacing:1.4px;font-size:12px;
+    text-align:center;margin-bottom:10px;
+  }
+  .section-title{
+    font-size:40px;font-weight:600;line-height:1.1;
+    letter-spacing:-0.6px;text-align:center;
+    margin-bottom:14px;
+  }
+  .section-lead{
+    font-size:21px;font-weight:400;line-height:1.38;
+    letter-spacing:0;color:var(--ink-muted);
+    text-align:center;max-width:600px;margin:0 auto 44px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{padding:110px 0 0;text-align:center;}
+  .hero-date{
+    font-size:14px;font-weight:600;color:var(--ink-48);
+    letter-spacing:1.4px;text-transform:uppercase;margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:72px;font-weight:600;line-height:1.05;
+    letter-spacing:-2.2px;
+  }
+  .hero-sub{
+    font-size:24px;font-weight:300;line-height:1.4;letter-spacing:0;
+    color:var(--ink-muted);margin:20px auto 0;max-width:560px;
+  }
+  .hero-metrics{
+    margin:76px auto 0;max-width:560px;
+    display:flex;flex-direction:column;gap:0;
+  }
+  .metric{
+    padding:38px 0;
+    border-top:1px solid var(--divider-soft);
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .metric:first-child{border-top:none;}
+  .metric-num{
+    font-size:96px;font-weight:600;line-height:1;
+    letter-spacing:-3.5px;font-variant-numeric:tabular-nums;
+  }
+  .metric-num.urgent{color:var(--red);}
+  .metric-label{
+    font-size:17px;font-weight:400;color:var(--ink-muted);
+    margin-top:10px;letter-spacing:-0.374px;
+  }
+  .metric-tag{
+    margin-top:12px;
+    font-size:12px;font-weight:600;letter-spacing:0;
+    color:var(--red);background:rgba(191,16,41,0.08);
+    padding:4px 12px;border-radius:9999px;
+  }
+  .hero-cta{margin-top:44px;}
+  .btn-pill{
+    display:inline-block;
+    background:var(--primary);color:#fff;
+    font-size:17px;font-weight:400;letter-spacing:-0.374px;
+    padding:11px 22px;border-radius:9999px;text-decoration:none;
+    transition:transform .18s ease,background-color .18s ease;
+  }
+  .btn-pill:active{transform:scale(0.95);}
+  .btn-ghost{
+    display:inline-block;
+    color:var(--primary);border:1px solid var(--primary);
+    font-size:17px;font-weight:400;letter-spacing:-0.374px;
+    padding:10px 21px;border-radius:9999px;text-decoration:none;margin-left:12px;
+    transition:transform .18s ease;
+  }
+  .btn-ghost:active{transform:scale(0.95);}
+
+  /* ---------- Pohyby dne ---------- */
+  .moves{
+    display:grid;grid-template-columns:1fr 1fr;gap:20px;
+  }
+  .move-card{
+    background:var(--parchment);
+    border-radius:18px;
+    padding:28px;
+  }
+  .move-card h3{
+    font-size:14px;font-weight:600;letter-spacing:1.2px;
+    text-transform:uppercase;color:var(--ink-48);
+    display:flex;align-items:center;gap:8px;margin-bottom:6px;
+  }
+  .move-card h3 .count{
+    background:var(--ink);color:#fff;font-size:11px;
+    padding:2px 8px;border-radius:9999px;letter-spacing:0;
+  }
+  .move-row{
+    display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+    padding:15px 0;
+    border-bottom:1px solid rgba(0,0,0,0.06);
+  }
+  .move-row:last-child{border-bottom:none;}
+  .move-guest{font-size:17px;font-weight:600;letter-spacing:-0.374px;}
+  .move-flat{font-size:14px;color:var(--ink-muted);letter-spacing:-0.224px;margin-top:1px;}
+  .move-dates{
+    font-size:14px;color:var(--ink-48);letter-spacing:-0.224px;
+    font-variant-numeric:tabular-nums;white-space:nowrap;
+  }
+  .dir-dot{
+    display:inline-block;width:8px;height:8px;border-radius:50%;
+  }
+  .dir-in{background:var(--green);}
+  .dir-out{background:var(--ink-48);}
+
+  /* ---------- Moduly ---------- */
+  .modules{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  }
+  .module-card{
+    background:var(--parchment);
+    border-radius:18px;
+    padding:32px 28px 28px;
+    display:flex;flex-direction:column;gap:8px;
+    transition:transform .25s ease;
+  }
+  .module-card:hover{transform:translateY(-3px);}
+  .module-icon{
+    width:44px;height:44px;border-radius:50%;
+    background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:19px;margin-bottom:8px;
+  }
+  .module-card h3{font-size:21px;font-weight:600;letter-spacing:-0.4px;line-height:1.2;}
+  .module-card p{font-size:14px;color:var(--ink-muted);letter-spacing:-0.224px;line-height:1.43;}
+  .module-card a{
+    font-size:14px;color:var(--primary);text-decoration:none;
+    letter-spacing:-0.224px;margin-top:auto;padding-top:10px;
+  }
+  .module-card a:after{content:" ›";}
+  .module-badge{
+    display:inline-block;align-self:flex-start;
+    background:var(--red);color:#fff;
+    font-size:11px;font-weight:600;letter-spacing:0;
+    padding:3px 9px;border-radius:9999px;margin-top:2px;
+  }
+
+  /* ---------- Provoz (agenti) ---------- */
+  .agents{
+    background:var(--parchment);
+    border-radius:18px;
+    overflow:hidden;
+  }
+  .agent-row{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:22px 30px;
+    border-bottom:1px solid rgba(0,0,0,0.06);
+  }
+  .agent-row:last-child{border-bottom:none;}
+  .agent-name{font-size:17px;font-weight:600;letter-spacing:-0.374px;}
+  .agent-desc{font-size:14px;color:var(--ink-muted);letter-spacing:-0.224px;margin-top:1px;}
+  .status{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:13px;font-weight:600;letter-spacing:-0.1px;
+    padding:6px 14px;border-radius:9999px;white-space:nowrap;
+  }
+  .status .dot{width:7px;height:7px;border-radius:50%;}
+  .status.run{background:rgba(36,138,61,0.10);color:var(--green);}
+  .status.run .dot{background:var(--green);}
+  .status.tune{background:rgba(178,80,0,0.10);color:var(--orange);}
+  .status.tune .dot{background:var(--orange);}
+
+  /* ---------- Limity ---------- */
+  .limits{
+    display:grid;grid-template-columns:1fr 1fr;gap:20px;
+  }
+  .limit-card{
+    background:var(--parchment);border-radius:18px;padding:32px;
+  }
+  .limit-card h3{font-size:14px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-48);}
+  .limit-num{
+    font-size:56px;font-weight:600;letter-spacing:-1.8px;line-height:1;
+    margin:14px 0 18px;font-variant-numeric:tabular-nums;
+  }
+  .limit-num small{font-size:24px;font-weight:400;letter-spacing:0;color:var(--ink-48);}
+  .limit-bar{
+    height:6px;border-radius:9999px;background:rgba(0,0,0,0.08);overflow:hidden;
+  }
+  .limit-fill{
+    height:100%;border-radius:9999px;background:var(--primary);
+    width:0;transition:width .3s ease;
+  }
+  .limit-note{font-size:12px;color:var(--ink-48);letter-spacing:-0.12px;margin-top:12px;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    margin-top:120px;
+    background:var(--parchment);
+    padding:44px 0;
+  }
+  footer .col{
+    text-align:center;
+    font-size:12px;color:var(--ink-48);letter-spacing:-0.12px;line-height:1.8;
+  }
+  footer strong{color:var(--ink-80);font-weight:600;}
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal{
+    opacity:0;transform:translateY(18px);
+    transition:opacity .3s ease,transform .3s ease;
+  }
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    .limit-fill{transition:none;}
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:833px){
+    .modules{grid-template-columns:repeat(2,1fr);}
+    .moves{grid-template-columns:1fr;}
+    .hero h1{font-size:52px;letter-spacing:-1.6px;}
+    .metric-num{font-size:76px;letter-spacing:-2.6px;}
+    section{padding-top:72px;}
+  }
+  @media (max-width:640px){
+    .modules{grid-template-columns:1fr;}
+    .limits{grid-template-columns:1fr;}
+    .hero{padding-top:72px;}
+    .hero h1{font-size:40px;letter-spacing:-1.1px;}
+    .hero-sub{font-size:19px;}
+    .section-title{font-size:30px;letter-spacing:-0.5px;}
+    .section-lead{font-size:17px;}
+    .metric-num{font-size:64px;letter-spacing:-2px;}
+    .metric{padding:28px 0;}
+    .agent-row{padding:18px 20px;flex-wrap:wrap;}
+    .move-row{flex-direction:column;gap:2px;}
+    .move-dates{white-space:normal;}
+    .btn-ghost{margin-left:0;margin-top:10px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ======== NAV ======== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <span class="nav-brand">VELÍN</span>
+    <div class="nav-links">
+      <a href="#" class="active">Přehled</a>
+      <a href="#">Byty a ceny</a>
+      <a href="#">Zprávy<span class="badge">33</span></a>
+      <a href="#">Výdělky</a>
+      <a href="#">Provize</a>
+      <a href="#">Kancelář</a>
+      <a href="#">Recepce</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ======== HERO ======== -->
+<header class="hero">
+  <div class="col">
+    <p class="hero-date reveal">Pondělí 6. července 2026</p>
+    <h1 class="reveal">Dnes.</h1>
+    <p class="hero-sub reveal">Řídicí středisko čtrnácti pražských apartmánů. Jeden pohled, celý provoz.</p>
+
+    <div class="hero-metrics">
+      <div class="metric reveal">
+        <span class="metric-num urgent">33</span>
+        <span class="metric-label">zpráv čeká na odpověď</span>
+        <span class="metric-tag">Urgentní</span>
+      </div>
+      <div class="metric reveal">
+        <span class="metric-num">6</span>
+        <span class="metric-label">příjezdů dnes</span>
+      </div>
+      <div class="metric reveal">
+        <span class="metric-num">3</span>
+        <span class="metric-label">odjezdy dnes</span>
+      </div>
+      <div class="metric reveal">
+        <span class="metric-num">20</span>
+        <span class="metric-label">hostů v bytech</span>
+      </div>
+    </div>
+
+    <div class="hero-cta reveal">
+      <a class="btn-pill" href="#">Otevřít zprávy</a>
+      <a class="btn-ghost" href="#pohyby">Pohyby dne</a>
+    </div>
+  </div>
+</header>
+
+<!-- ======== POHYBY DNE ======== -->
+<section id="pohyby">
+  <div class="col">
+    <p class="section-kicker reveal">Provozní den</p>
+    <h2 class="section-title reveal">Pohyby dne.</h2>
+    <p class="section-lead reveal">Šest příjezdů, tři odjezdy. Vše připraveno k předání.</p>
+
+    <div class="moves">
+      <div class="move-card reveal">
+        <h3><span class="dir-dot dir-in"></span>Check-in <span class="count">6</span></h3>
+        <div class="move-row">
+          <div>
+            <div class="move-guest">梦玲</div>
+            <div class="move-flat">THE BOHEMIA PEARL</div>
+          </div>
+          <span class="move-dates">6.&nbsp;7.&nbsp;–&nbsp;18.&nbsp;7.</span>
+        </div>
+        <div class="move-row">
+          <div>
+            <div class="move-guest">Elena Marchenko</div>
+            <div class="move-flat">THE GARDEN GRAND</div>
+          </div>
+          <span class="move-dates">6.&nbsp;7.&nbsp;–&nbsp;9.&nbsp;7.</span>
+        </div>
+        <div class="move-row">
+          <div>
+            <div class="move-guest">Jibran Ahmed</div>
+            <div class="move-flat">florenc 1</div>
+          </div>
+          <span class="move-dates">6.&nbsp;7.&nbsp;–&nbsp;8.&nbsp;7.</span>
+        </div>
+        <div class="move-row">
+          <div>
+            <div class="move-guest">Martina Svobodová</div>
+            <div class="move-flat">THE VLTAVA</div>
+          </div>
+          <span class="move-dates">6.&nbsp;7.&nbsp;–&nbsp;10.&nbsp;7.</span>
+        </div>
+        <div class="move-row">
+          <div>
+            <div class="move-guest">Cyprian Zawadzki</div>
+            <div class="move-flat">THE BASILEJ</div>
+          </div>
+          <span class="move-dates">6.&nbsp;7.&nbsp;–&nbsp;10.&nbsp;7.</span>
+        </div>
+        <div class="move-row">
+          <div>
+            <div class="move-guest">Jan Handlovsky</div>
+            <div class="move-flat">THE ROYAL STUDIO</div>
+          </div>
+          <span class="move-dates">6.&nbsp;7.&nbsp;–&nbsp;7.&nbsp;7.</span>
+        </div>
+      </div>
+
+      <div class="move-card reveal">
+        <h3><span class="dir-dot dir-out"></span>Check-out <span class="count">3</span></h3>
+        <div class="move-row">
+          <div>
+            <div class="move-guest">Mykola Zakharchuk</div>
+            <div class="move-flat">THE BASILEJ</div>
+          </div>
+          <span class="move-dates">dnes</span>
+        </div>
+        <div class="move-row">
+          <div>
+            <div class="move-guest">Julie Miazga</div>
+            <div class="move-flat">THE VLTAVA</div>
+          </div>
+          <span class="move-dates">dnes</span>
+        </div>
+        <div class="move-row">
+          <div>
+            <div class="move-guest">Zaur</div>
+            <div class="move-flat">THE ROYAL STUDIO</div>
+          </div>
+          <span class="move-dates">dnes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== MODULY ======== -->
+<section>
+  <div class="col">
+    <p class="section-kicker reveal">Moduly</p>
+    <h2 class="section-title reveal">Vše pod jednou střechou.</h2>
+    <p class="section-lead reveal">Šest oblastí. Každá přesně tam, kde ji čekáte.</p>
+
+    <div class="modules">
+      <div class="module-card reveal">
+        <div class="module-icon">🏠</div>
+        <h3>Byty a ceny</h3>
+        <p>Kalendáře, obsazenost a cenové edity pro všech 14 bytů na obou platformách.</p>
+        <a href="#">Otevřít</a>
+      </div>
+      <div class="module-card reveal">
+        <div class="module-icon">💬</div>
+        <h3>Zprávy</h3>
+        <span class="module-badge">33 čeká</span>
+        <p>Sjednocená schránka Airbnb a Booking s automatickým překladem.</p>
+        <a href="#">Otevřít</a>
+      </div>
+      <div class="module-card reveal">
+        <div class="module-icon">📈</div>
+        <h3>Výdělky</h3>
+        <p>Payouty, faktury a měsíční přehledy výdělků per byt i celkem.</p>
+        <a href="#">Otevřít</a>
+      </div>
+      <div class="module-card reveal">
+        <div class="module-icon">🤝</div>
+        <h3>Provize</h3>
+        <p>Vyúčtování spravovaných bytů a podíly majitelům, měsíc po měsíci.</p>
+        <a href="#">Otevřít</a>
+      </div>
+      <div class="module-card reveal">
+        <div class="module-icon">🗂</div>
+        <h3>Kancelář</h3>
+        <p>Účetnictví, pobytové poplatky a administrativa na jednom místě.</p>
+        <a href="#">Otevřít</a>
+      </div>
+      <div class="module-card reveal">
+        <div class="module-icon">🛎</div>
+        <h3>Recepce — tým</h3>
+        <p>Příjezdy, úklidy a předání klíčů pro celý recepční tým.</p>
+        <a href="#">Otevřít</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== PROVOZ ======== -->
+<section>
+  <div class="col">
+    <p class="section-kicker reveal">Provoz</p>
+    <h2 class="section-title reveal">Agenti pracují.<br>I když spíte.</h2>
+    <p class="section-lead reveal">Pět automatů hlídá provoz nepřetržitě a hlásí jen to, co je potřeba.</p>
+
+    <div class="agents reveal">
+      <div class="agent-row">
+        <div>
+          <div class="agent-name">Úklidový</div>
+          <div class="agent-desc">Plán úklidů podle odjezdů a příjezdů</div>
+        </div>
+        <span class="status run"><span class="dot"></span>Běží</span>
+      </div>
+      <div class="agent-row">
+        <div>
+          <div class="agent-name">Příjezdový</div>
+          <div class="agent-desc">Reálné časy příjezdů z komunikace hostů</div>
+        </div>
+        <span class="status tune"><span class="dot"></span>Ladí se</span>
+      </div>
+      <div class="agent-row">
+        <div>
+          <div class="agent-name">Hlídací</div>
+          <div class="agent-desc">Dohled nad kalendáři a nesrovnalostmi</div>
+        </div>
+        <span class="status run"><span class="dot"></span>Běží</span>
+      </div>
+      <div class="agent-row">
+        <div>
+          <div class="agent-name">Cenový</div>
+          <div class="agent-desc">Volná okna, urgenční pásma, orphan gapy</div>
+        </div>
+        <span class="status tune"><span class="dot"></span>Ladí se</span>
+      </div>
+      <div class="agent-row">
+        <div>
+          <div class="agent-name">Scout</div>
+          <div class="agent-desc">Konkurence a poptávka po čtvrtích</div>
+        </div>
+        <span class="status tune"><span class="dot"></span>Ladí se</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== LIMITY ======== -->
+<section>
+  <div class="col">
+    <p class="section-kicker reveal">Limity Claude</p>
+    <h2 class="section-title reveal">Kapacita v klidu.</h2>
+    <p class="section-lead reveal">Aktuální čerpání limitů. Vše hluboko v zeleném pásmu.</p>
+
+    <div class="limits">
+      <div class="limit-card reveal">
+        <h3>Session</h3>
+        <div class="limit-num">41<small>&nbsp;%</small></div>
+        <div class="limit-bar"><div class="limit-fill" data-w="41"></div></div>
+        <p class="limit-note">Obnovuje se každých 5 hodin</p>
+      </div>
+      <div class="limit-card reveal">
+        <h3>Weekly</h3>
+        <div class="limit-num">52<small>&nbsp;%</small></div>
+        <div class="limit-bar"><div class="limit-fill" data-w="52"></div></div>
+        <p class="limit-note">Obnovuje se každé pondělí</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== FOOTER ======== -->
+<footer>
+  <div class="col">
+    <p><strong>VELÍN</strong> · řídicí středisko správy 14 apartmánů v Praze</p>
+    <p>Varianta 6 · Apple · centrovaný column</p>
+  </div>
+</footer>
+
+<script>
+  // Decentní scroll-reveal (IntersectionObserver, transitions <= 300 ms)
+  (function(){
+    var els = document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+          // progress bary naplnit až při odhalení
+          e.target.querySelectorAll('.limit-fill').forEach(function(f){
+            requestAnimationFrame(function(){ f.style.width = f.dataset.w + '%'; });
+          });
+        }
+      });
+    },{threshold:0.12,rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+</body>
+</html>
