@@ -121,22 +121,31 @@
   .mod:nth-child(5){transition-delay:180ms}.mod:nth-child(6){transition-delay:225ms}
   .mv:nth-child(2){transition-delay:40ms}.mv:nth-child(3){transition-delay:80ms}.mv:nth-child(4){transition-delay:120ms}.mv:nth-child(5){transition-delay:160ms}.mv:nth-child(n+6){transition-delay:200ms}
 
-  /* ===== board: pohyby dne (Linear issue-list) ===== */
-  .board{margin-top:14px;background:rgba(18,18,30,.6);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;backdrop-filter:blur(8px)}
-  .bhead{display:flex;align-items:center;gap:9px;padding:10px 16px;font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);background:rgba(139,124,255,.05);border-bottom:1px solid var(--line)}
-  .bhead .cnt{background:var(--vibg);color:var(--vi2);border-radius:20px;padding:1px 9px;font-size:11px;letter-spacing:0}
-  .bhead.out2 .cnt{background:rgba(255,255,255,.06);color:var(--muted)}
-  .mv{display:flex;align-items:center;gap:13px;padding:10px 16px;border-bottom:1px solid rgba(139,124,255,.07);transition-property:opacity,transform,background;transition-duration:320ms,320ms,150ms}
-  .mv:last-child{border-bottom:none}
-  @media(hover:hover) and (pointer:fine){ .mv:hover{background:rgba(139,124,255,.05)} }
-  .mv .av{width:34px;height:34px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:#fff;letter-spacing:.03em;box-shadow:inset 0 -8px 14px rgba(0,0,0,.3), 0 0 0 1px rgba(255,255,255,.08)}
-  .mv .who{flex:1;min-width:0}
-  .mv .g{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .mv .d{font-size:11.5px;color:var(--muted);margin-top:1px;font-variant-numeric:tabular-nums}
-  .chipb{font-size:11px;font-weight:600;padding:3px 10px;border-radius:8px;white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis}
-  .mv .tag{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:20px;white-space:nowrap}
-  .mv .tag.in{background:var(--okbg);color:var(--ok);box-shadow:inset 0 0 0 1px rgba(61,220,132,.25)}
-  .mv .tag.out{background:var(--warnbg);color:var(--warn);box-shadow:inset 0 0 0 1px rgba(255,176,46,.22)}
+  /* ===== board: pohyby na 4 dny (stejne velke plochy, kompaktni a citelne) ===== */
+  .days{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px;align-items:stretch}
+  @media(max-width:1100px){.days{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.days{grid-template-columns:1fr}}
+  .day{background:rgba(18,18,30,.6);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;backdrop-filter:blur(8px);display:flex;flex-direction:column;
+    transition:opacity 320ms var(--ease-out),transform 320ms var(--ease-out),border-color 180ms ease}
+  @starting-style{ .day{opacity:0;transform:translateY(10px)} }
+  .day:nth-child(2){transition-delay:45ms}.day:nth-child(3){transition-delay:90ms}.day:nth-child(4){transition-delay:135ms}
+  .day.today{border-color:rgba(139,124,255,.4);box-shadow:0 0 26px -12px rgba(139,124,255,.5)}
+  .dhead{display:flex;align-items:baseline;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(139,124,255,.05)}
+  .dhead .dn{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--vi2)}
+  .day:not(.today) .dhead .dn{color:var(--muted)}
+  .dhead .dd{font-size:11.5px;color:var(--dim);margin-left:auto;font-variant-numeric:tabular-nums}
+  .dsec{padding:7px 10px 4px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:6px}
+  .dsec b{color:var(--muted);font-weight:700}
+  .mv{display:flex;align-items:center;gap:8px;padding:5.5px 10px;border-radius:8px;margin:0 4px;transition:background 150ms ease}
+  @media(hover:hover) and (pointer:fine){ .mv:hover{background:rgba(139,124,255,.06)} }
+  .mv .cas{flex:none;width:46px;font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--vi2);cursor:default}
+  .mv .cas.neznam{color:var(--dim);font-weight:500}
+  .mv .g{flex:1;min-width:0;font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .chipb{font-size:10px;font-weight:600;padding:2px 8px;border-radius:7px;white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis;flex:none}
+  .mv.outr .g{color:var(--body)}
+  .dnic{padding:2px 14px 6px;color:var(--dim);font-size:11.5px}
+  .dfoot{margin-top:auto;padding:8px 14px 10px;display:flex;gap:10px;font-size:10.5px;color:var(--dim)}
+  .dfoot b{color:var(--muted)}
   .none{padding:16px;color:var(--muted);font-size:13px}
 
   /* ===== moduly ===== */
@@ -261,7 +270,7 @@
       <a href="vydelky-mesicne.html"><span class="ic">◍</span>Výdělky</a>
       <a href="sprava-provize.html"><span class="ic">%</span>Provize</a>
       <a href="room-gru.html"><span class="ic">▦</span>Kancelář</a>
-      <a href="tym.html"><span class="ic">✦</span>Recepce — tým</a>
+      <a href="bytahost/"><span class="ic">✦</span>BYTAHOST — tým</a>
     </nav>
     <div class="sbot">
       <div class="mini" id="sideusage"></div>
@@ -290,7 +299,7 @@
       <a class="mod" href="vydelky-mesicne.html" style="--mc:rgba(61,220,132,.12)"><span class="ic">◍</span><span><span class="t">Výdělky</span><span class="d" style="display:block">Měsíční výdělky podle platformy</span></span><span class="ar">→</span></a>
       <a class="mod" href="sprava-provize.html" style="--mc:rgba(255,176,46,.12)"><span class="ic">%</span><span><span class="t">Provize</span><span class="d" style="display:block">Byty ve správě a vyúčtování</span></span><span class="ar">→</span></a>
       <a class="mod" href="room-gru.html" style="--mc:rgba(255,211,77,.11)"><span class="ic">▦</span><span><span class="t">Kancelář</span><span class="d" style="display:block">Zasedačka s agenty</span></span><span class="ar">→</span></a>
-      <a class="mod" href="tym.html" style="--mc:rgba(255,84,112,.12)"><span class="ic">✦</span><span><span class="t">Recepce — tým</span><span class="d" style="display:block">Vstup pro pracovníky · bez VELÍNu</span></span><span class="ar">→</span></a>
+      <a class="mod" href="bytahost/" style="--mc:rgba(255,84,112,.12)"><span class="ic">✦</span><span><span class="t">BYTAHOST — tým</span><span class="d" style="display:block">Appka pro pracovníky · zprávy + provoz + byty</span></span><span class="ar">→</span></a>
     </div>
 
     <h2 id="appr-h" style="display:none">Úkoly <small id="appr-c"></small></h2>
@@ -316,7 +325,7 @@
   <a href="byty-rpg.html"><span class="i">⌂</span>Byty</a>
   <a href="chat.html"><span class="i">✉</span>Zprávy<span class="b" id="navmsg2" style="display:none"></span></a>
   <a href="vydelky-mesicne.html"><span class="i">◍</span>Výdělky</a>
-  <a href="tym.html"><span class="i">✦</span>Recepce</a>
+  <a href="bytahost/"><span class="i">✦</span>Tým</a>
 </div>
 
 <script src="data.js"></script>
@@ -403,21 +412,32 @@
         tile('Odjezdy dnes',dep.length,names(dep),'byty-rpg.html',false,'rgba(255,176,46,.13)')+
         tile('Hosté v bytech',stay.length,stay.length?stay.slice(0,2).map(function(c){return esc(c.byt_nazev||c.byt_key||'');}).join(' · '):'prázdno','chat.html',false,'rgba(77,215,255,.12)');
       if(wait.length){['navmsg','navmsg2'].forEach(function(id){var nb=document.getElementById(id);if(nb){nb.textContent=wait.length;nb.style.display='';}});}
-      function d(s){return s?s.slice(8,10).replace(/^0/,'')+'.'+s.slice(5,7).replace(/^0/,'')+'.':'?';}
+      /* ===== 4denni board: dnes + 3 dny dopredu, stejne plochy ===== */
+      function isoAdd(n){var x=new Date();x.setDate(x.getDate()+n);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');}
       function casVal(c){var t=(c.prijezd_cas||'');if(!t||t==='?')return 99;var m=t.match(/^(\d{1,2})/);return m?parseInt(m[1],10):99;}
-      function rows(list,dir){return list.map(function(c){
-        var cas=(dir==='in'&&c.prijezd_cas&&c.prijezd_cas!=='?')?'<span class="chipb" style="background:rgba(139,124,255,.14);color:var(--vi2);box-shadow:inset 0 0 0 1px rgba(139,124,255,.3)" title="'+esc(c.prijezd_cas_zdroj||'z chatu')+'">⏰ '+esc(c.prijezd_cas)+'</span>':'';
-        return '<div class="mv">'+ava(c.byt_key,c.guest)+
-          '<div class="who"><div class="g">'+esc(c.guest||'Host')+'</div><div class="d">'+(c.prijezd?d(c.prijezd)+' – '+d(c.odjezd):'')+'</div></div>'+
-          cas+aptChip(c.byt_key,c.byt_nazev)+
-          '<span class="tag '+dir+'">'+(dir==='in'?'check-in':'check-out')+'</span></div>';
-      }).join('');}
-      arr.sort(function(a,b){return casVal(a)-casVal(b);});   // podle casu prijezdu, nezname nakonec
-      var bh='';
-      if(arr.length) bh+='<div class="board"><div class="bhead">🔑 Dnešní příjezdy <span class="cnt">'+arr.length+'</span></div>'+rows(arr,'in')+'</div>';
-      if(dep.length) bh+='<div class="board" style="margin-top:12px"><div class="bhead out2">👋 Dnešní odjezdy <span class="cnt">'+dep.length+'</span></div>'+rows(dep,'out')+'</div>';
-      if(!arr.length&&!dep.length) bh='<div class="board"><div class="none">Dnes žádné příjezdy ani odjezdy (podle konverzací ve schránce).</div></div>';
-      document.getElementById('boards').innerHTML=bh;
+      var DNY=['NE','PO','ÚT','ST','ČT','PÁ','SO'];
+      var LBL=['DNES','ZÍTRA','POZÍTŘÍ',''];
+      function mvRow(c,dir){
+        var cas=(dir==='in')?((c.prijezd_cas&&c.prijezd_cas!=='?')?'<span class="cas" title="'+esc(c.prijezd_cas_zdroj||'z chatu')+'">'+esc(c.prijezd_cas)+'</span>':'<span class="cas neznam">—</span>'):'<span class="cas neznam"></span>';
+        return '<div class="mv'+(dir==='out'?' outr':'')+'">'+cas+'<span class="g">'+esc(c.guest||'Host')+'</span>'+aptChip(c.byt_key,c.byt_nazev)+'</div>';
+      }
+      var days='';
+      for(var i=0;i<4;i++){
+        var di=isoAdd(i), dd=new Date(); dd.setDate(dd.getDate()+i);
+        var A=cs.filter(function(c){return c.prijezd===di;}).sort(function(a,b){return casVal(a)-casVal(b);});
+        var Dp=cs.filter(function(c){return c.odjezd===di;});
+        var znameCasy=A.filter(function(c){return c.prijezd_cas&&c.prijezd_cas!=='?';}).length;
+        days+='<div class="day'+(i===0?' today':'')+'">'+
+          '<div class="dhead"><span class="dn">'+(LBL[i]||DNY[dd.getDay()])+'</span><span style="font-size:12px;font-weight:600;color:var(--body)">'+DNY[dd.getDay()]+' '+dd.getDate()+'.'+(dd.getMonth()+1)+'.</span>'+
+          '<span class="dd">'+(A.length?'🔑'+A.length:'')+(Dp.length?' 👋'+Dp.length:'')+'</span></div>'+
+          '<div class="dsec">🔑 Příjezdy <b>'+A.length+'</b></div>'+
+          (A.length?A.map(function(c){return mvRow(c,'in');}).join(''):'<div class="dnic">žádné</div>')+
+          '<div class="dsec" style="margin-top:4px">👋 Odjezdy <b>'+Dp.length+'</b></div>'+
+          (Dp.length?Dp.map(function(c){return mvRow(c,'out');}).join(''):'<div class="dnic">žádné</div>')+
+          '<div class="dfoot">'+(A.length?('čas znám u <b>'+znameCasy+'/'+A.length+'</b>'):'')+'</div>'+
+        '</div>';
+      }
+      document.getElementById('boards').innerHTML='<div class="days">'+days+'</div>';
     })
     .catch(function(){ document.getElementById('dnesdate').textContent+=' · schránka nedostupná'; });
   })();
