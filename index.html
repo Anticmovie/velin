@@ -141,7 +141,8 @@
   .mv .cas{flex:none;width:46px;font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--vi2);cursor:default}
   .mv .cas.neznam{color:var(--dim);font-weight:500}
   .mv .g{flex:1;min-width:0;font-weight:600;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .chipb{font-size:10px;font-weight:600;padding:2px 8px;border-radius:7px;white-space:nowrap;max-width:110px;overflow:hidden;text-overflow:ellipsis;flex:none}
+  /* nazev bytu: JEDNOTNA barva i velikost, zarovnany sloupec (kratky klic bytu) */
+  .bytk{flex:none;width:96px;text-align:right;font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
   .mv.outr .g{color:var(--body)}
   .dnic{padding:2px 14px 6px;color:var(--dim);font-size:11.5px}
   .dfoot{margin-top:auto;padding:8px 14px 10px;display:flex;gap:10px;font-size:10.5px;color:var(--dim)}
@@ -417,9 +418,10 @@
       function casVal(c){var t=(c.prijezd_cas||'');if(!t||t==='?')return 99;var m=t.match(/^(\d{1,2})/);return m?parseInt(m[1],10):99;}
       var DNY=['NE','PO','ÚT','ST','ČT','PÁ','SO'];
       var LBL=['DNES','ZÍTRA','POZÍTŘÍ',''];
+      function kratke(g){g=(g||'Host').trim();if(g.length<=17)return g;var p=g.split(/\s+/);return p[0]+(p[1]?' '+p[1][0]+'.':'');}
       function mvRow(c,dir){
         var cas=(dir==='in')?((c.prijezd_cas&&c.prijezd_cas!=='?')?'<span class="cas" title="'+esc(c.prijezd_cas_zdroj||'z chatu')+'">'+esc(c.prijezd_cas)+'</span>':'<span class="cas neznam">—</span>'):'<span class="cas neznam"></span>';
-        return '<div class="mv'+(dir==='out'?' outr':'')+'">'+cas+'<span class="g">'+esc(c.guest||'Host')+'</span>'+aptChip(c.byt_key,c.byt_nazev)+'</div>';
+        return '<div class="mv'+(dir==='out'?' outr':'')+'" title="'+esc((c.guest||'')+' · '+(c.byt_nazev||''))+'">'+cas+'<span class="g">'+esc(kratke(c.guest))+'</span><span class="bytk">'+esc(c.byt_key||c.byt_nazev||'')+'</span></div>';
       }
       var days='';
       for(var i=0;i<4;i++){
@@ -428,7 +430,7 @@
         var Dp=cs.filter(function(c){return c.odjezd===di;});
         var znameCasy=A.filter(function(c){return c.prijezd_cas&&c.prijezd_cas!=='?';}).length;
         days+='<div class="day'+(i===0?' today':'')+'">'+
-          '<div class="dhead"><span class="dn">'+(LBL[i]||DNY[dd.getDay()])+'</span><span style="font-size:12px;font-weight:600;color:var(--body)">'+DNY[dd.getDay()]+' '+dd.getDate()+'.'+(dd.getMonth()+1)+'.</span>'+
+          '<div class="dhead"><span class="dn">'+(LBL[i]||DNY[dd.getDay()])+'</span><span style="font-size:12px;font-weight:600;color:var(--body)">'+(LBL[i]?DNY[dd.getDay()]+' ':'')+dd.getDate()+'.'+(dd.getMonth()+1)+'.</span>'+
           '<span class="dd">'+(A.length?'🔑'+A.length:'')+(Dp.length?' 👋'+Dp.length:'')+'</span></div>'+
           '<div class="dsec">🔑 Příjezdy <b>'+A.length+'</b></div>'+
           (A.length?A.map(function(c){return mvRow(c,'in');}).join(''):'<div class="dnic">žádné</div>')+
