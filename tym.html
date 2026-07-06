@@ -294,7 +294,8 @@ function grow(t){t.style.height='auto';t.style.height=Math.min(t.scrollHeight,13
 function pobyt(c){
   if(!c.prijezd)return null; const t=new Date().toISOString().slice(0,10);
   const r=fmtD(c.prijezd)+'–'+fmtD(c.odjezd);
-  if(c.prijezd===t) return {cls:'today',t:'🔑 dnes check-in',r};
+  const cas=(c.prijezd_cas&&c.prijezd_cas!=='?')?' · ⏰ '+c.prijezd_cas:'';
+  if(c.prijezd===t) return {cls:'today',t:'🔑 dnes check-in'+cas,r};
   if(c.odjezd===t) return {cls:'today',t:'👋 dnes check-out',r};
   if(c.prijezd<t&&(c.odjezd||'9999')>t) return {cls:'instay',t:'🏠 v bytě · do '+fmtD(c.odjezd),r};
   if(c.prijezd>t){ const dn=nights(t,c.prijezd); return {cls:'',t:'📅 '+r+(dn<=7?' · za '+dn+' d':''),r}; }

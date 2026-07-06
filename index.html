@@ -256,6 +256,7 @@
     <nav>
       <a class="on" href="index.html"><span class="ic">◈</span>Přehled</a>
       <a href="byty-rpg.html"><span class="ic">⌂</span>Byty a ceny</a>
+      <a href="byty-rpg.html#kalendar"><span class="ic">▤</span>Multi Calendar</a>
       <a href="chat.html"><span class="ic">✉</span>Zprávy<span class="bdg" id="navmsg" style="display:none"></span></a>
       <a href="vydelky-mesicne.html"><span class="ic">◍</span>Výdělky</a>
       <a href="sprava-provize.html"><span class="ic">%</span>Provize</a>
@@ -283,7 +284,8 @@
 
     <h2>Moduly</h2>
     <div class="mods">
-      <a class="mod" href="byty-rpg.html" style="--mc:rgba(139,124,255,.16)"><span class="ic">⌂</span><span><span class="t">Byty a ceny</span><span class="d" style="display:block">Super kalendář · návrhy cen · nasazení</span></span><span class="ar">→</span></a>
+      <a class="mod" href="byty-rpg.html#kalendar" style="--mc:rgba(139,124,255,.2)"><span class="ic">▤</span><span><span class="t">Multi Calendar</span><span class="d" style="display:block">Rovnou kalendář všech bytů — bez klikání</span></span><span class="ar">→</span></a>
+      <a class="mod" href="byty-rpg.html" style="--mc:rgba(139,124,255,.16)"><span class="ic">⌂</span><span><span class="t">Byty a ceny</span><span class="d" style="display:block">Profily bytů · návrhy cen · nasazení</span></span><span class="ar">→</span></a>
       <a class="mod" href="chat.html" style="--mc:rgba(77,215,255,.13)"><span class="ic">✉</span><span><span class="t">Zprávy</span><span class="d" style="display:block">Schránka hostů · překlady · odeslání</span></span><span class="ar">→</span></a>
       <a class="mod" href="vydelky-mesicne.html" style="--mc:rgba(61,220,132,.12)"><span class="ic">◍</span><span><span class="t">Výdělky</span><span class="d" style="display:block">Měsíční výdělky podle platformy</span></span><span class="ar">→</span></a>
       <a class="mod" href="sprava-provize.html" style="--mc:rgba(255,176,46,.12)"><span class="ic">%</span><span><span class="t">Provize</span><span class="d" style="display:block">Byty ve správě a vyúčtování</span></span><span class="ar">→</span></a>
@@ -382,7 +384,7 @@
   (function dnes(){
     var SB='https://uiynkslmvkjzzdvijkzo.supabase.co/rest/v1';
     var KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
-    fetch(SB+'/konverzace?select=guest,byt_nazev,byt_key,prijezd,odjezd,unread,posledni_smer',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
+    fetch(SB+'/konverzace?select=guest,byt_nazev,byt_key,prijezd,odjezd,unread,posledni_smer,prijezd_cas,prijezd_cas_zdroj',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
     .then(function(r){return r.json();})
     .then(function(cs){
       if(!Array.isArray(cs))throw 0;
@@ -402,12 +404,15 @@
         tile('Hosté v bytech',stay.length,stay.length?stay.slice(0,2).map(function(c){return esc(c.byt_nazev||c.byt_key||'');}).join(' · '):'prázdno','chat.html',false,'rgba(77,215,255,.12)');
       if(wait.length){['navmsg','navmsg2'].forEach(function(id){var nb=document.getElementById(id);if(nb){nb.textContent=wait.length;nb.style.display='';}});}
       function d(s){return s?s.slice(8,10).replace(/^0/,'')+'.'+s.slice(5,7).replace(/^0/,'')+'.':'?';}
+      function casVal(c){var t=(c.prijezd_cas||'');if(!t||t==='?')return 99;var m=t.match(/^(\d{1,2})/);return m?parseInt(m[1],10):99;}
       function rows(list,dir){return list.map(function(c){
+        var cas=(dir==='in'&&c.prijezd_cas&&c.prijezd_cas!=='?')?'<span class="chipb" style="background:rgba(139,124,255,.14);color:var(--vi2);box-shadow:inset 0 0 0 1px rgba(139,124,255,.3)" title="'+esc(c.prijezd_cas_zdroj||'z chatu')+'">⏰ '+esc(c.prijezd_cas)+'</span>':'';
         return '<div class="mv">'+ava(c.byt_key,c.guest)+
           '<div class="who"><div class="g">'+esc(c.guest||'Host')+'</div><div class="d">'+(c.prijezd?d(c.prijezd)+' – '+d(c.odjezd):'')+'</div></div>'+
-          aptChip(c.byt_key,c.byt_nazev)+
+          cas+aptChip(c.byt_key,c.byt_nazev)+
           '<span class="tag '+dir+'">'+(dir==='in'?'check-in':'check-out')+'</span></div>';
       }).join('');}
+      arr.sort(function(a,b){return casVal(a)-casVal(b);});   // podle casu prijezdu, nezname nakonec
       var bh='';
       if(arr.length) bh+='<div class="board"><div class="bhead">🔑 Dnešní příjezdy <span class="cnt">'+arr.length+'</span></div>'+rows(arr,'in')+'</div>';
       if(dep.length) bh+='<div class="board" style="margin-top:12px"><div class="bhead out2">👋 Dnešní odjezdy <span class="cnt">'+dep.length+'</span></div>'+rows(dep,'out')+'</div>';
