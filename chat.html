@@ -1,93 +1,188 @@
 <!DOCTYPE html><html lang="cs"><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
-<title>VELÍN Chat</title>
-<meta name="theme-color" content="#0e1526">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>VELÍN Zprávy</title>
+<meta name="theme-color" content="#ffffff">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="VELÍN">
 <style>
-:root{--bg:#0e1526;--card:#161f36;--card2:#1d2947;--line:#26324f;--txt:#eaf0fb;--dim:#8fa0c0;--acc:#4f8cff;--acc2:#7b6cff;
---bk:#1e63d0;--ab:#ff5a5f;--pos:#25c281;--unread:#ff5a5f}
+:root{
+  --bg:#ffffff;--bg2:#f7f7f7;--line:#ebebeb;--line2:#dddddd;
+  --txt:#222222;--dim:#717171;--dim2:#b0b0b0;
+  --ab:#ff385c;--bk:#0057d8;--pos:#008a05;--warn:#c25e00;--warnbg:#fff3e4;
+  --newbg:#ffe9ec;--accent:#222222;
+  --r:16px;--shadow:0 6px 20px rgba(0,0,0,.08);
+}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;overscroll-behavior:none}
-body{display:flex;flex-direction:column;height:100dvh}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+  overscroll-behavior:none;font-size:15px}
+button{font-family:inherit}
 .hide{display:none!important}
-/* ---- PIN ---- */
-#pin{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:50;padding:24px}
-#pin h1{font-size:22px;margin:0}#pin .logo{font-size:44px}
-#pin input{background:var(--card);border:1px solid var(--line);color:var(--txt);font-size:22px;text-align:center;letter-spacing:6px;padding:12px 18px;border-radius:14px;width:200px;outline:none}
-#pin button{background:var(--acc);color:#fff;border:none;padding:12px 26px;border-radius:14px;font-size:16px;font-weight:600}
-/* ---- header ---- */
-header{padding:calc(env(safe-area-inset-top) + 12px) 16px 12px;background:linear-gradient(180deg,#141d33,#0e1526);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
-header .t{font-size:19px;font-weight:800;letter-spacing:.3px}
-header .badge{margin-left:auto;font-size:12px;color:var(--dim)}
-header .back{font-size:22px;background:none;border:none;color:var(--acc);display:none}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--pos);box-shadow:0 0 8px var(--pos)}
-/* ---- inbox list ---- */
-#list{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.conv{display:flex;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);align-items:center;cursor:pointer}
-.conv:active{background:var(--card)}
-.ava{width:46px;height:46px;border-radius:14px;flex:none;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;position:relative}
-.ava .pf{position:absolute;bottom:-3px;right:-3px;width:18px;height:18px;border-radius:50%;border:2px solid var(--bg);font-size:9px;display:flex;align-items:center;justify-content:center;color:#fff}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:#d9d9d9;border-radius:4px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ============ PIN ============ */
+#pin{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;z-index:100;padding:24px}
+#pin .logo{font-size:52px}
+#pin h1{font-size:24px;margin:0;font-weight:800;letter-spacing:-.3px}
+#pin p{margin:0;color:var(--dim);font-size:14px}
+#pin input{border:1px solid var(--line2);background:var(--bg);color:var(--txt);font-size:24px;text-align:center;letter-spacing:8px;padding:13px 18px;border-radius:14px;width:210px;outline:none}
+#pin input:focus{border-color:var(--txt)}
+#pin button{background:var(--accent);color:#fff;border:none;padding:13px 34px;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer}
+
+/* ============ LAYOUT ============ */
+#app{display:grid;grid-template-columns:400px 1fr 340px;height:100dvh;height:100vh}
+.pane{min-width:0;display:flex;flex-direction:column;min-height:0}
+#paneList{border-right:1px solid var(--line)}
+#paneDetail{border-left:1px solid var(--line);background:var(--bg)}
+@media(max-width:1240px){#app{grid-template-columns:380px 1fr}#paneDetail{position:fixed;right:0;top:0;bottom:0;width:min(360px,92vw);z-index:40;box-shadow:-12px 0 40px rgba(0,0,0,.14);transform:translateX(105%);transition:transform .25s ease}
+  #paneDetail.open{transform:none}}
+@media(max-width:760px){
+  #app{grid-template-columns:1fr}
+  #paneThread{position:fixed;inset:0;z-index:30;background:var(--bg);transform:translateX(102%);transition:transform .22s ease}
+  #paneThread.open{transform:none}
+}
+
+/* ============ LIST PANE ============ */
+.lhead{padding:calc(env(safe-area-inset-top) + 18px) 20px 10px}
+.lhead .row{display:flex;align-items:center;gap:10px}
+.lhead h1{font-size:26px;font-weight:800;margin:0;letter-spacing:-.5px;flex:1}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--dim2);flex:none}
+.dot.on{background:var(--pos)}
+.iconbtn{width:38px;height:38px;border-radius:50%;border:none;background:var(--bg2);color:var(--txt);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.iconbtn:hover{background:#efefef}
+#search{margin:12px 20px 4px;display:flex;align-items:center;gap:9px;background:var(--bg2);border-radius:24px;padding:10px 16px}
+#search svg{flex:none;opacity:.55}
+#search input{border:none;background:none;outline:none;font-size:14.5px;width:100%;color:var(--txt)}
+.filters{display:flex;gap:8px;padding:12px 20px;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.chip{background:var(--bg);border:1px solid var(--line2);color:var(--txt);padding:8px 15px;border-radius:22px;font-size:13.5px;white-space:nowrap;cursor:pointer;font-weight:500;transition:all .12s}
+.chip:hover{border-color:var(--txt)}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chip b{font-weight:700}
+#list{flex:1;overflow-y:auto;padding:4px 10px 20px}
+.conv{display:flex;gap:13px;padding:14px 12px;border-radius:var(--r);cursor:pointer;align-items:flex-start;position:relative;transition:background .1s}
+.conv:hover{background:var(--bg2)}
+.conv.sel{background:#f0f0f0}
+.conv.st-new{background:linear-gradient(90deg,var(--newbg),transparent 70%)}
+.ava{width:52px;height:52px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:#fff;position:relative;letter-spacing:.5px}
+.ava .pf{position:absolute;bottom:-2px;right:-4px;width:21px;height:21px;border-radius:50%;border:2.5px solid var(--bg);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;color:#fff}
 .cmid{flex:1;min-width:0}
 .cmid .r1{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.cmid .nm{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cmid .tm{font-size:11px;color:var(--dim);flex:none}
-.cmid .r2{display:flex;justify-content:space-between;gap:8px;margin-top:2px}
-.cmid .ls{font-size:13px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.cmid .byt{font-size:11px;color:var(--acc);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
-.unread{background:var(--unread);color:#fff;font-size:11px;font-weight:700;min-width:20px;height:20px;border-radius:10px;display:flex;align-items:center;justify-content:center;padding:0 6px;flex:none}
-.conv{border-left:3px solid transparent}
-.conv.st-new{border-left-color:var(--unread);background:linear-gradient(90deg,rgba(255,90,95,.07),transparent)}
-.conv.st-wait{border-left-color:#ffab3d}
-.conv.st-new .nm,.conv.st-wait .nm{font-weight:800}
-.stpill{font-size:11px;font-weight:700;display:inline-flex;align-items:center;gap:4px;margin-top:3px;padding:2px 8px;border-radius:10px}
-.stpill.new{color:#fff;background:var(--unread)}
-.stpill.wait{color:#ffce8a;background:rgba(255,171,61,.16)}
-.stpill.done{color:#8fb8ff;background:rgba(79,140,255,.14)}
-.dates{font-size:11px;color:var(--dim);white-space:nowrap}
-.dates.today{color:#ffce8a;font-weight:700}
-.dates.instay{color:var(--pos);font-weight:700}
-.hcount{margin-left:auto;font-size:12px;color:#ffab3d;font-weight:700}
-/* ---- filters ---- */
-.filters{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;border-bottom:1px solid var(--line);background:#111a30}
-.chip{background:var(--card);border:1px solid var(--line);color:var(--dim);padding:6px 13px;border-radius:16px;font-size:13px;white-space:nowrap}
-.chip.on{background:var(--acc);color:#fff;border-color:var(--acc)}
-/* ---- thread ---- */
-#thread{flex:1;display:flex;flex-direction:column;min-height:0}
-#msgs{flex:1;overflow-y:auto;padding:14px 14px 6px;display:flex;flex-direction:column;gap:8px}
-.b{max-width:78%;padding:9px 13px;border-radius:16px;font-size:14.5px;line-height:1.35;white-space:pre-wrap;word-break:break-word}
-.b.in{background:var(--card2);align-self:flex-start;border-bottom-left-radius:5px}
-.b.out{background:var(--acc);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
-.b .mt{font-size:10px;opacity:.6;margin-top:3px;text-align:right}
-.b.pend{opacity:.6}
-.composer{display:flex;gap:8px;padding:10px 12px calc(env(safe-area-inset-bottom) + 10px);border-top:1px solid var(--line);background:#111a30;align-items:flex-end}
-.composer textarea{flex:1;background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:18px;padding:10px 14px;font-size:15px;resize:none;max-height:110px;outline:none;font-family:inherit}
-.composer button{background:var(--acc);border:none;color:#fff;width:42px;height:42px;border-radius:50%;font-size:19px;flex:none}
-.empty{color:var(--dim);text-align:center;padding:50px 20px;font-size:14px}
-.tinfo{text-align:center;font-size:11px;color:var(--dim);padding:6px}
+.cmid .nm{font-weight:700;font-size:15.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmid .tm{font-size:12px;color:var(--dim);flex:none}
+.cmid .ls{font-size:13.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2.5px}
+.cmid .ls b{color:var(--txt);font-weight:600}
+.meta{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+.tag{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:10px;background:var(--bg2);color:var(--dim);white-space:nowrap;max-width:170px;overflow:hidden;text-overflow:ellipsis}
+.tag.pl-booking{background:#e8f0fe;color:var(--bk)}
+.tag.pl-airbnb{background:#ffe9ec;color:var(--ab)}
+.tag.dt{background:#eef7ee;color:var(--pos)}
+.tag.dt.today{background:var(--warnbg);color:var(--warn)}
+.tag.st-new{background:var(--ab);color:#fff}
+.tag.st-wait{background:var(--warnbg);color:var(--warn)}
+.unrd{position:absolute;top:16px;right:12px;min-width:19px;height:19px;border-radius:10px;background:var(--ab);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.conv.st-new .tm{color:var(--ab);font-weight:700}
+.empty{color:var(--dim);text-align:center;padding:60px 24px;font-size:14.5px;line-height:1.5}
+
+/* ============ THREAD PANE ============ */
+#paneThread{background:var(--bg)}
+.thead{display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top) + 12px) 18px 12px;border-bottom:1px solid var(--line)}
+.thead .back{display:none}
+@media(max-width:760px){.thead .back{display:flex}}
+.thead .ava{width:42px;height:42px;font-size:16px}
+.thead .tt{flex:1;min-width:0}
+.thead .tt .n{font-weight:700;font-size:16.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thead .tt .s{font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+#msgs{flex:1;overflow-y:auto;padding:20px 22px 10px;display:flex;flex-direction:column;gap:4px}
+.dsep{align-self:center;font-size:12px;font-weight:600;color:var(--dim);background:var(--bg2);padding:5px 14px;border-radius:14px;margin:14px 0 10px}
+.mrow{display:flex;flex-direction:column;max-width:min(78%,620px)}
+.mrow.in{align-self:flex-start}
+.mrow.out{align-self:flex-end;align-items:flex-end}
+.mcap{font-size:11.5px;color:var(--dim);margin:10px 4px 4px;display:flex;gap:6px;align-items:baseline}
+.mcap b{color:var(--txt);font-weight:600;font-size:12px}
+.b{padding:11px 15px;border-radius:20px;font-size:14.8px;line-height:1.42;white-space:pre-wrap;word-break:break-word}
+.mrow.in .b{background:var(--bg2);border-bottom-left-radius:6px}
+.mrow.out .b{background:var(--accent);color:#fff;border-bottom-right-radius:6px}
+.mrow.pend .b{opacity:.55}
+.pendtxt{font-size:11px;color:var(--dim);margin-top:3px}
+.composer{display:flex;gap:10px;padding:12px 18px calc(env(safe-area-inset-bottom) + 14px);align-items:flex-end;border-top:1px solid var(--line)}
+.composer textarea{flex:1;background:var(--bg);border:1px solid var(--line2);color:var(--txt);border-radius:22px;padding:12px 17px;font-size:15px;resize:none;max-height:120px;outline:none;font-family:inherit;line-height:1.35}
+.composer textarea:focus{border-color:var(--txt)}
+.composer button{background:var(--accent);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:17px;flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.composer button:disabled{opacity:.35}
+#noconv{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--dim)}
+#noconv .big{font-size:54px}
+#noconv .t{font-size:16px;font-weight:600;color:var(--txt)}
+
+/* ============ DETAIL PANE ============ */
+.dhead{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 16px) 20px 12px}
+.dhead h2{font-size:17px;font-weight:800;margin:0;flex:1}
+#detail{flex:1;overflow-y:auto;padding:6px 20px 26px}
+.dprof{text-align:center;padding:14px 0 18px}
+.dprof .ava{width:84px;height:84px;font-size:30px;margin:0 auto}
+.dprof .n{font-size:20px;font-weight:800;margin-top:12px;letter-spacing:-.3px}
+.dprof .s{font-size:13.5px;color:var(--dim);margin-top:4px}
+.card{border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-top:12px}
+.card .lbl{font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.6px}
+.cico{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.cico>div{padding:2px 6px}
+.cico>div:first-child{border-right:1px solid var(--line)}
+.cico .v{font-size:15.5px;font-weight:700;margin-top:5px}
+.cico .w{font-size:12.5px;color:var(--dim);margin-top:1px}
+.krow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.krow:last-child{border-bottom:none}
+.krow .k{color:var(--dim)}
+.krow .v{font-weight:600;text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.krow .v.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:12px}
+.pill.pl-booking{background:#e8f0fe;color:var(--bk)}
+.pill.pl-airbnb{background:#ffe9ec;color:var(--ab)}
+.pill.ok{background:#eef7ee;color:var(--pos)}
+.pill.warn{background:var(--warnbg);color:var(--warn)}
+.pill.new{background:var(--ab);color:#fff}
+.openlink{display:block;text-align:center;margin-top:14px;padding:12px;border:1px solid var(--txt);border-radius:12px;color:var(--txt);text-decoration:none;font-weight:700;font-size:14px}
+.openlink:hover{background:var(--bg2)}
 </style></head><body>
 
-<div id="pin"><div class="logo">🛰️</div><h1>VELÍN Chat</h1><input id="pinv" type="tel" inputmode="numeric" placeholder="PIN" maxlength="10"><button onclick="tryPin()">Vstoupit</button></div>
+<div id="pin"><div class="logo">🛰️</div><h1>VELÍN Zprávy</h1><p>Sjednocená schránka Booking + Airbnb</p><input id="pinv" type="tel" inputmode="numeric" placeholder="PIN" maxlength="10"><button onclick="tryPin()">Vstoupit</button></div>
 
-<header>
-  <button class="back" id="back" onclick="showInbox()">‹</button>
-  <span class="dot" id="rt"></span>
-  <span class="t" id="htitle">Zprávy</span>
-  <span class="badge" id="hbadge"></span>
-</header>
+<div id="app">
+  <!-- ===== SEZNAM ===== -->
+  <div class="pane" id="paneList">
+    <div class="lhead"><div class="row"><h1>Zprávy</h1><span class="dot" id="rt"></span><span id="hcount" style="font-size:12.5px;color:var(--dim)"></span></div></div>
+    <div id="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input id="q" placeholder="Hledat hosta nebo byt…" oninput="renderList()"></div>
+    <div class="filters" id="filters"></div>
+    <div id="list"></div>
+  </div>
 
-<div class="filters" id="filters"></div>
-<div id="list"></div>
+  <!-- ===== VLÁKNO ===== -->
+  <div class="pane" id="paneThread">
+    <div id="noconv"><div class="big">💬</div><div class="t">Vyber konverzaci</div><div style="font-size:13.5px">Zprávy ze všech platforem na jednom místě</div></div>
+    <div id="twrap" class="hide" style="display:flex;flex-direction:column;flex:1;min-height:0">
+      <div class="thead">
+        <button class="iconbtn back" onclick="closeThread()">‹</button>
+        <div class="ava" id="tava"></div>
+        <div class="tt"><div class="n" id="tname"></div><div class="s" id="tsub"></div></div>
+        <button class="iconbtn" title="Detail rezervace" onclick="toggleDetail()">ⓘ</button>
+      </div>
+      <div id="msgs"></div>
+      <div class="composer">
+        <textarea id="reply" rows="1" placeholder="Napiš zprávu…" oninput="grow(this)"></textarea>
+        <button id="sendbtn" onclick="sendReply()" title="Odeslat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg></button>
+      </div>
+    </div>
+  </div>
 
-<div id="thread" class="hide">
-  <div id="msgs"></div>
-  <div class="composer">
-    <textarea id="reply" rows="1" placeholder="Napiš odpověď…" oninput="grow(this)"></textarea>
-    <button onclick="sendReply()">➤</button>
+  <!-- ===== DETAIL REZERVACE ===== -->
+  <div class="pane" id="paneDetail">
+    <div class="dhead"><h2>Rezervace</h2><button class="iconbtn" onclick="toggleDetail(false)" style="font-size:14px">✕</button></div>
+    <div id="detail"><div class="empty">Vyber konverzaci</div></div>
   </div>
 </div>
 
@@ -99,104 +194,172 @@ const PIN='7853';
 let sb, CONVS=[], curId=null, FILTER='vse';
 const PCOL={booking:'var(--bk)',airbnb:'var(--ab)'};
 const PICON={booking:'B',airbnb:'A'};
+const PNAME={booking:'Booking.com',airbnb:'Airbnb'};
 const el=id=>document.getElementById(id);
+const esc=s=>(s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+const initials=s=>(s||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+const avaStyle=c=>`background:linear-gradient(135deg,${PCOL[c.platform]||'#888'},#6b7a99)`;
+
 function tryPin(){ if(el('pinv').value.trim()===PIN){ el('pin').classList.add('hide'); localStorage.velinpin='1'; boot(); } else { el('pinv').value=''; el('pinv').placeholder='špatný PIN'; } }
-if(localStorage.velinpin==='1'){ el('pin').classList.add('hide'); boot(); }
 el('pinv').addEventListener('keydown',e=>{if(e.key==='Enter')tryPin();});
 
-function grow(t){t.style.height='auto';t.style.height=Math.min(t.scrollHeight,110)+'px';}
-function fmtT(iso){ if(!iso)return''; const d=new Date(iso),n=new Date(); const sd=d.toDateString()===n.toDateString();
-  return sd? d.toLocaleTimeString('cs',{hour:'2-digit',minute:'2-digit'}) : d.toLocaleDateString('cs',{day:'numeric',month:'numeric'}); }
-function initials(s){ return (s||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase(); }
+/* ---------- format ---------- */
+const DAYS=['neděle','pondělí','úterý','středa','čtvrtek','pátek','sobota'];
+function fmtT(iso){ if(!iso)return''; const d=new Date(iso),n=new Date();
+  if(d.toDateString()===n.toDateString()) return d.toLocaleTimeString('cs',{hour:'2-digit',minute:'2-digit'});
+  const y=new Date(n); y.setDate(n.getDate()-1);
+  if(d.toDateString()===y.toDateString()) return 'včera';
+  return d.toLocaleDateString('cs',{day:'numeric',month:'numeric'}); }
+function fmtClock(iso){ return iso? new Date(iso).toLocaleTimeString('cs',{hour:'2-digit',minute:'2-digit'}):''; }
 function fmtD(iso){ if(!iso)return''; const d=new Date(iso+'T12:00'); return d.getDate()+'.'+(d.getMonth()+1)+'.'; }
-// popis pobytu: dnes check-in / hoste v byte / budouci či minulý termín
+function fmtDFull(iso){ if(!iso)return''; const d=new Date(iso+'T12:00'); return DAYS[d.getDay()]+' '+d.getDate()+'. '+(d.getMonth()+1)+'. '+d.getFullYear(); }
+function nights(a,b){ if(!a||!b)return null; return Math.round((new Date(b+'T12:00')-new Date(a+'T12:00'))/864e5); }
+function dsepLabel(iso){ const d=new Date(iso),n=new Date();
+  if(d.toDateString()===n.toDateString())return 'Dnes';
+  const y=new Date(n); y.setDate(n.getDate()-1);
+  if(d.toDateString()===y.toDateString())return 'Včera';
+  return d.toLocaleDateString('cs',{weekday:'long',day:'numeric',month:'long'}); }
+function grow(t){t.style.height='auto';t.style.height=Math.min(t.scrollHeight,120)+'px';}
+
+/* pobyt: dnes check-in / v bytě / termín */
 function pobyt(c){
   if(!c.prijezd)return null; const t=new Date().toISOString().slice(0,10);
   const r=fmtD(c.prijezd)+'–'+fmtD(c.odjezd);
-  if(c.prijezd===t) return {cls:'today',t:'🔑 dnes check-in · '+r};
-  if(c.odjezd===t) return {cls:'today',t:'👋 dnes check-out · '+r};
-  if(c.prijezd<t&&c.odjezd>t) return {cls:'instay',t:'🏠 v bytě · '+r};
+  if(c.prijezd===t) return {cls:'today',t:'🔑 dnes check-in'};
+  if(c.odjezd===t) return {cls:'today',t:'👋 dnes check-out'};
+  if(c.prijezd<t&&c.odjezd>t) return {cls:'',t:'🏠 v bytě · do '+fmtD(c.odjezd)};
   return {cls:'',t:'📅 '+r};
 }
+function stav(c){
+  if(c.unread>0) return {pill:'new',t:c.unread+' nová'};
+  if(c.posledni_smer==='in') return {pill:'wait',t:'⏳ čeká na odpověď'};
+  return null;
+}
+const rank=c=> c.unread>0?0 : c.posledni_smer==='in'?1 : 2;
+const needsAction=c=> c.unread>0 || c.posledni_smer==='in';
 
+/* ---------- boot + data ---------- */
 async function boot(){
   sb=supabase.createClient(SB_URL,SB_KEY);
   await loadConvs();
-  renderFilters();
-  // realtime
   sb.channel('rt').on('postgres_changes',{event:'*',schema:'public',table:'zpravy'},()=>{ if(curId)openConv(curId,true); loadConvs(); })
     .on('postgres_changes',{event:'*',schema:'public',table:'konverzace'},()=>loadConvs())
-    .subscribe(st=>{ el('rt').style.background = st==='SUBSCRIBED' ? 'var(--pos)' : 'var(--dim)'; });
+    .subscribe(st=>{ el('rt').classList.toggle('on',st==='SUBSCRIBED'); });
 }
 async function loadConvs(){
   const {data,error}=await sb.from('konverzace').select('*').order('last_at',{ascending:false,nullsFirst:false});
-  if(error){ el('list').innerHTML='<div class="empty">Chyba připojení: '+error.message+'</div>'; return; }
-  CONVS=data||[]; renderList();
+  if(error){ el('list').innerHTML='<div class="empty">Chyba připojení:<br>'+esc(error.message)+'</div>'; return; }
+  CONVS=data||[]; renderFilters(); renderList();
 }
-// stav konverzace: nová (nepřečteno) > čeká na odpověď (host psal naposled) > odpovězeno (ty naposled)
-function stav(c){
-  if(c.unread>0) return {cls:'new',pill:'new',t:c.unread+(c.unread>1?' nové zprávy':' nová zpráva')};
-  if(c.posledni_smer==='in') return {cls:'wait',pill:'wait',t:'⏳ Čeká na odpověď'};
-  if(c.posledni_smer==='out') return {cls:'',pill:'done',t:'✓ Odpovězeno'};
-  return {cls:'',pill:'',t:''};
-}
-const rank=c=> c.unread>0?0 : c.posledni_smer==='in'?1 : 2;
-function needsAction(c){ return c.unread>0 || c.posledni_smer==='in'; }
+
+/* ---------- list ---------- */
 function renderFilters(){
-  const byty=[...new Set(CONVS.map(c=>c.byt_nazev).filter(Boolean))];
+  const byty=[...new Set(CONVS.map(c=>c.byt_nazev).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'cs'));
   const na=CONVS.filter(needsAction).length;
-  const chips=[['vse','Vše'],['ceka','⏳ Čeká'+(na?' '+na:'')],['unread','Nepřečtené'],['p:booking','Booking'],['p:airbnb','Airbnb']].concat(byty.map(b=>[b,b]));
+  const chips=[['vse','Vše'],['ceka','⏳ Čeká'+(na?' <b>'+na+'</b>':'')],['unread','Nepřečtené'],['p:booking','Booking'],['p:airbnb','Airbnb']].concat(byty.map(b=>['b:'+b,'🏠 '+b]));
   el('filters').innerHTML=chips.map(([k,l])=>`<span class="chip ${FILTER===k?'on':''}" onclick="setF('${(k+'').replace(/'/g,"\\'")}')">${l}</span>`).join('');
+  el('hcount').textContent = na? na+' vyžaduje odpověď' : CONVS.length+' konverzací';
 }
 function setF(k){ FILTER=k; renderFilters(); renderList(); }
 function renderList(){
+  const q=(el('q').value||'').toLowerCase().trim();
   let list=CONVS.slice().sort((a,b)=> rank(a)-rank(b) || (b.last_at||'').localeCompare(a.last_at||''));
   if(FILTER==='unread') list=list.filter(c=>c.unread>0);
   else if(FILTER==='ceka') list=list.filter(needsAction);
   else if(FILTER.startsWith('p:')) list=list.filter(c=>c.platform===FILTER.slice(2));
-  else if(FILTER!=='vse') list=list.filter(c=>c.byt_nazev===FILTER);
-  const na=CONVS.filter(needsAction).length;
-  el('hbadge').innerHTML = na? `<span class="hcount">⏳ ${na} vyžaduje odpověď</span>` : (CONVS.length+' konverzací');
-  if(!list.length){ el('list').innerHTML='<div class="empty">Žádné konverzace v tomto filtru.</div>'; return; }
-  el('list').innerHTML=list.map(c=>{const s=stav(c);return `
-    <div class="conv st-${s.cls}" onclick="openConv('${c.id}')">
-      <div class="ava" style="background:linear-gradient(135deg,${PCOL[c.platform]||'#555'},#2a3656)">${initials(c.guest)}
-        <span class="pf" style="background:${PCOL[c.platform]||'#555'}">${PICON[c.platform]||'?'}</span></div>
+  else if(FILTER.startsWith('b:')) list=list.filter(c=>c.byt_nazev===FILTER.slice(2));
+  if(q) list=list.filter(c=>((c.guest||'')+' '+(c.byt_nazev||'')+' '+(c.byt_key||'')).toLowerCase().includes(q));
+  if(!list.length){ el('list').innerHTML='<div class="empty">Žádné konverzace<br>v tomto filtru.</div>'; return; }
+  el('list').innerHTML=list.map(c=>{
+    const s=stav(c),p=pobyt(c);
+    const pre=c.posledni_smer==='out'?'<b>Ty:</b> ':'';
+    return `<div class="conv ${c.unread>0?'st-new':''} ${c.id===curId?'sel':''}" onclick="openConv('${c.id}')">
+      <div class="ava" style="${avaStyle(c)}">${initials(c.guest)}<span class="pf" style="background:${PCOL[c.platform]||'#888'}">${PICON[c.platform]||'?'}</span></div>
       <div class="cmid">
         <div class="r1"><span class="nm">${esc(c.guest||'Host')}</span><span class="tm">${fmtT(c.last_at)}</span></div>
-        <div class="r2"><span class="ls">${esc(c.last_text||'')}</span>${c.unread>0?`<span class="unread">${c.unread}</span>`:''}</div>
-        <div class="r2" style="margin-top:4px">${s.pill?`<span class="stpill ${s.pill}">${s.t}</span>`:''}<span class="byt">🏠 ${esc(c.byt_nazev||c.byt_key||'')}</span></div>
-        ${(p=>p?`<div class="r2" style="margin-top:3px"><span class="dates ${p.cls}">${p.t}</span></div>`:'')(pobyt(c))}
-      </div></div>`;}).join('');
+        <div class="ls">${pre}${esc(c.last_text||'')}</div>
+        <div class="meta">
+          ${s?`<span class="tag st-${s.pill}">${s.t}</span>`:''}
+          <span class="tag">🏠 ${esc(c.byt_nazev||c.byt_key||'')}</span>
+          ${p?`<span class="tag dt ${p.cls}">${p.t}</span>`:''}
+        </div>
+      </div>
+      ${c.unread>0?`<span class="unrd">${c.unread}</span>`:''}
+    </div>`;}).join('');
 }
-function esc(s){ return (s||'').replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
 
+/* ---------- thread ---------- */
 async function openConv(id,keep){
   curId=id; const c=CONVS.find(x=>x.id===id)||{};
-  el('list').classList.add('hide'); el('filters').classList.add('hide');
-  el('thread').classList.remove('hide'); el('back').style.display='block';
-  el('htitle').textContent=c.guest||'Host';
-  const pb=pobyt(c); el('hbadge').textContent=(c.byt_nazev||'')+(pb?' · '+pb.t.replace(/^..\s?/,''):'');
+  el('noconv').classList.add('hide'); el('twrap').classList.remove('hide');
+  el('paneThread').classList.add('open');
+  el('tava').style.cssText=avaStyle(c); el('tava').textContent=initials(c.guest);
+  el('tname').textContent=c.guest||'Host';
+  const p=pobyt(c);
+  el('tsub').textContent=[c.byt_nazev||c.byt_key, p? (fmtD(c.prijezd)+'–'+fmtD(c.odjezd)) : null, PNAME[c.platform]].filter(Boolean).join(' · ');
+  renderDetail(c);
   const {data}=await sb.from('zpravy').select('*').eq('konverzace_id',id).order('ts',{ascending:true});
-  const m=el('msgs'); m.innerHTML=(data||[]).map(z=>`<div class="b ${z.smer==='out'?'out':'in'} ${z.stav==='pending'?'pend':''}">${esc(z.msg)}<div class="mt">${fmtT(z.ts)}${z.smer==='out'&&z.stav==='pending'?' · odesílá se…':''}</div></div>`).join('')
-    || '<div class="tinfo">Zatím žádné zprávy ve vlákně.</div>';
+  const m=el('msgs'); let html='',lastDay='',lastSmer='';
+  for(const z of (data||[])){
+    const day=z.ts?new Date(z.ts).toDateString():'';
+    if(day&&day!==lastDay){ html+=`<div class="dsep">${dsepLabel(z.ts)}</div>`; lastDay=day; lastSmer=''; }
+    const showCap = z.smer!==lastSmer;
+    lastSmer=z.smer;
+    const author = z.smer==='out' ? 'Ty' : (z.author||c.guest||'Host');
+    html+=`<div class="mrow ${z.smer==='out'?'out':'in'} ${z.stav==='pending'?'pend':''}">
+      ${showCap?`<div class="mcap"><b>${esc(author)}</b><span>${fmtClock(z.ts)}</span></div>`:''}
+      <div class="b">${esc(z.msg)}</div>
+      ${z.stav==='pending'?'<div class="pendtxt">odesílá se…</div>':''}
+    </div>`;
+  }
+  m.innerHTML=html||'<div class="empty">Zatím žádné zprávy ve vlákně.</div>';
   m.scrollTop=m.scrollHeight;
-  if(!keep && c.unread>0){ await sb.from('konverzace').update({unread:0}).eq('id',id); loadConvs(); }
+  if(!keep){ renderList(); if(c.unread>0){ await sb.from('konverzace').update({unread:0}).eq('id',id); loadConvs(); } }
 }
-function showInbox(){ curId=null; el('thread').classList.add('hide'); el('list').classList.remove('hide'); el('filters').classList.remove('hide'); el('back').style.display='none'; el('htitle').textContent='Zprávy'; renderList(); }
+function closeThread(){ curId=null; el('paneThread').classList.remove('open'); el('twrap').classList.add('hide'); el('noconv').classList.remove('hide'); renderList(); }
+function toggleDetail(force){ const d=el('paneDetail'); d.classList.toggle('open', force!==undefined?force:!d.classList.contains('open')); }
 
+/* ---------- detail rezervace ---------- */
+function renderDetail(c){
+  const p=pobyt(c),s=stav(c),n=nights(c.prijezd,c.odjezd);
+  const link = c.platform==='airbnb' ? 'https://www.airbnb.com/hosting/messages/'+c.id.replace(/^ab-/,'') : 'https://admin.booking.com/';
+  el('detail').innerHTML=`
+    <div class="dprof">
+      <div class="ava" style="${avaStyle(c)}">${initials(c.guest)}</div>
+      <div class="n">${esc(c.guest||'Host')}</div>
+      <div class="s">${c.prijezd?fmtD(c.prijezd)+' – '+fmtD(c.odjezd)+(n?' · '+n+' '+(n===1?'noc':n<5?'noci':'nocí'):''):'termín neznámý'}</div>
+      <div style="margin-top:10px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap">
+        <span class="pill pl-${c.platform}">${PICON[c.platform]} ${PNAME[c.platform]||c.platform}</span>
+        ${s?`<span class="pill ${s.pill==='new'?'new':'warn'}">${s.t}</span>`:`<span class="pill ok">✓ odpovězeno</span>`}
+      </div>
+    </div>
+    ${c.prijezd?`<div class="card"><div class="cico">
+      <div><div class="lbl">Check-in</div><div class="v">${fmtD(c.prijezd)}</div><div class="w">${fmtDFull(c.prijezd)}</div></div>
+      <div style="padding-left:14px"><div class="lbl">Check-out</div><div class="v">${fmtD(c.odjezd)}</div><div class="w">${fmtDFull(c.odjezd)}</div></div>
+    </div></div>`:''}
+    ${p&&p.cls==='today'?`<div class="card" style="background:var(--warnbg);border-color:transparent;font-weight:700;text-align:center">${p.t}</div>`:''}
+    <div class="card">
+      <div class="krow"><span class="k">Apartmán</span><span class="v">${esc(c.byt_nazev||'')}</span></div>
+      <div class="krow"><span class="k">Klíč bytu</span><span class="v">${esc(c.byt_key||'')}</span></div>
+      <div class="krow"><span class="k">Účet</span><span class="v">${esc(c.ucet||'')}</span></div>
+      ${c.reservation_code?`<div class="krow"><span class="k">Rezervace</span><span class="v mono">${esc(c.reservation_code)}</span></div>`:''}
+      <div class="krow"><span class="k">Poslední zpráva</span><span class="v">${fmtT(c.last_at)}</span></div>
+    </div>
+    <a class="openlink" href="${link}" target="_blank" rel="noopener">Otevřít na ${PNAME[c.platform]||c.platform} ↗</a>`;
+}
+
+/* ---------- odeslání ---------- */
 async function sendReply(){
   const t=el('reply').value.trim(); if(!t||!curId)return;
-  const c=CONVS.find(x=>x.id===curId)||{};
   el('reply').value=''; grow(el('reply'));
   const mid='out-'+Date.now();
-  // optimisticky zobraz
   await sb.from('zpravy').insert({id:mid,konverzace_id:curId,smer:'out',msg:t,ts:new Date().toISOString(),author:'já',stav:'pending'}).then(()=>{});
-  // vloz do fronty -> PC agent to pošle do platformy
-  await sb.from('odpovedi_fronta').insert({konverzace_id:curId,msg:t});
-  await sb.from('konverzace').update({last_text:'Ty: '+t,last_at:new Date().toISOString(),posledni_smer:'out',unread:0}).eq('id',curId);
+  await sb.from('odpovedi_fronta').insert({konverzace_id:curId,msg:t}); // PC agent to posle do platformy
+  await sb.from('konverzace').update({last_text:t,last_at:new Date().toISOString(),posledni_smer:'out',unread:0}).eq('id',curId);
   openConv(curId,true); loadConvs();
 }
-// service worker
+el('reply')?.addEventListener('keydown',e=>{ if(e.key==='Enter'&&!e.shiftKey&&window.innerWidth>760){ e.preventDefault(); sendReply(); } });
+
+if(localStorage.velinpin==='1'){ el('pin').classList.add('hide'); boot(); }
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 </script></body></html>
