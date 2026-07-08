@@ -149,29 +149,6 @@
   .dnic{padding:2px 14px 6px;color:var(--dim);font-size:11.5px}
   .dfoot{margin-top:auto;padding:8px 14px 10px;display:flex;gap:10px;font-size:10.5px;color:var(--dim)}
   .dfoot b{color:var(--muted)}
-  /* ===== telegram-style bila karta: UKLIDY + PRIJEZDY (report_provoz) ===== */
-  .tgcard{max-width:640px;background:#fff;color:#141420;border-radius:20px;border-bottom-left-radius:6px;
-    padding:20px 22px 14px;margin-top:14px;box-shadow:0 18px 50px -20px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.06);
-    font-size:15px;line-height:1.7;opacity:1;transform:translateY(0);transition:opacity 320ms var(--ease-out),transform 320ms var(--ease-out)}
-  @starting-style{ .tgcard{opacity:0;transform:translateY(10px)} }
-  .tgcard .tgbot{font-size:12.5px;font-weight:800;color:#2e9e5b;margin-bottom:6px}
-  .tgcard .tghead{font-weight:800;font-size:16px;margin-bottom:6px}
-  .tgcard .tgday{border-top:2px solid #efeff4;margin-top:18px;padding-top:16px}
-  .tgcard .tgday.now{background:linear-gradient(180deg,#f6f3ff,#fff 85%);margin:18px -22px 0;padding:16px 22px 6px;border-top:2px solid #e6defc}
-  .tgcard .tgdate{margin:0 0 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:15.5px}
-  .tgcard .tglbl{color:#fff;background:#7a56d6;font-weight:800;font-size:11px;letter-spacing:.06em;border-radius:9px;padding:2px 9px}
-  .tgcard .tgcnt{margin-left:auto;display:flex;gap:6px}
-  .tgcard .tgcnt span{background:#f3f3f8;border-radius:10px;padding:2px 9px;font-size:12px;font-weight:700;color:#5a5a6e}
-  .tgcard .tgsec{margin:14px 0 6px;font-weight:700}
-  .tgcard .tgsec:first-of-type{margin-top:6px}
-  .tgcard .tgrow{padding:4px 0 4px 12px}
-  .tgcard .tgrow.tgn{color:#9a9aa8}
-  .tgcard .tgg{color:#8a8a98;font-size:13px}
-  .tgcard .tgcas{background:#fff3e0;color:#c2680a;border-radius:8px;padding:1px 8px;font-weight:800}
-  .tgcard .tgfoot{display:flex;align-items:center;gap:10px;margin-top:20px;padding:12px 0 4px;border-top:1px solid #efeff4;font-size:11.5px;color:#8a8a98;flex-wrap:wrap}
-  .tgcard #pushbtn{margin-left:auto;border:none;background:#7c5cff;color:#fff;font-weight:700;border-radius:12px;padding:9px 15px;font-size:12.5px;cursor:pointer;font-family:inherit;transition:transform 160ms var(--ease-out),filter 150ms ease}
-  .tgcard #pushbtn:active{transform:scale(.95);filter:brightness(.92)}
-  .tgcard #pushbtn.on{background:#e9f7ee;color:#2e9e5b}
   .none{padding:16px;color:var(--muted);font-size:13px}
 
   /* ===== moduly ===== */
@@ -355,7 +332,6 @@
 </div>
 
 <script src="data.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 (function(){
   var D=window.DASHBOARD_DATA||{};
@@ -416,19 +392,15 @@
   });
   document.getElementById('projects').innerHTML=ph||'<div class="empty">Žádné projekty.</div>';
 
-  /* ---- DNES: zive ze Supabase (tiles + telegram-style report + web push) ---- */
-  var SBURL='https://uiynkslmvkjzzdvijkzo.supabase.co';
-  var SBKEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
-  var SBREST=SBURL+'/rest/v1';
-  var SBH={apikey:SBKEY,Authorization:'Bearer '+SBKEY};
-  function isoAdd(n){var x=new Date();x.setDate(x.getDate()+n);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');}
-
-  function loadTiles(){
-    fetch(SBREST+'/konverzace?select=guest,byt_nazev,byt_key,prijezd,odjezd,unread,posledni_smer',{headers:SBH})
+  /* ---- DNES: zive ze Supabase ---- */
+  (function dnes(){
+    var SB='https://uiynkslmvkjzzdvijkzo.supabase.co/rest/v1';
+    var KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
+    fetch(SB+'/konverzace?select=guest,byt_nazev,byt_key,prijezd,odjezd,unread,posledni_smer,prijezd_cas,prijezd_cas_zdroj',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}})
     .then(function(r){return r.json();})
     .then(function(cs){
       if(!Array.isArray(cs))throw 0;
-      var today=isoAdd(0);
+      var t=new Date(); var today=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
       var wait=cs.filter(function(c){return c.unread>0||c.posledni_smer==='in';});
       var arr=cs.filter(function(c){return c.prijezd===today;});
       var dep=cs.filter(function(c){return c.odjezd===today;});
@@ -443,85 +415,36 @@
         tile('Odjezdy dnes',dep.length,names(dep),'byty-rpg.html',false,'rgba(255,176,46,.13)')+
         tile('Hosté v bytech',stay.length,stay.length?stay.slice(0,2).map(function(c){return esc(c.byt_nazev||c.byt_key||'');}).join(' · '):'prázdno','chat.html',false,'rgba(77,215,255,.12)');
       if(wait.length){['navmsg','navmsg2'].forEach(function(id){var nb=document.getElementById(id);if(nb){nb.textContent=wait.length;nb.style.display='';}});}
+      /* ===== 4denni board: dnes + 3 dny dopredu, stejne plochy ===== */
+      function isoAdd(n){var x=new Date();x.setDate(x.getDate()+n);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');}
+      function casVal(c){var t=(c.prijezd_cas||'');if(!t||t==='?')return 99;var m=t.match(/^(\d{1,2})/);return m?parseInt(m[1],10):99;}
+      var DNY=['NE','PO','ÚT','ST','ČT','PÁ','SO'];
+      var LBL=['DNES','ZÍTRA','POZÍTŘÍ',''];
+      function kratke(g){g=(g||'Host').trim();if(g.length<=17)return g;var p=g.split(/\s+/);return p[0]+(p[1]?' '+p[1][0]+'.':'');}
+      function mvRow(c,dir){
+        var cas=(dir==='in')?((c.prijezd_cas&&c.prijezd_cas!=='?')?'<span class="cas" title="'+esc(c.prijezd_cas_zdroj||'z chatu')+'">'+esc(c.prijezd_cas)+'</span>':'<span class="cas neznam">—</span>'):'<span class="cas neznam"></span>';
+        return '<div class="mv'+(dir==='out'?' outr':'')+'" title="'+esc((c.guest||'')+' · '+(c.byt_nazev||''))+'">'+cas+'<span class="g">'+esc(kratke(c.guest))+'</span><span class="lead"></span><span class="bytk">'+esc(c.byt_key||c.byt_nazev||'')+'</span></div>';
+      }
+      var days='';
+      for(var i=0;i<4;i++){
+        var di=isoAdd(i), dd=new Date(); dd.setDate(dd.getDate()+i);
+        var A=cs.filter(function(c){return c.prijezd===di;}).sort(function(a,b){return casVal(a)-casVal(b);});
+        var Dp=cs.filter(function(c){return c.odjezd===di;});
+        var znameCasy=A.filter(function(c){return c.prijezd_cas&&c.prijezd_cas!=='?';}).length;
+        days+='<div class="day'+(i===0?' today':'')+'">'+
+          '<div class="dhead"><span class="dn">'+(LBL[i]||DNY[dd.getDay()])+'</span><span style="font-size:12px;font-weight:600;color:var(--body)">'+(LBL[i]?DNY[dd.getDay()]+' ':'')+dd.getDate()+'.'+(dd.getMonth()+1)+'.</span>'+
+          '<span class="dd">'+(A.length?'🔑'+A.length:'')+(Dp.length?' 👋'+Dp.length:'')+'</span></div>'+
+          '<div class="dsec">🔑 Příjezdy <b>'+A.length+'</b></div>'+
+          (A.length?A.map(function(c){return mvRow(c,'in');}).join(''):'<div class="dnic">žádné</div>')+
+          '<div class="dsec" style="margin-top:4px">👋 Odjezdy <b>'+Dp.length+'</b></div>'+
+          (Dp.length?Dp.map(function(c){return mvRow(c,'out');}).join(''):'<div class="dnic">žádné</div>')+
+          '<div class="dfoot">'+(A.length?('čas znám u <b>'+znameCasy+'/'+A.length+'</b>'):'')+'</div>'+
+        '</div>';
+      }
+      document.getElementById('boards').innerHTML='<div class="days">'+days+'</div>';
     })
     .catch(function(){ document.getElementById('dnesdate').textContent+=' · schránka nedostupná'; });
-  }
-
-  /* ===== bila telegram karta: UKLIDY + PRIJEZDY z report_provoz (report_sync.py, 30 min) ===== */
-  function relMin(iso){ if(!iso)return ''; var m=Math.round((Date.now()-new Date(iso).getTime())/6e4);
-    if(m<1)return 'právě teď'; if(m<60)return 'před '+m+' min'; return 'před '+Math.round(m/60)+' h'; }
-  function renderTg(p){
-    var WD=['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
-    var LBL={0:'DNES',1:'ZÍTRA',2:'POZÍTŘÍ',3:'ZA 3 DNY'};
-    var today=new Date(isoAdd(0)+'T12:00');
-    var html='<div class="tgbot">🤖 Report VELÍN</div><div class="tghead">🧹 ÚKLIDY + PŘÍJEZDY — další 4 dny</div>';
-    ((p&&p.days)||[]).forEach(function(day){
-      var d=new Date(day.datum+'T12:00');
-      var di=Math.round((d-today)/864e5);
-      var od=day.odjezdy||[],pr=day.prijezdy||[];
-      html+='<div class="tgday'+(di===0?' now':'')+'">'
-        +'<div class="tgdate">📅 <b>'+WD[d.getDay()]+' '+d.getDate()+'. '+(d.getMonth()+1)+'.</b>'
-        +(LBL[di]?' <span class="tglbl">'+LBL[di]+'</span>':'')
-        +'<span class="tgcnt">'+(pr.length?'<span>🔑 '+pr.length+'</span>':'')+(od.length?'<span>🧹 '+od.length+'</span>':'')+(!pr.length&&!od.length?'<span>😴 klid</span>':'')+'</span></div>';
-      if(od.length){
-        html+='<div class="tgsec">🧹 <b>Úklidy / odjezdy</b></div>';
-        od.forEach(function(x){html+='<div class="tgrow">✅ <b>'+esc(x.byt)+'</b>'+(x.guest?' &nbsp;<span class="tgg">👤 '+esc(x.guest)+'</span>':'')+'</div>';});
-      }
-      html+='<div class="tgsec">🧳 <b>Příjezdy nových hostů</b></div>';
-      if(pr.length) pr.forEach(function(x){html+='<div class="tgrow">🔑 <b>'+esc(x.byt)+'</b>'+(x.cas?' &nbsp;⏰ <span class="tgcas">'+esc(x.cas)+'</span>':'')+(x.guest?' &nbsp;<span class="tgg">👤 '+esc(x.guest)+'</span>':'')+'</div>';});
-      else html+='<div class="tgrow tgn">— žádné příjezdy</div>';
-      html+='</div>';
-    });
-    html+='<div class="tgfoot"><span>🔄 '+relMin(p&&p.generated)+' · data se obnovují každých 30 min</span><button id="pushbtn">🔔 Upozornění</button></div>';
-    document.getElementById('boards').innerHTML='<div class="tgcard">'+html+'</div>';
-    var b=document.getElementById('pushbtn'); if(b){ b.onclick=zapniPush; } refreshPushBtn();
-  }
-  function loadReport(){
-    fetch(SBREST+'/report_provoz?id=eq.hlavni&select=payload',{headers:SBH})
-      .then(function(r){return r.json();})
-      .then(function(rows){ if(rows&&rows[0]&&rows[0].payload)renderTg(rows[0].payload); })
-      .catch(function(){});
-  }
-
-  /* ===== web push (iPhone plocha): odber do push_subs, posila poslat_push.js pri zmene ===== */
-  var VAPID_PUB='BFnINO3TLMFv76q-TPMkMQVkDvEkGvHSUdjtmM53rmy4tJwmCY_BZGoC8QBdWx5VKr29ro9HYJl3CPLQANJEtgs';
-  function b64u(s){var pad='='.repeat((4-s.length%4)%4);var raw=atob((s+pad).replace(/-/g,'+').replace(/_/g,'/'));var a=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)a[i]=raw.charCodeAt(i);return a;}
-  function refreshPushBtn(){
-    var b=document.getElementById('pushbtn'); if(!b)return;
-    if(!('serviceWorker' in navigator)||!('PushManager' in window))return;
-    navigator.serviceWorker.getRegistration().then(function(reg){ return reg&&reg.pushManager.getSubscription(); })
-      .then(function(s){ if(s){ b.textContent='🔔 zapnuto ✓'; b.classList.add('on'); } }).catch(function(){});
-  }
-  function zapniPush(){
-    if(!('serviceWorker' in navigator)||!('PushManager' in window)||!window.Notification){
-      alert('Na iPhonu musí být VELÍN nainstalovaný na ploše (Sdílet → Přidat na plochu) a otevřený z ikony — pak upozornění fungují (iOS 16.4+).'); return;
-    }
-    Notification.requestPermission().then(function(perm){
-      if(perm!=='granted'){ alert('Upozornění jsou zamítnutá — povol je v Nastavení → VELÍN → Oznámení.'); return; }
-      navigator.serviceWorker.ready.then(function(reg){
-        return reg.pushManager.getSubscription().then(function(s){ return s||reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID_PUB)}); });
-      }).then(function(sub){
-        return fetch(SBREST+'/push_subs?on_conflict=endpoint',{method:'POST',
-          headers:{apikey:SBKEY,Authorization:'Bearer '+SBKEY,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},
-          body:JSON.stringify({endpoint:sub.endpoint,sub:sub.toJSON(),app:'velin-dashboard'})});
-      }).then(function(){ var b=document.getElementById('pushbtn'); if(b){b.textContent='🔔 zapnuto ✓';b.classList.add('on');} })
-      .catch(function(e){ alert('Nepodařilo se zapnout upozornění: '+(e&&e.message||e)); });
-    });
-  }
-  if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
-
-  loadTiles(); loadReport();
-  /* realtime: karta i dlazdice se prekresli OKAMZITE po zmene v Supabase */
-  try{
-    if(window.supabase){
-      var sbc=window.supabase.createClient(SBURL,SBKEY);
-      sbc.channel('rt-dash')
-        .on('postgres_changes',{event:'*',schema:'public',table:'report_provoz'},function(){loadReport();})
-        .on('postgres_changes',{event:'*',schema:'public',table:'konverzace'},function(){loadTiles();})
-        .subscribe();
-    }
-  }catch(e){}
-  document.addEventListener('visibilitychange',function(){ if(!document.hidden){loadTiles();loadReport();} });
+  })();
 
   /* ---- usage ---- */
   (function(){
