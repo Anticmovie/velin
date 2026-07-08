@@ -27,11 +27,13 @@ aktualizovano: 2026-07-08
 | — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 33 % |
 | — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 42 % |
 | — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 25 % |
+| — | andel | — | — | ⚠️ | ⚠️ | ⚠️ | — | — | 35 % |
+| — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 68 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
 - **mezibranska mala** (skore 34) — neznamy (chybi historie)
 - **mezibranska velka** (skore 30) — neznamy (chybi historie)
 
 ## ⚠️ Chybi data (doplnit pro presne profily)
-- **Hodnoceni (Booking/Airbnb):** chybi u korunni, mezibranska velka, mezibranska mala
-- **Najem Kc/mes:** chybi u 
+- **Hodnoceni (Booking/Airbnb):** chybi u korunni, mezibranska velka, mezibranska mala, andel, harfa
+- **Najem Kc/mes:** chybi u andel
