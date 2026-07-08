@@ -1,8 +1,8 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-08 20:15",
+    "generated":  "2026-07-08 22:15",
     "summary":  {
-                    "total":  6,
-                    "local":  6,
+                    "total":  7,
+                    "local":  7,
                     "external":  0
                 },
     "chief":  {
@@ -337,6 +337,40 @@
                                     }
                      },
                      {
+                         "name":  "poke-finance",
+                         "kind":  "local",
+                         "type":  "Python",
+                         "group":  "",
+                         "tier":  "",
+                         "chat":  "",
+                         "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\poke-finance",
+                         "git":  {
+                                     "isRepo":  false,
+                                     "branch":  "",
+                                     "uncommitted":  0,
+                                     "ahead":  0,
+                                     "behind":  0,
+                                     "lastCommit":  ""
+                                 },
+                         "deps":  {
+                                      "manager":  "",
+                                      "hasLockfile":  false,
+                                      "count":  0
+                                  },
+                         "build":  {
+                                       "hasBuild":  false,
+                                       "hasTest":  false
+                                   },
+                         "todos":  0,
+                         "status":  {
+                                        "adam":  "na",
+                                        "klara":  "na",
+                                        "viktor":  "na",
+                                        "tereza":  "ok",
+                                        "nina":  "na"
+                                    }
+                     },
+                     {
                          "name":  "projekt-byty",
                          "kind":  "local",
                          "type":  "Python",
@@ -406,20 +440,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-08T18:00:03.6124165+00:00",
+                  "generatedAt":  "2026-07-08T20:00:02.8481800+00:00",
                   "session5h":  {
-                                    "total":  59988713,
-                                    "input":  41901,
-                                    "output":  231132,
-                                    "cache_c":  745844,
-                                    "cache_r":  58969836,
-                                    "count":  283,
-                                    "pct":  43.6
+                                    "total":  57610481,
+                                    "input":  57858,
+                                    "output":  289915,
+                                    "cache_c":  868202,
+                                    "cache_r":  56394506,
+                                    "count":  290,
+                                    "pct":  41.9
                                 },
                   "weekly7d":  {
-                                   "total":  856805327,
-                                   "count":  2397,
-                                   "pct":  68.7
+                                   "total":  869605011,
+                                   "count":  2471,
+                                   "pct":  69.8
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -430,26 +464,26 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  11997743,
-                  "burnRatePerDay":  287945832,
+                  "burnRatePerH":  11522096,
+                  "burnRatePerDay":  276530304,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  77485334,
+                                                   "remaining":  79863566,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~44% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~42% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  389768761,
-                                                  "hoursToLimit":  32.5,
-                                                  "etaIso":  "2026-07-10 04:30",
-                                                  "etaText":  "za 32,5 h ~ pá 04:30",
+                                                  "remaining":  376969077,
+                                                  "hoursToLimit":  32.7,
+                                                  "etaIso":  "2026-07-10 06:42",
+                                                  "etaText":  "za 32,7 h ~ pá 06:42",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  22,
+                                      "ageDays":  22.1,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -458,7 +492,7 @@
                   "alerts":  [
                                  "DRAHY PROVOZ: 100% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 94% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 22 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 22,1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -470,9 +504,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-fable-5",
-                                             "total":  57837315,
-                                             "output":  228089,
-                                             "count":  252
+                                             "total":  55459083,
+                                             "output":  286872,
+                                             "count":  259
                                          },
                                          {
                                              "model":  "claude-opus-4-8",
@@ -489,11 +523,11 @@
                                      ],
                   "quality":  {
                                   "longSessionPct":  100,
-                                  "longSessionTok":  856413132,
+                                  "longSessionTok":  869212816,
                                   "sessionsLong":  4,
                                   "sessionsTotal":  21,
                                   "highCtxPct":  94,
-                                  "highCtxTok":  808816779,
+                                  "highCtxTok":  818657569,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
