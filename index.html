@@ -151,19 +151,24 @@
   .dfoot b{color:var(--muted)}
   /* ===== telegram-style bila karta: UKLIDY + PRIJEZDY (report_provoz) ===== */
   .tgcard{max-width:640px;background:#fff;color:#141420;border-radius:20px;border-bottom-left-radius:6px;
-    padding:16px 20px 12px;margin-top:14px;box-shadow:0 18px 50px -20px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.06);
-    font-size:14.5px;line-height:1.6;opacity:1;transform:translateY(0);transition:opacity 320ms var(--ease-out),transform 320ms var(--ease-out)}
+    padding:20px 22px 14px;margin-top:14px;box-shadow:0 18px 50px -20px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.06);
+    font-size:15px;line-height:1.7;opacity:1;transform:translateY(0);transition:opacity 320ms var(--ease-out),transform 320ms var(--ease-out)}
   @starting-style{ .tgcard{opacity:0;transform:translateY(10px)} }
-  .tgcard .tgbot{font-size:12.5px;font-weight:800;color:#2e9e5b;margin-bottom:4px}
-  .tgcard .tghead{font-weight:800;font-size:15px}
-  .tgcard .tgday{border-top:2px solid #efeff4;margin-top:12px;padding-top:10px}
-  .tgcard .tgdate{margin:0 0 4px}
-  .tgcard .tglbl{color:#7a56d6;font-weight:800;font-size:12px;letter-spacing:.04em}
-  .tgcard .tgsec{margin:7px 0 2px;font-weight:700}
-  .tgcard .tgrow{padding:1px 0 1px 4px}
+  .tgcard .tgbot{font-size:12.5px;font-weight:800;color:#2e9e5b;margin-bottom:6px}
+  .tgcard .tghead{font-weight:800;font-size:16px;margin-bottom:6px}
+  .tgcard .tgday{border-top:2px solid #efeff4;margin-top:18px;padding-top:16px}
+  .tgcard .tgday.now{background:linear-gradient(180deg,#f6f3ff,#fff 85%);margin:18px -22px 0;padding:16px 22px 6px;border-top:2px solid #e6defc}
+  .tgcard .tgdate{margin:0 0 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:15.5px}
+  .tgcard .tglbl{color:#fff;background:#7a56d6;font-weight:800;font-size:11px;letter-spacing:.06em;border-radius:9px;padding:2px 9px}
+  .tgcard .tgcnt{margin-left:auto;display:flex;gap:6px}
+  .tgcard .tgcnt span{background:#f3f3f8;border-radius:10px;padding:2px 9px;font-size:12px;font-weight:700;color:#5a5a6e}
+  .tgcard .tgsec{margin:14px 0 6px;font-weight:700}
+  .tgcard .tgsec:first-of-type{margin-top:6px}
+  .tgcard .tgrow{padding:4px 0 4px 12px}
   .tgcard .tgrow.tgn{color:#9a9aa8}
-  .tgcard .tgg{color:#8a8a98;font-size:12.5px}
-  .tgcard .tgfoot{display:flex;align-items:center;gap:10px;margin-top:14px;padding:10px 0 4px;border-top:1px solid #efeff4;font-size:11.5px;color:#8a8a98;flex-wrap:wrap}
+  .tgcard .tgg{color:#8a8a98;font-size:13px}
+  .tgcard .tgcas{background:#fff3e0;color:#c2680a;border-radius:8px;padding:1px 8px;font-weight:800}
+  .tgcard .tgfoot{display:flex;align-items:center;gap:10px;margin-top:20px;padding:12px 0 4px;border-top:1px solid #efeff4;font-size:11.5px;color:#8a8a98;flex-wrap:wrap}
   .tgcard #pushbtn{margin-left:auto;border:none;background:#7c5cff;color:#fff;font-weight:700;border-radius:12px;padding:9px 15px;font-size:12.5px;cursor:pointer;font-family:inherit;transition:transform 160ms var(--ease-out),filter 150ms ease}
   .tgcard #pushbtn:active{transform:scale(.95);filter:brightness(.92)}
   .tgcard #pushbtn.on{background:#e9f7ee;color:#2e9e5b}
@@ -453,15 +458,18 @@
     ((p&&p.days)||[]).forEach(function(day){
       var d=new Date(day.datum+'T12:00');
       var di=Math.round((d-today)/864e5);
-      html+='<div class="tgday"><div class="tgdate">📅 <b>'+WD[d.getDay()]+' '+d.getDate()+'. '+(d.getMonth()+1)+'. '+d.getFullYear()+'</b>'+(LBL[di]?' <span class="tglbl">• '+LBL[di]+'</span>':'')+'</div>';
       var od=day.odjezdy||[],pr=day.prijezdy||[];
+      html+='<div class="tgday'+(di===0?' now':'')+'">'
+        +'<div class="tgdate">📅 <b>'+WD[d.getDay()]+' '+d.getDate()+'. '+(d.getMonth()+1)+'.</b>'
+        +(LBL[di]?' <span class="tglbl">'+LBL[di]+'</span>':'')
+        +'<span class="tgcnt">'+(pr.length?'<span>🔑 '+pr.length+'</span>':'')+(od.length?'<span>🧹 '+od.length+'</span>':'')+(!pr.length&&!od.length?'<span>😴 klid</span>':'')+'</span></div>';
       if(od.length){
-        html+='<div class="tgsec">🧹 <b>Úklidy / odjezdy:</b></div>';
-        od.forEach(function(x){html+='<div class="tgrow">✅ '+esc(x.byt)+(x.guest?' <span class="tgg">'+esc(x.guest)+'</span>':'')+'</div>';});
+        html+='<div class="tgsec">🧹 <b>Úklidy / odjezdy</b></div>';
+        od.forEach(function(x){html+='<div class="tgrow">✅ <b>'+esc(x.byt)+'</b>'+(x.guest?' &nbsp;<span class="tgg">👤 '+esc(x.guest)+'</span>':'')+'</div>';});
       }
-      html+='<div class="tgsec">🧳 <b>Příjezdy nových hostů:</b></div>';
-      if(pr.length) pr.forEach(function(x){html+='<div class="tgrow">🔑 '+esc(x.byt)+(x.cas?' — ⏰ <b>'+esc(x.cas)+'</b>':'')+(x.guest?' <span class="tgg">'+esc(x.guest)+'</span>':'')+'</div>';});
-      else html+='<div class="tgrow tgn">—</div>';
+      html+='<div class="tgsec">🧳 <b>Příjezdy nových hostů</b></div>';
+      if(pr.length) pr.forEach(function(x){html+='<div class="tgrow">🔑 <b>'+esc(x.byt)+'</b>'+(x.cas?' &nbsp;⏰ <span class="tgcas">'+esc(x.cas)+'</span>':'')+(x.guest?' &nbsp;<span class="tgg">👤 '+esc(x.guest)+'</span>':'')+'</div>';});
+      else html+='<div class="tgrow tgn">— žádné příjezdy</div>';
       html+='</div>';
     });
     html+='<div class="tgfoot"><span>🔄 '+relMin(p&&p.generated)+' · data se obnovují každých 30 min</span><button id="pushbtn">🔔 Upozornění</button></div>';
