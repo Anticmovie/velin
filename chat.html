@@ -204,7 +204,7 @@ button{font-family:inherit}
 <div id="app">
   <!-- ===== SEZNAM ===== -->
   <div class="pane" id="paneList">
-    <div class="lhead"><div class="row"><h1>Zprávy</h1><span class="dot" id="rt"></span><span id="hcount"></span></div></div>
+    <div class="lhead"><div class="row"><h1>Zprávy</h1><span class="dot" id="rt"></span><span id="hcount"></span><button id="pushbell" title="Zapnout upozornění na plochu (změny příjezdů/odjezdů)" onclick="zapniPushChat()" style="margin-left:auto;border:none;background:none;font-size:17px;cursor:pointer;opacity:.5;padding:4px">🔔</button></div></div>
     <div id="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input id="q" placeholder="Hledat hosta nebo byt…" oninput="renderList()"></div>
     <div class="filters" id="filters"></div>
     <div id="list"></div>
@@ -534,4 +534,25 @@ async function nahrajFoto(inp){
 
 if(localStorage.getItem(DIRKEY)===PIN){ el('pin').classList.add('hide'); boot(); }
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+
+/* ---------- web push (upozornění na plochu iPhone — změny příjezdů/odjezdů) ---------- */
+const VAPID_PUB='BFnINO3TLMFv76q-TPMkMQVkDvEkGvHSUdjtmM53rmy4tJwmCY_BZGoC8QBdWx5VKr29ro9HYJl3CPLQANJEtgs';
+function b64u(s){const pad='='.repeat((4-s.length%4)%4);const raw=atob((s+pad).replace(/-/g,'+').replace(/_/g,'/'));const a=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)a[i]=raw.charCodeAt(i);return a;}
+function bellOn(){const b=el('pushbell');if(b){b.style.opacity='1';b.title='Upozornění zapnutá ✓';}}
+async function zapniPushChat(){
+  if(!('serviceWorker' in navigator)||!('PushManager' in window)||!window.Notification){
+    alert('Na iPhonu musí být VELÍN nainstalovaný na ploše (Sdílet → Přidat na plochu) a otevřený z ikony — pak upozornění fungují (iOS 16.4+).'); return;
+  }
+  try{
+    const perm=await Notification.requestPermission();
+    if(perm!=='granted'){ alert('Upozornění jsou zamítnutá — povol je v Nastavení → VELÍN → Oznámení.'); return; }
+    const reg=await navigator.serviceWorker.ready;
+    const sub=(await reg.pushManager.getSubscription())||await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64u(VAPID_PUB)});
+    await fetch(SB_URL+'/rest/v1/push_subs?on_conflict=endpoint',{method:'POST',
+      headers:{apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},
+      body:JSON.stringify({endpoint:sub.endpoint,sub:sub.toJSON(),app:'velin-chat'})});
+    bellOn(); alert('Hotovo — upozornění na změny příjezdů/odjezdů jsou zapnutá 🔔');
+  }catch(e){ alert('Nepodařilo se zapnout upozornění: '+(e&&e.message||e)); }
+}
+(async()=>{ try{ const reg=await navigator.serviceWorker.getRegistration(); const s=reg&&await reg.pushManager.getSubscription(); if(s)bellOn(); }catch(e){} })();
 </script></body></html>

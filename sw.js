@@ -1,6 +1,7 @@
-// VELÍN Chat — service worker (v4): ŽÁDNÉ cachování appky (vždy čerstvá ze sítě) + web push.
+// VELÍN — service worker (v5): ŽÁDNÉ cachování appky (vždy čerstvá ze sítě) + web push.
 // (appka je stejně always-online kvůli Supabase; offline cache působila stale/prázdné zobrazení)
-const CACHE = 'velin-v4';
+// v5: notificationclick otevírá stránku z payloadu (url) — report provozu = index.html.
+const CACHE = 'velin-v5';
 self.addEventListener('install', e => { self.skipWaiting(); });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.map(k => caches.delete(k)))));  // smaž VŠECHNY staré cache
@@ -15,8 +16,10 @@ self.addEventListener('push', e => {
 });
 self.addEventListener('notificationclick', e => {
   e.notification.close();
-  e.waitUntil(clients.matchAll({ type: 'window' }).then(ws => {
-    for (const w of ws) if (w.url.includes('chat.html')) return w.focus();
-    return clients.openWindow('chat.html');
+  const url = (e.notification.data && e.notification.data.url) || 'chat.html';
+  const kotva = url.replace('index.html', '');   // index bývá v adrese jen jako "/velin/"
+  e.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then(ws => {
+    for (const w of ws) if (w.url.includes(url) || (kotva && w.url.endsWith(kotva))) return w.focus();
+    return clients.openWindow(url);
   }));
 });
