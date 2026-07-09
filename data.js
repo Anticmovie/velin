@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-09 00:15",
+    "generated":  "2026-07-09 02:15",
     "summary":  {
                     "total":  7,
                     "local":  7,
@@ -440,19 +440,19 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-08T22:00:02.5407286+00:00",
+                  "generatedAt":  "2026-07-09T00:00:02.3050583+00:00",
                   "session5h":  {
-                                    "total":  45683062,
-                                    "input":  24526,
-                                    "output":  249581,
-                                    "cache_c":  913390,
-                                    "cache_r":  44495565,
-                                    "count":  184,
-                                    "pct":  33.2
+                                    "total":  43774897,
+                                    "input":  8812,
+                                    "output":  217843,
+                                    "cache_c":  805765,
+                                    "cache_r":  42742477,
+                                    "count":  162,
+                                    "pct":  31.8
                                 },
                   "weekly7d":  {
-                                   "total":  902465186,
-                                   "count":  2580,
+                                   "total":  902820474,
+                                   "count":  2581,
                                    "pct":  72.4
                                },
                   "sonnet5h":  {
@@ -464,36 +464,36 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  9136612,
-                  "burnRatePerDay":  219278688,
+                  "burnRatePerH":  8754979,
+                  "burnRatePerDay":  210119496,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  91790985,
+                                                   "remaining":  93699150,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~33% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~32% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  344108902,
-                                                  "hoursToLimit":  37.7,
-                                                  "etaIso":  "2026-07-10 13:42",
-                                                  "etaText":  "za 37,7 h ~ pá 13:42",
+                                                  "remaining":  343753614,
+                                                  "hoursToLimit":  39.3,
+                                                  "etaIso":  "2026-07-10 17:18",
+                                                  "etaText":  "za 39,3 h ~ pá 17:18",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  22.2,
+                                      "ageDays":  22.3,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "VAROVANI Weekly 7d: 72,4% (902 465 186 tokenu)",
+                                 "VAROVANI Weekly 7d: 72,4% (902 820 474 tokenu)",
                                  "DRAHY PROVOZ: 100% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 94% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 22,2 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 22,3 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -505,30 +505,24 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-fable-5",
-                                             "total":  28171687,
-                                             "output":  182344,
-                                             "count":  126
+                                             "total":  25931437,
+                                             "output":  150721,
+                                             "count":  104
                                          },
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  17488172,
-                                             "output":  66190,
-                                             "count":  57
-                                         },
-                                         {
-                                             "model":  "claude-haiku-4-5-20251001",
-                                             "total":  23203,
-                                             "output":  1047,
-                                             "count":  1
+                                             "total":  17843460,
+                                             "output":  67122,
+                                             "count":  58
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  100,
-                                  "longSessionTok":  902072991,
+                                  "longSessionTok":  902428279,
                                   "sessionsLong":  4,
                                   "sessionsTotal":  21,
                                   "highCtxPct":  94,
-                                  "highCtxTok":  851517744,
+                                  "highCtxTok":  851873032,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
