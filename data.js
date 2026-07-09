@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-09 16:15",
+    "generated":  "2026-07-09 18:15",
     "summary":  {
                     "total":  7,
                     "local":  7,
@@ -440,20 +440,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-09T14:00:01.4690821+00:00",
+                  "generatedAt":  "2026-07-09T16:00:01.4940758+00:00",
                   "session5h":  {
-                                    "total":  75114089,
-                                    "input":  5175,
-                                    "output":  138644,
-                                    "cache_c":  980550,
-                                    "cache_r":  73989720,
-                                    "count":  95,
-                                    "pct":  54.6
+                                    "total":  40411528,
+                                    "input":  2780,
+                                    "output":  82355,
+                                    "cache_c":  905590,
+                                    "cache_r":  39420803,
+                                    "count":  47,
+                                    "pct":  29.4
                                 },
                   "weekly7d":  {
-                                   "total":  761812704,
-                                   "count":  2251,
-                                   "pct":  61.1
+                                   "total":  675978859,
+                                   "count":  2116,
+                                   "pct":  54.2
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -464,20 +464,20 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  15022818,
-                  "burnRatePerDay":  360547632,
+                  "burnRatePerH":  8082306,
+                  "burnRatePerDay":  193975344,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  62359958,
+                                                   "remaining":  97062519,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~55% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~29% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  484761384,
-                                                  "hoursToLimit":  32.3,
-                                                  "etaIso":  "2026-07-11 00:18",
-                                                  "etaText":  "za 32,3 h ~ so 00:18",
+                                                  "remaining":  570595229,
+                                                  "hoursToLimit":  70.6,
+                                                  "etaIso":  "2026-07-12 16:36",
+                                                  "etaText":  "za 71 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -491,7 +491,7 @@
                   "urgency":  "warn",
                   "alerts":  [
                                  "DRAHY PROVOZ: 100% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
-                                 "DRAHY PROVOZ: 94% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
+                                 "DRAHY PROVOZ: 93% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
                                  "KALIBRACE STARA 22,9 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
@@ -504,24 +504,24 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  75001152,
-                                             "output":  136201,
-                                             "count":  90
+                                             "total":  40389244,
+                                             "output":  82115,
+                                             "count":  46
                                          },
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  112937,
-                                             "output":  2443,
-                                             "count":  5
+                                             "total":  22284,
+                                             "output":  240,
+                                             "count":  1
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  100,
-                                  "longSessionTok":  761239559,
+                                  "longSessionTok":  675405714,
                                   "sessionsLong":  4,
                                   "sessionsTotal":  29,
-                                  "highCtxPct":  94,
-                                  "highCtxTok":  716666466,
+                                  "highCtxPct":  93,
+                                  "highCtxTok":  630832621,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
