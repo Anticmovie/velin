@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-12 16:15",
+    "generated":  "2026-07-12 18:15",
     "summary":  {
                     "total":  7,
                     "local":  7,
@@ -440,7 +440,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-12T14:00:02.0226866+00:00",
+                  "generatedAt":  "2026-07-12T16:00:01.9989451+00:00",
                   "session5h":  {
                                     "total":  44562,
                                     "input":  20,
@@ -476,7 +476,7 @@
                                    "weekly":  {
                                                   "remaining":  467281350,
                                                   "hoursToLimit":  52432.8,
-                                                  "etaIso":  "2032-07-05 08:48",
+                                                  "etaIso":  "2032-07-05 10:48",
                                                   "etaText":  "za 52 433 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
