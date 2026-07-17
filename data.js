@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-17 18:15",
+    "generated":  "2026-07-17 20:15",
     "summary":  {
                     "total":  8,
                     "local":  8,
@@ -474,7 +474,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-17T16:00:02.2817229+00:00",
+                  "generatedAt":  "2026-07-17T18:00:02.3862733+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -486,7 +486,7 @@
                                 },
                   "weekly7d":  {
                                    "total":  264142153,
-                                   "count":  678,
+                                   "count":  683,
                                    "pct":  21.2
                                },
                   "sonnet5h":  {
@@ -516,7 +516,7 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  30.9,
+                                      "ageDays":  31,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -525,7 +525,7 @@
                   "alerts":  [
                                  "DRAHY PROVOZ: 97% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 94% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 30,9 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 31 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -546,7 +546,7 @@
                                   "longSessionPct":  97,
                                   "longSessionTok":  255366063,
                                   "sessionsLong":  2,
-                                  "sessionsTotal":  96,
+                                  "sessionsTotal":  101,
                                   "highCtxPct":  94,
                                   "highCtxTok":  248284595,
                                   "longThresholdH":  8,
