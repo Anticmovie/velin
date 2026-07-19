@@ -19,11 +19,11 @@ aktualizovano: 2026-07-19
 | 9 | 28 | 60 | ★★★☆☆ | 8.9/10 | 4.83/5 | 20 000 | 422 649 | 1332 | 43 % |
 | 7 | jatecni | 59 | ★★★☆☆ | 8.6/10 | 4.9/5 | 20 000 | 442 254 | 1530 | 27 % |
 | 11 | 205 | 57 | ★★★☆☆ | 9.0/10 | 4.79/5 | 20 000 | 398 566 | 1317 | 43 % |
+| 12 | mezibranska mala | 57 | ★★★☆☆ | ⚠️ | ⚠️ | 34 000 | — | — | 85 % |
 | 8 | 202 | 55 | ★★★☆☆ | 8.9/10 | 4.9/5 | 24 000 | 327 012 | 1367 | 23 % |
-| 3 | korunni | 46 | ★★☆☆☆ | ⚠️ | ⚠️ | 29 100 | — | — | 22 % |
-| 13 | mezibranska velka | 35 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 40 % |
-| 12 | mezibranska mala | 35 | ★★☆☆☆ | ⚠️ | ⚠️ | 34 000 | — | — | 37 % |
-| — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 68 % |
+| 3 | korunni | 53 | ★★★☆☆ | ⚠️ | ⚠️ | 29 100 | — | — | 37 % |
+| 13 | mezibranska velka | 45 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 62 % |
+| — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 77 % |
 | — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 27 % |
 | — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 68 % |
 | — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 30 % |
@@ -31,8 +31,6 @@ aktualizovano: 2026-07-19
 | — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 82 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
-- **mezibranska velka** (skore 35) — neznamy (chybi historie)
-- **mezibranska mala** (skore 35) — neznamy (chybi historie)
 
 ## ⚠️ Chybi data (doplnit pro presne profily)
 - **Hodnoceni (Booking/Airbnb):** chybi u korunni, mezibranska velka, mezibranska mala, andel, harfa
