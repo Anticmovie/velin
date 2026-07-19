@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-19T20:39:08",
+ "generated": "2026-07-19T21:04:01",
  "byznysy": {
   "byty": {
    "nazev": "Apartmány (byty)",
@@ -47,7 +47,7 @@
    },
    "do_souctu": false,
    "pozn": "reálné: Booking netto po provizi + Airbnb výplaty (denní sken)",
-   "detail": "vydelky-mesicne.html"
+   "detail": "vydelky-platformy.html"
   },
   "sprava": {
    "nazev": "Správa apartmánů",
@@ -97,7 +97,7 @@
     "2026-06": 59600
    },
    "pozn": "zisk po provizích a nákladech",
-   "detail": null
+   "detail": "poke-finance.html"
   }
  }
 }
