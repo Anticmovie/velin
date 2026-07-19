@@ -447,7 +447,7 @@
         var latest=keys[keys.length-1];
         var useM=ms[lastM]!=null?lastM:latest;   /* kdyz byznys nema minuly mesic, vezmi jeho nejnovejsi */
         var val=ms[useM];
-        if(ms[lastM]!=null){total+=val;haveAny=true;}
+        if(ms[lastM]!=null&&b.do_souctu!==false){total+=val;haveAny=true;}   /* trzby se nescitaji se ziskem */
         var spark=keys.slice(-8).map(function(m){var v=ms[m];var h=Math.min(28,Math.max(3,Math.abs(v)/8000));
           return '<i class="'+(v>=0?'p':'n')+'" style="height:'+h+'px" title="'+m+': '+fmtKc(v)+'"></i>';}).join('');
         rows+='<a class="vydrow" href="'+(b.detail||'#vydelky')+'"><span class="em">'+(b.emoji||'◍')+'</span>'+

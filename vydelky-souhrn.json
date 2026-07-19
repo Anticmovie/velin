@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-19T19:38:27",
+ "generated": "2026-07-19T19:58:36",
  "byznysy": {
   "byty": {
    "nazev": "Apartmány (byty)",
@@ -20,6 +20,33 @@
     "2025-03": -15545
    },
    "pozn": "čistý zisk po nájmu a úklidech",
+   "detail": "vydelky-mesicne.html"
+  },
+  "byty_trzby": {
+   "nazev": "Byty — tržby z platforem",
+   "emoji": "📈",
+   "mesice": {
+    "2025-07": 412356,
+    "2025-08": 582737,
+    "2025-09": 490010,
+    "2025-10": 463682,
+    "2025-11": 295068,
+    "2025-12": 804658,
+    "2026-01": 455760,
+    "2026-04": 624643,
+    "2026-05": 564451,
+    "2026-06": 743762,
+    "2026-02": 337842,
+    "2026-03": 471610,
+    "2025-02": 26377,
+    "2025-03": 2910,
+    "2025-04": 54679,
+    "2025-05": 183105,
+    "2025-06": 179993,
+    "2026-07": 33800
+   },
+   "do_souctu": false,
+   "pozn": "reálné: Booking netto po provizi + Airbnb výplaty (denní sken)",
    "detail": "vydelky-mesicne.html"
   },
   "poke": {
