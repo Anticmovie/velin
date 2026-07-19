@@ -728,5 +728,37 @@ async function nahrajFoto(inp){
   }catch(e){ alert('Nahrání fotky selhalo: '+(e.message||e)); }
 }
 
+/* ---------- PULL-TO-REFRESH + auto obnova (19.7.2026) ----------
+   PWA po uspani ma mrtvy realtime socket -> zpravy "vcera" a nic noveho.
+   1) swipe dolu uplne nahore = tvrda obnova dat ze Supabase (viditelny indikator)
+   2) navrat do appky (visibilitychange/focus) = automaticka obnova
+   3) pojistka: tichy reload kazde 2 minuty */
+(function(){
+  const st=document.createElement('style');
+  st.textContent='#ptr{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:50%;transform:translateX(-50%) translateY(-70px);z-index:200;background:#241f4d;color:#fff;border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:9px 18px;font-size:12.5px;font-weight:700;transition:transform .25s cubic-bezier(.2,.8,.3,1);box-shadow:0 8px 24px rgba(0,0,0,.5);pointer-events:none}#ptr.show{transform:translateX(-50%) translateY(0)}';
+  document.head.appendChild(st);
+  const bar=document.createElement('div'); bar.id='ptr'; bar.textContent='↻ Aktualizuji…'; document.body.appendChild(bar);
+  let t0=null,busy=false;
+  async function obnov(){
+    if(busy||typeof sb==='undefined'||!sb)return; busy=true;
+    bar.textContent='↻ Aktualizuji…'; bar.classList.add('show');
+    try{
+      await loadConvs();
+      if(typeof curId!=='undefined'&&curId)openConv(curId,true);
+      /* pozadej PC o cerstvy sber z Booking/Airbnb (VELIN-Chat-OnDemand ho vyridi do ~5 min) */
+      sb.from('report_provoz').upsert({id:'refresh_pozadavek',payload:{kdo:'bytahost'},hash:String(Date.now()),updated_at:new Date().toISOString()}).then(()=>{},()=>{});
+      const t=new Date(); bar.textContent='✓ Aktuální · '+String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0');
+    }catch(e){ bar.textContent='⚠ nejde načíst — zkus znovu'; }
+    setTimeout(()=>bar.classList.remove('show'),1400);
+    busy=false;
+  }
+  window.addEventListener('touchstart',e=>{ t0=(window.scrollY<=0)?e.touches[0].clientY:null; },{passive:true});
+  window.addEventListener('touchmove',e=>{ if(t0===null)return; if(e.touches[0].clientY-t0>80&&window.scrollY<=0){ t0=null; obnov(); } },{passive:true});
+  window.addEventListener('touchend',()=>{t0=null;},{passive:true});
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) obnov(); });
+  window.addEventListener('focus',()=>obnov());
+  setInterval(()=>{ if(typeof sb!=='undefined'&&sb&&!document.hidden) loadConvs(); },120e3);
+})();
+
 if(localStorage.getItem(DIRKEY)===PIN||localStorage.bytahost==='1'){ try{localStorage.setItem(DIRKEY,PIN);}catch(e){} start(); }
 </script></body></html>
