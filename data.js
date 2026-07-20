@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-20 10:17",
+    "generated":  "2026-07-20 12:15",
     "summary":  {
                     "total":  8,
                     "local":  8,
@@ -248,7 +248,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "5 weeks ago | Přidány UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (oficiální Anthropic)"
+                                     "lastCommit":  "5 weeks ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├ş Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -452,7 +452,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "5 weeks ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
+                                     "lastCommit":  "5 weeks ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -474,20 +474,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-20T08:00:02.1387266+00:00",
+                  "generatedAt":  "2026-07-20T10:00:02.5699014+00:00",
                   "session5h":  {
-                                    "total":  28997638,
-                                    "input":  129,
-                                    "output":  40473,
-                                    "cache_c":  1519416,
-                                    "cache_r":  27437620,
-                                    "count":  57,
-                                    "pct":  21.1
+                                    "total":  48559977,
+                                    "input":  217,
+                                    "output":  130538,
+                                    "cache_c":  1661708,
+                                    "cache_r":  46767514,
+                                    "count":  98,
+                                    "pct":  35.3
                                 },
                   "weekly7d":  {
-                                   "total":  169403477,
-                                   "count":  671,
-                                   "pct":  13.6
+                                   "total":  187159343,
+                                   "count":  685,
+                                   "pct":  15
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -498,35 +498,35 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  5799528,
-                  "burnRatePerDay":  139188672,
+                  "burnRatePerH":  9711995,
+                  "burnRatePerDay":  233087880,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  108476409,
+                                                   "remaining":  88914070,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~21% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~35% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1077170611,
-                                                  "hoursToLimit":  185.7,
-                                                  "etaIso":  "2026-07-28 03:42",
-                                                  "etaText":  "za 186 h (\u003e2 dny)",
+                                                  "remaining":  1059414745,
+                                                  "hoursToLimit":  109.1,
+                                                  "etaIso":  "2026-07-25 01:06",
+                                                  "etaText":  "za 109 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  33.6,
+                                      "ageDays":  33.7,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "DRAHY PROVOZ: 94% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
-                                 "DRAHY PROVOZ: 91% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 33,6 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "DRAHY PROVOZ: 95% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
+                                 "DRAHY PROVOZ: 92% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
+                                 "KALIBRACE STARA 33,7 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -538,24 +538,24 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  28952198,
-                                             "output":  39552,
-                                             "count":  55
+                                             "total":  48491768,
+                                             "output":  129151,
+                                             "count":  95
                                          },
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  45440,
-                                             "output":  921,
-                                             "count":  2
+                                             "total":  68209,
+                                             "output":  1387,
+                                             "count":  3
                                          }
                                      ],
                   "quality":  {
-                                  "longSessionPct":  94,
-                                  "longSessionTok":  158858548,
+                                  "longSessionPct":  95,
+                                  "longSessionTok":  177797235,
                                   "sessionsLong":  1,
                                   "sessionsTotal":  130,
-                                  "highCtxPct":  91,
-                                  "highCtxTok":  154041252,
+                                  "highCtxPct":  92,
+                                  "highCtxTok":  172979939,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
