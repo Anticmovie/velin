@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-21 16:15",
+    "generated":  "2026-07-21 16:54",
     "summary":  {
                     "total":  8,
                     "local":  8,
@@ -248,7 +248,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 weeks ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├ş Anthropic)"
+                                     "lastCommit":  "6 weeks ago | Přidány UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (oficiální Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -452,7 +452,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "5 weeks ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
+                                     "lastCommit":  "5 weeks ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -474,7 +474,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-21T14:00:02.6683053+00:00",
+                  "generatedAt":  "2026-07-21T14:30:02.4145027+00:00",
                   "session5h":  {
                                     "total":  23112,
                                     "input":  10,
@@ -510,7 +510,7 @@
                                    "weekly":  {
                                                   "remaining":  1062444602,
                                                   "hoursToLimit":  229866.9,
-                                                  "etaIso":  "2052-10-10 10:54",
+                                                  "etaIso":  "2052-10-10 11:24",
                                                   "etaText":  "za 229 867 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
