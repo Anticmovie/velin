@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-21 22:42",
+    "generated":  "2026-07-22 00:15",
     "summary":  {
                     "total":  8,
                     "local":  8,
@@ -248,7 +248,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 weeks ago | Přidány UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (oficiální Anthropic)"
+                                     "lastCommit":  "6 weeks ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├ş Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -452,7 +452,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 weeks ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
+                                     "lastCommit":  "6 weeks ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -474,20 +474,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-21T20:30:01.5091195+00:00",
+                  "generatedAt":  "2026-07-21T22:00:01.6322609+00:00",
                   "session5h":  {
-                                    "total":  110967056,
-                                    "input":  4678,
-                                    "output":  271918,
-                                    "cache_c":  2004092,
-                                    "cache_r":  108686368,
-                                    "count":  234,
-                                    "pct":  80.7
+                                    "total":  102833375,
+                                    "input":  6852,
+                                    "output":  251012,
+                                    "cache_c":  2071520,
+                                    "cache_r":  100503991,
+                                    "count":  214,
+                                    "pct":  74.8
                                 },
                   "weekly7d":  {
-                                   "total":  323162306,
-                                   "count":  1013,
-                                   "pct":  25.9
+                                   "total":  336949825,
+                                   "count":  1046,
+                                   "pct":  27
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -498,36 +498,36 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  22193411,
-                  "burnRatePerDay":  532641864,
+                  "burnRatePerH":  20566675,
+                  "burnRatePerDay":  493600200,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  26506991,
+                                                   "remaining":  34640672,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~81% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~75% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  923411782,
-                                                  "hoursToLimit":  41.6,
-                                                  "etaIso":  "2026-07-23 16:06",
-                                                  "etaText":  "za 41,6 h ~ čt 16:06",
+                                                  "remaining":  909624263,
+                                                  "hoursToLimit":  44.2,
+                                                  "etaIso":  "2026-07-23 20:12",
+                                                  "etaText":  "za 44,2 h ~ čt 20:12",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  35.1,
+                                      "ageDays":  35.2,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "VAROVANI Session 5h: 80,7% (110 967 056 tokenu)",
+                                 "VAROVANI Session 5h: 74,8% (102 833 375 tokenu)",
                                  "DRAHY PROVOZ: 98% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 95% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 35,1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 35,2 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -539,15 +539,15 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-fable-5",
-                                             "total":  90295294,
-                                             "output":  224210,
-                                             "count":  179
+                                             "total":  68325818,
+                                             "output":  164657,
+                                             "count":  124
                                          },
                                          {
                                              "model":  "claude-opus-4-8",
-                                             "total":  20648200,
-                                             "output":  46919,
-                                             "count":  54
+                                             "total":  34483995,
+                                             "output":  85566,
+                                             "count":  89
                                          },
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
@@ -558,11 +558,11 @@
                                      ],
                   "quality":  {
                                   "longSessionPct":  98,
-                                  "longSessionTok":  317407376,
+                                  "longSessionTok":  331243171,
                                   "sessionsLong":  2,
-                                  "sessionsTotal":  139,
+                                  "sessionsTotal":  137,
                                   "highCtxPct":  95,
-                                  "highCtxTok":  308483322,
+                                  "highCtxTok":  321521466,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
