@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-21 04:15",
+    "generated":  "2026-07-21 06:15",
     "summary":  {
                     "total":  8,
                     "local":  8,
@@ -474,14 +474,14 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-21T02:00:02.8248484+00:00",
+                  "generatedAt":  "2026-07-21T04:00:02.3933970+00:00",
                   "session5h":  {
-                                    "total":  46190,
-                                    "input":  20,
-                                    "output":  1471,
-                                    "cache_c":  13941,
-                                    "cache_r":  30758,
-                                    "count":  2,
+                                    "total":  23597,
+                                    "input":  10,
+                                    "output":  1022,
+                                    "cache_c":  7186,
+                                    "cache_r":  15379,
+                                    "count":  1,
                                     "pct":  0
                                 },
                   "weekly7d":  {
@@ -498,20 +498,20 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  9238,
-                  "burnRatePerDay":  221712,
+                  "burnRatePerH":  4719,
+                  "burnRatePerDay":  113256,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137427857,
+                                                   "remaining":  137450450,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
                                                   "remaining":  1062467714,
-                                                  "hoursToLimit":  115010.6,
-                                                  "etaIso":  "2039-09-03 06:36",
-                                                  "etaText":  "za 115 011 h (\u003e2 dny)",
+                                                  "hoursToLimit":  225146.8,
+                                                  "etaIso":  "2052-03-27 08:48",
+                                                  "etaText":  "za 225 147 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -538,9 +538,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  46190,
-                                             "output":  1471,
-                                             "count":  2
+                                             "total":  23597,
+                                             "output":  1022,
+                                             "count":  1
                                          }
                                      ],
                   "quality":  {
