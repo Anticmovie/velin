@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-21 22:12",
+    "generated":  "2026-07-21 22:15",
     "summary":  {
                     "total":  8,
                     "local":  8,
@@ -248,7 +248,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 weeks ago | Přidány UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (oficiální Anthropic)"
+                                     "lastCommit":  "6 weeks ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├ş Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -452,7 +452,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 weeks ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
+                                     "lastCommit":  "6 weeks ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
