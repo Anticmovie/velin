@@ -1,8 +1,8 @@
 {
- "generated": "2026-07-23T20:30:20",
+ "generated": "2026-07-23T20:57:18",
  "byznysy": {
-  "byty": {
-   "nazev": "Apartmány (byty)",
+  "apartmany": {
+   "nazev": "Apartmány",
    "emoji": "🏠",
    "mesice": {
     "2025-05": -18384,
@@ -19,38 +19,11 @@
     "2026-04": 108212,
     "2026-05": 211934
    },
-   "pozn": "čistý po nájmu, úklidech a DPH — živě ze skenů",
-   "detail": "vydelky-platformy.html"
-  },
-  "byty_trzby": {
-   "nazev": "Byty — tržby z platforem",
-   "emoji": "📈",
-   "mesice": {
-    "2025-07": 334298,
-    "2025-08": 609263,
-    "2025-09": 453599,
-    "2025-10": 435249,
-    "2025-11": 290464,
-    "2025-12": 767998,
-    "2026-01": 417260,
-    "2026-04": 639676,
-    "2026-05": 548523,
-    "2026-06": 710563,
-    "2026-07": 789514,
-    "2026-02": 280545,
-    "2026-03": 398403,
-    "2025-02": 26377,
-    "2025-03": 2910,
-    "2025-04": 54679,
-    "2025-05": 183105,
-    "2025-06": 146654
-   },
-   "do_souctu": false,
-   "pozn": "reálné: Booking netto po provizi + Airbnb výplaty (denní sken)",
+   "pozn": "náš čistý zisk z vlastních bytů (po nájmu, úklidech, DPH)",
    "detail": "vydelky-platformy.html"
   },
   "sprava": {
-   "nazev": "Správa apartmánů",
+   "nazev": "Naše peníze za správu",
    "emoji": "🤝",
    "mesice": {
     "2025-05": 4829,
@@ -70,7 +43,15 @@
     "2026-07": 32567
    },
    "pozn": "provize 10/15 % z obratu spravovaných bytů",
-   "detail": "sprava-provize.html"
+   "detail": "sprava-provize.html",
+   "sub": {
+    "nazev": "z toho praní",
+    "emoji": "🧺",
+    "mesice": {
+     "2026-07": 11900
+    },
+    "pozn": "marže z praní (účtuji 200, stojí ~60 Kč/ks)"
+   }
   },
   "poke": {
    "nazev": "Poke Poke",

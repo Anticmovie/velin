@@ -160,6 +160,8 @@
   .vydrow .val b{font-size:16px;font-variant-numeric:tabular-nums;display:block}
   .vydrow .val b.plus{color:var(--ok)} .vydrow .val b.minus{color:var(--down)}
   .vydrow .val small{font-size:10.5px;color:var(--dim)}
+  .vydrow.subrow{margin-left:26px;padding:8px 14px;background:var(--bg);border-style:dashed;opacity:.9}
+  .vydrow.subrow .em{font-size:15px}.vydrow.subrow .nm{font-size:12px;font-weight:600}.vydrow.subrow .val b{font-size:13.5px}
   .spark{display:flex;align-items:flex-end;gap:2px;height:30px;margin-left:14px}
   .spark i{width:7px;border-radius:2px 2px 0 0;background:var(--vibg);min-height:2px}
   .spark i.p{background:var(--ok)} .spark i.n{background:var(--down)}
@@ -292,7 +294,6 @@
       <a class="mod" href="byty-rpg.html#kalendar" style="--mc:rgba(96,78,225,.10)"><span class="ic">▤</span><span><span class="t">Multi Calendar</span><span class="d" style="display:block">Kalendář všech bytů · úpravy cen a min-nocí</span></span><span class="ar">→</span></a>
       <a class="mod" href="poke-finance.html" style="--mc:rgba(13,148,85,.10)"><span class="ic">🥗</span><span><span class="t">Poke Poke — finance</span><span class="d" style="display:block">Kompletní P&amp;L dashboard: tržby, provize, náklady, zisk</span></span><span class="ar">→</span></a>
       <a class="mod" href="vydelky-platformy.html" style="--mc:rgba(96,78,225,.12)"><span class="ic">💶</span><span><span class="t">Výdělky z platforem</span><span class="d" style="display:block">Per byt po měsících · výplaty · Naše vs. Správa · DPH</span></span><span class="ar">→</span></a>
-      <a class="mod" href="sprava-provize.html" style="--mc:rgba(181,115,10,.10)"><span class="ic">%</span><span><span class="t">Provize</span><span class="d" style="display:block">Byty ve správě a vyúčtování</span></span><span class="ar">→</span></a>
       <a class="mod" href="room-gru.html" style="--mc:rgba(169,125,0,.10)"><span class="ic">▦</span><span><span class="t">Kancelář</span><span class="d" style="display:block">Zasedačka s agenty</span></span><span class="ar">→</span></a>
     </div>
 
@@ -455,6 +456,13 @@
           '<span><span class="nm">'+esc(b.nazev)+'</span><br><span class="po">'+esc(b.pozn||'')+(useM!==lastM?' · data do '+mesLbl(useM):'')+'</span></span>'+
           '<span class="spark">'+spark+'</span>'+
           '<span class="val"><b class="'+(val>=0?'plus':'minus')+'">'+fmtKc(val)+'</b><small>'+mesLbl(useM)+'</small></span></a>';
+        /* subordinovana polozka (napr. prani pod spravou) */
+        if(b.sub&&b.sub.mesice){var sm=b.sub.mesice;var sk=Object.keys(sm).sort();if(sk.length){
+          var sUseM=sm[lastM]!=null?lastM:sk[sk.length-1];var sVal=sm[sUseM];
+          rows+='<a class="vydrow subrow" href="'+(b.detail||'#vydelky')+'"><span class="em">'+(b.sub.emoji||'↳')+'</span>'+
+            '<span><span class="nm">'+esc(b.sub.nazev)+'</span><br><span class="po">'+esc(b.sub.pozn||'')+'</span></span>'+
+            '<span class="spark"></span>'+
+            '<span class="val"><b class="'+(sVal>=0?'plus':'minus')+'">'+fmtKc(sVal)+'</b><small>'+mesLbl(sUseM)+'</small></span></a>';}}
       });
       var head='<div class="vydbig"><div class="lb">Minulý měsíc · '+mesLbl(lastM)+' · všechny byznysy dohromady</div>'+
         '<div class="num '+(total>=0?'plus':'minus')+'">'+(haveAny?fmtKc(total):'—')+'</div>'+
