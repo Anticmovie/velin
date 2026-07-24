@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-id="th-modified">Pražský dům – Čistý výdělek</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f4f6fa;color:#1f2733;padding:18px;line-height:1.45}
+.wrap{max-width:1200px;margin:0 auto}
+h1{font-size:24px;color:#1f3864;font-weight:700}
+.sub{color:#7b8694;font-size:13px;margin:2px 0 18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid #e6eaf0;border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(20,40,80,.04)}
+.kpi .lab{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#8a94a3}
+.kpi .val{font-size:21px;font-weight:700;margin-top:4px}
+.kpi .val.pos{color:#137333}.kpi .val.neg{color:#c5221f}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tab{padding:9px 16px;border-radius:9px;border:1px solid #d4dae3;background:#fff;cursor:pointer;font-size:14px;font-weight:600;color:#42505f}
+.tab.active{background:#1f3864;color:#fff;border-color:#1f3864}
+.card{background:#fff;border:1px solid #e6eaf0;border-radius:14px;padding:18px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,40,80,.04)}
+.card h2{font-size:17px;color:#1f3864;margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:820px){.grid2{grid-template-columns:1fr}}
+.chartbox{position:relative;height:300px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{padding:6px 7px;text-align:right;border-bottom:1px solid #eef1f5;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{background:#1f3864;color:#fff;font-weight:600;position:sticky;top:0}
+tbody tr:hover{background:#f7f9fc}
+tr.tot td{font-weight:700;background:#eef2f9;border-top:2px solid #c7d2e6}
+.pos{color:#137333;font-weight:600}.neg{color:#c5221f;font-weight:600}
+.est{background:#fff3cd;border-radius:3px;padding:0 3px}
+.note{font-size:12.5px;color:#5a6675;background:#fff;border:1px solid #e6eaf0;border-radius:12px;padding:16px 18px;line-height:1.7}
+.note b{color:#1f3864}
+.tablewrap{overflow-x:auto;max-height:540px;overflow-y:auto}
+.legend{font-size:11px;color:#8a94a3;margin-top:6px}
+</style><meta property="og:title" content="Pražský dům – Čistý výdělek" data-id="th-modified"><meta name="description" content="index" data-id="th-modified"><meta property="og:description" content="index" data-id="th-modified"><meta property="og:image" content="https://tiiny.host/assets/logo-purple-bg.png" data-id="th-modified"><meta property="og:image:width" content="1501" data-id="th-modified"><meta property="og:image:height" content="1501" data-id="th-modified"><meta property="og:image:type" content="image/png" data-id="th-modified"><meta property="og:url" content="https://prazsky-dum-vydelek.tiiny.site/" data-id="th-modified"><meta property="og:type" content="website" data-id="th-modified"><script defer="" data-domain="prazsky-dum-vydelek.tiiny.site" src="https://analytics.tiiny.site/js/plausible.js"></script><script type="text/javascript" src="https://tiiny.host/ad-script.js"></script></head>
+<body><div style="position: fixed !important; bottom: 0% !important; left: 0% !important; right: 0% !important; width: 100% !important; height: 55px !important; z-index: 9999 !important;"><a href="https://tiiny.host?ref=free-site">
+    <div style="padding: 10px !important; height: 55px; text-align: center; background: rgb(220,137,232) !important; background: linear-gradient(141deg, rgba(220,137,232,1) 0%, rgba(144,64,204,1) 100%) !important;">
+      <img style="height: 35px !important; width: auto !important;" src="https://tiiny.host/assets/img/ad.png" alt="tiiny.host">
+    </div>
+  </a></div><div class="wrap">
+<h1>Pražský dům — Čistý výdělek apartmánů</h1>
+<div class="sub">Od počátku provozu do konce června 2026 · skutečná data: Airbnb výpisy + částky vyplacené Booking.com na účet + přímé rezervace</div>
+<div id="kpis" class="kpis"><div class="kpi"><div class="lab">Výnosy celkem</div><div class="val ">1 184 070 Kč</div></div><div class="kpi"><div class="lab">Náklady celkem</div><div class="val ">981 665 Kč</div></div><div class="kpi"><div class="lab">Čistý zisk</div><div class="val pos">202 405 Kč</div></div><div class="kpi"><div class="lab">Marže</div><div class="val pos">17.1 %</div></div><div class="kpi"><div class="lab">Airbnb</div><div class="val ">503 294 Kč</div></div><div class="kpi"><div class="lab">Booking</div><div class="val ">636 091 Kč</div></div><div class="kpi"><div class="lab">Přímé rezervace</div><div class="val ">44 685 Kč</div></div></div>
+<div class="tabs" id="tabs"><div class="tab active" data-k="all">Souhrn (vše)</div><div class="tab" data-k="Royal">Royal apartment</div><div class="tab" data-k="NextTo">Night next to the Museum</div><div class="tab" data-k="AtMuseum">Night at the Museum</div></div>
+<div id="content">
+   <div class="grid2">
+     <div class="card"><h2>Čistý zisk podle apartmánu</h2><div class="chartbox"><canvas id="ch1" width="553" height="300" style="display: block; box-sizing: border-box; height: 300px; width: 553px;"></canvas></div></div>
+     <div class="card"><h2>Výnosy vs. náklady</h2><div class="chartbox"><canvas id="ch2" width="553" height="300" style="display: block; box-sizing: border-box; height: 300px; width: 553px;"></canvas></div></div>
+   </div>
+   <div class="card"><h2>Vývoj čistého zisku v čase (měsíčně)</h2><div class="chartbox" style="height:340px"><canvas id="ch3" width="1162" height="340" style="display: block; box-sizing: border-box; height: 340px; width: 1162px;"></canvas></div></div>
+   <div class="card"><h2>Souhrn za apartmán</h2><div class="tablewrap"><table><thead><tr><th>Apartmán</th><th>Výnosy</th><th>Airbnb</th><th>Booking</th><th>Přímé</th><th>Náklady</th><th>ČISTÝ ZISK</th><th>Marže</th></tr></thead><tbody><tr><td>Royal apartment (Korunní)</td><td>624 485</td><td>385 080</td><td>194 719</td><td>44 685</td><td>474 397</td><td class="pos">150 088</td><td>24.0 %</td></tr><tr><td>Night next to the Museum (Mezibranská malá)</td><td>296 740</td><td>24 813</td><td>271 928</td><td>0</td><td>227 803</td><td class="pos">68 937</td><td>23.2 %</td></tr><tr><td>Night at the Museum (Mezibranská velká)</td><td>262 846</td><td>93 401</td><td>169 444</td><td>0</td><td>279 465</td><td class="neg">-16 620</td><td>-6.3 %</td></tr><tr class="tot"><td>CELKEM</td><td>1 184 070</td><td>503 294</td><td>636 091</td><td>44 685</td><td>981 665</td><td class="pos">202 405</td><td>17.1 %</td></tr></tbody></table></div></div>
+   <div class="card"><h2>Porovnání: Booking skutečně vyplacený vs. původní tabulka</h2><div class="tablewrap"><table><thead><tr><th>Apartmán</th><th>Booking — tento report (skutečně vyplaceno)</th><th>Booking — původní tabulka</th><th>Rozdíl</th></tr></thead><tbody><tr><td>Royal apartment (Korunní)</td><td>194 719</td><td>160 743</td><td class="pos">+33 976</td></tr><tr><td>Night next to the Museum (Mezibranská malá)</td><td>271 928</td><td>112 525</td><td class="pos">+159 402</td></tr><tr><td>Night at the Museum (Mezibranská velká)</td><td>169 444</td><td>53 752</td><td class="pos">+115 692</td></tr></tbody></table></div>
+ <div class="legend">Původní tabulka u „Night…" končila v březnu a nezachytila pozdější výplaty – proto kladný rozdíl.</div></div></div>
+<div class="note" id="notes"><b>Metodika a předpoklady</b><br>
+• <b>Výnosy</b> = skutečně připsané peníze. Airbnb: částka „Celkem (CZK)" z měsíčních výpisů. Booking: součet „Splatná částka" (čistá vyplacená) podle měsíce příjezdu hosta. <b>Přímé</b> = rezervace bez platformy dle tabulky majitele.<br>
+• <b>Booking</b> platí zpětně (výplata 1. dne následujícího měsíce); přiřazeno k měsíci pobytu, aby sedělo s logikou původní tabulky.<br>
+• <b>Nájem:</b> Royal 29 100 Kč/měs (od pol. června 2025 → červen ½ = 14 550 Kč); Night next to the Museum 34 000 Kč a Night at the Museum 48 000 Kč — oba nájmy až od 1. 1. 2026 (prosinec bez nájmu).<br>
+• <b>Provize:</b> 10 % červen–prosinec 2025, <b>5 % leden–duben 2026</b> (zimní sleva), 10 % od května 2026.<br>
+• <b>Městský poplatek</b> u obou „Museum" bytů = oficiální hlášení Praha 1: duben (4 400 / 3 250 Kč) a květen (3 750 / 2 800 Kč). Poplatek se začal platit až od dubna 2026 (sazba 50 Kč/noc). Korunní dle tabulky majitele.<br>
+• <b>Jednorázové 16 884 Kč</b> (Night next to the Museum, prosinec) = počáteční <b>vybavení bytu</b>: IKEA 9 281 + JYSK 3 610 + Makro 3 993 Kč (účtenky předané osobně MS).<br>
+• <span class="est">Žlutě</span> = odhad pro měsíce, kde chyběl skutečný údaj (úklid/DPH za poslední měsíc).</div>
+</div>
+<script>
+const P = {"d": {"apartments": {"Royal": [{"m": "2025-06", "cz": "Červen 25", "airbnb": 33338.88, "booking": 0.0, "bezplat": 0.0, "rev": 33338.88, "rent": 14550.0, "crate": 0.1, "comm": 3333.89, "cleaning": 1500.0, "citytax": 0.0, "vat": 2400.0, "oneoff": 6041.0, "costs": 27824.89, "profit": 5513.99, "est": {"cleaning": false, "citytax": false, "vat": true}}, {"m": "2025-07", "cz": "Červenec 25", "airbnb": 35509.87, "booking": 32849.78, "bezplat": 0.0, "rev": 68359.65, "rent": 29100.0, "crate": 0.1, "comm": 6835.97, "cleaning": 3000.0, "citytax": 0.0, "vat": 1344.0, "oneoff": 0.0, "costs": 40279.97, "profit": 28079.68, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2025-08", "cz": "Srpen 25", "airbnb": 9668.96, "booking": 9564.94, "bezplat": 34685.45, "rev": 53919.35, "rent": 29100.0, "crate": 0.1, "comm": 5391.94, "cleaning": 3000.0, "citytax": 0.0, "vat": 454.0, "oneoff": 0.0, "costs": 37945.94, "profit": 15973.41, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2025-09", "cz": "Září 25", "airbnb": 38293.93, "booking": 21268.07, "bezplat": 0.0, "rev": 59562.0, "rent": 29100.0, "crate": 0.1, "comm": 5956.2, "cleaning": 2000.0, "citytax": 1450.0, "vat": 401.0, "oneoff": 0.0, "costs": 38907.2, "profit": 20654.8, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2025-10", "cz": "Říjen 25", "airbnb": 40288.37, "booking": 8198.88, "bezplat": 0.0, "rev": 48487.25, "rent": 29100.0, "crate": 0.1, "comm": 4848.73, "cleaning": 3000.0, "citytax": 2250.0, "vat": 1411.0, "oneoff": 0.0, "costs": 40609.73, "profit": 7877.52, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2025-11", "cz": "Listopad 25", "airbnb": 15750.86, "booking": 25616.11, "bezplat": 0.0, "rev": 41366.97, "rent": 29100.0, "crate": 0.1, "comm": 4136.7, "cleaning": 2000.0, "citytax": 2300.0, "vat": 1071.0, "oneoff": 0.0, "costs": 38607.7, "profit": 2759.27, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2025-12", "cz": "Prosinec 25", "airbnb": 71415.28, "booking": 15229.99, "bezplat": 0.0, "rev": 86645.27, "rent": 29100.0, "crate": 0.1, "comm": 8664.53, "cleaning": 3500.0, "citytax": 2250.0, "vat": 2533.0, "oneoff": 0.0, "costs": 46047.53, "profit": 40597.74, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-01", "cz": "Leden 26", "airbnb": 20054.75, "booking": 11694.87, "bezplat": 0.0, "rev": 31749.62, "rent": 29100.0, "crate": 0.05, "comm": 1587.48, "cleaning": 3600.0, "citytax": 2200.0, "vat": 1647.0, "oneoff": 0.0, "costs": 38134.48, "profit": -6384.86, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-02", "cz": "Únor 26", "airbnb": 27044.86, "booking": 2037.08, "bezplat": 0.0, "rev": 29081.94, "rent": 29100.0, "crate": 0.05, "comm": 1454.1, "cleaning": 4200.0, "citytax": 2500.0, "vat": 2238.0, "oneoff": 2063.0, "costs": 41555.1, "profit": -12473.16, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-03", "cz": "Březen 26", "airbnb": 48138.6, "booking": 4312.45, "bezplat": 0.0, "rev": 52451.05, "rent": 29100.0, "crate": 0.05, "comm": 2622.55, "cleaning": 4200.0, "citytax": 2500.0, "vat": 2437.0, "oneoff": 0.0, "costs": 40859.55, "profit": 11591.5, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-04", "cz": "Duben 26", "airbnb": 11116.12, "booking": 42175.46, "bezplat": 10000.0, "rev": 63291.58, "rent": 29100.0, "crate": 0.05, "comm": 3164.58, "cleaning": 3000.0, "citytax": 2500.0, "vat": 2437.0, "oneoff": 0.0, "costs": 40201.58, "profit": 23090.0, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-05", "cz": "Květen 26", "airbnb": 34459.5, "booking": 21771.48, "bezplat": 0.0, "rev": 56230.98, "rent": 29100.0, "crate": 0.1, "comm": 5623.1, "cleaning": 3800.0, "citytax": 2500.0, "vat": 2400.0, "oneoff": 0.0, "costs": 43423.1, "profit": 12807.88, "est": {"cleaning": true, "citytax": true, "vat": true}}, {"m": "2026-06", "cz": "Červen 26", "airbnb": 20305.0, "booking": 32728.63, "bezplat": 0.0, "rev": 53033.63, "rent": 29100.0, "crate": 0.1, "comm": 5303.36, "cleaning": 3800.0, "citytax": 2500.0, "vat": 2400.0, "oneoff": 0, "costs": 43103.36, "profit": 9930.27, "est": {"cleaning": true, "citytax": true, "vat": true}}], "NextTo": [{"m": "2025-12", "cz": "Prosinec 25", "airbnb": 9360.5, "booking": 33767.74, "bezplat": 0.0, "rev": 43128.24, "rent": 0.0, "crate": 0.1, "comm": 4312.82, "cleaning": 1000.0, "citytax": 0.0, "vat": 0.0, "oneoff": 16884.0, "costs": 22196.82, "profit": 20931.42, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-01", "cz": "Leden 26", "airbnb": 15452.1, "booking": 16416.18, "bezplat": 0.0, "rev": 31868.28, "rent": 34000.0, "crate": 0.05, "comm": 1593.41, "cleaning": 2400.0, "citytax": 0.0, "vat": 0.0, "oneoff": 0.0, "costs": 37993.41, "profit": -6125.13, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-02", "cz": "Únor 26", "airbnb": 0.0, "booking": 27054.25, "bezplat": 0.0, "rev": 27054.25, "rent": 34000.0, "crate": 0.05, "comm": 1352.71, "cleaning": 2400.0, "citytax": 0.0, "vat": 0.0, "oneoff": 0.0, "costs": 37752.71, "profit": -10698.46, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-03", "cz": "Březen 26", "airbnb": 0.0, "booking": 46624.23, "bezplat": 0.0, "rev": 46624.23, "rent": 34000.0, "crate": 0.05, "comm": 2331.21, "cleaning": 3600.0, "citytax": 0.0, "vat": 0.0, "oneoff": 0.0, "costs": 39931.21, "profit": 6693.02, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-04", "cz": "Duben 26", "airbnb": 0.0, "booking": 90554.69, "bezplat": 0.0, "rev": 90554.69, "rent": 34000.0, "crate": 0.05, "comm": 4527.73, "cleaning": 2800.0, "citytax": 3250.0, "vat": 0.0, "oneoff": 0.0, "costs": 44577.73, "profit": 45976.96, "est": {"cleaning": true, "citytax": false, "vat": false}}, {"m": "2026-05", "cz": "Květen 26", "airbnb": 0.0, "booking": 57510.54, "bezplat": 0.0, "rev": 57510.54, "rent": 34000.0, "crate": 0.1, "comm": 5751.05, "cleaning": 2800.0, "citytax": 2800.0, "vat": 0.0, "oneoff": 0.0, "costs": 45351.05, "profit": 12159.49, "est": {"cleaning": true, "citytax": false, "vat": false}}, {"m": "2026-06", "cz": "Červen 26", "airbnb": 0.0, "booking": 56984.98, "bezplat": 0.0, "rev": 56984.98, "rent": 34000.0, "crate": 0.1, "comm": 5698.5, "cleaning": 2800.0, "citytax": 2800.0, "vat": 0.0, "oneoff": 0, "costs": 45298.5, "profit": 11686.48, "est": {"cleaning": true, "citytax": true, "vat": true}}], "AtMuseum": [{"m": "2025-12", "cz": "Prosinec 25", "airbnb": 0.0, "booking": 18042.21, "bezplat": 0.0, "rev": 18042.21, "rent": 0.0, "crate": 0.1, "comm": 1804.22, "cleaning": 1000.0, "citytax": 0.0, "vat": 0.0, "oneoff": 0.0, "costs": 2804.22, "profit": 15237.99, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-01", "cz": "Leden 26", "airbnb": 4122.5, "booking": 8939.71, "bezplat": 0.0, "rev": 13062.21, "rent": 48000.0, "crate": 0.05, "comm": 653.11, "cleaning": 1200.0, "citytax": 0.0, "vat": 0.0, "oneoff": 0.0, "costs": 49853.11, "profit": -36790.9, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-02", "cz": "Únor 26", "airbnb": 33882.1, "booking": 0.0, "bezplat": 0.0, "rev": 33882.1, "rent": 48000.0, "crate": 0.05, "comm": 1694.11, "cleaning": 3000.0, "citytax": 0.0, "vat": 0.0, "oneoff": 0.0, "costs": 52694.11, "profit": -18812.01, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-03", "cz": "Březen 26", "airbnb": 30458.0, "booking": 8804.69, "bezplat": 0.0, "rev": 39262.69, "rent": 48000.0, "crate": 0.05, "comm": 1963.13, "cleaning": 3600.0, "citytax": 0.0, "vat": 0.0, "oneoff": 0.0, "costs": 53563.13, "profit": -14300.44, "est": {"cleaning": false, "citytax": false, "vat": false}}, {"m": "2026-04", "cz": "Duben 26", "airbnb": 9215.0, "booking": 83966.28, "bezplat": 0.0, "rev": 93181.28, "rent": 48000.0, "crate": 0.05, "comm": 4659.06, "cleaning": 2600.0, "citytax": 4400.0, "vat": 0.0, "oneoff": 0.0, "costs": 59659.06, "profit": 33522.22, "est": {"cleaning": true, "citytax": false, "vat": false}}, {"m": "2026-05", "cz": "Květen 26", "airbnb": 15723.7, "booking": 49691.35, "bezplat": 0.0, "rev": 65415.05, "rent": 48000.0, "crate": 0.1, "comm": 6541.51, "cleaning": 2600.0, "citytax": 3750.0, "vat": 0.0, "oneoff": 0.0, "costs": 60891.51, "profit": 4523.54, "est": {"cleaning": true, "citytax": false, "vat": false}}, {"m": "2026-06", "cz": "Červen 26", "airbnb": 23677.0, "booking": 29744.69, "bezplat": 0.0, "rev": 53421.69, "rent": 48000.0, "crate": 0.1, "comm": 5342.17, "cleaning": 2600.0, "citytax": 3750.0, "vat": 0.0, "oneoff": 0, "costs": 59692.17, "profit": -6270.48, "est": {"cleaning": true, "citytax": true, "vat": true}}]}, "months": ["2025-06", "2025-07", "2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01", "2026-02", "2026-03", "2026-04", "2026-05", "2026-06"], "cz": {"2025-06": "Červen 25", "2025-07": "Červenec 25", "2025-08": "Srpen 25", "2025-09": "Září 25", "2025-10": "Říjen 25", "2025-11": "Listopad 25", "2025-12": "Prosinec 25", "2026-01": "Leden 26", "2026-02": "Únor 26", "2026-03": "Březen 26", "2026-04": "Duben 26", "2026-05": "Květen 26", "2026-06": "Červen 26"}, "label": {"Royal": "Royal apartment (Korunní)", "NextTo": "Night next to the Museum (Mezibranská malá)", "AtMuseum": "Night at the Museum (Mezibranská velká)"}, "summary": {"Royal": {"airbnb": 405384.98, "booking": 227447.74, "bezplat": 44685.45, "rev": 677518.17, "rent": 363750.0, "comm": 58923.13, "cleaning": 40600.0, "citytax": 22950.0, "vat": 23173.0, "oneoff": 8104.0, "costs": 517500.13, "profit": 160018.04}, "NextTo": {"airbnb": 24812.6, "booking": 328912.61, "bezplat": 0.0, "rev": 353725.21, "rent": 204000.0, "comm": 25567.43, "cleaning": 17800.0, "citytax": 8850.0, "vat": 0.0, "oneoff": 16884.0, "costs": 273101.43, "profit": 80623.78}, "AtMuseum": {"airbnb": 117078.3, "booking": 199188.93, "bezplat": 0.0, "rev": 316267.23, "rent": 288000.0, "comm": 22657.31, "cleaning": 16600.0, "citytax": 11900.0, "vat": 0.0, "oneoff": 0.0, "costs": 339157.31, "profit": -22890.08}}, "grand": {"airbnb": 547275.88, "booking": 755549.28, "bezplat": 44685.45, "rev": 1347510.61, "rent": 855750.0, "comm": 107147.87, "cleaning": 75000.0, "citytax": 43700.0, "vat": 23173.0, "oneoff": 24988.0, "costs": 1129758.87, "profit": 217751.74}}, "sheetBooking": {"Royal": 160742.79, "NextTo": 112525.17, "AtMuseum": 53751.92}};
+const D = P.d, SB = P.sheetBooking;
+const APTS=["Royal","NextTo","AtMuseum"];
+const LAB=D.label;
+const SHORT={Royal:"Royal apartment",NextTo:"Night next to the Museum",AtMuseum:"Night at the Museum"};
+const COL={Royal:"#2e6fdb",NextTo:"#27ae8f",AtMuseum:"#b5651d"};
+const fmt=n=>Math.round(n).toLocaleString('cs-CZ').replace(/ /g,' ')+' Kč';
+const fmt0=n=>Math.round(n).toLocaleString('cs-CZ').replace(/ /g,' ');
+let charts=[];
+function clearCharts(){charts.forEach(c=>c.destroy());charts=[];}
+const S=D.summary, G=D.grand;
+function kpi(lab,val,cls){return `<div class="kpi"><div class="lab">${lab}</div><div class="val ${cls||''}">${val}</div></div>`}
+document.getElementById('kpis').innerHTML=
+ kpi("Výnosy celkem",fmt(G.rev))+kpi("Náklady celkem",fmt(G.costs))+
+ kpi("Čistý zisk",fmt(G.profit),G.profit>=0?'pos':'neg')+
+ kpi("Marže",(G.profit/G.rev*100).toFixed(1)+' %',G.profit>=0?'pos':'neg')+
+ kpi("Airbnb",fmt(G.airbnb))+kpi("Booking",fmt(G.booking))+kpi("Přímé rezervace",fmt(G.bezplat));
+
+const tabs=[["all","Souhrn (vše)"]].concat(APTS.map(a=>[a,SHORT[a]]));
+let cur="all";
+const tabsEl=document.getElementById('tabs');
+tabsEl.innerHTML=tabs.map(([k,l])=>`<div class="tab${k==cur?' active':''}" data-k="${k}">${l}</div>`).join('');
+tabsEl.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{cur=t.dataset.k;render();});
+
+function row(r){
+ return `<tr>
+ <td>${r.cz}</td>
+ <td>${fmt0(r.airbnb)}</td><td>${fmt0(r.booking)}</td><td>${fmt0(r.bezplat)}</td><td><b>${fmt0(r.rev)}</b></td>
+ <td>${fmt0(r.rent)}</td><td>${Math.round(r.crate*100)} %</td><td>${fmt0(r.comm)}</td>
+ <td${r.est.cleaning?' class="est"':''}>${fmt0(r.cleaning)}</td>
+ <td${r.est.citytax?' class="est"':''}>${fmt0(r.citytax)}</td>
+ <td${r.est.vat?' class="est"':''}>${fmt0(r.vat)}</td>
+ <td>${fmt0(r.oneoff)}</td>
+ <td>${fmt0(r.costs)}</td>
+ <td class="${r.profit>=0?'pos':'neg'}">${fmt0(r.profit)}</td></tr>`;
+}
+function table(apt){
+ const rows=D.apartments[apt], s=S[apt];
+ const body=rows.map(row).join('');
+ const tot=`<tr class="tot"><td>CELKEM</td><td>${fmt0(s.airbnb)}</td><td>${fmt0(s.booking)}</td><td>${fmt0(s.bezplat)}</td><td>${fmt0(s.rev)}</td><td>${fmt0(s.rent)}</td><td>—</td><td>${fmt0(s.comm)}</td><td>${fmt0(s.cleaning)}</td><td>${fmt0(s.citytax)}</td><td>${fmt0(s.vat)}</td><td>${fmt0(s.oneoff)}</td><td>${fmt0(s.costs)}</td><td class="${s.profit>=0?'pos':'neg'}">${fmt0(s.profit)}</td></tr>`;
+ return `<div class="tablewrap"><table><thead><tr>
+ <th>Měsíc</th><th>Airbnb</th><th>Booking</th><th>Přímé</th><th>Výnosy</th><th>Nájem</th><th>Provize&nbsp;%</th><th>Provize</th><th>Úklid</th><th>Měst.&nbsp;popl.</th><th>DPH</th><th>Jednoráz.</th><th>Náklady</th><th>ČISTÝ&nbsp;ZISK</th>
+ </tr></thead><tbody>${body}${tot}</tbody></table></div>
+ <div class="legend">Hodnoty v Kč. <span class="est">žlutě</span> = odhad (chybějící skutečný údaj).</div>`;
+}
+function render(){
+ clearCharts();
+ tabsEl.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.k==cur));
+ const c=document.getElementById('content');
+ if(cur=="all"){
+   c.innerHTML=`
+   <div class="grid2">
+     <div class="card"><h2>Čistý zisk podle apartmánu</h2><div class="chartbox"><canvas id="ch1"></canvas></div></div>
+     <div class="card"><h2>Výnosy vs. náklady</h2><div class="chartbox"><canvas id="ch2"></canvas></div></div>
+   </div>
+   <div class="card"><h2>Vývoj čistého zisku v čase (měsíčně)</h2><div class="chartbox" style="height:340px"><canvas id="ch3"></canvas></div></div>
+   <div class="card"><h2>Souhrn za apartmán</h2>${summaryTable()}</div>
+   <div class="card"><h2>Porovnání: Booking skutečně vyplacený vs. původní tabulka</h2>${bookingCompare()}</div>`;
+   const labels=APTS.map(a=>SHORT[a]);
+   charts.push(new Chart(ch1,{type:'bar',data:{labels,datasets:[{label:'Čistý zisk',data:APTS.map(a=>S[a].profit),backgroundColor:APTS.map(a=>S[a].profit>=0?'#27ae60':'#e74c3c')}]},options:barOpts(true)}));
+   charts.push(new Chart(ch2,{type:'bar',data:{labels,datasets:[
+     {label:'Výnosy',data:APTS.map(a=>S[a].rev),backgroundColor:'#2e6fdb'},
+     {label:'Náklady',data:APTS.map(a=>S[a].costs),backgroundColor:'#cbd5e1'}]},options:barOpts(false)}));
+   const months=D.months;
+   charts.push(new Chart(ch3,{type:'line',data:{labels:months.map(m=>D.cz[m]),datasets:APTS.map(a=>({
+     label:SHORT[a],borderColor:COL[a],backgroundColor:COL[a]+'22',tension:.25,spanGaps:true,
+     data:months.map(m=>{const r=D.apartments[a].find(x=>x.m==m);return r?r.profit:null;})
+   }))},options:lineOpts()}));
+ } else {
+   const s=S[cur];
+   c.innerHTML=`
+   <div class="kpis">
+     ${kpi("Výnosy",fmt(s.rev))}${kpi("Náklady",fmt(s.costs))}${kpi("Čistý zisk",fmt(s.profit),s.profit>=0?'pos':'neg')}
+     ${kpi("Marže",(s.profit/s.rev*100).toFixed(1)+' %',s.profit>=0?'pos':'neg')}${kpi("Airbnb",fmt(s.airbnb))}${kpi("Booking",fmt(s.booking))}${kpi("Přímé",fmt(s.bezplat))}
+   </div>
+   <div class="grid2">
+     <div class="card"><h2>Výnosy: Airbnb · Booking · přímé</h2><div class="chartbox"><canvas id="cA"></canvas></div></div>
+     <div class="card"><h2>Čistý zisk po měsících</h2><div class="chartbox"><canvas id="cB"></canvas></div></div>
+   </div>
+   <div class="card"><h2>${LAB[cur]} — měsíční přehled</h2>${table(cur)}</div>`;
+   const rows=D.apartments[cur], labels=rows.map(r=>r.cz);
+   charts.push(new Chart(cA,{type:'bar',data:{labels,datasets:[
+     {label:'Airbnb',data:rows.map(r=>r.airbnb),backgroundColor:'#ff5a5f'},
+     {label:'Booking',data:rows.map(r=>r.booking),backgroundColor:'#003580'},
+     {label:'Přímé',data:rows.map(r=>r.bezplat),backgroundColor:'#f0a202'}]},options:barOpts(false,true)}));
+   charts.push(new Chart(cB,{type:'bar',data:{labels,datasets:[{label:'Čistý zisk',data:rows.map(r=>r.profit),backgroundColor:rows.map(r=>r.profit>=0?'#27ae60':'#e74c3c')}]},options:barOpts(true)}));
+ }
+}
+function barOpts(zeroline,stack){return {responsive:true,maintainAspectRatio:false,plugins:{legend:{display:!zeroline}},
+  scales:{x:{stacked:!!stack,grid:{display:false}},y:{stacked:!!stack,ticks:{callback:v=>fmt0(v)}}}};}
+function lineOpts(){return {responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},
+  scales:{y:{ticks:{callback:v=>fmt0(v)}},x:{grid:{display:false}}}};}
+function summaryTable(){
+ let b=APTS.map(a=>`<tr><td>${LAB[a]}</td><td>${fmt0(S[a].rev)}</td><td>${fmt0(S[a].airbnb)}</td><td>${fmt0(S[a].booking)}</td><td>${fmt0(S[a].bezplat)}</td><td>${fmt0(S[a].costs)}</td><td class="${S[a].profit>=0?'pos':'neg'}">${fmt0(S[a].profit)}</td><td>${(S[a].profit/S[a].rev*100).toFixed(1)} %</td></tr>`).join('');
+ b+=`<tr class="tot"><td>CELKEM</td><td>${fmt0(G.rev)}</td><td>${fmt0(G.airbnb)}</td><td>${fmt0(G.booking)}</td><td>${fmt0(G.bezplat)}</td><td>${fmt0(G.costs)}</td><td class="${G.profit>=0?'pos':'neg'}">${fmt0(G.profit)}</td><td>${(G.profit/G.rev*100).toFixed(1)} %</td></tr>`;
+ return `<div class="tablewrap"><table><thead><tr><th>Apartmán</th><th>Výnosy</th><th>Airbnb</th><th>Booking</th><th>Přímé</th><th>Náklady</th><th>ČISTÝ ZISK</th><th>Marže</th></tr></thead><tbody>${b}</tbody></table></div>`;
+}
+function bookingCompare(){
+ let b=APTS.map(a=>{const diff=S[a].booking-SB[a];return `<tr><td>${LAB[a]}</td><td>${fmt0(S[a].booking)}</td><td>${fmt0(SB[a])}</td><td class="${diff>=0?'pos':'neg'}">${diff>=0?'+':''}${fmt0(diff)}</td></tr>`}).join('');
+ return `<div class="tablewrap"><table><thead><tr><th>Apartmán</th><th>Booking — tento report (skutečně vyplaceno)</th><th>Booking — původní tabulka</th><th>Rozdíl</th></tr></thead><tbody>${b}</tbody></table></div>
+ <div class="legend">Původní tabulka u „Night…" končila v březnu a nezachytila pozdější výplaty – proto kladný rozdíl.</div>`;
+}
+document.getElementById('notes').innerHTML=`<b>Metodika a předpoklady</b><br>
+• <b>Výnosy</b> = skutečně připsané peníze. Airbnb: částka „Celkem (CZK)" z měsíčních výpisů. Booking: součet „Splatná částka" (čistá vyplacená) podle měsíce příjezdu hosta. <b>Přímé</b> = rezervace bez platformy dle tabulky majitele.<br>
+• <b>Booking</b> platí zpětně (výplata 1. dne následujícího měsíce); přiřazeno k měsíci pobytu, aby sedělo s logikou původní tabulky.<br>
+• <b>Nájem:</b> Royal 29 100 Kč/měs (od pol. června 2025 → červen ½ = 14 550 Kč); Night next to the Museum 34 000 Kč a Night at the Museum 48 000 Kč — oba nájmy až od 1. 1. 2026 (prosinec bez nájmu).<br>
+• <b>Provize:</b> 10 % červen–prosinec 2025, <b>5 % leden–duben 2026</b> (zimní sleva), 10 % od května 2026.<br>
+• <b>Městský poplatek</b> u obou „Museum" bytů = oficiální hlášení Praha 1: duben (4 400 / 3 250 Kč) a květen (3 750 / 2 800 Kč). Poplatek se začal platit až od dubna 2026 (sazba 50 Kč/noc). Korunní dle tabulky majitele.<br>
+• <b>Jednorázové 16 884 Kč</b> (Night next to the Museum, prosinec) = počáteční <b>vybavení bytu</b>: IKEA 9 281 + JYSK 3 610 + Makro 3 993 Kč (účtenky předané osobně MS).<br>
+• <span class="est">Žlutě</span> = odhad pro měsíce, kde chyběl skutečný údaj (úklid/DPH za poslední měsíc).`;
+render();
+</script><div style="height: 55px !important;"></div></body></html>
