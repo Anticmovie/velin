@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-26 16:15",
+    "generated":  "2026-07-26 18:15",
     "summary":  {
                     "total":  8,
                     "local":  8,
@@ -474,7 +474,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-26T14:00:02.2157904+00:00",
+                  "generatedAt":  "2026-07-26T16:00:02.2555950+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -485,8 +485,8 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  651769623,
-                                   "count":  1526,
+                                   "total":  651746265,
+                                   "count":  1525,
                                    "pct":  52.3
                                },
                   "sonnet5h":  {
@@ -508,7 +508,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  594804465,
+                                                  "remaining":  594827823,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -541,7 +541,7 @@
                                   "longSessionPct":  100,
                                   "longSessionTok":  651007846,
                                   "sessionsLong":  3,
-                                  "sessionsTotal":  35,
+                                  "sessionsTotal":  34,
                                   "highCtxPct":  97,
                                   "highCtxTok":  633677431,
                                   "longThresholdH":  8,
