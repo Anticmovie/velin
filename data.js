@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-27 00:15",
+    "generated":  "2026-07-27 06:30",
     "summary":  {
                     "total":  8,
                     "local":  8,
