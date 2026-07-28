@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-28 20:15",
+    "generated":  "2026-07-28 22:15",
     "summary":  {
                     "total":  9,
                     "local":  9,
@@ -486,7 +486,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "8 hours ago | VELIN light cloud: iCal + karta + Telegram"
+                                     "lastCommit":  "10 hours ago | VELIN light cloud: iCal + karta + Telegram"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -508,7 +508,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-28T18:00:02.5420108+00:00",
+                  "generatedAt":  "2026-07-28T20:00:02.8202045+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -519,9 +519,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  460526608,
-                                   "count":  1143,
-                                   "pct":  36.9
+                                   "total":  412448175,
+                                   "count":  1062,
+                                   "pct":  33.1
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -542,7 +542,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  786047480,
+                                                  "remaining":  834125913,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -550,7 +550,7 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  42,
+                                      "ageDays":  42.1,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -559,7 +559,7 @@
                   "alerts":  [
                                  "DRAHY PROVOZ: 96% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 95% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 42 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 42,1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -573,11 +573,11 @@
                                      ],
                   "quality":  {
                                   "longSessionPct":  96,
-                                  "longSessionTok":  443477988,
+                                  "longSessionTok":  395399555,
                                   "sessionsLong":  2,
                                   "sessionsTotal":  17,
                                   "highCtxPct":  95,
-                                  "highCtxTok":  438417579,
+                                  "highCtxTok":  390339146,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
