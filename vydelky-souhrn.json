@@ -1,5 +1,5 @@
 {
- "generated": "2026-07-28T05:37:25",
+ "generated": "2026-07-28T06:07:43",
  "byznysy": {
   "apartmany": {
    "nazev": "Apartmány",
@@ -40,7 +40,7 @@
     "2026-04": 8109,
     "2026-05": 9472,
     "2026-06": 12514,
-    "2026-07": 19763
+    "2026-07": 19771
    },
    "pozn": "provize 10/15 % z obratu spravovaných bytů",
    "detail": "sprava-provize.html",
