@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-29 22:15",
+    "generated":  "2026-07-30 10:15",
     "summary":  {
                     "total":  9,
                     "local":  9,
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 weeks ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
+                                     "lastCommit":  "7 weeks ago | security: odstranen Telegram token z README (presunout do GitHub Secrets)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -418,7 +418,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 weeks ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
+                                     "lastCommit":  "7 weeks ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -486,7 +486,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "34 hours ago | VELIN light cloud: iCal + karta + Telegram"
+                                     "lastCommit":  "2 days ago | VELIN light cloud: iCal + karta + Telegram"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -508,7 +508,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-29T20:00:02.0355382+00:00",
+                  "generatedAt":  "2026-07-30T08:00:01.8942198+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -519,9 +519,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  343089332,
-                                   "count":  927,
-                                   "pct":  27.5
+                                   "total":  324738563,
+                                   "count":  900,
+                                   "pct":  26.1
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -542,7 +542,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  903484756,
+                                                  "remaining":  921835525,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -550,7 +550,7 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  43.1,
+                                      "ageDays":  43.6,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -559,7 +559,7 @@
                   "alerts":  [
                                  "DRAHY PROVOZ: 95% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 94% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 43,1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 43,6 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -573,11 +573,11 @@
                                      ],
                   "quality":  {
                                   "longSessionPct":  95,
-                                  "longSessionTok":  326065022,
+                                  "longSessionTok":  307808619,
                                   "sessionsLong":  2,
-                                  "sessionsTotal":  16,
+                                  "sessionsTotal":  12,
                                   "highCtxPct":  94,
-                                  "highCtxTok":  322675442,
+                                  "highCtxTok":  304419039,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
