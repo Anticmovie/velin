@@ -1,8 +1,8 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-07-30 20:15",
+    "generated":  "2026-07-30 22:15",
     "summary":  {
-                    "total":  9,
-                    "local":  9,
+                    "total":  10,
+                    "local":  10,
                     "external":  0
                 },
     "chief":  {
@@ -473,6 +473,40 @@
                                     }
                      },
                      {
+                         "name":  "ruzehned",
+                         "kind":  "local",
+                         "type":  "Python",
+                         "group":  "",
+                         "tier":  "",
+                         "chat":  "",
+                         "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\ruzehned",
+                         "git":  {
+                                     "isRepo":  false,
+                                     "branch":  "",
+                                     "uncommitted":  0,
+                                     "ahead":  0,
+                                     "behind":  0,
+                                     "lastCommit":  ""
+                                 },
+                         "deps":  {
+                                      "manager":  "",
+                                      "hasLockfile":  false,
+                                      "count":  0
+                                  },
+                         "build":  {
+                                       "hasBuild":  false,
+                                       "hasTest":  false
+                                   },
+                         "todos":  0,
+                         "status":  {
+                                        "adam":  "na",
+                                        "klara":  "na",
+                                        "viktor":  "na",
+                                        "tereza":  "ok",
+                                        "nina":  "na"
+                                    }
+                     },
+                     {
                          "name":  "velin-cron",
                          "kind":  "local",
                          "type":  "Python",
@@ -486,7 +520,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "9 hours ago | cloud hlida tep PC: kdyz PC prestane obnovovat data (\u003e3h), posle Telegram alert"
+                                     "lastCommit":  "11 hours ago | cloud hlida tep PC: kdyz PC prestane obnovovat data (\u003e3h), posle Telegram alert"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -508,20 +542,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-07-30T18:00:02.2730905+00:00",
+                  "generatedAt":  "2026-07-30T20:00:02.1419458+00:00",
                   "session5h":  {
-                                    "total":  203591,
-                                    "input":  90,
-                                    "output":  4828,
-                                    "cache_c":  3122,
-                                    "cache_r":  195551,
-                                    "count":  9,
-                                    "pct":  0.1
+                                    "total":  19497379,
+                                    "input":  176,
+                                    "output":  42615,
+                                    "cache_c":  806402,
+                                    "cache_r":  18648186,
+                                    "count":  54,
+                                    "pct":  14.2
                                 },
                   "weekly7d":  {
-                                   "total":  331305737,
-                                   "count":  952,
-                                   "pct":  26.6
+                                   "total":  286620334,
+                                   "count":  904,
+                                   "pct":  23
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -532,26 +566,26 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  40718,
-                  "burnRatePerDay":  977232,
+                  "burnRatePerH":  3899476,
+                  "burnRatePerDay":  93587424,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137270456,
+                                                   "remaining":  117976668,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~14% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  915268351,
-                                                  "hoursToLimit":  22478.2,
-                                                  "etaIso":  "2029-02-21 10:12",
-                                                  "etaText":  "za 22 478 h (\u003e2 dny)",
+                                                  "remaining":  959953754,
+                                                  "hoursToLimit":  246.2,
+                                                  "etaIso":  "2026-08-10 04:12",
+                                                  "etaText":  "za 246 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  44,
+                                      "ageDays":  44.1,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -559,8 +593,8 @@
                   "urgency":  "warn",
                   "alerts":  [
                                  "DRAHY PROVOZ: 100% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
-                                 "DRAHY PROVOZ: 94% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 44 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "DRAHY PROVOZ: 93% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
+                                 "KALIBRACE STARA 44,1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -571,19 +605,25 @@
                              },
                   "modelBreakdown":  [
                                          {
+                                             "model":  "claude-opus-5",
+                                             "total":  19293386,
+                                             "output":  37385,
+                                             "count":  45
+                                         },
+                                         {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  203591,
-                                             "output":  4828,
+                                             "total":  203993,
+                                             "output":  5230,
                                              "count":  9
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  100,
-                                  "longSessionTok":  330622176,
+                                  "longSessionTok":  285846117,
                                   "sessionsLong":  3,
-                                  "sessionsTotal":  32,
-                                  "highCtxPct":  94,
-                                  "highCtxTok":  312429366,
+                                  "sessionsTotal":  36,
+                                  "highCtxPct":  93,
+                                  "highCtxTok":  267653307,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
