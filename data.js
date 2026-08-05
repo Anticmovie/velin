@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-05 16:15",
+    "generated":  "2026-08-05 18:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,20 +542,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-05T14:00:02.4979747+00:00",
+                  "generatedAt":  "2026-08-05T16:00:02.8540357+00:00",
                   "session5h":  {
-                                    "total":  22982,
+                                    "total":  22637,
                                     "input":  10,
-                                    "output":  733,
-                                    "cache_c":  6860,
+                                    "output":  510,
+                                    "cache_c":  6738,
                                     "cache_r":  15379,
                                     "count":  1,
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  273615099,
-                                   "count":  1085,
-                                   "pct":  21.9
+                                   "total":  273637736,
+                                   "count":  1086,
+                                   "pct":  22
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -566,20 +566,20 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  4596,
-                  "burnRatePerDay":  110304,
+                  "burnRatePerH":  4527,
+                  "burnRatePerDay":  108648,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137451065,
+                                                   "remaining":  137451410,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  972958989,
-                                                  "hoursToLimit":  211696.9,
-                                                  "etaIso":  "2050-09-29 08:54",
-                                                  "etaText":  "za 211 697 h (\u003e2 dny)",
+                                                  "remaining":  972936352,
+                                                  "hoursToLimit":  214918.6,
+                                                  "etaIso":  "2051-02-10 16:36",
+                                                  "etaText":  "za 214 919 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -606,8 +606,8 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  22982,
-                                             "output":  733,
+                                             "total":  22637,
+                                             "output":  510,
                                              "count":  1
                                          }
                                      ],
@@ -615,7 +615,7 @@
                                   "longSessionPct":  96,
                                   "longSessionTok":  261641929,
                                   "sessionsLong":  1,
-                                  "sessionsTotal":  162,
+                                  "sessionsTotal":  163,
                                   "highCtxPct":  92,
                                   "highCtxTok":  252543075,
                                   "longThresholdH":  8,
