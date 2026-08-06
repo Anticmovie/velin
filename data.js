@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-06 04:15",
+    "generated":  "2026-08-06 06:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -418,7 +418,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "7 weeks ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
+                                     "lastCommit":  "8 weeks ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-06T02:00:02.9929922+00:00",
+                  "generatedAt":  "2026-08-06T04:00:02.6814597+00:00",
                   "session5h":  {
                                     "total":  23876,
                                     "input":  10,
@@ -578,7 +578,7 @@
                                    "weekly":  {
                                                   "remaining":  972912476,
                                                   "hoursToLimit":  203751.3,
-                                                  "etaIso":  "2049-11-02 19:18",
+                                                  "etaIso":  "2049-11-02 21:18",
                                                   "etaText":  "za 203 751 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
