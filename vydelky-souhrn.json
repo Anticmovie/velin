@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-08T18:36:46",
+ "generated": "2026-08-08T19:02:55",
  "byznysy": {
   "apartmany": {
    "nazev": "Apartmány",
@@ -50,7 +50,7 @@
     "emoji": "🧺",
     "mesice": {
      "2026-07": 23760,
-     "2026-08": 8640
+     "2026-08": 8880
     },
     "pozn": "marže z praní (účtuji 200, stojí ~60 Kč/ks)"
    }
