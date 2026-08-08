@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-08T01:30:18",
+ "generated": "2026-08-08T02:00:19",
  "byznysy": {
   "apartmany": {
    "nazev": "Apartmány",
@@ -101,7 +101,8 @@
     "2026-03": 6917,
     "2026-04": 12352,
     "2026-05": 17916,
-    "2026-06": 16344
+    "2026-06": 16344,
+    "2026-07": 21254
    },
    "pozn": "naše provize za správu (10/5/10 % z obratu Korunní + Mezibranské)",
    "detail": "majitel-korunni.html"
