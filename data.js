@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-12 18:15",
+    "generated":  "2026-08-12 18:27",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -205,7 +205,7 @@
                          "kind":  "local",
                          "type":  "Ostatni",
                          "group":  "Projekt Byty",
-                         "tier":  "zdroj / kÃ³d",
+                         "tier":  "zdroj / kĂłd",
                          "chat":  "",
                          "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\apartmany-boti",
                          "git":  {
@@ -248,7 +248,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "9 weeks ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├¡ Anthropic)"
+                                     "lastCommit":  "9 weeks ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├ş Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -409,7 +409,7 @@
                          "kind":  "local",
                          "type":  "Python",
                          "group":  "Projekt Byty (archiv)",
-                         "tier":  "zdroj / kÃ³d",
+                         "tier":  "zdroj / kĂłd",
                          "chat":  "",
                          "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\projekt-byty",
                          "git":  {
@@ -452,7 +452,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "9 weeks ago | Scout agent v2 + c├¡len├⌐ texty: popt├ívka po recenz├¡ch vs hleda─ìi p┼Öiv├╜d─¢lku"
+                                     "lastCommit":  "9 weeks ago | Scout agent v2 + c├şlen├ę texty: popt├ívka po recenz├şch vs hleda─Źi p┼Öiv├Żd─Ťlku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
