@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-17 04:15",
+    "generated":  "2026-08-17 06:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,15 +542,15 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-17T02:00:04.2360930+00:00",
+                  "generatedAt":  "2026-08-17T04:00:04.1144885+00:00",
                   "session5h":  {
-                                    "total":  7260477,
-                                    "input":  145,
-                                    "output":  38992,
-                                    "cache_c":  196419,
-                                    "cache_r":  7024921,
-                                    "count":  47,
-                                    "pct":  5.3
+                                    "total":  113153,
+                                    "input":  30,
+                                    "output":  4643,
+                                    "cache_c":  10525,
+                                    "cache_r":  97955,
+                                    "count":  3,
+                                    "pct":  0.1
                                 },
                   "weekly7d":  {
                                    "total":  91902292,
@@ -566,20 +566,20 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  1452095,
-                  "burnRatePerDay":  34850280,
+                  "burnRatePerH":  22631,
+                  "burnRatePerDay":  543144,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  130213570,
+                                                   "remaining":  137360894,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~5% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
                                                   "remaining":  1154671796,
-                                                  "hoursToLimit":  795.2,
-                                                  "etaIso":  "2026-09-19 07:12",
-                                                  "etaText":  "za 795 h (\u003e2 dny)",
+                                                  "hoursToLimit":  51021.7,
+                                                  "etaIso":  "2032-06-12 03:43",
+                                                  "etaText":  "za 51,022 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -605,16 +605,10 @@
                              },
                   "modelBreakdown":  [
                                          {
-                                             "model":  "claude-opus-5",
-                                             "total":  7001551,
-                                             "output":  32569,
-                                             "count":  40
-                                         },
-                                         {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  258926,
-                                             "output":  6423,
-                                             "count":  7
+                                             "total":  113153,
+                                             "output":  4643,
+                                             "count":  3
                                          }
                                      ],
                   "quality":  {
