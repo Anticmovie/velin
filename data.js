@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-18 18:15",
+    "generated":  "2026-08-18 20:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -452,7 +452,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "9 weeks ago | Scout agent v2 + c├¡len├⌐ texty: popt├ívka po recenz├¡ch vs hleda─ìi p┼Öiv├╜d─¢lku"
+                                     "lastCommit":  "10 weeks ago | Scout agent v2 + c├¡len├⌐ texty: popt├ívka po recenz├¡ch vs hleda─ìi p┼Öiv├╜d─¢lku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-18T16:00:07.3606558+00:00",
+                  "generatedAt":  "2026-08-18T18:00:06.8910695+00:00",
                   "session5h":  {
                                     "total":  36759,
                                     "input":  10,
@@ -553,9 +553,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  92216672,
-                                   "count":  684,
-                                   "pct":  7.4
+                                   "total":  83383728,
+                                   "count":  620,
+                                   "pct":  6.7
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -576,25 +576,25 @@
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1154357416,
-                                                  "hoursToLimit":  157012.7,
-                                                  "etaIso":  "2044-07-16 22:43",
-                                                  "etaText":  "za 157,013 h (\u003e2 dny)",
+                                                  "remaining":  1163190360,
+                                                  "hoursToLimit":  158214.1,
+                                                  "etaIso":  "2044-09-05 02:07",
+                                                  "etaText":  "za 158,214 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  62.9,
+                                      "ageDays":  63,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "POZOR: 60% spotreby z dlouhych sessions (8h+)",
-                                 "POZOR: 70% spotreby pri kontextu \u003e150k",
-                                 "KALIBRACE STARA 62.9 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "POZOR: 66% spotreby z dlouhych sessions (8h+)",
+                                 "POZOR: 71% spotreby pri kontextu \u003e150k",
+                                 "KALIBRACE STARA 63 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -612,12 +612,12 @@
                                          }
                                      ],
                   "quality":  {
-                                  "longSessionPct":  60,
+                                  "longSessionPct":  66,
                                   "longSessionTok":  55323180,
                                   "sessionsLong":  2,
-                                  "sessionsTotal":  156,
-                                  "highCtxPct":  70,
-                                  "highCtxTok":  64164071,
+                                  "sessionsTotal":  155,
+                                  "highCtxPct":  71,
+                                  "highCtxTok":  58846905,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
