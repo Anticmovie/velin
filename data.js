@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-19 02:15",
+    "generated":  "2026-08-19 04:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,19 +542,19 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-19T00:00:03.0164834+00:00",
+                  "generatedAt":  "2026-08-19T02:00:02.6608781+00:00",
                   "session5h":  {
-                                    "total":  37573,
+                                    "total":  36770,
                                     "input":  10,
-                                    "output":  858,
-                                    "cache_c":  14848,
+                                    "output":  541,
+                                    "cache_c":  14362,
                                     "cache_r":  21857,
                                     "count":  1,
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  51944907,
-                                   "count":  408,
+                                   "total":  51981677,
+                                   "count":  409,
                                    "pct":  4.2
                                },
                   "sonnet5h":  {
@@ -566,26 +566,26 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  7515,
-                  "burnRatePerDay":  180360,
+                  "burnRatePerH":  7354,
+                  "burnRatePerDay":  176496,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137436474,
+                                                   "remaining":  137437277,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1194629181,
-                                                  "hoursToLimit":  158966,
-                                                  "etaIso":  "2044-10-06 16:01",
-                                                  "etaText":  "za 158,966 h (\u003e2 dny)",
+                                                  "remaining":  1194592411,
+                                                  "hoursToLimit":  162441.2,
+                                                  "etaIso":  "2045-02-28 13:13",
+                                                  "etaText":  "za 162,441 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  63.3,
+                                      "ageDays":  63.4,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -593,7 +593,7 @@
                   "urgency":  "warn",
                   "alerts":  [
                                  "POZOR: 73% spotreby pri kontextu \u003e150k",
-                                 "KALIBRACE STARA 63.3 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 63.4 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -605,8 +605,8 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  37573,
-                                             "output":  858,
+                                             "total":  36770,
+                                             "output":  541,
                                              "count":  1
                                          }
                                      ],
@@ -614,7 +614,7 @@
                                   "longSessionPct":  22,
                                   "longSessionTok":  11539513,
                                   "sessionsLong":  1,
-                                  "sessionsTotal":  154,
+                                  "sessionsTotal":  155,
                                   "highCtxPct":  73,
                                   "highCtxTok":  37840716,
                                   "longThresholdH":  8,
