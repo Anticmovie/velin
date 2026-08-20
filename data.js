@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-20 04:15",
+    "generated":  "2026-08-20 06:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -418,7 +418,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "9 weeks ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
+                                     "lastCommit":  "10 weeks ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-20T02:00:12.6024785+00:00",
+                  "generatedAt":  "2026-08-20T04:00:07.7429078+00:00",
                   "session5h":  {
                                     "total":  36823,
                                     "input":  10,
@@ -553,8 +553,8 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  17128290,
-                                   "count":  239,
+                                   "total":  16981892,
+                                   "count":  235,
                                    "pct":  1.4
                                },
                   "sonnet5h":  {
@@ -576,10 +576,10 @@
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1229445798,
-                                                  "hoursToLimit":  166930.9,
-                                                  "etaIso":  "2045-09-04 14:55",
-                                                  "etaText":  "za 166,931 h (\u003e2 dny)",
+                                                  "remaining":  1229592196,
+                                                  "hoursToLimit":  166950.7,
+                                                  "etaIso":  "2045-09-05 12:43",
+                                                  "etaText":  "za 166,951 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -592,7 +592,7 @@
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "POZOR: 67% spotreby z dlouhych sessions (8h+)",
+                                 "POZOR: 68% spotreby z dlouhych sessions (8h+)",
                                  "KALIBRACE STARA 64.4 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
@@ -611,11 +611,11 @@
                                          }
                                      ],
                   "quality":  {
-                                  "longSessionPct":  67,
+                                  "longSessionPct":  68,
                                   "longSessionTok":  11539513,
                                   "sessionsLong":  1,
-                                  "sessionsTotal":  152,
-                                  "highCtxPct":  38,
+                                  "sessionsTotal":  148,
+                                  "highCtxPct":  39,
                                   "highCtxTok":  6566416,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
