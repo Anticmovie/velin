@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-20 12:15",
+    "generated":  "2026-08-20 14:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-20T10:00:18.9887571+00:00",
+                  "generatedAt":  "2026-08-20T12:00:15.4466710+00:00",
                   "session5h":  {
                                     "total":  36644,
                                     "input":  10,
@@ -578,14 +578,14 @@
                                    "weekly":  {
                                                   "remaining":  1229592078,
                                                   "hoursToLimit":  167770.8,
-                                                  "etaIso":  "2045-10-09 22:49",
+                                                  "etaIso":  "2045-10-10 00:49",
                                                   "etaText":  "za 167,771 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  64.7,
+                                      "ageDays":  64.8,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -593,7 +593,7 @@
                   "urgency":  "warn",
                   "alerts":  [
                                  "POZOR: 68% spotreby z dlouhych sessions (8h+)",
-                                 "KALIBRACE STARA 64.7 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 64.8 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
