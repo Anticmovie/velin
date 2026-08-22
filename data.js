@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-22 22:15",
+    "generated":  "2026-08-23 00:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-22T20:00:04.4116487+00:00",
+                  "generatedAt":  "2026-08-22T22:00:04.4478042+00:00",
                   "session5h":  {
                                     "total":  36739,
                                     "input":  10,
@@ -553,8 +553,8 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  39532267,
-                                   "count":  236,
+                                   "total":  39422102,
+                                   "count":  233,
                                    "pct":  3.2
                                },
                   "sonnet5h":  {
@@ -576,16 +576,16 @@
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1207041821,
-                                                  "hoursToLimit":  164268.1,
-                                                  "etaIso":  "2045-05-19 10:07",
-                                                  "etaText":  "za 164,268 h (\u003e2 dny)",
+                                                  "remaining":  1207151986,
+                                                  "hoursToLimit":  164283.1,
+                                                  "etaIso":  "2045-05-20 03:07",
+                                                  "etaText":  "za 164,283 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  67.1,
+                                      "ageDays":  67.2,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -593,8 +593,8 @@
                   "urgency":  "warn",
                   "alerts":  [
                                  "DRAHY PROVOZ: 93% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
-                                 "DRAHY PROVOZ: 88% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 67.1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "DRAHY PROVOZ: 89% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
+                                 "KALIBRACE STARA 67.2 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -615,8 +615,8 @@
                                   "longSessionPct":  93,
                                   "longSessionTok":  36606760,
                                   "sessionsLong":  1,
-                                  "sessionsTotal":  80,
-                                  "highCtxPct":  88,
+                                  "sessionsTotal":  77,
+                                  "highCtxPct":  89,
                                   "highCtxTok":  34966345,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
