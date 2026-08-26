@@ -28,7 +28,7 @@ aktualizovano: 2026-08-26
 | — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 78 % |
 | — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 58 % |
 | — | andel | — | — | ⚠️ | ⚠️ | ⚠️ | — | — | 78 % |
-| — | havelska | — | — | ⚠️ | ⚠️ | % | — | — | 73 % |
+| — | havelska | — | — | ⚠️ | ⚠️ | % | — | — | 78 % |
 | — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 62 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
