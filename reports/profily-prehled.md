@@ -29,7 +29,7 @@ aktualizovano: 2026-08-27
 | — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 58 % |
 | — | andel | — | — | ⚠️ | ⚠️ | ⚠️ | — | — | 80 % |
 | — | havelska | — | — | ⚠️ | ⚠️ | % | — | — | 78 % |
-| — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 62 % |
+| — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 73 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
 
