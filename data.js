@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-28 22:34",
+    "generated":  "2026-08-29 00:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -107,7 +107,7 @@
                                               "chat":  "skupina -5299707474",
                                               "workflow":  "Uklid notifikace v6",
                                               "project":  "apartmany-boti",
-                                              "live":  false
+                                              "live":  true
                                           },
                                           {
                                               "id":  "prijezdovy",
@@ -116,11 +116,11 @@
                                               "color":  "#3b82f6",
                                               "role":  "Pravděpodobné časy příjezdů hostů",
                                               "detail":  "Scanuje Booking/Airbnb e-maily a hlásí časy příjezdů do osobního DM. Denně 8:00. Scanování se předělává podle nového principu (kotvení na byt + datum).",
-                                              "status":  "wip",
+                                              "status":  "operational",
                                               "chat":  "DM 1436651098",
                                               "workflow":  "Email Prijezdy v5",
                                               "project":  "apartmany-boti",
-                                              "live":  false
+                                              "live":  true
                                           },
                                           {
                                               "id":  "hlidaci",
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "33 minutes ago | fix: logovat, jestli alert do Telegramu opravdu odesel"
+                                     "lastCommit":  "2 hours ago | fix: logovat, jestli alert do Telegramu opravdu odesel"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -542,20 +542,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-28T19:33:45.0695962+00:00",
+                  "generatedAt":  "2026-08-28T22:00:03.4151097+00:00",
                   "session5h":  {
-                                    "total":  115418,
-                                    "input":  30,
-                                    "output":  3829,
-                                    "cache_c":  41862,
-                                    "cache_r":  69697,
-                                    "count":  3,
-                                    "pct":  0.1
+                                    "total":  37821833,
+                                    "input":  238,
+                                    "output":  85328,
+                                    "cache_c":  451382,
+                                    "cache_r":  37284885,
+                                    "count":  103,
+                                    "pct":  27.5
                                 },
                   "weekly7d":  {
-                                   "total":  2730032,
-                                   "count":  72,
-                                   "pct":  0.2
+                                   "total":  40475104,
+                                   "count":  173,
+                                   "pct":  3.2
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -566,33 +566,34 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  23084,
-                  "burnRatePerDay":  554016,
+                  "burnRatePerH":  7564367,
+                  "burnRatePerDay":  181544808,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137358629,
+                                                   "remaining":  99652214,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~28% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1243844056,
-                                                  "hoursToLimit":  53883.4,
-                                                  "etaIso":  "2032-10-21 01:00",
-                                                  "etaText":  "za 53,883 h (\u003e2 dny)",
+                                                  "remaining":  1206098984,
+                                                  "hoursToLimit":  159.4,
+                                                  "etaIso":  "2026-09-04 15:24",
+                                                  "etaText":  "za 159 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  73.1,
+                                      "ageDays":  73.2,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "KALIBRACE STARA 73.1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "DRAHY PROVOZ: 93% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
+                                 "KALIBRACE STARA 73.2 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -603,19 +604,25 @@
                              },
                   "modelBreakdown":  [
                                          {
+                                             "model":  "claude-opus-5",
+                                             "total":  37663587,
+                                             "output":  74282,
+                                             "count":  99
+                                         },
+                                         {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  115418,
-                                             "output":  3829,
-                                             "count":  3
+                                             "total":  158246,
+                                             "output":  11046,
+                                             "count":  4
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  0,
                                   "longSessionTok":  0,
                                   "sessionsLong":  0,
-                                  "sessionsTotal":  72,
-                                  "highCtxPct":  0,
-                                  "highCtxTok":  0,
+                                  "sessionsTotal":  75,
+                                  "highCtxPct":  93,
+                                  "highCtxTok":  37663587,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
