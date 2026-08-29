@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-29 04:15",
+    "generated":  "2026-08-29 06:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "6 hours ago | fix: logovat, jestli alert do Telegramu opravdu odesel"
+                                     "lastCommit":  "8 hours ago | fix: logovat, jestli alert do Telegramu opravdu odesel"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -542,19 +542,19 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-29T02:00:03.3867557+00:00",
+                  "generatedAt":  "2026-08-29T04:00:05.5904934+00:00",
                   "session5h":  {
-                                    "total":  14102708,
-                                    "input":  116,
-                                    "output":  33785,
-                                    "cache_c":  76907,
-                                    "cache_r":  13991900,
-                                    "count":  38,
-                                    "pct":  10.3
+                                    "total":  184033,
+                                    "input":  50,
+                                    "output":  2703,
+                                    "cache_c":  34875,
+                                    "cache_r":  146405,
+                                    "count":  5,
+                                    "pct":  0.1
                                 },
                   "weekly7d":  {
-                                   "total":  40549942,
-                                   "count":  175,
+                                   "total":  40623555,
+                                   "count":  177,
                                    "pct":  3.3
                                },
                   "sonnet5h":  {
@@ -566,20 +566,20 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  2820542,
-                  "burnRatePerDay":  67693008,
+                  "burnRatePerH":  36807,
+                  "burnRatePerDay":  883368,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  123371339,
+                                                   "remaining":  137290014,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~10% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1206024146,
-                                                  "hoursToLimit":  427.6,
-                                                  "etaIso":  "2026-09-15 23:36",
-                                                  "etaText":  "za 428 h (\u003e2 dny)",
+                                                  "remaining":  1205950533,
+                                                  "hoursToLimit":  32764.2,
+                                                  "etaIso":  "2030-05-25 10:13",
+                                                  "etaText":  "za 32,764 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -604,15 +604,9 @@
                              },
                   "modelBreakdown":  [
                                          {
-                                             "model":  "claude-opus-5",
-                                             "total":  13909672,
-                                             "output":  23601,
-                                             "count":  33
-                                         },
-                                         {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  193036,
-                                             "output":  10184,
+                                             "total":  184033,
+                                             "output":  2703,
                                              "count":  5
                                          }
                                      ],
@@ -620,7 +614,7 @@
                                   "longSessionPct":  0,
                                   "longSessionTok":  0,
                                   "sessionsLong":  0,
-                                  "sessionsTotal":  77,
+                                  "sessionsTotal":  79,
                                   "highCtxPct":  93,
                                   "highCtxTok":  37663587,
                                   "longThresholdH":  8,
