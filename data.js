@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-08-29 06:15",
+    "generated":  "2026-08-29 08:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "8 hours ago | fix: logovat, jestli alert do Telegramu opravdu odesel"
+                                     "lastCommit":  "10 hours ago | fix: logovat, jestli alert do Telegramu opravdu odesel"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -542,19 +542,19 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-08-29T04:00:05.5904934+00:00",
+                  "generatedAt":  "2026-08-29T06:00:03.4597204+00:00",
                   "session5h":  {
-                                    "total":  184033,
-                                    "input":  50,
-                                    "output":  2703,
-                                    "cache_c":  34875,
-                                    "cache_r":  146405,
-                                    "count":  5,
-                                    "pct":  0.1
+                                    "total":  220991,
+                                    "input":  60,
+                                    "output":  3360,
+                                    "cache_c":  49309,
+                                    "cache_r":  168262,
+                                    "count":  6,
+                                    "pct":  0.2
                                 },
                   "weekly7d":  {
-                                   "total":  40623555,
-                                   "count":  177,
+                                   "total":  40660513,
+                                   "count":  178,
                                    "pct":  3.3
                                },
                   "sonnet5h":  {
@@ -566,26 +566,26 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  36807,
-                  "burnRatePerDay":  883368,
+                  "burnRatePerH":  44198,
+                  "burnRatePerDay":  1060752,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137290014,
+                                                   "remaining":  137253056,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1205950533,
-                                                  "hoursToLimit":  32764.2,
-                                                  "etaIso":  "2030-05-25 10:13",
-                                                  "etaText":  "za 32,764 h (\u003e2 dny)",
+                                                  "remaining":  1205913575,
+                                                  "hoursToLimit":  27284.3,
+                                                  "etaIso":  "2029-10-09 04:18",
+                                                  "etaText":  "za 27,284 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  73.4,
+                                      "ageDays":  73.5,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -593,7 +593,7 @@
                   "urgency":  "warn",
                   "alerts":  [
                                  "DRAHY PROVOZ: 93% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 73.4 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 73.5 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -605,16 +605,16 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  184033,
-                                             "output":  2703,
-                                             "count":  5
+                                             "total":  220991,
+                                             "output":  3360,
+                                             "count":  6
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  0,
                                   "longSessionTok":  0,
                                   "sessionsLong":  0,
-                                  "sessionsTotal":  79,
+                                  "sessionsTotal":  80,
                                   "highCtxPct":  93,
                                   "highCtxTok":  37663587,
                                   "longThresholdH":  8,
