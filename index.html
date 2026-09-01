@@ -379,7 +379,9 @@
         (uklidy.length?uklidy.map(function(x){return '<div class="prow"><span class="em">✅</span><span class="byt">'+esc(x.byt)+'</span><span class="lead"></span><span class="g">'+esc((x.guest||'').split(' ')[0])+'</span></div>';}).join(''):'<div class="dnic">žádné</div>')+
         '<div class="dsec">🔑 Příjezdy · '+arr.length+'</div>'+
         (arr.length?arr.map(function(x){var c=x.cas&&x.cas!=='?'?x.cas:null;
-          return '<div class="prow"><span class="em">🔑</span><span class="byt">'+esc(x.byt)+'</span><span class="lead"></span>'+(c?'<span class="cas">⏰ '+esc(c)+'</span>':'<span class="cas ne">—</span>')+'<span class="g">'+esc((x.guest||'').split(' ')[0])+'</span></div>';}).join(''):'<div class="dnic">žádné</div>')+
+          /* kolik lidi prijede je v rezervaci (Booking guests / Airbnb guests_total) — plni report_sync.py */
+          var n=x.hostu?'<span class="hostu" title="pocet hostu">👥 '+x.hostu+'</span>':'';
+          return '<div class="prow"><span class="em">🔑</span><span class="byt">'+esc(x.byt)+'</span><span class="lead"></span>'+n+(c?'<span class="cas">⏰ '+esc(c)+'</span>':'<span class="cas ne">—</span>')+'<span class="g">'+esc((x.guest||'').split(' ')[0])+'</span></div>';}).join(''):'<div class="dnic">žádné</div>')+
         '<div class="dpad"></div></div>';
     }
     return '<div class="days">'+html+'</div>';
@@ -401,7 +403,7 @@
       var d0=(p.days||[])[0]||{prijezdy:[],odjezdy:[]};
       var tA=document.getElementById('t-arr'),tD=document.getElementById('t-dep');
       if(tA){tA.querySelector('.num').textContent=d0.prijezdy.length;tA.classList.toggle('zero',!d0.prijezdy.length);
-        tA.querySelector('.sub').innerHTML=d0.prijezdy.slice(0,2).map(function(x){return esc(x.byt)+(x.cas&&x.cas!=='?'?' ⏰'+esc(x.cas):'');}).join('<br>')||'nikdo';}
+        tA.querySelector('.sub').innerHTML=d0.prijezdy.slice(0,2).map(function(x){return esc(x.byt)+(x.hostu?' 👥'+x.hostu:'')+(x.cas&&x.cas!=='?'?' ⏰'+esc(x.cas):'');}).join('<br>')||'nikdo';}
       if(tD){tD.querySelector('.num').textContent=d0.odjezdy.length;tD.classList.toggle('zero',!d0.odjezdy.length);
         tD.querySelector('.sub').innerHTML=d0.odjezdy.slice(0,2).map(function(x){return esc(x.byt);}).join('<br>')||'nikdo';}
     }).catch(function(){document.getElementById('provoz-cas').textContent='report nedostupný';});
