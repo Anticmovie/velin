@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-09-01 16:15",
+    "generated":  "2026-09-01 18:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "5 hours ago | vypnout hlidani n8n: na instanci uz nezustal zadny aktivni workflow"
+                                     "lastCommit":  "7 hours ago | vypnout hlidani n8n: na instanci uz nezustal zadny aktivni workflow"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -520,7 +520,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "5 hours ago | cloud jede jen v pohotovosti: dokud tluce tep PC, nesaha na Telegram digest ani na Supabase kartu"
+                                     "lastCommit":  "7 hours ago | cloud jede jen v pohotovosti: dokud tluce tep PC, nesaha na Telegram digest ani na Supabase kartu"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -542,15 +542,15 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-09-01T14:00:02.8548016+00:00",
+                  "generatedAt":  "2026-09-01T16:00:02.8585118+00:00",
                   "session5h":  {
-                                    "total":  79688388,
-                                    "input":  526,
-                                    "output":  187075,
-                                    "cache_c":  640303,
-                                    "cache_r":  78860484,
-                                    "count":  255,
-                                    "pct":  58
+                                    "total":  12263795,
+                                    "input":  54,
+                                    "output":  17873,
+                                    "cache_c":  28369,
+                                    "cache_r":  12217499,
+                                    "count":  27,
+                                    "pct":  8.9
                                 },
                   "weekly7d":  {
                                    "total":  128759998,
@@ -566,20 +566,20 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  15937678,
-                  "burnRatePerDay":  382504272,
+                  "burnRatePerH":  2452759,
+                  "burnRatePerDay":  58866216,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  57785659,
+                                                   "remaining":  125210252,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~58% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~9% limitu"
                                                },
                                    "weekly":  {
                                                   "remaining":  1117814090,
-                                                  "hoursToLimit":  70.1,
-                                                  "etaIso":  "2026-09-04 14:06",
-                                                  "etaText":  "za 70 h (\u003e2 dny)",
+                                                  "hoursToLimit":  455.7,
+                                                  "etaIso":  "2026-09-20 17:42",
+                                                  "etaText":  "za 456 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -605,15 +605,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-opus-5",
-                                             "total":  79597071,
-                                             "output":  175731,
-                                             "count":  253
-                                         },
-                                         {
-                                             "model":  "claude-haiku-4-5-20251001",
-                                             "total":  91317,
-                                             "output":  11344,
-                                             "count":  2
+                                             "total":  12263795,
+                                             "output":  17873,
+                                             "count":  27
                                          }
                                      ],
                   "quality":  {
