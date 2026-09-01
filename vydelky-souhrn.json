@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-01T13:01:54",
+ "generated": "2026-09-01T13:31:44",
  "byznysy": {
   "apartmany": {
    "nazev": "Apartmány",
@@ -17,7 +17,9 @@
     "2026-02": -155833,
     "2026-03": -77351,
     "2026-04": 108212,
-    "2026-05": 211934
+    "2026-05": 211934,
+    "2026-06": 111768,
+    "2026-07": 159248
    },
    "pozn": "náš čistý zisk z vlastních bytů (po nájmu, úklidech, DPH)",
    "detail": "vydelky-platformy.html"
