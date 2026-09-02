@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-09-02 00:15",
+    "generated":  "2026-09-02 02:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "13 hours ago | vypnout hlidani n8n: na instanci uz nezustal zadny aktivni workflow"
+                                     "lastCommit":  "15 hours ago | vypnout hlidani n8n: na instanci uz nezustal zadny aktivni workflow"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -520,7 +520,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "13 hours ago | cloud jede jen v pohotovosti: dokud tluce tep PC, nesaha na Telegram digest ani na Supabase kartu"
+                                     "lastCommit":  "15 hours ago | cloud jede jen v pohotovosti: dokud tluce tep PC, nesaha na Telegram digest ani na Supabase kartu"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-09-01T22:00:03.1016905+00:00",
+                  "generatedAt":  "2026-09-02T00:00:03.2477363+00:00",
                   "session5h":  {
                                     "total":  5218047,
                                     "input":  22,
@@ -553,8 +553,8 @@
                                     "pct":  3.8
                                 },
                   "weekly7d":  {
-                                   "total":  133978438,
-                                   "count":  539,
+                                   "total":  133941763,
+                                   "count":  538,
                                    "pct":  10.7
                                },
                   "sonnet5h":  {
@@ -576,16 +576,16 @@
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~4% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1112595650,
+                                                  "remaining":  1112632325,
                                                   "hoursToLimit":  1066.1,
-                                                  "etaIso":  "2026-10-16 10:06",
+                                                  "etaIso":  "2026-10-16 12:06",
                                                   "etaText":  "za 1,066 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  77.2,
+                                      "ageDays":  77.3,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -593,8 +593,8 @@
                   "urgency":  "warn",
                   "alerts":  [
                                  "POZOR: 69% spotreby z dlouhych sessions (8h+)",
-                                 "DRAHY PROVOZ: 92% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 77.2 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "DRAHY PROVOZ: 93% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
+                                 "KALIBRACE STARA 77.3 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -615,8 +615,8 @@
                                   "longSessionPct":  69,
                                   "longSessionTok":  92051986,
                                   "sessionsLong":  1,
-                                  "sessionsTotal":  115,
-                                  "highCtxPct":  92,
+                                  "sessionsTotal":  114,
+                                  "highCtxPct":  93,
                                   "highCtxTok":  123916801,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
