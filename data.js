@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-09-02 04:15",
+    "generated":  "2026-09-02 06:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "17 hours ago | vypnout hlidani n8n: na instanci uz nezustal zadny aktivni workflow"
+                                     "lastCommit":  "19 hours ago | vypnout hlidani n8n: na instanci uz nezustal zadny aktivni workflow"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -520,7 +520,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "17 hours ago | cloud jede jen v pohotovosti: dokud tluce tep PC, nesaha na Telegram digest ani na Supabase kartu"
+                                     "lastCommit":  "19 hours ago | cloud jede jen v pohotovosti: dokud tluce tep PC, nesaha na Telegram digest ani na Supabase kartu"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-09-02T02:00:03.0593730+00:00",
+                  "generatedAt":  "2026-09-02T04:00:03.7414956+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -553,8 +553,8 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  133863485,
-                                   "count":  536,
+                                   "total":  133786448,
+                                   "count":  534,
                                    "pct":  10.7
                                },
                   "sonnet5h":  {
@@ -576,7 +576,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  1112710603,
+                                                  "remaining":  1112787640,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -609,7 +609,7 @@
                                   "longSessionPct":  69,
                                   "longSessionTok":  92051986,
                                   "sessionsLong":  1,
-                                  "sessionsTotal":  112,
+                                  "sessionsTotal":  110,
                                   "highCtxPct":  93,
                                   "highCtxTok":  123916801,
                                   "longThresholdH":  8,
