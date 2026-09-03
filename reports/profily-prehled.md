@@ -1,11 +1,11 @@
 ---
 tags: [velin, apartmany, profil, prehled]
 stav: zivy
-aktualizovano: 2026-09-03
+aktualizovano: 2026-09-04
 ---
 
 # Prehled profilu apartmanu
-> Generovano 2026-09-03. Score 0-100 (realisticke, absolutni kotvy): 30 % obsazenost (ziva 60d) + 25 % cena (vs median) + 30 % hodnoceni + 15 % vydelek; bez hodnoceni 45/30/25.
+> Generovano 2026-09-04. Score 0-100 (realisticke, absolutni kotvy): 30 % obsazenost (ziva 60d) + 25 % cena (vs median) + 30 % hodnoceni + 15 % vydelek; bez hodnoceni 45/30/25.
 > Median dosazene ceny: **1530 Kc/noc** (Airbnb net 2025).
 
 | # | Byt | Skore | Hvezdy | Booking | Airbnb | Najem | Net 13m (Kc) | Avg/noc | Obsaz. 60d |
@@ -29,7 +29,7 @@ aktualizovano: 2026-09-03
 | — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 87 % |
 | — | andel | — | — | ⚠️ | ⚠️ | ⚠️ | — | — | 87 % |
 | — | havelska | — | — | ⚠️ | ⚠️ | % | — | — | 77 % |
-| — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 77 % |
+| — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 75 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
 
