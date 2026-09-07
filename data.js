@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-09-07 14:16",
+    "generated":  "2026-09-07 16:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -103,11 +103,11 @@
                                               "color":  "#14b8a6",
                                               "role":  "Rozpis úklidů pro úklidovou firmu",
                                               "detail":  "Z iCalů (Airbnb + Booking) spočítá odjezdy a příjezdy a pošle digest do úklidové skupiny. Cron 7:00 a 17:00.",
-                                              "status":  "operational",
+                                              "status":  "down",
                                               "chat":  "skupina -5299707474",
                                               "workflow":  "Uklid notifikace v6",
                                               "project":  "apartmany-boti",
-                                              "live":  false
+                                              "live":  true
                                           },
                                           {
                                               "id":  "prijezdovy",
@@ -116,11 +116,11 @@
                                               "color":  "#3b82f6",
                                               "role":  "Pravděpodobné časy příjezdů hostů",
                                               "detail":  "Scanuje Booking/Airbnb e-maily a hlásí časy příjezdů do osobního DM. Denně 8:00. Scanování se předělává podle nového principu (kotvení na byt + datum).",
-                                              "status":  "wip",
+                                              "status":  "down",
                                               "chat":  "DM 1436651098",
                                               "workflow":  "Email Prijezdy v5",
                                               "project":  "apartmany-boti",
-                                              "live":  false
+                                              "live":  true
                                           },
                                           {
                                               "id":  "hlidaci",
@@ -542,19 +542,19 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-09-07T12:00:05.0597133+00:00",
+                  "generatedAt":  "2026-09-07T14:00:08.0109524+00:00",
                   "session5h":  {
-                                    "total":  78287,
+                                    "total":  78238,
                                     "input":  20,
-                                    "output":  3682,
-                                    "cache_c":  30871,
+                                    "output":  3436,
+                                    "cache_c":  31068,
                                     "cache_r":  43714,
                                     "count":  2,
                                     "pct":  0.1
                                 },
                   "weekly7d":  {
-                                   "total":  104942181,
-                                   "count":  401,
+                                   "total":  104867128,
+                                   "count":  399,
                                    "pct":  8.4
                                },
                   "sonnet5h":  {
@@ -566,26 +566,26 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  15657,
-                  "burnRatePerDay":  375768,
+                  "burnRatePerH":  15648,
+                  "burnRatePerDay":  375552,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137395760,
+                                                   "remaining":  137395809,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1141631907,
-                                                  "hoursToLimit":  72915.1,
-                                                  "etaIso":  "2035-01-01 17:06",
-                                                  "etaText":  "za 72,915 h (\u003e2 dny)",
+                                                  "remaining":  1141706960,
+                                                  "hoursToLimit":  72961.8,
+                                                  "etaIso":  "2035-01-03 17:48",
+                                                  "etaText":  "za 72,962 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  82.8,
+                                      "ageDays":  82.9,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -594,7 +594,7 @@
                   "alerts":  [
                                  "DRAHY PROVOZ: 98% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 93% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 82.8 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 82.9 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -606,8 +606,8 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  78287,
-                                             "output":  3682,
+                                             "total":  78238,
+                                             "output":  3436,
                                              "count":  2
                                          }
                                      ],
@@ -615,7 +615,7 @@
                                   "longSessionPct":  98,
                                   "longSessionTok":  102873595,
                                   "sessionsLong":  1,
-                                  "sessionsTotal":  53,
+                                  "sessionsTotal":  51,
                                   "highCtxPct":  93,
                                   "highCtxTok":  97074823,
                                   "longThresholdH":  8,
