@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-09-08 20:15",
+    "generated":  "2026-09-08 22:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -103,11 +103,11 @@
                                               "color":  "#14b8a6",
                                               "role":  "Rozpis úklidů pro úklidovou firmu",
                                               "detail":  "Z iCalů (Airbnb + Booking) spočítá odjezdy a příjezdy a pošle digest do úklidové skupiny. Cron 7:00 a 17:00.",
-                                              "status":  "down",
+                                              "status":  "operational",
                                               "chat":  "skupina -5299707474",
                                               "workflow":  "Uklid notifikace v6",
                                               "project":  "apartmany-boti",
-                                              "live":  true
+                                              "live":  false
                                           },
                                           {
                                               "id":  "prijezdovy",
@@ -116,11 +116,11 @@
                                               "color":  "#3b82f6",
                                               "role":  "Pravděpodobné časy příjezdů hostů",
                                               "detail":  "Scanuje Booking/Airbnb e-maily a hlásí časy příjezdů do osobního DM. Denně 8:00. Scanování se předělává podle nového principu (kotvení na byt + datum).",
-                                              "status":  "down",
+                                              "status":  "wip",
                                               "chat":  "DM 1436651098",
                                               "workflow":  "Email Prijezdy v5",
                                               "project":  "apartmany-boti",
-                                              "live":  true
+                                              "live":  false
                                           },
                                           {
                                               "id":  "hlidaci",
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-09-08T18:00:09.6716673+00:00",
+                  "generatedAt":  "2026-09-08T20:00:13.8660256+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -553,9 +553,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  17533877,
-                                   "count":  91,
-                                   "pct":  1.4
+                                   "total":  12315830,
+                                   "count":  84,
+                                   "pct":  1
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -576,7 +576,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  1229040211,
+                                                  "remaining":  1234258258,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -584,16 +584,15 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  84,
+                                      "ageDays":  84.1,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "DRAHY PROVOZ: 91% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
-                                 "DRAHY PROVOZ: 91% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 84 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "DRAHY PROVOZ: 88% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
+                                 "KALIBRACE STARA 84.1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -611,12 +610,12 @@
                                          }
                                      ],
                   "quality":  {
-                                  "longSessionPct":  91,
-                                  "longSessionTok":  16039656,
-                                  "sessionsLong":  1,
-                                  "sessionsTotal":  59,
-                                  "highCtxPct":  91,
-                                  "highCtxTok":  16039656,
+                                  "longSessionPct":  0,
+                                  "longSessionTok":  0,
+                                  "sessionsLong":  0,
+                                  "sessionsTotal":  63,
+                                  "highCtxPct":  88,
+                                  "highCtxTok":  10821609,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
