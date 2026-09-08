@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-09-08 16:15",
+    "generated":  "2026-09-08 18:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-09-08T14:00:10.1084222+00:00",
+                  "generatedAt":  "2026-09-08T16:00:08.6745825+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -554,7 +554,7 @@
                                 },
                   "weekly7d":  {
                                    "total":  17571716,
-                                   "count":  83,
+                                   "count":  87,
                                    "pct":  1.4
                                },
                   "sonnet5h":  {
@@ -614,7 +614,7 @@
                                   "longSessionPct":  91,
                                   "longSessionTok":  16039656,
                                   "sessionsLong":  1,
-                                  "sessionsTotal":  51,
+                                  "sessionsTotal":  55,
                                   "highCtxPct":  91,
                                   "highCtxTok":  16039656,
                                   "longThresholdH":  8,
