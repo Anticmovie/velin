@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-09-13 14:18",
+    "generated":  "2026-09-13 14:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -205,7 +205,7 @@
                          "kind":  "local",
                          "type":  "Ostatni",
                          "group":  "Projekt Byty",
-                         "tier":  "zdroj / kĂłd",
+                         "tier":  "zdroj / kÃ³d",
                          "chat":  "",
                          "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\apartmany-boti",
                          "git":  {
@@ -248,7 +248,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "3 months ago | Přidány UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (oficiální Anthropic)"
+                                     "lastCommit":  "3 months ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├¡ Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -409,7 +409,7 @@
                          "kind":  "local",
                          "type":  "Python",
                          "group":  "Projekt Byty (archiv)",
-                         "tier":  "zdroj / kĂłd",
+                         "tier":  "zdroj / kÃ³d",
                          "chat":  "",
                          "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\projekt-byty",
                          "git":  {
@@ -452,7 +452,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "3 months ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
+                                     "lastCommit":  "3 months ago | Scout agent v2 + c├¡len├⌐ texty: popt├ívka po recenz├¡ch vs hleda─ìi p┼Öiv├╜d─¢lku"
                                  },
                          "deps":  {
                                       "manager":  "npm",

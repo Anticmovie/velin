@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="cs"><head><meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>VELÍN · zamčeno</title>
+<style>
+:root{color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;height:100vh;display:grid;place-items:center;font-family:system-ui,Segoe UI,Roboto,sans-serif;
+background:linear-gradient(135deg,#5b6cf0,#9b5bf0);color:#fff}
+.box{background:rgba(255,255,255,.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);
+border-radius:18px;padding:30px 28px;width:300px;text-align:center;box-shadow:0 20px 60px #0005}
+h1{font-size:34px;margin:0 0 4px}.sub{opacity:.8;font-size:13px;margin-bottom:18px}
+input{width:100%;font-size:22px;letter-spacing:6px;text-align:center;padding:12px;border-radius:10px;
+border:none;outline:none;margin-bottom:12px}
+button{width:100%;padding:12px;border:none;border-radius:10px;background:#fff;color:#5b3df0;font-weight:700;
+font-size:15px;cursor:pointer}button:active{transform:scale(.98)}
+.err{color:#ffd2d2;font-size:13px;height:18px;margin-top:10px}
+</style></head><body>
+<div class="box">
+<h1>🔒 VELÍN</h1><div class="sub">Byt a host · zadej PIN</div>
+<input id="pin" type="password" inputmode="text" autocapitalize="none" autocorrect="off" spellcheck="false" autocomplete="current-password" placeholder="heslo" autofocus>
+<button id="go">Odemknout</button>
+<div class="err" id="err"></div>
+</div>
+<script>
+const BLOB={"s":"WE+8YnelpkIrxDAjs3oBQg==","iv":"KAwop3aStennEBLI","it":250000,"ct":"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"};
+const dec=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function unlock(pin){
+  const km=await crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'PBKDF2',salt:dec(BLOB.s),iterations:BLOB.it,hash:'SHA-256'},
+    km,{name:'AES-GCM',length:256},false,['decrypt']);
+  const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:dec(BLOB.iv)},key,dec(BLOB.ct));
+  return new TextDecoder().decode(pt);
+}
+// klic per SLOZKA = jedno zadani odemkne vsechny stranky appky (/velin/ vs /velin/bytahost/)
+const KEYN='velin_pin_'+location.pathname.replace(/[^/]*$/,'');
+// univerzalni plovouci navigace "zpet/domu" — prida se do KAZDE desifrovane stranky (DOM API)
+function addNav(){
+  if(document.getElementById('vbb'))return;
+  const isMaj=/majitel-/.test(location.pathname);
+  const bar=document.createElement('div');bar.id='vbb';
+  bar.style.cssText='position:fixed;left:14px;bottom:14px;z-index:99999;display:flex;align-items:center;'+
+    'font:600 13px system-ui,-apple-system,Segoe UI,sans-serif;background:rgba(20,27,23,.88);color:#fff;'+
+    '-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);'+
+    'border-radius:24px;overflow:hidden;box-shadow:0 10px 30px -10px rgba(0,0,0,.55)';
+  const back=document.createElement('button');back.textContent='← Zpět';
+  back.style.cssText='background:none;border:0;color:#fff;font:inherit;cursor:pointer;padding:9px 15px';
+  back.onclick=function(){ if(history.length>1){history.back();} else {location.href=isMaj?'#':'index.html';} };
+  bar.appendChild(back);
+  if(!isMaj){
+    const h=document.createElement('a');h.href='index.html';h.textContent='⌂ VELÍN';
+    h.style.cssText='text-decoration:none;color:#fff;padding:9px 15px;border-left:1px solid rgba(255,255,255,.2)';
+    bar.appendChild(h);
+  }
+  document.body.appendChild(bar);
+}
+async function tryPin(pin,auto){
+  try{
+    const html=await unlock(pin);
+    try{localStorage.setItem(KEYN,pin);}catch(_){ }   // trvale prihlaseni na zarizeni
+    document.open();document.write(html);document.close();
+    setTimeout(addNav,60);
+  }catch(e){
+    if(auto){try{localStorage.removeItem(KEYN);}catch(_){}}
+    else{document.getElementById('err').textContent='Špatný PIN';}
+    const i=document.getElementById('pin');if(i){i.value='';i.focus();}
+  }
+}
+document.getElementById('go').onclick=()=>tryPin(document.getElementById('pin').value);
+document.getElementById('pin').addEventListener('keydown',e=>{if(e.key==='Enter')tryPin(e.target.value);});
+// pamatuj PIN trvale (localStorage; stary sessionStorage fallback pro plynuly prechod)
+const saved=localStorage.getItem(KEYN)||sessionStorage.getItem('velin_pin');
+if(saved)tryPin(saved,true);
+</script></body></html>
