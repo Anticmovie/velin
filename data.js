@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-09-20 10:15",
+    "generated":  "2026-09-20 12:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-09-20T08:00:10.3406964+00:00",
+                  "generatedAt":  "2026-09-20T10:00:04.1507215+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -553,9 +553,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  108637862,
-                                   "count":  276,
-                                   "pct":  8.7
+                                   "total":  91178114,
+                                   "count":  246,
+                                   "pct":  7.3
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -576,7 +576,7 @@
                                                    "willHit":  false
                                                },
                                    "weekly":  {
-                                                  "remaining":  1137936226,
+                                                  "remaining":  1155395974,
                                                   "hoursToLimit":  null,
                                                   "etaText":  "tempo 0 - bez projekce",
                                                   "willHit":  false
@@ -584,16 +584,16 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  95.6,
+                                      "ageDays":  95.7,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "DRAHY PROVOZ: 96% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
-                                 "DRAHY PROVOZ: 96% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 95.6 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "DRAHY PROVOZ: 95% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
+                                 "DRAHY PROVOZ: 95% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
+                                 "KALIBRACE STARA 95.7 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -606,12 +606,12 @@
 
                                      ],
                   "quality":  {
-                                  "longSessionPct":  96,
-                                  "longSessionTok":  103971686,
+                                  "longSessionPct":  95,
+                                  "longSessionTok":  86550314,
                                   "sessionsLong":  1,
-                                  "sessionsTotal":  122,
-                                  "highCtxPct":  96,
-                                  "highCtxTok":  103971686,
+                                  "sessionsTotal":  121,
+                                  "highCtxPct":  95,
+                                  "highCtxTok":  86550314,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
