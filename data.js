@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-09-26 04:15",
+    "generated":  "2026-09-26 06:19",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-09-26T02:00:08.0749875+00:00",
+                  "generatedAt":  "2026-09-26T04:00:28.5027580+00:00",
                   "session5h":  {
                                     "total":  41149,
                                     "input":  10,
@@ -553,9 +553,9 @@
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  16889004,
-                                   "count":  175,
-                                   "pct":  1.4
+                                   "total":  16775878,
+                                   "count":  172,
+                                   "pct":  1.3
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -576,10 +576,10 @@
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1229685084,
-                                                  "hoursToLimit":  149415,
-                                                  "etaIso":  "2043-10-12 19:01",
-                                                  "etaText":  "za 149,415 h (\u003e2 dny)",
+                                                  "remaining":  1229798210,
+                                                  "hoursToLimit":  149428.7,
+                                                  "etaIso":  "2043-10-13 10:44",
+                                                  "etaText":  "za 149,429 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -614,7 +614,7 @@
                                   "longSessionPct":  0,
                                   "longSessionTok":  0,
                                   "sessionsLong":  0,
-                                  "sessionsTotal":  162,
+                                  "sessionsTotal":  159,
                                   "highCtxPct":  63,
                                   "highCtxTok":  10569855,
                                   "longThresholdH":  8,
