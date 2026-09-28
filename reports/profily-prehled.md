@@ -22,7 +22,7 @@ aktualizovano: 2026-09-28
 | 3 | korunni | 60 | ★★★☆☆ | ⚠️ | ⚠️ | 29 100 | — | — | 52 % |
 | 11 | 205 | 59 | ★★★☆☆ | 9.0/10 | 4.79/5 | 22 000 | 398 566 | 1317 | 50 % |
 | 12 | mezibranska mala | 52 | ★★★☆☆ | ⚠️ | ⚠️ | 34 000 | — | — | 73 % |
-| 13 | mezibranska velka | 36 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 42 % |
+| 13 | mezibranska velka | 38 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 47 % |
 | — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 60 % |
 | — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 57 % |
 | — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 70 % |
@@ -32,7 +32,7 @@ aktualizovano: 2026-09-28
 | — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 83 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
-- **mezibranska velka** (skore 36) — neznamy (chybi historie)
+- **mezibranska velka** (skore 38) — neznamy (chybi historie)
 
 ## ⚠️ Chybi data (doplnit pro presne profily)
 - **Hodnoceni (Booking/Airbnb):** chybi u korunni, mezibranska velka, mezibranska mala, andel, havelska, harfa
