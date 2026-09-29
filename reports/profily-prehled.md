@@ -22,17 +22,16 @@ aktualizovano: 2026-09-29
 | 11 | 205 | 59 | ★★★☆☆ | 9.0/10 | 4.79/5 | 22 000 | 398 566 | 1317 | 48 % |
 | 3 | korunni | 59 | ★★★☆☆ | ⚠️ | ⚠️ | 29 100 | — | — | 50 % |
 | 12 | mezibranska mala | 52 | ★★★☆☆ | ⚠️ | ⚠️ | 34 000 | — | — | 73 % |
-| 13 | mezibranska velka | 37 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 45 % |
+| 13 | mezibranska velka | 42 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 55 % |
 | — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 58 % |
-| — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 60 % |
+| — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 65 % |
 | — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 70 % |
 | — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 63 % |
 | — | andel | — | — | ⚠️ | ⚠️ | ⚠️ | — | — | 100 % |
-| — | havelska | — | — | ⚠️ | ⚠️ | % | — | — | 60 % |
+| — | havelska | — | — | ⚠️ | ⚠️ | % | — | — | 65 % |
 | — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 83 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
-- **mezibranska velka** (skore 37) — neznamy (chybi historie)
 
 ## ⚠️ Chybi data (doplnit pro presne profily)
 - **Hodnoceni (Booking/Airbnb):** chybi u korunni, mezibranska velka, mezibranska mala, andel, havelska, harfa
