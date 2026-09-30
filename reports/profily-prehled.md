@@ -1,11 +1,11 @@
 ---
 tags: [velin, apartmany, profil, prehled]
 stav: zivy
-aktualizovano: 2026-09-30
+aktualizovano: 2026-10-01
 ---
 
 # Prehled profilu apartmanu
-> Generovano 2026-09-30. Score 0-100 (realisticke, absolutni kotvy): 30 % obsazenost (ziva 60d) + 25 % cena (vs median) + 30 % hodnoceni + 15 % vydelek; bez hodnoceni 45/30/25.
+> Generovano 2026-10-01. Score 0-100 (realisticke, absolutni kotvy): 30 % obsazenost (ziva 60d) + 25 % cena (vs median) + 30 % hodnoceni + 15 % vydelek; bez hodnoceni 45/30/25.
 > Median dosazene ceny: **1530 Kc/noc** (Airbnb net 2025).
 
 | # | Byt | Skore | Hvezdy | Booking | Airbnb | Najem | Net 13m (Kc) | Avg/noc | Obsaz. 60d |
@@ -18,18 +18,18 @@ aktualizovano: 2026-09-30
 | 8 | 202 | 70 | ★★★★☆ | 8.9/10 | 4.9/5 | 24 000 | 327 012 | 1367 | 73 % |
 | 10 | 29 | 68 | ★★★☆☆ | 9.1/10 | 4.79/5 | 20 000 | 398 749 | 1534 | 68 % |
 | 9 | 28 | 68 | ★★★☆☆ | 8.9/10 | 4.83/5 | 20 000 | 422 649 | 1332 | 72 % |
-| 7 | jatecni | 66 | ★★★☆☆ | 8.6/10 | 4.9/5 | 20 000 | 442 254 | 1530 | 52 % |
+| 7 | jatecni | 66 | ★★★☆☆ | 8.6/10 | 4.9/5 | 20 000 | 442 254 | 1530 | 50 % |
 | 11 | 205 | 59 | ★★★☆☆ | 9.0/10 | 4.79/5 | 22 000 | 398 566 | 1317 | 48 % |
-| 3 | korunni | 58 | ★★★☆☆ | ⚠️ | ⚠️ | 29 100 | — | — | 48 % |
-| 12 | mezibranska mala | 52 | ★★★☆☆ | ⚠️ | ⚠️ | 34 000 | — | — | 73 % |
-| 13 | mezibranska velka | 43 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 57 % |
-| — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 58 % |
+| 3 | korunni | 57 | ★★★☆☆ | ⚠️ | ⚠️ | 29 100 | — | — | 47 % |
+| 12 | mezibranska mala | 51 | ★★★☆☆ | ⚠️ | ⚠️ | 34 000 | — | — | 72 % |
+| 13 | mezibranska velka | 42 | ★★☆☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 55 % |
+| — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 57 % |
 | — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 65 % |
-| — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 70 % |
-| — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 62 % |
+| — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 72 % |
+| — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 60 % |
 | — | andel | — | — | ⚠️ | ⚠️ | ⚠️ | — | — | 100 % |
 | — | havelska | — | — | ⚠️ | ⚠️ | % | — | — | 65 % |
-| — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 82 % |
+| — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 73 % |
 
 ## Kandidati na revizi (nizke skore / pod medianem ceny)
 
