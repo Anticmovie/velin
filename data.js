@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-04 10:27",
+    "generated":  "2026-10-04 12:29",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -103,11 +103,11 @@
                                               "color":  "#14b8a6",
                                               "role":  "Rozpis úklidů pro úklidovou firmu",
                                               "detail":  "Z iCalů (Airbnb + Booking) spočítá odjezdy a příjezdy a pošle digest do úklidové skupiny. Cron 7:00 a 17:00.",
-                                              "status":  "operational",
+                                              "status":  "down",
                                               "chat":  "skupina -5299707474",
                                               "workflow":  "Uklid notifikace v6",
                                               "project":  "apartmany-boti",
-                                              "live":  false
+                                              "live":  true
                                           },
                                           {
                                               "id":  "prijezdovy",
@@ -116,11 +116,11 @@
                                               "color":  "#3b82f6",
                                               "role":  "Pravděpodobné časy příjezdů hostů",
                                               "detail":  "Scanuje Booking/Airbnb e-maily a hlásí časy příjezdů do osobního DM. Denně 8:00. Scanování se předělává podle nového principu (kotvení na byt + datum).",
-                                              "status":  "wip",
+                                              "status":  "down",
                                               "chat":  "DM 1436651098",
                                               "workflow":  "Email Prijezdy v5",
                                               "project":  "apartmany-boti",
-                                              "live":  false
+                                              "live":  true
                                           },
                                           {
                                               "id":  "hlidaci",
