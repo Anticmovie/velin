@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-04 16:15",
+    "generated":  "2026-10-04 17:23",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -205,7 +205,7 @@
                          "kind":  "local",
                          "type":  "Ostatni",
                          "group":  "Projekt Byty",
-                         "tier":  "zdroj / kÃ³d",
+                         "tier":  "zdroj / kĂłd",
                          "chat":  "",
                          "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\apartmany-boti",
                          "git":  {
@@ -248,7 +248,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "4 months ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├¡ Anthropic)"
+                                     "lastCommit":  "4 months ago | Přidány UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (oficiální Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -409,7 +409,7 @@
                          "kind":  "local",
                          "type":  "Python",
                          "group":  "Projekt Byty (archiv)",
-                         "tier":  "zdroj / kÃ³d",
+                         "tier":  "zdroj / kĂłd",
                          "chat":  "",
                          "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\projekt-byty",
                          "git":  {
@@ -452,7 +452,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "4 months ago | Scout agent v2 + c├¡len├⌐ texty: popt├ívka po recenz├¡ch vs hleda─ìi p┼Öiv├╜d─¢lku"
+                                     "lastCommit":  "4 months ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -542,19 +542,19 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-10-04T14:00:08.5822602+00:00",
+                  "generatedAt":  "2026-10-04T15:00:04.4701003+00:00",
                   "session5h":  {
-                                    "total":  0,
-                                    "input":  0,
-                                    "output":  0,
-                                    "cache_c":  0,
-                                    "cache_r":  0,
-                                    "count":  0,
+                                    "total":  39658,
+                                    "input":  10,
+                                    "output":  957,
+                                    "cache_c":  16298,
+                                    "cache_r":  22393,
+                                    "count":  1,
                                     "pct":  0
                                 },
                   "weekly7d":  {
-                                   "total":  4012282,
-                                   "count":  83,
+                                   "total":  4051940,
+                                   "count":  84,
                                    "pct":  0.3
                                },
                   "sonnet5h":  {
@@ -566,20 +566,21 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  0,
-                  "burnRatePerDay":  0,
+                  "burnRatePerH":  7932,
+                  "burnRatePerDay":  190368,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137474047,
+                                                   "remaining":  137434389,
                                                    "hoursToLimit":  null,
-                                                   "etaText":  "tempo 0 - bez projekce",
-                                                   "willHit":  false
+                                                   "willHit":  false,
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1242561806,
-                                                  "hoursToLimit":  null,
-                                                  "etaText":  "tempo 0 - bez projekce",
-                                                  "willHit":  false
+                                                  "remaining":  1242522148,
+                                                  "hoursToLimit":  156646.8,
+                                                  "etaIso":  "2044-08-17 15:49",
+                                                  "etaText":  "za 156,647 h (\u003e2 dny)",
+                                                  "willHit":  true
                                               }
                                },
                   "calibrated":  true,
@@ -601,13 +602,18 @@
                                  "critPct":  90
                              },
                   "modelBreakdown":  [
-
+                                         {
+                                             "model":  "claude-haiku-4-5-20251001",
+                                             "total":  39658,
+                                             "output":  957,
+                                             "count":  1
+                                         }
                                      ],
                   "quality":  {
                                   "longSessionPct":  0,
                                   "longSessionTok":  0,
                                   "sessionsLong":  0,
-                                  "sessionsTotal":  83,
+                                  "sessionsTotal":  84,
                                   "highCtxPct":  19,
                                   "highCtxTok":  777993,
                                   "longThresholdH":  8,
