@@ -1,11 +1,11 @@
 ---
 tags: [velin, apartmany, profil, prehled]
 stav: zivy
-aktualizovano: 2026-10-06
+aktualizovano: 2026-10-07
 ---
 
 # Prehled profilu apartmanu
-> Generovano 2026-10-06. Score 0-100 (realisticke, absolutni kotvy): 30 % obsazenost (ziva 60d) + 25 % cena (vs median) + 30 % hodnoceni + 15 % vydelek; bez hodnoceni 45/30/25.
+> Generovano 2026-10-07. Score 0-100 (realisticke, absolutni kotvy): 30 % obsazenost (ziva 60d) + 25 % cena (vs median) + 30 % hodnoceni + 15 % vydelek; bez hodnoceni 45/30/25.
 > Median dosazene ceny: **1530 Kc/noc** (Airbnb net 2025).
 
 | # | Byt | Skore | Hvezdy | Booking | Airbnb | Najem | Net 13m (Kc) | Avg/noc | Obsaz. 60d |
@@ -22,11 +22,11 @@ aktualizovano: 2026-10-06
 | 11 | 205 | 62 | ★★★☆☆ | 9.0/10 | 4.79/5 | 22 000 | 398 566 | 1317 | 60 % |
 | 3 | korunni | 59 | ★★★☆☆ | ⚠️ | ⚠️ | 29 100 | — | — | 50 % |
 | 12 | mezibranska mala | 54 | ★★★☆☆ | ⚠️ | ⚠️ | 34 000 | — | — | 78 % |
-| 13 | mezibranska velka | 51 | ★★★☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 75 % |
+| 13 | mezibranska velka | 52 | ★★★☆☆ | ⚠️ | ⚠️ | 48 000 | — | — | 77 % |
 | — | v haji | — | — | 8.8/10 | 4.0/5 | 20 000 | — | — | 57 % |
 | — | florenc 1 | — | — | 8.0/10 | 4.86/5 | % | — | — | 67 % |
 | — | florenc 2 | — | — | 9.0/10 | 4.97/5 | % | — | — | 83 % |
-| — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 62 % |
+| — | vlastislavova | — | — | 7.9/10 | 4.75/5 | % | — | — | 60 % |
 | — | andel | — | — | ⚠️ | ⚠️ | ⚠️ | — | — | 100 % |
 | — | havelska | — | — | ⚠️ | ⚠️ | % | — | — | 75 % |
 | — | harfa | — | — | ⚠️ | ⚠️ | % | — | — | 78 % |
