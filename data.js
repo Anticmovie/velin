@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-10 16:15",
+    "generated":  "2026-10-10 18:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,19 +542,19 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-10-10T14:00:11.4715564+00:00",
+                  "generatedAt":  "2026-10-10T16:00:21.5802332+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
                                     "output":  0,
                                     "cache_c":  0,
                                     "cache_r":  0,
-                                    "count":  3,
+                                    "count":  7,
                                     "pct":  0
                                 },
                   "weekly7d":  {
                                    "total":  29597604,
-                                   "count":  171,
+                                   "count":  175,
                                    "pct":  2.4
                                },
                   "sonnet5h":  {
@@ -606,14 +606,14 @@
                                              "model":  "\u003csynthetic\u003e",
                                              "total":  0,
                                              "output":  0,
-                                             "count":  3
+                                             "count":  7
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  0,
                                   "longSessionTok":  0,
                                   "sessionsLong":  0,
-                                  "sessionsTotal":  142,
+                                  "sessionsTotal":  146,
                                   "highCtxPct":  82,
                                   "highCtxTok":  24171213,
                                   "longThresholdH":  8,
