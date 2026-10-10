@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-10 22:15",
+    "generated":  "2026-10-11 00:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-10-10T20:00:10.6776616+00:00",
+                  "generatedAt":  "2026-10-10T22:00:12.9812976+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -554,7 +554,7 @@
                                 },
                   "weekly7d":  {
                                    "total":  29597604,
-                                   "count":  184,
+                                   "count":  188,
                                    "pct":  2.4
                                },
                   "sonnet5h":  {
@@ -584,7 +584,7 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  116.1,
+                                      "ageDays":  116.2,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -592,7 +592,7 @@
                   "urgency":  "warn",
                   "alerts":  [
                                  "DRAHY PROVOZ: 82% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 116.1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 116.2 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -613,7 +613,7 @@
                                   "longSessionPct":  0,
                                   "longSessionTok":  0,
                                   "sessionsLong":  0,
-                                  "sessionsTotal":  155,
+                                  "sessionsTotal":  159,
                                   "highCtxPct":  82,
                                   "highCtxTok":  24171213,
                                   "longThresholdH":  8,
