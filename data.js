@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-11 22:15",
+    "generated":  "2026-10-12 00:15",
     "summary":  {
                     "total":  10,
                     "local":  10,
@@ -542,7 +542,7 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-10-11T20:00:14.2369322+00:00",
+                  "generatedAt":  "2026-10-11T22:00:18.6273441+00:00",
                   "session5h":  {
                                     "total":  0,
                                     "input":  0,
@@ -554,7 +554,7 @@
                                 },
                   "weekly7d":  {
                                    "total":  5098979,
-                                   "count":  198,
+                                   "count":  202,
                                    "pct":  0.4
                                },
                   "sonnet5h":  {
@@ -584,14 +584,14 @@
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  117.1,
+                                      "ageDays":  117.2,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
                                   },
                   "urgency":  "warn",
                   "alerts":  [
-                                 "KALIBRACE STARA 117.1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 117.2 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -612,7 +612,7 @@
                                   "longSessionPct":  0,
                                   "longSessionTok":  0,
                                   "sessionsLong":  0,
-                                  "sessionsTotal":  198,
+                                  "sessionsTotal":  202,
                                   "highCtxPct":  0,
                                   "highCtxTok":  0,
                                   "longThresholdH":  8,
