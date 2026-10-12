@@ -15,3 +15,11 @@ Formuláře zapisují přes Supabase REST (anon INSERT) do tabulek `web_rezervac
 
 ## Nasazení
 Náhled: kopie do `_ridici-stredisko/dashboard/_deploy/web/` → `scripts/deploy.ps1` → https://anticmovie.github.io/velin/web/ . Produkce bytahost.cz: nahrát obsah složky (bez `_zdroje`) na hosting nebo přesměrovat DNS na GitHub Pages.
+
+## v3 (12. 10. 2026) – moderní design
+- Písma Urbanist (nadpisy) + Figtree (text), bílý podklad, zelená #142D26 + zlatá #D3BD8A, zaoblení 22–28 px, tlačítka Airbnb (#FF385C) a Booking (#003B95) v jejich barvách.
+- Hero video + pilulkový vyhledávač, pruh statistik s počítadly a hodnocením Airbnb/Booking, filtry podle čtvrti, karty s fotokaruselem (8 fotek, scroll-snap), přeškrtnutá cena Airbnb vs. přímá cena.
+- Sekce recenzí = skutečné recenze z našich Airbnb inzerátů: `_zdroje/ab_recenze.js` (Chrome 9222, CDP) → `data/recenze.json` + `data/recenze.js`; překlady: `_zdroje/merge_preklady.py --dump` vypíše texty k překladu, překlady do `data/recenze-preklady.json`, pak `merge_preklady.py` sloučí (text_cs / text_en / lang). Google gtx (`preloz_recenze.py`) vrací 429, nepoužívat.
+- Detail bytu: Google mapa (iframe embed, přibližné souřadnice na 3 desetinná místa), galerie (desktop mřížka / mobil posuvný pás), lepivý rezervační panel s tlačítky Airbnb a Booking.com, recenze daného bytu.
+- Animace: hero (rise + blur), odhalování při scrollu (`.rv` přes IntersectionObserver + záložní kontrola při scrollu; bez JS je vše viditelné), počítadla, hover zoom fotek; `prefers-reduced-motion` vše vypne.
+- Testovací screenshoty: `_ridici-stredisko/scraper/out/_v3_shots.js` (desktop + mobil); lokální server `python -m http.server 8787` občas shodí 21MB video – v testech blokovat `hero-loop.mp4`.
