@@ -1,6 +1,7 @@
 /* Byt a host — bytahost.cz · v1 (12.10.2026) · SPA bez buildu: routing přes hash, data v data/byty.js, zápis žádostí do Supabase (REST, anon INSERT). */
 (function () {
-  const B = window.BYTY || { meta: {}, byty: [] }, CFG = window.BH_CFG || {};
+  const CFG = window.BH_CFG || {};
+  let B = window.BYTY || { meta: {}, byty: [] };
   const $ = (s, r) => (r || document).querySelector(s), $$ = (s, r) => [...(r || document).querySelectorAll(s)];
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const kc = n => (n == null ? '—' : Math.round(n).toLocaleString('cs-CZ').replace(/ /g, ' ') + ' Kč');
@@ -11,7 +12,7 @@
 
   /* ---------- i18n: CS = text v HTML, EN = slovník ---------- */
   const EN = {
-    'brand.small': 'Prague · apartments & management', 'nav.apt': 'Apartments', 'nav.own': 'For owners', 'nav.how': 'How it works', 'nav.contact': 'Contact', 'nav.portal': 'Owner portal', 'nav.book': 'Book now',
+    'brand.small': 'Prague · apartments & management', 'hero.kick': 'Byt a host · 20 apartments in Prague', 't.rath': 'on Airbnb', 't.revh': 'reviews', 't.mgmt': 'management fee', 'c.i.h': 'Byt a host · B&H', 'c.i.p': 'A question about a stay, a special request or interest in management. We usually reply within 24 hours, faster in season.', 'c.i.n': 'Prague · Czechia. Guests can also reach us in the Airbnb and Booking.com chat.', 'nav.apt': 'Apartments', 'nav.own': 'For owners', 'nav.how': 'How it works', 'nav.contact': 'Contact', 'nav.portal': 'Owner portal', 'nav.book': 'Book now',
     'hero.eyebrow': 'Byt a host · B&H · Prague', 'hero.h1': 'Prague, like home.<br><em>Straight from the host.</em>', 'hero.lead': 'Twenty apartments in Prague that we run ourselves. Book directly with us 10 % cheaper than on the platforms, or let us manage your flat.',
     's.in': 'Check-in', 's.out': 'Check-out', 's.guests': 'Guests', 's.go': 'Show availability', 'hero.pause': 'Pause video', 'hero.play': 'Play video',
     't.apt': 'apartments in Prague', 't.rev': 'reviews on Airbnb and Booking', 't.rat': 'average Airbnb rating', 't.direct': 'off when you book direct',
@@ -76,7 +77,7 @@
   function trust() {
     const v = verejne(); $('#t-apt').textContent = v.length;
     const rev = v.reduce((s, b) => s + (b.recenzi_airbnb || 0) + (b.recenzi_booking || 0), 0); $('#t-rev').textContent = rev ? rev.toLocaleString('cs-CZ') + '+' : '—';
-    const rs = v.filter(b => b.rating_airbnb && (b.recenzi_airbnb || 0) >= 5); $('#t-rat').textContent = rs.length ? (rs.reduce((s, b) => s + b.rating_airbnb, 0) / rs.length).toFixed(2) + ' ★' : '—';
+    const rs = v.filter(b => b.rating_airbnb && (b.recenzi_airbnb || 0) >= 5); const avg = rs.length ? (rs.reduce((s, b) => s + b.rating_airbnb, 0) / rs.length).toFixed(2) : '—'; $('#t-rat').textContent = avg + ' ★'; $('#t-rat-h').textContent = avg; $('#t-rev-h').textContent = rev ? rev.toLocaleString('cs-CZ') + '+' : '—';
   }
   let FILTR = null;
   function renderGrid(f) {
@@ -89,12 +90,12 @@
       $('#filtr-x').onclick = e => { e.preventDefault(); FILTR = null; renderGrid(null); };
     } else info.style.display = 'none';
     for (const b of list) {
-      const r = b.rating_airbnb ? `<span class="rt">★ ${b.rating_airbnb.toFixed(2)} · ${b.recenzi_airbnb || 0}</span>` : '';
-      const cena = f && b._k ? `<b>${kc(b._k.celkem)}</b><small>${b._k.noci} ${t('nights')} · ${t('direct')}</small>` : b.od_kc ? `<b>${t('from')} ${kc(b.od_kc)}</b><small>/ ${t('night')} · ${t('direct')}</small>` : `<b>${t('closed')}</b>`;
-      g.insertAdjacentHTML('beforeend', `<article class="card"><a class="ph" href="#/apartman/${b.slug}" style="background-image:url('${img(b.fotky[0] || '', true)}')" aria-label="${esc(b.nazev)}">${b.sprava === 'sprava' ? '' : ''}${r}</a>
-        <div class="bd"><h3><a href="#/apartman/${b.slug}" style="text-decoration:none">${esc(b.nazev)}</a></h3><div class="loc">${esc(lok(b))}</div>
-        <div class="facts"><span>${b.hoste} ${t('guests')}</span><span>${b.loznice} ${t('bedroom')}</span><span>${b.koupelny} ${b.koupelny > 1 ? t('baths') : t('bath')}</span></div>
-        <div class="price">${cena}</div>
+      const r = b.rating_airbnb ? `<span class="chip"><svg class="ico"><use href="#i-star"/></svg>${b.rating_airbnb.toFixed(2)} · ${b.recenzi_airbnb || 0}</span>` : '<span></span>';
+      const cena = f && b._k ? `<b>${kc(b._k.celkem)}</b><small>${b._k.noci} ${t('nights')} · ${t('direct')}</small>` : b.od_kc ? `<b>${t('from')} ${kc(b.od_kc)}</b><small>/ ${t('night')} · ${t('direct')} · −10 %</small>` : `<b style="font-size:20px">${t('closed')}</b>`;
+      g.insertAdjacentHTML('beforeend', `<article class="card fade"><a class="ph" href="#/apartman/${b.slug}" aria-label="${esc(b.nazev)}"><img src="${img(b.fotky[0] || '', true)}" alt="" loading="lazy"><div class="ov">${r}<span class="chip d">−10 %</span></div></a>
+        <div class="bd"><h3><a href="#/apartman/${b.slug}">${esc(b.nazev)}</a></h3><div class="loc"><svg class="ico" style="width:15px;height:15px"><use href="#i-pin"/></svg>${esc(lok(b))}</div>
+        <div class="facts"><span><svg class="ico" style="width:15px;height:15px"><use href="#i-users"/></svg>${b.hoste} ${t('guests')}</span><span><svg class="ico" style="width:15px;height:15px"><use href="#i-bed"/></svg>${b.loznice} ${t('bedroom')}</span><span><svg class="ico" style="width:15px;height:15px"><use href="#i-bath"/></svg>${b.koupelny} ${b.koupelny > 1 ? t('baths') : t('bath')}</span></div>
+        <div class="price"><div>${cena}</div></div>
         <div class="acts"><a class="btn sm" href="#/apartman/${b.slug}${f ? `?od=${f.od}&do=${f.do}&h=${f.h}` : ''}">${t('detail')}</a><a class="btn ghost sm" href="${b.airbnb_url}" target="_blank" rel="noopener">${t('airbnb')}</a></div></div></article>`);
     }
   }
@@ -115,19 +116,18 @@
     const q = new URLSearchParams((location.hash.split('?')[1] || '')); if (!keep) { SEL = { od: q.get('od'), do: q.get('do') }; CALM = null; }
     const f = b.fotky, am = b.vybaveni || [];
     const feats = `<span>${b.hoste} ${t('guests')}</span><span>${b.loznice} ${t('bedroom')}</span><span>${b.postele} ${b.postele > 1 ? t('beds') : t('bed1')}</span><span>${b.koupelny} ${b.koupelny > 1 ? t('baths') : t('bath')}</span>${b.typ ? `<span>${esc(b.typ)}</span>` : ''}${b.rating_airbnb ? `<span>★ ${b.rating_airbnb.toFixed(2)} · ${b.recenzi_airbnb} ${t('reviews')} Airbnb</span>` : ''}${b.rating_booking ? `<span>${b.rating_booking} / 10 · ${b.recenzi_booking} ${t('reviews')} Booking</span>` : ''}`;
-    el.innerHTML = `<a href="#/#apartmany" class="pill" style="margin-bottom:14px;display:inline-block">${t('back')}</a>
-      <div class="eyebrow">${esc(lok(b))}</div><h2 style="font-size:clamp(34px,4.6vw,58px)">${esc(b.nazev)}</h2>
-      <div class="top"><div class="main" style="background-image:url('${esc(f[0] || '')}')" data-lb="0"></div><div class="side"><div style="background-image:url('${esc(f[1] || '')}')" data-lb="1"></div><div style="background-image:url('${esc(f[2] || '')}')" data-lb="2"></div></div></div>
-      <div class="thumbs">${f.map((p, i) => `<img src="${esc(img(p, true))}" data-lb="${i}" alt="">`).join('')}</div>
+    el.innerHTML = `<div class="crumbs"><a href="#/">Byt a host</a><span>›</span><a href="#/#apartmany">${t('back').replace('← ', '')}</a><span>›</span><span>${esc(b.nazev)}</span></div>
+      <div class="head fade"><div><div class="eyebrow">${esc(lok(b))}</div><h2>${esc(b.nazev)}</h2></div><div class="badges">${b.rating_airbnb ? `<span class="chip"><svg class="ico"><use href="#i-star"/></svg>${b.rating_airbnb.toFixed(2)} · ${b.recenzi_airbnb} ${t('reviews')} Airbnb</span>` : ''}${b.rating_booking ? `<span class="chip">${b.rating_booking} / 10 · ${b.recenzi_booking} Booking</span>` : ''}<span class="chip gold">−10 % ${t('direct')}</span></div></div>
+      <div class="gal fade"><div style="background-image:url('${esc(f[0] || '')}')" data-lb="0"></div><div style="background-image:url('${esc(f[1] || '')}')" data-lb="1"></div><div style="background-image:url('${esc(f[2] || '')}')" data-lb="2"></div><div style="background-image:url('${esc(f[3] || '')}')" data-lb="3"></div><div style="background-image:url('${esc(f[4] || '')}')" data-lb="4"></div><button class="btn ghost sm all" data-lb="0">${LANG === 'cs' ? 'Všechny fotky' : 'All photos'} (${f.length})</button></div>
       <div class="cols"><div>
-        <div class="facts">${feats}</div>
-        <h3>${t('about')}</h3><p>${esc(popis(b))}</p>
-        <h3 style="margin-top:26px">${t('amen')}</h3><ul class="amen">${am.map(a => `<li>${esc(a)}</li>`).join('')}</ul>
-        <h3 style="margin-top:26px">${t('loc')}</h3><p style="color:var(--mut)">${t('locp')}</p><div id="map"></div>
-        <h3 style="margin-top:26px">${t('rules')}</h3><p>${esc(t('self').replace('{ci}', b.checkin || '2:00 PM'))}${b.pet_kc ? ` ${t('pet').charAt(0).toUpperCase() + t('pet').slice(1)}: ${kc(b.pet_kc)}.` : ''}</p>
-        <h3 style="margin-top:26px">${t('avail')}</h3><p style="color:var(--mut)">${t('calp')}</p><div id="calwrap"></div>
+        <div class="facts"><span class="chip"><svg class="ico"><use href="#i-users"/></svg>${b.hoste} ${t('guests')}</span><span class="chip"><svg class="ico"><use href="#i-bed"/></svg>${b.loznice} ${t('bedroom')} · ${b.postele} ${b.postele > 1 ? t('beds') : t('bed1')}</span><span class="chip"><svg class="ico"><use href="#i-bath"/></svg>${b.koupelny} ${b.koupelny > 1 ? t('baths') : t('bath')}</span>${b.typ ? `<span class="chip">${esc(b.typ)}</span>` : ''}<span class="chip"><svg class="ico"><use href="#i-key"/></svg>${LANG === 'cs' ? 'samoobslužný check-in' : 'self check-in'}</span></div>
+        <h3>${t('about')}</h3><p class="body">${esc(popis(b))}</p>
+        <h3>${t('amen')}</h3><ul class="amen">${am.map(a => `<li><svg class="ico"><use href="#i-check"/></svg>${esc(a)}</li>`).join('')}</ul>
+        <h3>${t('loc')}</h3><p class="body">${t('locp')}</p><div id="map"></div>
+        <h3>${t('rules')}</h3><p class="body">${esc(t('self').replace('{ci}', b.checkin || '2:00 PM'))}${b.pet_kc ? ` ${t('pet').charAt(0).toUpperCase() + t('pet').slice(1)}: ${kc(b.pet_kc)}.` : ''}</p>
+        <h3>${t('avail')}</h3><p class="body">${t('calp')}</p><div id="calwrap"></div><div class="legend"><span><i class="a"></i>${LANG === 'cs' ? 'volno' : 'available'}</span><span><i class="b"></i>${LANG === 'cs' ? 'obsazeno' : 'booked'}</span><span><i class="c"></i>${LANG === 'cs' ? 'váš výběr' : 'your dates'}</span></div>
       </div>
-      <aside class="book" id="book"></aside></div>`;
+      <aside class="book fade" id="book"></aside></div>`;
     $$('[data-lb]', el).forEach(x => x.onclick = () => openLb(f, +x.dataset.lb));
     if (b.geo && window.L) { setTimeout(() => { MAP = L.map('map', { scrollWheelZoom: false }).setView([b.geo.lat, b.geo.lon], 15); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(MAP); L.circle([b.geo.lat, b.geo.lon], { radius: 220, color: '#142D26', fillColor: '#D3BD8A', fillOpacity: .35 }).addTo(MAP); }, 50); }
     renderCal(b); renderBook(b);
@@ -151,10 +151,10 @@
     const opts = (n, s) => Array.from({ length: n + 1 }, (_, i) => `<option value="${i}" ${i === s ? 'selected' : ''}>${i}</option>`).join('');
     a.innerHTML = `<div class="hd"><b>${b.od_kc ? t('from') + ' ' + kc(b.od_kc) : ''}</b><small>/ ${t('night')} · ${t('direct')} · −10 %</small></div>
       <div class="dates"><div><label>${t('checkin')}</label><input type="date" id="b-od" min="${today}" value="${SEL.od || ''}"></div><div><label>${t('checkout')}</label><input type="date" id="b-do" min="${SEL.od ? addD(SEL.od, 1) : today}" value="${SEL.do || ''}"></div></div>
-      <div class="g" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div><label>${t('adults')}</label><select id="b-dosp">${opts(b.hoste, dosp).replace('value="0"', 'value="0" disabled')}</select></div><div><label>${t('kids')}</label><select id="b-deti">${opts(Math.max(0, b.hoste - 1), deti)}</select></div></div>
+      <div class="g"><div><label>${t('adults')}</label><select id="b-dosp">${opts(b.hoste, dosp).replace('value="0"', 'value="0" disabled')}</select></div><div><label>${t('kids')}</label><select id="b-deti">${opts(Math.max(0, b.hoste - 1), deti)}</select></div></div>
       <div class="sum">${k.err ? `<div style="color:var(--mut)">${k.err === 'minn' ? t('minn').replace('{n}', k.n) : t(k.err)}</div>` : `<div><span>${k.noci} ${k.noci === 1 ? t('nightsx') : t('nights')} × Ø ${kc(k.prum)}</span><span>${kc(k.ubyt)}</span></div><div><span>${t('cleaning')}</span><span>${kc(k.uklid)}</span></div><div><span>${t('tax')} <small style="color:var(--mut)">(${t('taxp')})</small></span><span>${kc(k.tax)}</span></div><div class="tot"><span>${t('total')}</span><span>${kc(k.celkem)}</span></div>`}</div>
-      <form id="b-form" class="form" style="grid-template-columns:1fr;gap:8px;margin-top:12px"><div><label>${t('name')}</label><input name="jmeno" required></div><div><label>${t('email')}</label><input name="email" type="email" required></div><div><label>${t('phone')}</label><input name="telefon"></div><div><label>${t('note')}</label><textarea name="zprava" style="min-height:70px"></textarea></div>
-      <button class="btn gold" type="submit" ${k.err ? 'disabled' : ''} style="justify-content:center">${t('send')}</button><div id="b-msg"></div></form>
+      <form id="b-form" class="form" style="grid-template-columns:1fr;gap:10px;margin-top:14px"><div><label>${t('name')}</label><input name="jmeno" required></div><div><label>${t('email')}</label><input name="email" type="email" required></div><div><label>${t('phone')}</label><input name="telefon"></div><div><label>${t('note')}</label><textarea name="zprava" style="min-height:70px"></textarea></div>
+      <button class="btn xl" type="submit" ${k.err ? 'disabled' : ''} style="justify-content:center;width:100%">${t('send')}</button><div id="b-msg"></div></form>
       <div class="note">${t('bookp')}</div><div class="alt"><span style="font-size:12px;color:var(--mut);align-self:center">${t('altp')}</span><a class="btn ghost sm" href="${b.airbnb_url}" target="_blank" rel="noopener">Airbnb</a><a class="btn ghost sm" href="${b.booking_url}" target="_blank" rel="noopener">Booking.com</a></div>`;
     $('#b-od').onchange = e => { SEL = { od: e.target.value, do: SEL.do && SEL.do > e.target.value ? SEL.do : null }; CALM = SEL.od.slice(0, 7); renderCal(b); renderBook(b); };
     $('#b-do').onchange = e => { SEL.do = e.target.value; renderCal(b); renderBook(b); };
@@ -195,14 +195,14 @@
     <h3>Contract</h3><ul><li>Open-ended management agreement with a 2-month notice period, always completing already confirmed stays.</li><li>The first 90 days are a trial: if occupancy or the cooperation does not suit you, we part without penalties.</li><li>Income tax filing stays with the owner; the portal documents are sufficient for it.</li></ul><p style="font-size:12px;color:var(--mut)">Version 1 · 12 Oct 2026. The exact contract wording is provided before signing.</p>`,
   };
   function renderOwnerBlocks() {
-    const g = $('#o-sluzby'); if (g) g.innerHTML = SLUZBY[LANG].map(([h, p]) => `<div class="card"><div class="bd"><h3>${esc(h)}</h3><p style="color:var(--mut);font-size:15px">${esc(p)}</p></div></div>`).join('');
+    const ICONS = ['i-spark', 'i-tag', 'i-chat', 'i-broom', 'i-wrench', 'i-doc']; const g = $('#o-sluzby'); if (g) g.innerHTML = SLUZBY[LANG].map(([h, p], i) => `<div class="card"><div class="bd"><div class="chip gold" style="width:44px;height:44px;border-radius:14px;justify-content:center;padding:0"><svg class="ico" style="width:20px;height:20px"><use href="#${ICONS[i]}"/></svg></div><h3 style="margin-top:8px">${esc(h)}</h3><p style="color:var(--ink-2);font-size:15px;margin:0">${esc(p)}</p></div></div>`).join('');
     const r = $('#o-pravidla'); if (r) r.innerHTML = PRAVIDLA[LANG];
-    const inp = $('#calc-in'); if (inp && !inp.dataset.b) { inp.dataset.b = 1; const f = () => { const v = +inp.value || 0; $('#calc-fee').textContent = kc(v * .15); $('#calc-net').textContent = kc(v * .85); }; inp.oninput = f; f(); }
+    const inp = $('#calc-in'), rng = $('#calc-rng'); if (inp && !inp.dataset.b) { inp.dataset.b = 1; const f = () => { const v = +inp.value || 0; $('#calc-fee').textContent = kc(v * .15); $('#calc-net').textContent = kc(v * .85); }; inp.oninput = () => { if (rng) rng.value = inp.value; f(); }; if (rng) rng.oninput = () => { inp.value = rng.value; f(); }; f(); }
   }
   function renderPortal() {
     const g = $('#portal-grid'); if (!g) return; const P = CFG.portaly || {};
     const names = { korunni: 'Pražský dům · Korunní, Mezibránská', harfa: 'Harfa O2', havelska: 'Havel Rooftop', florenc: 'Florenc I + II', vlastislavova: 'Vlastislavova' };
-    g.innerHTML = Object.entries(P).map(([k, u]) => `<div class="card"><div class="bd"><h3>${esc(names[k] || k)}</h3><p style="color:var(--mut);font-size:14px">${LANG === 'cs' ? 'Vyúčtování, obsazenost, úklidy, poplatek.' : 'Statements, occupancy, cleanings, tax.'}</p><a class="btn sm" href="${u}" target="_blank" rel="noopener">${t('pin')}</a></div></div>`).join('');
+    g.innerHTML = Object.entries(P).map(([k, u]) => `<div class="portal-card"><h3>${esc(names[k] || k)}</h3><p style="color:var(--ink-2);font-size:14px">${LANG === 'cs' ? 'Vyúčtování, obsazenost, úklidy, poplatek.' : 'Statements, occupancy, cleanings, tax.'}</p><a class="btn sm" href="${u}" target="_blank" rel="noopener">${t('pin')}</a></div>`).join('');
   }
   const PODM = {
     cs: `<div class="eyebrow">Rezervační podmínky</div><h2>Přímá rezervace u Byt a host</h2>
@@ -252,5 +252,7 @@
   $('#rok').textContent = new Date().getFullYear();
 
   /* ---------- init ---------- */
-  trust(); applyLang(); route();
+  function init() { trust(); applyLang(); route(); }
+  if (window.BYTY && window.BYTY.byty && window.BYTY.byty.length) init();
+  else fetch('data/byty.json').then(r => r.json()).then(d => { window.BYTY = d; B = d; init(); }).catch(() => init());
 })();
