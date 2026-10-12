@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-12 21:31",
+    "generated":  "2026-10-12 22:15",
     "summary":  {
                     "total":  11,
                     "local":  11,
@@ -205,7 +205,7 @@
                          "kind":  "local",
                          "type":  "Ostatni",
                          "group":  "Projekt Byty",
-                         "tier":  "zdroj / kĂłd",
+                         "tier":  "zdroj / kÃ³d",
                          "chat":  "",
                          "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\apartmany-boti",
                          "git":  {
@@ -282,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "4 months ago | Přidány UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (oficiální Anthropic)"
+                                     "lastCommit":  "4 months ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├¡ Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -443,7 +443,7 @@
                          "kind":  "local",
                          "type":  "Python",
                          "group":  "Projekt Byty (archiv)",
-                         "tier":  "zdroj / kĂłd",
+                         "tier":  "zdroj / kÃ³d",
                          "chat":  "",
                          "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\projekt-byty",
                          "git":  {
@@ -486,7 +486,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "4 months ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
+                                     "lastCommit":  "4 months ago | Scout agent v2 + c├¡len├⌐ texty: popt├ívka po recenz├¡ch vs hleda─ìi p┼Öiv├╜d─¢lku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -576,14 +576,14 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-10-12T19:30:02.2139077+00:00",
+                  "generatedAt":  "2026-10-12T20:00:03.0110782+00:00",
                   "session5h":  {
-                                    "total":  198562,
-                                    "input":  50,
-                                    "output":  10199,
-                                    "cache_c":  70240,
-                                    "cache_r":  118073,
-                                    "count":  5,
+                                    "total":  158903,
+                                    "input":  40,
+                                    "output":  8124,
+                                    "cache_c":  54523,
+                                    "cache_r":  96216,
+                                    "count":  4,
                                     "pct":  0.1
                                 },
                   "weekly7d":  {
@@ -600,20 +600,20 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  39712,
-                  "burnRatePerDay":  953088,
+                  "burnRatePerH":  31781,
+                  "burnRatePerDay":  762744,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137275485,
+                                                   "remaining":  137315144,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
                                                   "remaining":  1141388024,
-                                                  "hoursToLimit":  28741.6,
-                                                  "etaIso":  "2030-01-22 11:06",
-                                                  "etaText":  "za 28,742 h (\u003e2 dny)",
+                                                  "hoursToLimit":  35914.2,
+                                                  "etaIso":  "2030-11-17 08:12",
+                                                  "etaText":  "za 35,914 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -639,9 +639,9 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  198562,
-                                             "output":  10199,
-                                             "count":  5
+                                             "total":  158903,
+                                             "output":  8124,
+                                             "count":  4
                                          }
                                      ],
                   "quality":  {
