@@ -1,8 +1,8 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-12 20:15",
+    "generated":  "2026-10-12 21:31",
     "summary":  {
-                    "total":  10,
-                    "local":  10,
+                    "total":  11,
+                    "local":  11,
                     "external":  0
                 },
     "chief":  {
@@ -205,7 +205,7 @@
                          "kind":  "local",
                          "type":  "Ostatni",
                          "group":  "Projekt Byty",
-                         "tier":  "zdroj / kÃ³d",
+                         "tier":  "zdroj / kĂłd",
                          "chat":  "",
                          "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\apartmany-boti",
                          "git":  {
@@ -235,6 +235,40 @@
                                     }
                      },
                      {
+                         "name":  "bytahost-web",
+                         "kind":  "local",
+                         "type":  "Ostatni",
+                         "group":  "",
+                         "tier":  "",
+                         "chat":  "",
+                         "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\bytahost-web",
+                         "git":  {
+                                     "isRepo":  false,
+                                     "branch":  "",
+                                     "uncommitted":  0,
+                                     "ahead":  0,
+                                     "behind":  0,
+                                     "lastCommit":  ""
+                                 },
+                         "deps":  {
+                                      "manager":  "",
+                                      "hasLockfile":  false,
+                                      "count":  0
+                                  },
+                         "build":  {
+                                       "hasBuild":  false,
+                                       "hasTest":  false
+                                   },
+                         "todos":  0,
+                         "status":  {
+                                        "adam":  "na",
+                                        "klara":  "na",
+                                        "viktor":  "na",
+                                        "tereza":  "ok",
+                                        "nina":  "na"
+                                    }
+                     },
+                     {
                          "name":  "claude-skills",
                          "kind":  "local",
                          "type":  "Ostatni",
@@ -248,7 +282,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "4 months ago | P┼Öid├íny UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (ofici├íln├¡ Anthropic)"
+                                     "lastCommit":  "4 months ago | Přidány UI/UX skilly: ui-ux-pro-max, ui-styling, design-system, frontend-design (oficiální Anthropic)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -409,7 +443,7 @@
                          "kind":  "local",
                          "type":  "Python",
                          "group":  "Projekt Byty (archiv)",
-                         "tier":  "zdroj / kÃ³d",
+                         "tier":  "zdroj / kĂłd",
                          "chat":  "",
                          "path":  "C:\\Users\\antic\\OneDrive\\Desktop\\vsechny projekty\\projekt-byty",
                          "git":  {
@@ -452,7 +486,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "4 months ago | Scout agent v2 + c├¡len├⌐ texty: popt├ívka po recenz├¡ch vs hleda─ìi p┼Öiv├╜d─¢lku"
+                                     "lastCommit":  "4 months ago | Scout agent v2 + cílené texty: poptávka po recenzích vs hledači přivýdělku"
                                  },
                          "deps":  {
                                       "manager":  "npm",
@@ -542,19 +576,19 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-10-12T18:00:03.0179312+00:00",
+                  "generatedAt":  "2026-10-12T19:30:02.2139077+00:00",
                   "session5h":  {
-                                    "total":  159355,
-                                    "input":  40,
-                                    "output":  9460,
-                                    "cache_c":  54175,
-                                    "cache_r":  95680,
-                                    "count":  4,
+                                    "total":  198562,
+                                    "input":  50,
+                                    "output":  10199,
+                                    "cache_c":  70240,
+                                    "cache_r":  118073,
+                                    "count":  5,
                                     "pct":  0.1
                                 },
                   "weekly7d":  {
-                                   "total":  105146857,
-                                   "count":  359,
+                                   "total":  105186064,
+                                   "count":  360,
                                    "pct":  8.4
                                },
                   "sonnet5h":  {
@@ -566,26 +600,26 @@
                                    "total":  0,
                                    "count":  0
                                },
-                  "burnRatePerH":  31871,
-                  "burnRatePerDay":  764904,
+                  "burnRatePerH":  39712,
+                  "burnRatePerDay":  953088,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137314692,
+                                                   "remaining":  137275485,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1141427231,
-                                                  "hoursToLimit":  35814,
-                                                  "etaIso":  "2030-11-13 02:00",
-                                                  "etaText":  "za 35,814 h (\u003e2 dny)",
+                                                  "remaining":  1141388024,
+                                                  "hoursToLimit":  28741.6,
+                                                  "etaIso":  "2030-01-22 11:06",
+                                                  "etaText":  "za 28,742 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  118,
+                                      "ageDays":  118.1,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -593,7 +627,7 @@
                   "urgency":  "warn",
                   "alerts":  [
                                  "DRAHY PROVOZ: 94% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 118 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 118.1 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -605,16 +639,16 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  159355,
-                                             "output":  9460,
-                                             "count":  4
+                                             "total":  198562,
+                                             "output":  10199,
+                                             "count":  5
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  0,
                                   "longSessionTok":  0,
                                   "sessionsLong":  0,
-                                  "sessionsTotal":  228,
+                                  "sessionsTotal":  229,
                                   "highCtxPct":  94,
                                   "highCtxTok":  99315004,
                                   "longThresholdH":  8,

@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Byt a host · B&amp;H — apartmány a správa bytů v Praze</title>
+<meta name="description" content="B&H Byt a host: 20 apartmánů v Praze s přímou rezervací o 10 % levněji než na platformách a správa krátkodobých pronájmů za 15 % z příjmu.">
+<link rel="icon" href="assets/logo-gold.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="">
+<style>
+:root{--green:#142D26;--green-2:#1E3D34;--gold:#D3BD8A;--gold-d:#9C8653;--cream:#F6F2EA;--paper:#FFFDF9;--sand:#E9E1D2;--ink:#1E2A26;--mut:#6B7570;--line:#E3DCCE;--soft:#E7EEE9;--ok:#1F6F43;--bad:#B3261E;--r:14px}
+*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--cream);color:var(--ink);font:16px/1.6 "Manrope",system-ui,sans-serif}
+h1,h2,h3,.serif{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;line-height:1.1;letter-spacing:.005em;text-wrap:balance}
+h1{font-size:clamp(42px,6.2vw,84px);margin:0}h2{font-size:clamp(32px,4vw,50px);margin:0 0 14px}h3{font-size:26px;margin:0 0 8px}
+p{margin:0 0 14px}a{color:inherit}img{display:block;max-width:100%}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-d);font-weight:600;margin-bottom:12px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:999px;border:1px solid var(--green);background:var(--green);color:var(--gold);font-weight:600;font-size:15px;text-decoration:none;cursor:pointer;transition:transform .15s,background .15s}
+.btn:hover{transform:translateY(-1px);background:var(--green-2)}.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--green)}.btn.ghost{background:transparent;color:var(--green);border-color:var(--green)}.btn.ghost.light{color:#fff;border-color:#ffffff99}.btn.sm{padding:10px 16px;font-size:14px}.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+/* header */
+.hdr{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .25s,box-shadow .25s;color:#fff}
+.hdr.solid{background:#142D26f2;backdrop-filter:blur(10px);box-shadow:0 6px 30px #0000001f}
+.hdr .wrap{display:flex;align-items:center;justify-content:space-between;height:84px;gap:18px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}.brand img{height:46px;width:auto}.brand b{font-family:"Cormorant Garamond",serif;font-size:24px;font-weight:500;letter-spacing:.02em}.brand small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-top:-2px}
+.nav{display:flex;align-items:center;gap:26px;font-size:14px;font-weight:600}.nav a{text-decoration:none;opacity:.92}.nav a:hover,.nav a.on{color:var(--gold);opacity:1}
+.lang{display:flex;border:1px solid #ffffff66;border-radius:999px;overflow:hidden}.lang button{background:transparent;border:0;color:#fff;padding:6px 11px;font-size:12px;font-weight:700;letter-spacing:.08em;cursor:pointer}.lang button.on{background:var(--gold);color:var(--green)}
+.burger{display:none;background:transparent;border:1px solid #ffffff77;color:#fff;border-radius:10px;padding:8px 12px;cursor:pointer}
+/* hero */
+.hero{position:relative;min-height:92vh;display:flex;align-items:flex-end;background:var(--green);color:#fff;overflow:hidden}
+.hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%}
+.hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,#142d2666 0%,#142d2622 35%,#142d26e6 100%)}
+.hero .wrap{position:relative;padding-top:140px;padding-bottom:56px;width:100%}
+.hero h1 em{color:var(--gold);font-style:italic;font-weight:400}.hero p.lead{max-width:600px;font-size:18px;color:#f1ece0;margin-top:18px}
+.search{margin-top:34px;display:grid;grid-template-columns:1.1fr 1.1fr .9fr auto;gap:10px;background:#fffdf9;color:var(--green);padding:10px;border-radius:18px;max-width:900px;box-shadow:0 20px 60px #0000003d}
+.search label{display:block;padding:8px 14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:700;border-right:1px solid var(--line)}.search label:nth-child(3){border-right:0}
+.search input,.search select{display:block;width:100%;border:0;background:transparent;padding:4px 0 0;font-size:16px;font-weight:600;color:var(--green)}
+.search .btn{align-self:stretch;justify-content:center;border-radius:12px}
+.vidctl{position:absolute;right:20px;bottom:20px;background:#142d2699;border:1px solid #ffffff55;color:#fff;border-radius:999px;padding:8px 14px;font-size:12px;cursor:pointer}
+/* trust strip */
+.trust{background:var(--green);color:#e9e2d0}.trust .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:26px 20px}.trust b{display:block;font-family:"Cormorant Garamond",serif;font-size:38px;color:var(--gold);line-height:1}.trust span{font-size:13px;opacity:.85}
+section{padding:92px 0}section.tight{padding:60px 0}
+.sechead{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:34px}.sechead p{max-width:560px;color:var(--mut);margin:0}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}.card:hover{transform:translateY(-3px);box-shadow:0 18px 40px #142d2622}
+.card .ph{aspect-ratio:4/3;background:var(--soft) center/cover;position:relative}.card .ph .tag{position:absolute;left:12px;top:12px;background:#142D26e0;color:var(--gold);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:6px 10px;border-radius:999px}
+.card .ph .rt{position:absolute;right:12px;top:12px;background:#fffdf9ee;color:var(--green);font-size:12px;font-weight:700;padding:6px 10px;border-radius:999px}
+.card .bd{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}.card h3{font-size:24px;margin:0}.card .loc{color:var(--mut);font-size:13px}.card .facts{display:flex;gap:14px;font-size:13px;color:var(--mut);flex-wrap:wrap}
+.card .price{margin-top:auto;display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-top:10px;border-top:1px solid var(--line)}.card .price b{font-size:20px;color:var(--green)}.card .price small{color:var(--mut);font-size:12px}
+.card .acts{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--soft);color:var(--green);font-size:12px;font-weight:600}
+/* why direct */
+.why{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.why .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}.why .cols b{display:block;font-family:"Cormorant Garamond",serif;font-size:26px;margin-bottom:6px;color:var(--green)}.why .cols p{color:var(--mut);font-size:15px}
+/* owners band */
+.band{background:var(--green);color:#efe9da}.band .split{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center}.band .eyebrow{color:var(--gold)}.band h2{color:#fff}.band p{color:#d8d2c2}.band .svc{padding:16px 0;border-bottom:1px solid #d3bd8a40}.band .svc b{color:var(--gold);font-size:17px;display:block}.band .svc p{margin:4px 0 0;font-size:14px}
+.big{font-family:"Cormorant Garamond",serif;font-size:clamp(64px,9vw,120px);line-height:.95;color:var(--gold);font-weight:500}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:30px}.steps .n{font-family:"Cormorant Garamond",serif;font-size:44px;color:var(--gold-d);line-height:1}.steps h3{font-size:22px;margin:8px 0 6px}.steps p{color:var(--mut);font-size:15px}
+/* faq */
+.faq{max-width:860px}.faq details{border-bottom:1px solid var(--line);padding:18px 0}.faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:16px}.faq summary::after{content:"+";color:var(--gold-d);font-size:22px;line-height:1}.faq details[open] summary::after{content:"–"}.faq p{color:var(--mut);margin:10px 0 0}
+/* forms */
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form .full{grid-column:1/-1}.form label{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:700;margin-bottom:6px}
+.form input,.form select,.form textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:12px 14px;font-size:15px}.form textarea{min-height:110px;resize:vertical}
+.msg{padding:14px 16px;border-radius:10px;font-size:14px;margin-top:10px}.msg.ok{background:#e4f1e8;color:var(--ok)}.msg.bad{background:#fbe9e7;color:var(--bad)}
+/* detail */
+.det .top{display:grid;grid-template-columns:1.4fr 1fr;gap:10px;height:520px;border-radius:var(--r);overflow:hidden}.det .top .main{background:center/cover;cursor:zoom-in}.det .top .side{display:grid;grid-template-rows:1fr 1fr;gap:10px}.det .top .side div{background:center/cover;cursor:zoom-in}
+.thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:4px}.thumbs img{height:72px;width:104px;object-fit:cover;border-radius:8px;cursor:pointer;opacity:.85}.thumbs img:hover{opacity:1}
+.det .cols{display:grid;grid-template-columns:1.5fr .9fr;gap:40px;margin-top:40px;align-items:start}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 20px}.facts span{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px}
+.amen{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;list-style:none;padding:0;margin:0}.amen li{padding:8px 0;border-bottom:1px solid var(--line);font-size:15px}
+.book{position:sticky;top:104px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:0 20px 50px #142d2614}
+.book .hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px}.book .hd b{font-size:26px;font-family:"Cormorant Garamond",serif;color:var(--green)}.book .hd small{color:var(--mut);font-size:12px}
+.book .dates{display:grid;grid-template-columns:1fr 1fr;gap:8px}.book .dates label,.book .g label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);font-weight:700;display:block;margin-bottom:4px}.book .dates input,.book .g select{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff;font-weight:600}
+.book .g{margin-top:8px}.book .sum{margin-top:14px;border-top:1px solid var(--line);padding-top:12px;font-size:14px}.book .sum div{display:flex;justify-content:space-between;padding:4px 0}.book .sum .tot{font-weight:700;font-size:17px;border-top:1px solid var(--line);margin-top:6px;padding-top:10px;color:var(--green)}
+.book .alt{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.book .note{font-size:12px;color:var(--mut);margin-top:10px}
+#map{height:320px;border-radius:var(--r);border:1px solid var(--line);margin-top:10px}
+/* calendar */
+.cal{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:10px}.cal .m h4{margin:0 0 8px;font-family:"Cormorant Garamond",serif;font-size:22px;text-align:center}.cal .wk{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11px;color:var(--mut);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}.cal .d{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal .d div{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;background:#fff;border:1px solid var(--line);cursor:pointer}.cal .d div small{font-size:10px;color:var(--mut)}.cal .d div.off{background:var(--sand);color:#a39d93;cursor:not-allowed;text-decoration:line-through}.cal .d div.sel{background:var(--green);color:var(--gold);border-color:var(--green)}.cal .d div.sel small{color:var(--gold)}.cal .d div.in{background:var(--soft);border-color:var(--soft)}.cal .d div.pad{background:transparent;border:0;cursor:default}
+.calnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}.calnav button{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+/* owners page */
+.calc{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:24px}.calc .row{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end}.calc output{font-family:"Cormorant Garamond",serif;font-size:34px;color:var(--green);display:block}
+.rules h3{margin-top:26px}.rules ol,.rules ul{padding-left:20px}.rules li{margin:6px 0;color:#3b4844}
+.table{width:100%;border-collapse:collapse;font-size:14px}.table th,.table td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.table th{color:var(--mut);font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+/* lightbox */
+.lb{position:fixed;inset:0;background:#0f1a16f0;display:none;align-items:center;justify-content:center;z-index:100}.lb.on{display:flex}.lb img{max-width:92vw;max-height:88vh;border-radius:10px}.lb button{position:absolute;background:#ffffff22;border:1px solid #ffffff55;color:#fff;border-radius:999px;width:46px;height:46px;cursor:pointer;font-size:20px}.lb .x{top:18px;right:18px}.lb .p{left:18px;top:50%}.lb .n{right:18px;top:50%}
+footer{background:var(--green);color:#cfc8b6;padding:60px 0 30px;font-size:14px}footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}footer h4{color:var(--gold);font-family:"Cormorant Garamond",serif;font-size:22px;margin:0 0 10px;font-weight:500}footer a{text-decoration:none;display:block;margin:4px 0;opacity:.9}footer .cp{grid-column:1/-1;border-top:1px solid #d3bd8a33;padding-top:18px;font-size:12px;opacity:.7;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.page{display:none}.page.on{display:block}.ptop{padding-top:120px}
+.notice{background:#fff7e0;border:1px solid #e8d7a0;color:#6b5a1e;padding:12px 16px;border-radius:10px;font-size:14px}
+.reveal{opacity:1}
+@media(max-width:1000px){.grid{grid-template-columns:1fr 1fr}.trust .wrap{grid-template-columns:1fr 1fr}.why .cols,.steps{grid-template-columns:1fr 1fr}.det .cols{grid-template-columns:1fr}.book{position:static}.band .split{grid-template-columns:1fr;gap:30px}footer .wrap{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.wrap{padding:0 16px}.hdr .wrap{height:70px}.nav{display:none;position:absolute;top:70px;left:0;right:0;background:#142D26f8;flex-direction:column;align-items:flex-start;padding:18px 20px 24px;gap:16px}.nav.open{display:flex}.burger{display:block}.brand img{height:36px}.brand b{font-size:20px}
+.hero{min-height:88vh}.hero .wrap{padding-top:110px}.search{grid-template-columns:1fr 1fr}.search label{border-right:0}.search .btn{grid-column:1/-1}.grid,.why .cols,.steps,.trust .wrap,.cal,.form,.calc .row{grid-template-columns:1fr}.det .top{grid-template-columns:1fr;height:300px}.det .top .side{display:none}section{padding:60px 0}.sechead{display:block}footer .wrap{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero video{display:none}.card:hover{transform:none}}
+</style>
+</head>
+<body>
+<header class="hdr" id="hdr"><div class="wrap">
+  <a class="brand" href="#/" aria-label="Byt a host"><img src="assets/logo-gold.svg" alt="B&amp;H"><span><b>Byt a host</b><small data-i="brand.small">Praha · apartmány &amp; správa</small></span></a>
+  <button class="burger" id="burger" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav class="nav" id="nav">
+    <a href="#/#apartmany" data-i="nav.apt">Apartmány</a>
+    <a href="#/majitele" data-i="nav.own">Pro majitele</a>
+    <a href="#/#jak" data-i="nav.how">Jak to funguje</a>
+    <a href="#/#kontakt" data-i="nav.contact">Kontakt</a>
+    <a href="#/portal" data-i="nav.portal">Portál majitele</a>
+    <div class="lang" role="group" aria-label="Jazyk"><button data-lang="cs" class="on">CS</button><button data-lang="en">EN</button></div>
+    <a class="btn gold sm" href="#/#apartmany" data-i="nav.book">Rezervovat</a>
+  </nav>
+</div></header>
+
+<main>
+<!-- ===== HOME ===== -->
+<div class="page on" id="page-home">
+  <section class="hero" id="hero">
+    <video id="hv" autoplay muted loop playsinline poster="assets/poster.jpg" aria-hidden="true"><source src="assets/hero-loop.mp4" type="video/mp4"></video>
+    <div class="shade"></div>
+    <div class="wrap">
+      <div class="eyebrow" style="color:var(--gold)" data-i="hero.eyebrow">Byt a host · B&amp;H · Praha</div>
+      <h1 data-i-html="hero.h1">Praha jako doma.<br><em>Přímo od hostitele.</em></h1>
+      <p class="lead" data-i="hero.lead">Dvacet apartmánů v Praze, které sami provozujeme. Rezervujte přímo u nás o 10 % levněji než na platformách, nebo nám svěřte svůj byt do správy.</p>
+      <form class="search" id="search">
+        <label><span data-i="s.in">Příjezd</span><input type="date" id="s-od" required></label>
+        <label><span data-i="s.out">Odjezd</span><input type="date" id="s-do" required></label>
+        <label><span data-i="s.guests">Hosté</span><select id="s-h"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="8">8</option></select></label>
+        <button class="btn gold" type="submit" data-i="s.go">Zobrazit volné</button>
+      </form>
+    </div>
+    <button class="vidctl" id="vidctl" data-i="hero.pause">Pozastavit video</button>
+  </section>
+  <div class="trust"><div class="wrap">
+    <div><b id="t-apt">20</b><span data-i="t.apt">apartmánů v Praze</span></div>
+    <div><b id="t-rev">—</b><span data-i="t.rev">recenzí na Airbnb a Booking</span></div>
+    <div><b id="t-rat">—</b><span data-i="t.rat">průměrné hodnocení Airbnb</span></div>
+    <div><b>−10 %</b><span data-i="t.direct">při rezervaci přímo u nás</span></div>
+  </div></div>
+
+  <section id="apartmany"><div class="wrap">
+    <div class="sechead"><div><div class="eyebrow" data-i="apt.eyebrow">Naše apartmány</div><h2 data-i="apt.h2">Vyberte si svůj byt v Praze</h2></div><p data-i="apt.p">Všechny apartmány provozujeme sami: víme, co v nich je, kdo uklízí a kdo zvedne telefon. Ceny jsou konečné, bez servisních poplatků platforem.</p></div>
+    <div id="filtr-info" class="notice" style="display:none;margin-bottom:18px"></div>
+    <div class="grid" id="grid"></div>
+  </div></section>
+
+  <section class="why tight"><div class="wrap">
+    <div class="eyebrow" data-i="why.eyebrow">Proč rezervovat přímo</div>
+    <h2 data-i="why.h2">Stejný byt, nižší cena, osobní péče</h2>
+    <div class="cols" style="margin-top:28px">
+      <div><b data-i="why.1b">−10 % oproti Airbnb a Booking</b><p data-i="why.1p">Platformy si berou 15–18 % z každé rezervace. Část té úspory dáváme vám.</p></div>
+      <div><b data-i="why.2b">Žádné skryté poplatky</b><p data-i="why.2p">Vidíte cenu za noc, úklid a městský poplatek. Nic dalšího se nepřičítá.</p></div>
+      <div><b data-i="why.3b">Platba kartou nebo převodem</b><p data-i="why.3p">Po potvrzení dostanete zabezpečený platební odkaz. Nic se nestrhává automaticky.</p></div>
+      <div><b data-i="why.4b">Jeden tým od A do Z</b><p data-i="why.4p">Stejní lidé, kteří byt připravují, vám odpoví v chatu i pomůžou s příjezdem.</p></div>
+    </div>
+  </div></section>
+
+  <section class="band" id="majitele-band"><div class="wrap split">
+    <div><div class="eyebrow" data-i="own.eyebrow">Pro majitele bytů</div><h2 data-i="own.h2">Váš byt vydělává. My se staráme o všechno ostatní.</h2><p data-i="own.p">Kompletní správa krátkodobého pronájmu v Praze: inzeráty na Airbnb i Booking, cenotvorba, hosté, úklid, prádlo, údržba, městský poplatek a měsíční vyúčtování v online portálu.</p><a class="btn gold" href="#/majitele" data-i="own.cta">Chci svěřit byt do správy</a></div>
+    <div><div class="big">15 %</div><p style="color:var(--gold);font-weight:600;margin-top:6px" data-i="own.fee">z toho, co vám z Airbnb a Booking přijde. Nic víc.</p>
+      <div class="svc"><b data-i="own.s1b">Inzeráty a cenotvorba</b><p data-i="own.s1p">Profesionální fotky, texty v 5 jazycích, ceny řízené podle sezóny a poptávky.</p></div>
+      <div class="svc"><b data-i="own.s2b">Hosté a provoz</b><p data-i="own.s2p">Komunikace 7 dní v týdnu, samoobslužný check-in, úklid a prádlo po každém pobytu.</p></div>
+      <div class="svc"><b data-i="own.s3b">Peníze a přehled</b><p data-i="own.s3p">Výplata každý měsíc, vyúčtování a obsazenost v portálu majitele kdykoliv online.</p></div>
+    </div>
+  </div></section>
+
+  <section id="jak"><div class="wrap">
+    <div class="sechead"><div><div class="eyebrow" data-i="how.eyebrow">Jak probíhá pobyt</div><h2 data-i="how.h2">Od rezervace k odjezdu</h2></div></div>
+    <div class="steps">
+      <div><div class="n">01</div><h3 data-i="how.1h">Vyberte termín</h3><p data-i="how.1p">V kalendáři vidíte dostupnost a konečnou cenu za noc. Odesláním vytvoříte nezávaznou žádost.</p></div>
+      <div><div class="n">02</div><h3 data-i="how.2h">Potvrdíme a pošleme platbu</h3><p data-i="how.2p">Obvykle do několika hodin potvrdíme termín a pošleme zabezpečený odkaz k platbě kartou nebo údaje k převodu.</p></div>
+      <div><div class="n">03</div><h3 data-i="how.3h">Pokyny k příjezdu</h3><p data-i="how.3p">Den před příjezdem dostanete adresu, kód ke schránce na klíče a průvodce bytem. Check-in je samoobslužný od 14:00.</p></div>
+      <div><div class="n">04</div><h3 data-i="how.4h">Jsme na telefonu</h3><p data-i="how.4p">Během pobytu nám kdykoli napíšete. Odjezd do 11:00, klíče zpět do schránky.</p></div>
+    </div>
+  </div></section>
+
+  <section class="tight" style="padding-top:0"><div class="wrap faq">
+    <div class="eyebrow" data-i="faq.eyebrow">Časté dotazy</div><h2 data-i="faq.h2">Na co se hosté ptají</h2>
+    <div id="faq"></div>
+  </div></section>
+
+  <section id="kontakt" class="why"><div class="wrap" style="max-width:860px">
+    <div class="eyebrow" data-i="c.eyebrow">Kontakt</div><h2 data-i="c.h2">Napište nám</h2>
+    <p style="color:var(--mut)" data-i="c.p">Dotaz k pobytu, speciální požadavek nebo zájem o správu bytu. Odpovídáme zpravidla do 24 hodin.</p>
+    <form class="form" id="f-kontakt">
+      <div><label data-i="f.name">Jméno</label><input name="jmeno" required></div>
+      <div><label data-i="f.email">E-mail</label><input name="email" type="email" required></div>
+      <div><label data-i="f.phone">Telefon</label><input name="telefon"></div>
+      <div><label data-i="f.topic">Téma</label><select name="tema"><option value="pobyt" data-i="f.t1">Pobyt / rezervace</option><option value="sprava" data-i="f.t2">Správa mého bytu</option><option value="jine" data-i="f.t3">Jiné</option></select></div>
+      <div class="full"><label data-i="f.msg">Zpráva</label><textarea name="zprava" required></textarea></div>
+      <div class="full"><button class="btn" type="submit" data-i="f.send">Odeslat zprávu</button><div id="f-kontakt-msg"></div></div>
+    </form>
+  </div></section>
+</div>
+
+<!-- ===== DETAIL ===== -->
+<div class="page det" id="page-detail"><div class="wrap ptop" id="detail"></div></div>
+
+<!-- ===== MAJITELE ===== -->
+<div class="page" id="page-majitele">
+  <section class="band" style="padding-top:150px"><div class="wrap split">
+    <div><div class="eyebrow" data-i="o.eyebrow">Správa apartmánů v Praze</div><h2 style="font-size:clamp(38px,5vw,64px)" data-i="o.h2">Pronajímejte bez práce. Za 15 % z příjmu.</h2><p data-i="o.p">Byt a host provozuje 20 apartmánů v Praze, 12 vlastních a 8 ve správě pro majitele. Děláme jen krátkodobý pronájem a děláme ho celý: od fotek po vyúčtování.</p><a class="btn gold" href="#/majitele#poptavka" data-i="o.cta">Nezávazná poptávka</a> <a class="btn ghost light" href="#/portal" data-i="o.portal">Ukázka portálu majitele</a></div>
+    <div class="calc" style="color:var(--ink)">
+      <div class="eyebrow" data-i="o.calc">Kalkulačka</div>
+      <div class="row"><div><label style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:700" data-i="o.calc.in">Měsíční příjem z platforem po jejich provizi (Kč)</label><input id="calc-in" type="number" value="60000" step="1000" style="width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:18px;font-weight:700"></div>
+      <div><span style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:700" data-i="o.calc.fee">Naše odměna 15 %</span><output id="calc-fee">9 000 Kč</output></div></div>
+      <div class="row" style="margin-top:14px"><div><span style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);font-weight:700" data-i="o.calc.net">Zůstane vám</span><output id="calc-net">51 000 Kč</output></div><div style="font-size:13px;color:var(--mut)" data-i="o.calc.note">Úklid platí host v ceně pobytu. Městský poplatek odvádíme za vás z vybraných částek. Žádné měsíční paušály.</div></div>
+    </div>
+  </div></section>
+
+  <section><div class="wrap">
+    <div class="sechead"><div><div class="eyebrow" data-i="o.w.eyebrow">Co je v ceně</div><h2 data-i="o.w.h2">Celý provoz, ne jen klíče</h2></div></div>
+    <div class="grid" id="o-sluzby"></div>
+  </div></section>
+
+  <section class="why tight"><div class="wrap">
+    <div class="sechead"><div><div class="eyebrow" data-i="o.how.eyebrow">Jak začít</div><h2 data-i="o.how.h2">Od první schůzky k první výplatě</h2></div></div>
+    <div class="steps">
+      <div><div class="n">01</div><h3 data-i="o.h1h">Prohlídka a odhad</h3><p data-i="o.h1p">Přijdeme se podívat, řekneme vám reálný odhad obsazenosti a ceny podle našich sousedních bytů, ne podle marketingu.</p></div>
+      <div><div class="n">02</div><h3 data-i="o.h2h">Příprava bytu</h3><p data-i="o.h2p">Doporučíme vybavení, zajistíme fotografa, schránku na klíče, zámek a textil. Vše z vašeho rozpočtu bez naší přirážky.</p></div>
+      <div><div class="n">03</div><h3 data-i="o.h3h">Spuštění inzerátů</h3><p data-i="o.h3p">Airbnb, Booking a tento web. Ceny nastavíme podle sezóny a první týdny ladíme denně.</p></div>
+      <div><div class="n">04</div><h3 data-i="o.h4h">Výplata a portál</h3><p data-i="o.h4p">Každý měsíc vyúčtování s rezervacemi, úklidy a poplatky. Peníze vám chodí přímo z platforem, my vám fakturujeme jen 15 %.</p></div>
+    </div>
+  </div></section>
+
+  <section><div class="wrap rules" style="max-width:900px">
+    <div class="eyebrow" data-i="o.r.eyebrow">Pravidla spolupráce</div><h2 data-i="o.r.h2">Jasná pravidla, žádné drobné písmo</h2>
+    <div id="o-pravidla"></div>
+  </section>
+
+  <section class="why" id="poptavka"><div class="wrap" style="max-width:860px">
+    <div class="eyebrow" data-i="o.f.eyebrow">Nezávazná poptávka</div><h2 data-i="o.f.h2">Řekněte nám o svém bytě</h2>
+    <form class="form" id="f-majitel">
+      <div><label data-i="f.name">Jméno</label><input name="jmeno" required></div>
+      <div><label data-i="f.email">E-mail</label><input name="email" type="email" required></div>
+      <div><label data-i="f.phone">Telefon</label><input name="telefon"></div>
+      <div><label data-i="f.addr">Adresa bytu</label><input name="adresa" placeholder="ulice, Praha"></div>
+      <div><label data-i="f.disp">Dispozice</label><select name="dispozice"><option>1+kk</option><option>2+kk</option><option>3+kk</option><option>4+kk a větší</option></select></div>
+      <div><label data-i="f.state">Stav</label><select name="stav_bytu"><option value="zarizeny" data-i="f.st1">Zařízený, připravený</option><option value="castecne" data-i="f.st2">Částečně zařízený</option><option value="prazdny" data-i="f.st3">Prázdný / po rekonstrukci</option><option value="pronajima" data-i="f.st4">Už pronajímám krátkodobě</option></select></div>
+      <div class="full"><label data-i="f.msg">Zpráva</label><textarea name="zprava"></textarea></div>
+      <div class="full"><button class="btn" type="submit" data-i="f.send2">Odeslat poptávku</button><div id="f-majitel-msg"></div></div>
+    </form>
+  </div></section>
+</div>
+
+<!-- ===== PORTAL ===== -->
+<div class="page" id="page-portal"><div class="wrap ptop" style="max-width:900px;padding-bottom:80px">
+  <div class="eyebrow" data-i="p.eyebrow">Portál majitele</div><h2 data-i="p.h2">Vaše čísla kdykoli online</h2>
+  <p style="color:var(--mut)" data-i="p.p">Každý majitel má vlastní zabezpečenou stránku: obsazenost po dnech, rezervace z Airbnb i Booking, úklidy, městský poplatek a měsíční vyúčtování s naší provizí. Přístup je chráněn PINem, který jsme vám předali.</p>
+  <div class="grid" id="portal-grid" style="margin-top:26px"></div>
+  <p class="notice" style="margin-top:26px" data-i="p.note">Zájemci o správu: ukázku portálu s anonymizovanými daty vám rádi ukážeme na schůzce.</p>
+</div></div>
+
+<!-- ===== PODMINKY ===== -->
+<div class="page" id="page-podminky"><div class="wrap ptop rules" style="max-width:900px;padding-bottom:80px"><div id="podminky"></div></div></div>
+</main>
+
+<footer><div class="wrap">
+  <div><a class="brand" href="#/" style="margin-bottom:12px"><img src="assets/logo-gold.svg" alt="B&amp;H" style="height:54px"></a><p data-i="ft.p">Byt a host · B&amp;H. Apartmány v Praze, které provozujeme sami, a správa krátkodobých pronájmů pro majitele.</p></div>
+  <div><h4 data-i="ft.guests">Pro hosty</h4><a href="#/#apartmany" data-i="nav.apt">Apartmány</a><a href="#/#jak" data-i="nav.how">Jak to funguje</a><a href="#/podminky" data-i="ft.terms">Rezervační podmínky</a></div>
+  <div><h4 data-i="ft.owners">Pro majitele</h4><a href="#/majitele" data-i="ft.mgmt">Správa za 15 %</a><a href="#/portal" data-i="nav.portal">Portál majitele</a><a href="#/majitele#poptavka" data-i="ft.inq">Poptávka</a></div>
+  <div><h4 data-i="ft.contact">Kontakt</h4><a href="#/#kontakt" data-i="ft.write">Napište nám</a><a href="https://www.airbnb.com" target="_blank" rel="noopener">Airbnb</a><a href="https://www.booking.com" target="_blank" rel="noopener">Booking.com</a></div>
+  <div class="cp"><span>© <span id="rok"></span> Byt a host · bytahost.cz</span><span data-i="ft.cp">Ceny v Kč včetně DPH. Městský poplatek z pobytu 50 Kč/osoba/noc podle vyhlášky hl. m. Prahy.</span></div>
+</div></footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true"><button class="x" id="lb-x" aria-label="Zavřít">×</button><button class="p" id="lb-p" aria-label="Předchozí">‹</button><img id="lb-img" alt=""><button class="n" id="lb-n" aria-label="Další">›</button></div>
+
+<script src="data/config.js"></script>
+<script src="data/byty.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin=""></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

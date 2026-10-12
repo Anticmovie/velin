@@ -1,0 +1,527 @@
+{
+ "ts": "2026-10-12T19:17:03.991Z",
+ "airbnb": {
+  "1100717594821054303": {
+   "apt": "202",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Crib",
+    "Hair dryer",
+    "Refrigerator",
+    "Microwave"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 2, Czechia"
+  },
+  "1388583061949851511": {
+   "apt": "florenc 2",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Washer",
+    "Backyard",
+    "Hair dryer",
+    "Refrigerator",
+    "Microwave",
+    "Sound system"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 8, Czechia"
+  },
+  "1161714780792912524": {
+   "apt": "florenc 1",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Washer",
+    "Backyard",
+    "Hair dryer",
+    "Refrigerator",
+    "Microwave",
+    "Smoking allowed"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 8, Czechia"
+  },
+  "1171519746617720141": {
+   "apt": "Vlastislavova",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Washer",
+    "Bathtub",
+    "Hair dryer",
+    "Refrigerator",
+    "Microwave",
+    "Long term stays allowed"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 4, Czechia"
+  },
+  "1387118393843483728": {
+   "apt": "Basilejske",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "TV",
+    "Washer",
+    "Dryer",
+    "Air conditioning",
+    "Crib",
+    "Paid pack ’n play/travel crib - available upon request",
+    "Hair dryer",
+    "Paid parking garage off premises"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 3, Czechia"
+  },
+  "876832236492910832": {
+   "apt": "205",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Paid dryer – In building",
+    "Crib",
+    "Hair dryer",
+    "Refrigerator"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 2, Czechia"
+  },
+  "897037203910176304": {
+   "apt": "Slavojova",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Bathtub",
+    "Backyard",
+    "Children’s books and toys",
+    "Hair dryer"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 2, Czechia"
+  },
+  "855693978595336616": {
+   "apt": "616",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "Free residential garage on premises – 1 space",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Bathtub",
+    "Shared backyard",
+    "Hair dryer"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 3, Czechia"
+  },
+  "896992121165693760": {
+   "apt": "29",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "Free residential garage on premises – 1 space",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Dryer",
+    "Bathtub",
+    "Backyard"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 3, Czechia"
+  },
+  "925425681423080315": {
+   "apt": "421",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Dryer",
+    "Bathtub",
+    "Backyard",
+    "Hair dryer"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 3, Czechia"
+  },
+  "876924552477664650": {
+   "apt": "28",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "Free residential garage on premises",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Dryer",
+    "Bathtub",
+    "Backyard"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 3, Czechia"
+  },
+  "954081088819900413": {
+   "apt": "V Haji",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Dryer",
+    "Bathtub",
+    "Backyard",
+    "Crib"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 7, Czechia"
+  },
+  "1137812610512219262": {
+   "apt": "Baranova",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "Free residential garage on premises",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Dryer",
+    "Bathtub",
+    "Backyard"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 3, Czechia"
+  },
+  "1206263024835352049": {
+   "apt": "Jatecni",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Bathtub",
+    "Backyard",
+    "Crib",
+    "Children’s books and toys"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 7, Czechia"
+  },
+  "1433518127192307976": {
+   "apt": "Korunni",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Washer",
+    "Free dryer – In unit",
+    "Bathtub",
+    "Backyard",
+    "Indoor fireplace",
+    "Paid pack ’n play/travel crib"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 2, Czechia"
+  },
+  "1584279072756123607": {
+   "apt": "Mezibranska velka",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Bathtub",
+    "Backyard",
+    "Indoor fireplace",
+    "Pack ’n play/Travel crib",
+    "Hair dryer"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 1, Czechia"
+  },
+  "1578849194516653303": {
+   "apt": "Mezibranska mala",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Dryer",
+    "Bathtub",
+    "Backyard",
+    "Indoor fireplace",
+    "Pack ’n play/Travel crib"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 1, Czechia"
+  },
+  "937771212547660262": {
+   "apt": "Andel",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Dryer",
+    "Bathtub",
+    "Backyard",
+    "Crib"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 5, Czechia"
+  },
+  "1723338170916538221": {
+   "apt": "Harfa",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Pets allowed",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Dryer",
+    "Private patio or balcony",
+    "Backyard",
+    "Hair dryer"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague, Czechia"
+  },
+  "1734743046103431210": {
+   "apt": "Havelska",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Air conditioning",
+    "Backyard",
+    "Hair dryer",
+    "Refrigerator",
+    "Microwave"
+   ],
+   "desc": "",
+   "ci": "2:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 1, Czechia"
+  },
+  "1767249428950088859": {
+   "apt": "Ve Smeckach",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Dryer",
+    "Air conditioning",
+    "Bathtub",
+    "Private patio or balcony"
+   ],
+   "desc": "",
+   "ci": "4:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 1, Czechia"
+  },
+  "1769519741635702350": {
+   "apt": "Opatovicka",
+   "am": [
+    "Kitchen",
+    "Wifi",
+    "Dedicated workspace",
+    "TV",
+    "Elevator",
+    "Washer",
+    "Dryer",
+    "Air conditioning",
+    "Bathtub",
+    "Pack ’n play/Travel crib"
+   ],
+   "desc": "",
+   "ci": "4:00 PM",
+   "co": null,
+   "loc": "Entire rental unit in Prague 1, Czechia"
+  }
+ },
+ "booking": {
+  "28": {
+   "nazev": "THE IVORY TOWER",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "29": {
+   "nazev": "THE EBONY TOWER",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "202": {
+   "nazev": "THE BOHEMIA ONYX",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "205": {
+   "nazev": "THE BOHEMIA PEARL",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "421": {
+   "nazev": "THE GARDEN GRAND",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "616": {
+   "nazev": "THE CENTRUM PARK",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "basilej": {
+   "nazev": "THE BASILEJ",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "jatecni": {
+   "nazev": "THE VLTAVA",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "baranova": {
+   "nazev": "THE ROYAL STUDIO",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "v haji": {
+   "nazev": "THE RIVERSIDE",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "slavojova": {
+   "nazev": "THE BOHEMIA SLAVOJ",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "korunni": {
+   "nazev": "Royal Crown Apartment",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "mezibranska velka": {
+   "nazev": "Night at the Museum",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "mezibranska mala": {
+   "nazev": "Night next to the Museum",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "andel": {
+   "nazev": "THE ANGEL CASTLE Apartment",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "havelska": {
+   "nazev": "THE HAVEL ROOFTOP APARTMENT with AC",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  },
+  "harfa": {
+   "nazev": "THE HARFA O2 APARTMENT with loggia",
+   "url": null,
+   "nalezeno": null,
+   "kandidati": []
+  }
+ }
+}
