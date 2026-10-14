@@ -119,6 +119,11 @@ section{padding:110px 0}section.tight{padding:80px 0}
 .pa-tablewrap{overflow-x:auto}.pa-table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}.pa-table th{text-align:right;font-size:12px;color:var(--mut);font-weight:700;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}.pa-table td{text-align:right;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}.pa-table th:first-child,.pa-table td:first-child,.pa-table td:nth-child(2):not([colspan]){text-align:left}.pa-table tr.run td{color:var(--mut)}.pa-table em{font-style:normal;font-size:11px;background:var(--mint);color:var(--green);border-radius:999px;padding:2px 8px;margin-left:4px}.pa-table tr.tot td{font-weight:800;border-top:2px solid var(--line-2);background:var(--bg-2)}
 .pa-links{display:flex;gap:8px;flex-wrap:wrap}.pa-links .chip{text-decoration:none;background:var(--bg-2)}
 @media(max-width:1060px){.pa-kpi{grid-template-columns:1fr 1fr}.pa-grid2{grid-template-columns:1fr}}@media(max-width:720px){.pa{padding:16px 16px 50px}.pa-kpi{grid-template-columns:1fr}.pa-kpi b{font-size:28px}.pa-seg button{padding:7px 10px;font-size:12.5px}}
+.pa-rezctl{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.pa-rezctl .pa-seg button{width:36px;height:36px;padding:0;font-size:18px}.pa-rm{font-weight:700;padding:0 8px;min-width:150px;text-align:center}.pa-rezctl select{border:1.5px solid var(--line-2);border-radius:12px;padding:8px 12px;font-weight:600;background:#fff}
+.pa-badge{display:inline-block;font-style:normal;font-size:11px;font-weight:800;border-radius:6px;padding:3px 8px;color:#fff;margin-right:6px;vertical-align:1px}.pa-badge.air{background:var(--air)}.pa-badge.bk{background:var(--bk)}.pa-badge.own{background:#1F7A4D}
+.pa-stav{display:inline-block;font-style:normal;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:4px 9px;background:var(--bg-2);color:var(--ink-2)}.pa-stav.ok{background:#E4F3EA;color:#1F7A4D}.pa-stav.run{background:var(--green);color:#fff}.pa-stav.wait{background:var(--gold-2);color:var(--gold-ink)}.pa-stav.off{background:#FBEAE8;color:var(--bad)}.pa-stav.done{background:#EEF0EE;color:#5B6660}
+.pa-table.pa-rez td:nth-child(3),.pa-table.pa-rez th:nth-child(3),.pa-table.pa-rez td:nth-child(4),.pa-table.pa-rez th:nth-child(4),.pa-table.pa-rez td:nth-child(5),.pa-table.pa-rez th:nth-child(5){text-align:left}.pa-table.pa-rez tr.past td{color:var(--mut)}.pa-table.pa-rez td small{color:var(--mut);font-weight:500}
+@media(max-width:720px){.pa-table.pa-rez thead{display:none}.pa-table.pa-rez tr{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;padding:12px 0;border-bottom:1px solid var(--line)}.pa-table.pa-rez td{border:0;padding:2px 0;text-align:left!important;white-space:normal}.pa-table.pa-rez td::before{content:attr(data-l);display:block;font-size:10.5px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.06em}.pa-table.pa-rez td[data-l="Termín"],.pa-table.pa-rez td[data-l="Host"]{grid-column:1/-1}.pa-table.pa-rez tr.tot{display:flex;justify-content:space-between}.pa-table.pa-rez tr.tot td::before{display:none}}
 /* ===== steps ===== */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;position:relative}.steps>div{position:relative;padding-top:8px}.steps .n{width:52px;height:52px;border-radius:50%;background:var(--gold);color:var(--green);display:grid;place-items:center;font-family:"Urbanist",sans-serif;font-weight:800;font-size:18px;margin-bottom:18px;position:relative;z-index:1}.steps>div::before{content:"";position:absolute;left:52px;right:-22px;top:33px;height:2px;background:var(--line)}.steps>div:last-child::before{display:none}.steps h3{font-size:20px}.steps p{color:var(--ink-2);font-size:15px;margin:0}
 /* ===== faq ===== */
@@ -451,10 +456,10 @@ footer{background:var(--green);color:#CFC9B8;padding:72px 0 30px;font-size:14.5p
 
 <div class="lb" id="lb" role="dialog" aria-modal="true"><button class="x" id="lb-x" aria-label="Zavřít">×</button><button class="p" id="lb-p" aria-label="Předchozí">‹</button><img id="lb-img" alt=""><button class="n" id="lb-n" aria-label="Další">›</button></div>
 
-<script src="data/config.js?v=20261014f"></script>
-<script src="data/byty.js?v=20261014f"></script>
-<script src="data/recenze.js?v=20261014f"></script>
-<script src="assets/portal.js?v=20261014f"></script>
-<script src="assets/app.js?v=20261014f"></script>
+<script src="data/config.js?v=20261014g"></script>
+<script src="data/byty.js?v=20261014g"></script>
+<script src="data/recenze.js?v=20261014g"></script>
+<script src="assets/portal.js?v=20261014g"></script>
+<script src="assets/app.js?v=20261014g"></script>
 </body>
 </html>

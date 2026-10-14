@@ -14,7 +14,32 @@
     try { return JSON.parse(html.slice(i + 10, j)); } catch (x) { return null; }
   }
 
-  const ST = { byt: 'all', obd: '12' };
+  const ST = { byt: 'all', obd: '12', rm: null, rstav: 'all' };
+  const fmtD = d => d ? d.slice(8, 10).replace(/^0/, '') + '.' + d.slice(5, 7).replace(/^0/, '') + '.' : '';
+  const addM = (m, n) => { const y = +m.slice(0, 4), mm = +m.slice(5, 7) - 1 + n; return new Date(y, mm, 1).getFullYear() + '-' + String(new Date(y, mm, 1).getMonth() + 1).padStart(2, '0'); };
+  function stavRez(r, dnes) { if (r.plat === 'owner') return r.stav === 'potvrzeno' ? 'potvrzeno' : r.stav === 'zamitnuto' ? 'zrušeno' : 'čeká'; if (r.do <= dnes) return 'ukončeno'; if (r.od <= dnes) return 'probíhá'; return 'potvrzeno'; }
+  function lokalniBlokace(D) { try { return JSON.parse(localStorage.getItem('bh_blok_' + D.klic) || '[]'); } catch (e) { return []; } }
+  function rezervaceMesice(D, byty, mes) {
+    const start = mes + '-01', end = addM(mes, 1) + '-01'; const out = [];
+    const lok = lokalniBlokace(D);
+    byty.forEach(b => {
+      const list = (b.rezervace || []).slice();
+      lok.filter(x => x.byt === b.key && !list.some(y => y.plat === 'owner' && y.od === x.od && y.do === x.do)).forEach(x => list.push({ plat: 'owner', kod: 'žádost', host: D.jmeno, hoste: null, od: x.od, do: x.do, czk: 0, stav: 'nova', pozn: x.pozn }));
+      list.forEach(r => { if (r.od < end && r.do > start) out.push({ ...r, bytNazev: b.nazev, bytKey: b.key }); });
+    });
+    return out.sort((a, b) => a.od.localeCompare(b.od));
+  }
+  function rezSekce(D, byty, cur) {
+    const mes = ST.rm || cur; const dnes = D.dnes || ''; let rows = rezervaceMesice(D, byty, mes).map(r => ({ ...r, st: stavRez(r, dnes) }));
+    const cnt = rows.length; if (ST.rstav !== 'all') rows = rows.filter(r => (ST.rstav === 'owner' ? r.plat === 'owner' : r.st === ST.rstav));
+    const badge = r => r.plat === 'airbnb' ? '<i class="pa-badge air">Airbnb</i>' : r.plat === 'booking' ? '<i class="pa-badge bk">Booking</i>' : '<i class="pa-badge own">Majitel</i>';
+    const stav = st => `<i class="pa-stav ${st === 'potvrzeno' ? 'ok' : st === 'probíhá' ? 'run' : st === 'čeká' ? 'wait' : st === 'zrušeno' ? 'off' : 'done'}">${st}</i>`;
+    const sum = rows.reduce((t, r) => t + (r.czk || 0), 0); const noci = (a, b) => Math.round((new Date(b) - new Date(a)) / 864e5);
+    return `<section class="pa-card" id="pa-rez"><div class="pa-cardhead"><h3>Rezervace</h3><div class="pa-rezctl"><div class="pa-seg"><button type="button" id="pa-rm-prev" aria-label="Předchozí měsíc">‹</button><span class="pa-rm">${esc(mlabel(mes))} (${cnt})</span><button type="button" id="pa-rm-next" aria-label="Další měsíc">›</button></div><select id="pa-rstav"><option value="all" ${ST.rstav === 'all' ? 'selected' : ''}>Všechny stavy</option><option value="potvrzeno" ${ST.rstav === 'potvrzeno' ? 'selected' : ''}>Potvrzeno</option><option value="probíhá" ${ST.rstav === 'probíhá' ? 'selected' : ''}>Probíhá</option><option value="ukončeno" ${ST.rstav === 'ukončeno' ? 'selected' : ''}>Ukončeno</option><option value="owner" ${ST.rstav === 'owner' ? 'selected' : ''}>Moje pobyty</option></select><button type="button" class="btn gold sm" id="pa-rezbtn">+ Rezervovat byt</button></div></div>
+      ${rows.length ? `<div class="pa-tablewrap"><table class="pa-table pa-rez"><thead><tr><th>#</th><th>Byt</th><th>Termín</th><th>Host</th><th>Stav</th><th>Částka</th></tr></thead><tbody>
+      ${rows.map(r => `<tr class="${r.st === 'ukončeno' ? 'past' : ''}"><td data-l="#">${esc(r.kod || '')}</td><td data-l="Byt">${esc(r.bytNazev)}</td><td data-l="Termín"><b>${fmtD(r.od)} – ${fmtD(r.do)}</b> <small>${noci(r.od, r.do)} ${noci(r.od, r.do) === 1 ? 'noc' : noci(r.od, r.do) < 5 ? 'noci' : 'nocí'}</small></td><td data-l="Host">${badge(r)} ${esc(r.host || (r.plat === 'airbnb' ? 'Host Airbnb' : ''))}${r.hoste ? ' <small>+ ' + r.hoste + '</small>' : ''}${r.pozn ? ' <small>· ' + esc(r.pozn) + '</small>' : ''}</td><td data-l="Stav">${stav(r.st)}</td><td data-l="Částka">${r.plat === 'airbnb' ? kc(r.czk) : r.plat === 'booking' ? '<small>ve vyúčtování</small>' : '0 Kč'}</td></tr>`).join('')}
+      ${sum ? `<tr class="tot"><td colspan="5">Airbnb celkem za zobrazené</td><td>${kc(sum)}</td></tr>` : ''}</tbody></table></div><p class="pa-note">Částky Airbnb = výplata za pobyt po poplatcích. Booking se vyúčtovává měsíčně (viz tabulka níže). Přehled je informativní a nenahrazuje vyúčtování.</p>` : '<p class="pa-note">V tomto měsíci nejsou žádné rezervace.</p>'}</section>`;
+  }
   function mesice(D) { const s = new Set(); D.byty.forEach(b => b.radky.forEach(r => s.add(r.mes))); return [...s].sort(); }
   function filtr(D) {
     const all = mesice(D); const y = (D.dnes || '').slice(0, 4);
@@ -64,6 +89,7 @@
       <section class="pa-card"><h3>Obrat a výplata po měsících</h3>${bars(list, 'obrat', 'vyplata', '#C9D3CC', '#142D26')}<div class="pa-legend"><i style="background:#C9D3CC"></i>obrat <i style="background:#142D26"></i>výplata</div></section>
       <section class="pa-card"><h3>Obsazenost${bench ? ' vs. portfolio' : ' po měsících'}</h3>${bench ? occLine(byty[0]) : bars(list.map(x => ({ ...x, occ: x.occ_dni ? x.occ_noci / x.occ_dni * 100 : 0 })), 'occ', null, '#142D26')}${bench && bench.dopo ? `<p class="pa-note">${esc(bench.dopo)}</p>` : ''}</section>
     </div>
+    ${rezSekce(D, byty, cur)}
     <section class="pa-card"><div class="pa-cardhead"><h3>Kalendář obsazenosti</h3><select id="pa-calmes">${all.slice().reverse().map(m => `<option value="${m}" ${(ST.cal || cur) === m ? 'selected' : ''}>${esc(mlabel(m))}</option>`).join('')}</select></div>${calendar((list.find(x => x.mes === (ST.cal || cur)) || { items: [] }).items, ST.cal || cur)}</section>
     <section class="pa-card"><h3>Měsíční vyúčtování</h3><div class="pa-tablewrap"><table class="pa-table"><thead><tr><th>Měsíc</th><th>Booking</th><th>Airbnb</th><th>Obrat</th><th>Obsazenost</th><th>Odměna</th><th>Úklid + prádlo</th><th>Mimořádné (+ příjem / − náklad)</th><th>Výplata</th></tr></thead><tbody>
       ${list.slice().reverse().map(x => `<tr class="${x.bezici ? 'run' : ''}"><td>${esc(mlabel(x.mes))}${x.bezici ? ' <em>běží</em>' : ''}${x.est ? ' <em>odhad</em>' : ''}</td><td>${kc(x.bk)}</td><td>${kc(x.ab)}</td><td><b>${kc(x.obrat)}</b></td><td>${x.occ_dni ? Math.round(x.occ_noci / x.occ_dni * 100) : 0} %</td><td>${kc(x.provize)}</td><td>${kc(x.uklid + x.prani)}${x.ks ? ' <small>(' + x.ks + '×)</small>' : ''}</td><td>${x.extra ? (x.extra > 0 ? '+' : '') + kc(x.extra) : '—'}</td><td><b>${kc(x.vyplata)}</b></td></tr>`).join('')}
@@ -71,7 +97,7 @@
       <p class="pa-note">Výplaty z Airbnb a Booking vám chodí přímo na účet; odměnu, úklid a prádlo fakturujeme měsíčně.${D.uhrazeno_do ? ' Uhrazeno do: <b>' + esc(D.uhrazeno_do) + '</b>.' : ''}</p></section>
     <div class="pa-grid2">
       <section class="pa-card"><h3>Vaše vlastní náklady <small>(informativně, platíte přímo vy)</small></h3>${nak.length ? `<div class="pa-tablewrap"><table class="pa-table"><thead><tr><th>Měsíc</th><th>Položka</th><th>Byt</th><th>Částka</th></tr></thead><tbody>${nak.slice().sort((a, b) => b.mes.localeCompare(a.mes)).slice(0, 60).map(n => `<tr><td>${esc(mshort(n.mes))}</td><td>${esc(n.kat)}${n.pozn ? ' <small>' + esc(n.pozn) + '</small>' : ''}</td><td>${esc(n.byt || '')}</td><td>${kc(n.castka)}</td></tr>`).join('')}<tr class="tot"><td colspan="3">Celkem za období</td><td>${kc(nakTot)}</td></tr></tbody></table></div>` : '<p class="pa-note">Zatím žádné evidované náklady.</p>'}</section>
-      <section class="pa-card"><h3>Vlastní pobyt / blokace termínu</h3><p class="pa-note">Chcete byt pro sebe nebo rodinu? Zadejte termín, potvrdíme do 24 hodin (už potvrzené rezervace hostů se dodržují).</p>
+      <section class="pa-card" id="pa-blokcard"><h3>Rezervovat byt pro sebe</h3><p class="pa-note">Zadejte termín, kdy chcete byt pro sebe nebo rodinu. Zablokujeme ho v kalendářích Airbnb i Booking a potvrdíme do 24 hodin (už potvrzené rezervace hostů se dodržují). Žádost hned uvidíte v seznamu rezervací jako „čeká“.</p>
         <form id="pa-blok" class="form" style="grid-template-columns:1fr 1fr"><div><label for="pb-byt">Byt</label><select id="pb-byt">${D.byty.map(b => `<option value="${esc(b.key)}">${esc(b.nazev)}</option>`).join('')}</select></div><div><label for="pb-od">Od</label><input type="date" id="pb-od" required></div><div><label for="pb-do">Do</label><input type="date" id="pb-do" required></div><div><label for="pb-pozn">Poznámka</label><input id="pb-pozn" placeholder="např. rodina, 2 osoby"></div><div class="full"><button class="btn gold" type="submit">Poslat žádost o blokaci</button><div id="pb-msg"></div></div></form>
         ${(D.zprava && (D.zprava.text || typeof D.zprava === 'string')) ? `<h3 style="margin-top:22px">Zpráva od správce</h3><p>${esc(D.zprava.text || D.zprava)}</p>` : ''}
         ${byty.some(b => (b.odkazy || []).length) ? `<h3 style="margin-top:22px">Odkazy</h3><div class="pa-links">${byty.flatMap(b => (b.odkazy || []).map(o => `<a class="chip" href="${esc(o.u)}" target="_blank" rel="noopener">${esc(o.t)}</a>`)).join('')}</div>` : ''}
@@ -81,7 +107,9 @@
     $$('#pa-obd button').forEach(b => b.onclick = () => { ST.obd = b.dataset.v; render(D); });
     $('#pa-mes').onchange = e => { if (e.target.value) { ST.obd = e.target.value; ST.cal = e.target.value; render(D); } };
     $('#pa-calmes').onchange = e => { ST.cal = e.target.value; render(D); };
-    $('#pa-blok').onsubmit = async e => { e.preventDefault(); const msg = $('#pb-msg'); const od = $('#pb-od').value, doo = $('#pb-do').value; if (!od || !doo || doo <= od) { msg.innerHTML = '<div class="msg bad">Zadejte termín Od a Do.</div>'; return; } const ok = window.BH && window.BH.sb ? await window.BH.sb('web_blokace', { klient: D.klic, byt_key: $('#pb-byt').value, od, do_: doo, pozn: $('#pb-pozn').value, jmeno: D.jmeno }) : false; msg.innerHTML = `<div class="msg ${ok ? 'ok' : 'bad'}">${ok ? 'Žádost odeslána, potvrdíme do 24 hodin.' : 'Odeslání se nepodařilo, zavolejte nám prosím.'}</div>`; if (ok) e.target.reset(); };
+    $('#pa-rm-prev').onclick = () => { ST.rm = addM(ST.rm || cur, -1); render(D); }; $('#pa-rm-next').onclick = () => { ST.rm = addM(ST.rm || cur, 1); render(D); }; $('#pa-rstav').onchange = e => { ST.rstav = e.target.value; render(D); };
+    $('#pa-rezbtn').onclick = () => { const f = $('#pa-blok'); f.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => $('#pb-od').focus(), 400); };
+    $('#pa-blok').onsubmit = async e => { e.preventDefault(); const msg = $('#pb-msg'); const od = $('#pb-od').value, doo = $('#pb-do').value; if (!od || !doo || doo <= od) { msg.innerHTML = '<div class="msg bad">Zadejte termín Od a Do.</div>'; return; } const ok = window.BH && window.BH.sb ? await window.BH.sb('web_blokace', { klient: D.klic, byt_key: $('#pb-byt').value, od, do_: doo, pozn: $('#pb-pozn').value, jmeno: D.jmeno }) : false; msg.innerHTML = `<div class="msg ${ok ? 'ok' : 'bad'}">${ok ? 'Žádost odeslána, potvrdíme do 24 hodin.' : 'Odeslání se nepodařilo, zavolejte nám prosím.'}</div>`; if (ok) { try { const l = lokalniBlokace(D); l.push({ byt: $('#pb-byt').value, od, do: doo, pozn: $('#pb-pozn').value, t: Date.now() }); localStorage.setItem('bh_blok_' + D.klic, JSON.stringify(l.slice(-20))); } catch (x) {} ST.rm = od.slice(0, 7); ST.rstav = 'all'; e.target.reset(); render(D); $('#pa-rez').scrollIntoView({ behavior: 'smooth', block: 'start' }); } };
   }
   window.BH_PORTAL = { extractData, render };
 })();
