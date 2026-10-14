@@ -7,12 +7,13 @@
 <meta name="description" content="B&H Byt a host: 20 apartmánů v Praze s přímou rezervací o 10 % levněji než na platformách a správa krátkodobých pronájmů za 15 % z příjmu.">
 <meta property="og:title" content="Byt a host · B&H — apartmány v Praze přímo od hostitele"><meta property="og:description" content="Rezervujte přímo o 10 % levněji. Správa bytů za 15 %."><meta property="og:image" content="https://bytahost.cz/assets/poster.jpg"><meta property="og:type" content="website">
 <meta name="theme-color" content="#142D26">
+<link rel="canonical" href="https://bytahost.cz/">
 <link rel="icon" href="assets/logo-gold.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
 /* ===== tokens ===== */
-:root{--green:#142D26;--green-2:#1C3C32;--green-3:#2D5A4A;--mint:#EEF4F0;--mint-2:#E1EBE5;--gold:#D3BD8A;--gold-2:#E9D9AE;--gold-3:#B89B5B;--gold-ink:#7C6833;--bg:#FFFFFF;--bg-2:#F6F8F6;--ink:#142D26;--ink-2:#4A5A53;--mut:#78857F;--line:#E4E9E5;--line-2:#CDD6D0;--air:#FF385C;--bk:#003B95;--ok:#1F7A4D;--okbg:#E4F3EA;--bad:#B3261E;--badbg:#FBEAE8;--r-xl:28px;--r-lg:22px;--r-md:16px;--r-sm:12px;--sh-1:0 1px 2px rgba(20,45,38,.05),0 10px 30px -14px rgba(20,45,38,.22);--sh-2:0 24px 60px -24px rgba(20,45,38,.38);--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)}
+:root{--green:#142D26;--green-2:#1C3C32;--green-3:#2D5A4A;--mint:#EEF4F0;--mint-2:#E1EBE5;--gold:#D3BD8A;--gold-2:#E9D9AE;--gold-3:#B89B5B;--gold-ink:#7C6833;--bg:#FFFFFF;--bg-2:#F6F8F6;--ink:#142D26;--ink-2:#4A5A53;--mut:#64716B;--line:#E4E9E5;--line-2:#CDD6D0;--air:#FF385C;--bk:#003B95;--ok:#1F7A4D;--okbg:#E4F3EA;--bad:#B3261E;--badbg:#FBEAE8;--r-xl:28px;--r-lg:22px;--r-md:16px;--r-sm:12px;--sh-1:0 1px 2px rgba(20,45,38,.05),0 10px 30px -14px rgba(20,45,38,.22);--sh-2:0 24px 60px -24px rgba(20,45,38,.38);--ease:cubic-bezier(.2,.8,.2,1);--ease-out:cubic-bezier(.16,1,.3,1)}
 *{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scrollbar-color:#B9C4BD #F2F5F3}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;caret-color:var(--green);overflow-x:hidden}
 ::selection{background:var(--gold);color:var(--green)}
@@ -69,7 +70,7 @@ section{padding:110px 0}section.tight{padding:80px 0}
 /* ===== cards ===== */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .card{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s;position:relative}.card:hover{transform:translateY(-6px);box-shadow:var(--sh-2);border-color:transparent}
-.car{position:relative;aspect-ratio:4/3;background:var(--mint)}.car .trk{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.car .trk::-webkit-scrollbar{display:none}.car .trk a{flex:0 0 100%;scroll-snap-align:start;display:block;height:100%}.car img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}.card:hover .car img{transform:scale(1.04)}
+.car{position:relative;aspect-ratio:4/3;background:var(--mint);overflow:hidden}.car .trk{position:absolute;inset:0;display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.car .trk::-webkit-scrollbar{display:none}.car .trk a{flex:0 0 100%;scroll-snap-align:start;display:block;height:100%}.car img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}.card:hover .car img{transform:scale(1.04)}
 .car .nb{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.92);border:0;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.2);opacity:0;transition:opacity .25s,transform .25s;color:var(--green)}.car .nb.p{left:12px}.car .nb.n{right:12px}.card:hover .car .nb{opacity:1}.car .nb:hover{transform:translateY(-50%) scale(1.08)}
 .car::after{content:"";position:absolute;inset:auto 0 0 0;height:64px;background:linear-gradient(transparent,rgba(0,0,0,.28));pointer-events:none}.car .dots{z-index:1;position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:5px;pointer-events:none}.car .dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);transition:all .25s}.car .dots i.on{background:#fff;width:18px;border-radius:4px}
 .car .ov{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.car .ov .chip{box-shadow:0 6px 18px rgba(0,0,0,.18)}
@@ -167,6 +168,7 @@ footer{background:var(--green);color:#CFC9B8;padding:72px 0 30px;font-size:14.5p
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero video{display:none}.rise,.hero video,.hero .poster,.btn.call::before,.btn.call .ico{animation:none}.rv{opacity:1;transform:none;transition:none}*{transition-duration:.01ms!important}}
 .nav .close{display:none}@media(max-width:720px){.nav .close{display:grid}}
 </style>
+<!--LD--><script type="application/ld+json">{"@context": "https://schema.org", "@type": "LodgingBusiness", "name": "Byt a host · B&H", "url": "https://bytahost.cz", "logo": "https://bytahost.cz/assets/logo-gold.svg", "telephone": "+420721712762", "email": "bytahost.cz@gmail.com", "address": {"@type": "PostalAddress", "addressLocality": "Praha", "addressCountry": "CZ"}, "priceRange": "1200–2500 Kč", "sameAs": []}</script><!--/LD-->
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -219,9 +221,9 @@ footer{background:var(--green);color:#CFC9B8;padding:72px 0 30px;font-size:14.5p
       <h1 class="rise" style="--i:0" data-i-html="hero.h1">Praha jako doma.<br><span class="g">Přímo od hostitele.</span></h1>
       <p class="lead rise" style="--i:1" data-i="hero.lead">20 apartmánů v Praze, které sami provozujeme. Rezervujte přímo u nás o 10 % levněji než na Airbnb a Booking, nebo nám svěřte svůj byt do správy.</p>
       <form class="search rise" id="search" style="--i:2">
-        <label><span data-i="s.in">Příjezd</span><input type="date" id="s-od" required></label>
-        <label><span data-i="s.out">Odjezd</span><input type="date" id="s-do" required></label>
-        <label><span data-i="s.guests">Hosté</span><select id="s-h"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="8">8</option></select></label>
+        <label for="s-od"><span data-i="s.in">Příjezd</span><input type="date" id="s-od" required></label>
+        <label for="s-do"><span data-i="s.out">Odjezd</span><input type="date" id="s-do" required></label>
+        <label for="s-h"><span data-i="s.guests">Hosté</span><select id="s-h"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="8">8</option></select></label>
         <button class="btn gold" type="submit"><svg class="ico"><use href="#i-search"/></svg><span data-i="s.go">Zobrazit volné</span></button>
       </form>
     </div>
@@ -307,11 +309,11 @@ footer{background:var(--green);color:#CFC9B8;padding:72px 0 30px;font-size:14.5p
         <a href="mailto:bytahost.cz@gmail.com"><svg class="ico"><use href="#i-mail"/></svg>bytahost.cz@gmail.com</a>
         <p style="margin-top:18px" data-i="c.i.n">Praha · Česko. Hosté nás najdou i v chatu Airbnb a Booking.com.</p></div>
       <form class="form rv d1" id="f-kontakt">
-        <div><label data-i="f.name">Jméno</label><input name="jmeno" required></div>
-        <div><label data-i="f.email">E-mail</label><input name="email" type="email" required></div>
-        <div><label data-i="f.phone">Telefon</label><input name="telefon"></div>
-        <div><label data-i="f.topic">Téma</label><select name="tema"><option value="pobyt" data-i="f.t1">Pobyt / rezervace</option><option value="sprava" data-i="f.t2">Správa mého bytu</option><option value="jine" data-i="f.t3">Jiné</option></select></div>
-        <div class="full"><label data-i="f.msg">Zpráva</label><textarea name="zprava" required></textarea></div>
+        <div><label for="f-jmeno-390" data-i="f.name">Jméno</label><input id="f-jmeno-390" name="jmeno" required></div>
+        <div><label for="f-email-334" data-i="f.email">E-mail</label><input id="f-email-334" name="email" type="email" required></div>
+        <div><label for="f-telefon-620" data-i="f.phone">Telefon</label><input id="f-telefon-620" name="telefon"></div>
+        <div><label for="f-tema-172" data-i="f.topic">Téma</label><select id="f-tema-172" name="tema"><option value="pobyt" data-i="f.t1">Pobyt / rezervace</option><option value="sprava" data-i="f.t2">Správa mého bytu</option><option value="jine" data-i="f.t3">Jiné</option></select></div>
+        <div class="full"><label for="f-zprava-693" data-i="f.msg">Zpráva</label><textarea id="f-zprava-693" name="zprava" required></textarea></div>
         <div class="full"><button class="btn" type="submit" data-i="f.send">Odeslat zprávu</button><div id="f-kontakt-msg"></div></div>
       </form>
     </div>
@@ -334,7 +336,7 @@ footer{background:var(--green);color:#CFC9B8;padding:72px 0 30px;font-size:14.5p
     <div class="calc">
       <h3 data-i="o.calc">Kolik vám zůstane</h3>
       <label for="calc-in" data-i="o.calc.in">Měsíční příjem z Airbnb a Booking po jejich provizi (Kč)</label>
-      <div style="display:flex;align-items:center;gap:14px;margin:8px 0 6px"><input id="calc-in" type="number" value="60000" step="1000" min="0"><input id="calc-rng" type="range" min="10000" max="200000" step="1000" value="60000" aria-label="Příjem"></div>
+      <div style="display:flex;align-items:center;gap:14px;margin:8px 0 6px"><input id="calc-in" type="number" value="60000" step="1000" min="0"><input id="calc-rng" type="range" min="10000" max="200000" step="1000" value="60000" aria-label="Měsíční příjem"></div>
       <div class="row"><div><span class="lab" data-i="o.calc.fee">Naše odměna 15 %</span><output id="calc-fee" class="num">9 000 Kč</output></div><div><span class="lab" data-i="o.calc.net">Zůstane vám</span><output id="calc-net" class="num" style="color:var(--ok)">51 000 Kč</output></div></div>
       <p class="cmp" id="calc-cmp"></p>
       <p style="font-size:13px;color:var(--mut);margin:12px 0 0" data-i="o.calc.note">Úklid platí host v ceně pobytu. Městský poplatek odvádíme za vás z vybraných částek. Žádné měsíční paušály.</p>
@@ -395,9 +397,9 @@ footer{background:var(--green);color:#CFC9B8;padding:72px 0 30px;font-size:14.5p
     <p class="lead rv" data-i="o.f.p">Stačí jméno a telefon. Zeptáme se na byt, pošleme odhad výnosu a domluvíme prohlídku. Nezávazně.</p>
     <div class="quick rv">
       <form class="form" id="f-majitel">
-        <div><label data-i="f.name">Jméno</label><input name="jmeno" required autocomplete="name"></div>
-        <div><label data-i="f.phone">Telefon</label><input name="telefon" type="tel" required autocomplete="tel" placeholder="+420"></div>
-        <div class="full"><label data-i="f.flat">Byt: ulice nebo čtvrť (nepovinné)</label><input name="adresa" placeholder="např. Vinohrady, 2+kk"></div>
+        <div><label for="f-jmeno-390" data-i="f.name">Jméno</label><input id="f-jmeno-390" name="jmeno" required autocomplete="name"></div>
+        <div><label for="f-telefon-620" data-i="f.phone">Telefon</label><input id="f-telefon-620" name="telefon" type="tel" required autocomplete="tel" placeholder="+420"></div>
+        <div class="full"><label for="f-adresa-825" data-i="f.flat">Byt: ulice nebo čtvrť (nepovinné)</label><input id="f-adresa-825" name="adresa" placeholder="např. Vinohrady, 2+kk"></div>
         <div class="full"><button class="btn gold xl" type="submit" data-i="f.send2">Zavolejte mi</button><div id="f-majitel-msg"></div></div>
       </form>
       <div class="or-call"><span data-i="o.f.or">nebo rovnou</span><a class="btn call xl" href="tel:+420721712762"><svg class="ico"><use href="#i-phone"/></svg><span class="t"><span data-i="own.call">Zavolejte nám</span><small>+420 721 712 762</small></span></a><p data-i="o.f.hours">Zvedáme každý den. Když to nestihneme, zavoláme zpět.</p></div>
