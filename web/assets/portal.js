@@ -17,7 +17,7 @@
   const ST = { byt: 'all', obd: '12', rm: null, rstav: 'all' };
   const fmtD = d => d ? d.slice(8, 10).replace(/^0/, '') + '.' + d.slice(5, 7).replace(/^0/, '') + '.' : '';
   const addM = (m, n) => { const y = +m.slice(0, 4), mm = +m.slice(5, 7) - 1 + n; return new Date(y, mm, 1).getFullYear() + '-' + String(new Date(y, mm, 1).getMonth() + 1).padStart(2, '0'); };
-  function stavRez(r, dnes) { if (r.plat === 'owner') return r.stav === 'potvrzeno' ? 'potvrzeno' : r.stav === 'zamitnuto' ? 'zrušeno' : 'čeká'; if (r.do <= dnes) return 'ukončeno'; if (r.od <= dnes) return 'probíhá'; return 'potvrzeno'; }
+  function stavRez(r, dnes) { if (r.plat === 'owner') return r.stav === 'potvrzeno' ? 'potvrzeno' : (r.stav === 'zamitnuto' || r.stav === 'kolize') ? 'zrušeno' : 'čeká'; if (r.do <= dnes) return 'ukončeno'; if (r.od <= dnes) return 'probíhá'; return 'potvrzeno'; }
   function lokalniBlokace(D) { try { return JSON.parse(localStorage.getItem('bh_blok_' + D.klic) || '[]'); } catch (e) { return []; } }
   function rezervaceMesice(D, byty, mes) {
     const start = mes + '-01', end = addM(mes, 1) + '-01'; const out = [];

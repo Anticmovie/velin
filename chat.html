@@ -393,7 +393,7 @@ async function openConv(id,keep){
     if(day&&day!==lastDay){ html+=`<div class="dsep">${dsepLabel(z.ts)}</div>`; lastDay=day; lastSmer=''; }
     const showCap = z.smer!==lastSmer;
     lastSmer=z.smer;
-    const author = z.smer==='out' ? 'Ty' : (z.author||c.guest||'Host');
+    const author = z.smer==='out' ? (z.author==='AI' ? '🤖 AI' : 'Ty') : (z.author||c.guest||'Host');
     const hasTr = z.preklad && z.jazyk && z.jazyk!=='cs';
     let main, other=null, trCap='';
     if(VIEW_LANG==='orig'){ main=z.msg; }
