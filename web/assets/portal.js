@@ -30,7 +30,7 @@
     return out.sort((a, b) => a.od.localeCompare(b.od));
   }
   function rezSekce(D, byty, cur) {
-    const mes = ST.rm || cur; const dnes = D.dnes || ''; let rows = rezervaceMesice(D, byty, mes).map(r => ({ ...r, st: stavRez(r, dnes) }));
+    const dnes = D.dnes || ''; const mes = ST.rm || (dnes ? dnes.slice(0, 7) : cur); let rows = rezervaceMesice(D, byty, mes).map(r => ({ ...r, st: stavRez(r, dnes) }));
     const cnt = rows.length; if (ST.rstav !== 'all') rows = rows.filter(r => (ST.rstav === 'owner' ? r.plat === 'owner' : r.st === ST.rstav));
     const badge = r => r.plat === 'airbnb' ? '<i class="pa-badge air">Airbnb</i>' : r.plat === 'booking' ? '<i class="pa-badge bk">Booking</i>' : '<i class="pa-badge own">Majitel</i>';
     const stav = st => `<i class="pa-stav ${st === 'potvrzeno' ? 'ok' : st === 'probíhá' ? 'run' : st === 'čeká' ? 'wait' : st === 'zrušeno' ? 'off' : 'done'}">${st}</i>`;
@@ -107,7 +107,7 @@
     $$('#pa-obd button').forEach(b => b.onclick = () => { ST.obd = b.dataset.v; render(D); });
     $('#pa-mes').onchange = e => { if (e.target.value) { ST.obd = e.target.value; ST.cal = e.target.value; render(D); } };
     $('#pa-calmes').onchange = e => { ST.cal = e.target.value; render(D); };
-    $('#pa-rm-prev').onclick = () => { ST.rm = addM(ST.rm || cur, -1); render(D); }; $('#pa-rm-next').onclick = () => { ST.rm = addM(ST.rm || cur, 1); render(D); }; $('#pa-rstav').onchange = e => { ST.rstav = e.target.value; render(D); };
+    const rm0 = () => ST.rm || ((D.dnes || '').slice(0, 7) || cur); $('#pa-rm-prev').onclick = () => { ST.rm = addM(rm0(), -1); render(D); }; $('#pa-rm-next').onclick = () => { ST.rm = addM(rm0(), 1); render(D); }; $('#pa-rstav').onchange = e => { ST.rstav = e.target.value; render(D); };
     $('#pa-rezbtn').onclick = () => { const f = $('#pa-blok'); f.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => $('#pb-od').focus(), 400); };
     $('#pa-blok').onsubmit = async e => { e.preventDefault(); const msg = $('#pb-msg'); const od = $('#pb-od').value, doo = $('#pb-do').value; if (!od || !doo || doo <= od) { msg.innerHTML = '<div class="msg bad">Zadejte termín Od a Do.</div>'; return; } const ok = window.BH && window.BH.sb ? await window.BH.sb('web_blokace', { klient: D.klic, byt_key: $('#pb-byt').value, od, do_: doo, pozn: $('#pb-pozn').value, jmeno: D.jmeno }) : false; msg.innerHTML = `<div class="msg ${ok ? 'ok' : 'bad'}">${ok ? 'Žádost odeslána, potvrdíme do 24 hodin.' : 'Odeslání se nepodařilo, zavolejte nám prosím.'}</div>`; if (ok) { try { const l = lokalniBlokace(D); l.push({ byt: $('#pb-byt').value, od, do: doo, pozn: $('#pb-pozn').value, t: Date.now() }); localStorage.setItem('bh_blok_' + D.klic, JSON.stringify(l.slice(-20))); } catch (x) {} ST.rm = od.slice(0, 7); ST.rstav = 'all'; e.target.reset(); render(D); $('#pa-rez').scrollIntoView({ behavior: 'smooth', block: 'start' }); } };
   }
