@@ -608,7 +608,7 @@ renderDnes=function(){
   for(let i=0;i<4;i++){
     const di=isoAdd(i), dd=new Date(); dd.setDate(dd.getDate()+i);
     const day=PROVOZ.days.find(x=>x.datum===di)||{prijezdy:[],odjezdy:[]};
-    const A=day.prijezdy||[], Dp=day.odjezdy||[];
+    const A=(day.prijezdy||[]).map(c=>typeof c==='string'?{byt:c}:c), Dp=(day.odjezdy||[]).map(c=>typeof c==='string'?{byt:c}:c);
     const zn=A.filter(c=>c.cas).length;
     html+=`<div class="day${i===0?' today':''}">
       <div class="dhead"><span class="dn">📅 ${DNY_CELE[dd.getDay()]} ${dd.getDate()}. ${dd.getMonth()+1}.</span><span class="tagd">${LBL[i]||''}</span></div>
