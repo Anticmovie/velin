@@ -152,6 +152,8 @@
     const p = $('.nb.p', c), n = $('.nb.n', c); if (p) p.onclick = e => { e.preventDefault(); go(-1); }; if (n) n.onclick = e => { e.preventDefault(); go(1); };
   }
   $('#search').onsubmit = e => { e.preventDefault(); const od = $('#s-od').value, doo = $('#s-do').value, h = +$('#s-h').value; if (!od || !doo || doo <= od) { $('#s-do').setCustomValidity(LANG === 'cs' ? 'Odjezd musí být po příjezdu.' : 'Check-out must be after check-in.'); $('#s-do').reportValidity(); return; } $('#s-do').setCustomValidity(''); FILTR = { od, do: doo, h }; OBLAST = null; renderFilters(); renderGrid(FILTR); $('#apartmany').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' }); };
+  function dateHints() { $$('input[type=date]').forEach(i => { const w = i.closest('label, .dates > div'); if (!w) return; if (!w.dataset.hint) w.dataset.hint = LANG === 'cs' ? 'Vyberte datum' : 'Pick a date'; w.classList.toggle('empty', !i.value); if (!i.dataset.h) { i.dataset.h = 1; i.addEventListener('input', dateHints); i.addEventListener('change', dateHints); i.addEventListener('focus', () => w.classList.remove('empty')); i.addEventListener('blur', dateHints); } }); }
+  window.BH_dateHints = dateHints;
   $('#s-od').min = today; $('#s-od').onchange = () => { $('#s-do').min = addD($('#s-od').value, 1); $('#s-do').setCustomValidity(''); };
 
   /* ---------- reviews ---------- */
@@ -246,6 +248,7 @@
       <form id="b-form" class="form" style="grid-template-columns:1fr;gap:10px;margin-top:14px"><div><label for="b-jmeno">${t('name')}</label><input id="b-jmeno" name="jmeno" required autocomplete="name"></div><div><label for="b-email">${t('email')}</label><input id="b-email" name="email" type="email" required autocomplete="email"></div><div><label for="b-tel">${t('phone')}</label><input id="b-tel" name="telefon" autocomplete="tel"></div><div><label for="b-zprava">${t('note')}</label><textarea id="b-zprava" name="zprava" style="min-height:70px"></textarea></div>
       <button class="btn gold xl" type="submit" ${k.err ? 'disabled' : ''} style="justify-content:center;width:100%">${t('send')}</button><div id="b-msg"></div></form>
       <div class="note">${t('bookp')}</div>${alt}`;
+    dateHints();
     $('#b-od').onchange = e => { SEL = { od: e.target.value, do: SEL.do && SEL.do > e.target.value ? SEL.do : null }; CALM = SEL.od.slice(0, 7); renderCal(b); renderBook(b); };
     $('#b-do').onchange = e => { SEL.do = e.target.value; renderCal(b); renderBook(b); };
     $('#b-dosp').onchange = e => { a.dataset.dosp = e.target.value; renderBook(b); }; $('#b-deti').onchange = e => { a.dataset.deti = e.target.value; renderBook(b); };
@@ -379,7 +382,7 @@
   $('#rok').textContent = new Date().getFullYear();
 
   /* ---------- init ---------- */
-  function init() { trust(); applyLang(); route(); watchRv(); }
+  function init() { trust(); applyLang(); route(); watchRv(); dateHints(); }
   if (window.BYTY && window.BYTY.byty && window.BYTY.byty.length) init();
   else fetch('data/byty.json').then(r => r.json()).then(d => { window.BYTY = d; B = d; init(); }).catch(() => init());
 })();
