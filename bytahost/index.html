@@ -447,6 +447,7 @@ async function zapniPush(){
 (async()=>{ try{ const reg=await navigator.serviceWorker.getRegistration(); const s=reg&&await reg.pushManager.getSubscription(); if(s)bellOn(); }catch(e){} })();         // PIN pro tym — zadava se JEDNOU, odemkne i kalendar (sdileny klic slozky)
 const DIRKEY='velin_pin_'+location.pathname.replace(/[^/]*$/,'');
 let sb, CONVS=[], curId=null, FILTER='vse', TR_OUT=true, TAB='dnes';
+let PROVOZ=null;   /* report_provoz.hlavni = prijezdy/odjezdy 1:1 s Telegram rozpisem (report_sync.py <- uklidy_prijezdy.py --export) */
 /* zobrazovaci jazyk vlakna: cs (vychozi) / ru / orig — preklada se na pozadi, nic neblokuje */
 let VIEW_LANG=localStorage.chatviewlang||'cs';
 const TRC={};
@@ -533,12 +534,14 @@ async function boot(){
   await loadConvs();
   sb.channel('rt').on('postgres_changes',{event:'*',schema:'public',table:'zpravy'},()=>{ if(curId)openConv(curId,true); loadConvs(); })
     .on('postgres_changes',{event:'*',schema:'public',table:'konverzace'},()=>loadConvs())
+    .on('postgres_changes',{event:'*',schema:'public',table:'report_provoz'},()=>loadConvs())
     .subscribe(st=>{ el('rt').classList.toggle('on',st==='SUBSCRIBED'); });
 }
 async function loadConvs(){
   const {data,error}=await sb.from('konverzace').select('*').order('last_at',{ascending:false,nullsFirst:false});
   if(error){ el('list').innerHTML='<div class="empty">Chyba připojení:<br>'+esc(error.message)+'</div>'; return; }
   CONVS=(data||[]).filter(c=>c.platform==='booking');   /* 14.10.2026: appka = jen Booking (Airbnb zpravy se resi v Airbnb appce) */
+  try{ const {data:rp}=await sb.from('report_provoz').select('payload,updated_at').eq('id','hlavni'); if(rp&&rp[0]&&rp[0].payload){ PROVOZ=rp[0].payload; PROVOZ._updated=rp[0].updated_at; } }catch(e){}
   renderDnes(); renderByty(); renderFilters(); renderList();
 }
 
@@ -583,6 +586,41 @@ function renderDnes(){
   el('days').innerHTML=days;
 }
 function openFromDnes(id){ setTab('zpravy'); openConv(id); }
+/* ---- DNES z report_provoz (14.10.2026): stejna cisla jako Telegram rozpis uklidu/prijezdu (vsechny platformy, vsechny byty) ---- */
+const canonB=s=>(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+function konvPro(byt,datum,dir){ const ck=canonB(byt); return CONVS.find(c=>(canonB(c.byt_key)===ck||canonB(c.byt_nazev)===ck)&&(dir==='in'?c.prijezd===datum:c.odjezd===datum)); }
+function otevriProvoz(byt,datum,dir){ const c=konvPro(byt,datum,dir); if(c){ openFromDnes(c.id); return; } FILTER='vse'; setTab('zpravy'); el('q').value=byt; renderList(); }
+const renderDnesKonv=renderDnes;
+renderDnes=function(){
+  if(!PROVOZ||!Array.isArray(PROVOZ.days)){ renderDnesKonv(); return; }
+  const n=new Date(),H=n.getHours();
+  el('dnesh').textContent=(H<10?'Dobré ráno':H<18?'Dnes':'Dobrý večer');
+  const upd=PROVOZ._updated?new Date(PROVOZ._updated):null;
+  el('dnesd').textContent=n.toLocaleDateString('cs',{weekday:'long',day:'numeric',month:'long'})+' · rozpis jako Telegram'+(upd?' · '+String(upd.getHours()).padStart(2,'0')+':'+String(upd.getMinutes()).padStart(2,'0'):'');
+  const wait=CONVS.filter(needsAction).length;
+  el('ctamsg').classList.toggle('hide',!wait); el('ctan').textContent=wait;
+  ['tb1','tb2'].forEach(id=>{const b=el(id);b.textContent=wait;b.classList.toggle('hide',!wait);});
+  el('topcnt').textContent=CONVS.length+' konverzací';
+  const LBL=['DNES','ZÍTRA','POZÍTŘÍ',''], DNY_CELE=['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
+  const PL={'B':'🔵','A':'🔴','A/B':'🟣'};
+  const jm=g=>{g=(g||'').trim(); if(!g)return ''; const p=g.split(/\s+/); return esc(p[0]+(p[1]?' '+p[1][0]+'.':''));};
+  let html='';
+  for(let i=0;i<4;i++){
+    const di=isoAdd(i), dd=new Date(); dd.setDate(dd.getDate()+i);
+    const day=PROVOZ.days.find(x=>x.datum===di)||{prijezdy:[],odjezdy:[]};
+    const A=day.prijezdy||[], Dp=day.odjezdy||[];
+    const zn=A.filter(c=>c.cas).length;
+    html+=`<div class="day${i===0?' today':''}">
+      <div class="dhead"><span class="dn">📅 ${DNY_CELE[dd.getDay()]} ${dd.getDate()}. ${dd.getMonth()+1}.</span><span class="tagd">${LBL[i]||''}</span></div>
+      <div class="dsec">🧹 Úklidy · ${Dp.length}</div>
+      ${Dp.length?Dp.map(c=>`<div class="prow" onclick="otevriProvoz('${esc(c.byt)}','${di}','out')"><span class="em">✅</span><span class="byt">${esc(c.byt)}</span><span class="lead"></span><span class="g">${jm(c.guest)}</span></div>`).join(''):'<div class="dnic">žádné</div>'}
+      <div class="dsec">🔑 Příjezdy · ${A.length}</div>
+      ${A.length?A.map(c=>`<div class="prow" onclick="otevriProvoz('${esc(c.byt)}','${di}','in')"><span class="em">${PL[c.plat]||'🔑'}</span><span class="byt">${esc(c.byt)}</span><span class="lead"></span>${c.cas?`<span class="cas">⏰ ${esc(c.cas)}</span>`:`<span class="cas ne">${c.chat?'?':'—'}</span>`}<span class="g">${c.hostu?'👥'+c.hostu+' ':''}${c.zvire?(c.zvire==='pes'?'🐕 ':c.zvire==='kocka'?'🐈 ':'🐾 '):''}${c.parkovani?'🅿️ ':''}${jm(c.guest)}</span></div>`).join(''):'<div class="dnic">žádné</div>'}
+      <div class="dfoot">${A.length?('čas znám u <b>'+zn+'/'+A.length+'</b>'):''}</div>
+    </div>`;
+  }
+  el('days').innerHTML=html;
+};
 
 /* ---------- BYTY ---------- */
 function renderByty(){
