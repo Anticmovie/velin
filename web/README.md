@@ -30,3 +30,9 @@ Náhled: kopie do `_ridici-stredisko/dashboard/_deploy/web/` → `scripts/deploy
 - **Přihlášení do portálu** (`#/login`): číslo klienta + heslo. Čísla klientů jsou v `data/config.js` → `ucty` (1001 Korunní/Pražský dům, 1002 Harfa, 1003 Havelská, 1004 Florenc, 1005 Vlastislavova). Heslo = PIN, kterým je zašifrovaná stránka `majitel-<key>.html` ve VELÍNu (encrypt_dashboard.js, AES-256-GCM + PBKDF2). Web stáhne zašifrovanou stránku z GitHub Pages (CORS `*`), dešifruje ji v prohlížeči (WebCrypto) a zobrazí v celoobrazovkovém iframe (`#page-portalapp`) s lištou a tlačítkem Odhlásit. Špatné heslo = dešifrování selže = „Špatné číslo klienta nebo heslo“. „Zapamatovat“ ukládá přihlášení do localStorage (`bh_portal`), stejně jako dosud PIN gate.
 - Vlastní heslo pro každého majitele: stačí v denním refreshi šifrovat `majitel-<key>.html` jiným PINem (build_portal_majitele.py / encrypt_dashboard.js) a sdělit ho majiteli; web se nemění.
 - Další fáze („vnitřní systém jako Blahobyty“): nahradit iframe vlastní aplikací portálu (Supabase auth podle čísla klienta, data per byt, fotky po úklidu, blokace vlastních pobytů).
+
+## Produkce bytahost.cz (14. 10. 2026)
+- Hosting WEDOS LowCost (obj. 3225116811), docroot `/www`, upload: `MSYS_NO_PATHCONV=1 py -3 _zdroje/wedos_upload.py --plain --root=/www` (plain FTP, FTPS padá na TLS reuse).
+- DNS: v client.wedos.com → Doména bytahost.cz → „Nastavení DNS záznamů služby“ → Webhosting (A @ a * → 89.221.213.17). Dřív mířilo na WEDOS Protection 185.8.237.11 (404/429).
+- HTTPS: Webhosting → HTTPS → „Rychlé nastavení“ Let's Encrypt (bytahost.cz + www), obnovuje se samo.
+- Pozor: doména i webhosting expirují 6. 11. 2026, prodloužit v portálu.

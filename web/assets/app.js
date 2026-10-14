@@ -330,6 +330,7 @@
   }
   async function login(num, pwd, auto) {
     const err = $('#l-err'); const u = (CFG.ucty || {})[String(num || '').trim()];
+    if (!(window.crypto && crypto.subtle)) { if (err) err.innerHTML = LANG === 'cs' ? 'Přihlášení funguje jen přes zabezpečené spojení. Otevřete <a href="https://bytahost.cz/#/login">https://bytahost.cz</a>.' : 'Sign-in works only over a secure connection. Open <a href="https://bytahost.cz/#/login">https://bytahost.cz</a>.'; return false; }
     if (!u || !(CFG.portaly || {})[u.key]) { if (!auto && err) err.textContent = t('lbad'); return false; }
     let gate;
     try { const r = await fetch(CFG.portaly[u.key], { cache: 'no-store' }); if (!r.ok) throw new Error('http'); gate = await r.text(); } catch (e) { if (!auto && err) err.textContent = t('lnet'); return false; }
