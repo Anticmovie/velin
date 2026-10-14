@@ -36,3 +36,7 @@ Náhled: kopie do `_ridici-stredisko/dashboard/_deploy/web/` → `scripts/deploy
 - DNS: v client.wedos.com → Doména bytahost.cz → „Nastavení DNS záznamů služby“ → Webhosting (A @ a * → 89.221.213.17). Dřív mířilo na WEDOS Protection 185.8.237.11 (404/429).
 - HTTPS: Webhosting → HTTPS → „Rychlé nastavení“ Let's Encrypt (bytahost.cz + www), obnovuje se samo.
 - Pozor: doména i webhosting expirují 6. 11. 2026, prodloužit v portálu.
+
+## Portál majitele v1 (14. 10. 2026) – vlastní UI
+- `assets/portal.js`: po přihlášení (číslo klienta + heslo) web dešifruje stránku VELÍNu `majitel-<key>.html`, vytáhne z ní `const D = {...}` (byty → měsíční řádky obrat/provize/úklid/výplata/obsazenost/dny, benchmark, náklady majitele, odkazy, zpráva správce) a vykreslí vlastní portál: KPI (obrat, výplata, odměna, obsazenost), grafy po měsících, kalendář obsazenosti (Booking/Airbnb/úklid), tabulka vyúčtování, vlastní náklady, žádost o blokaci termínu (Supabase `web_blokace` → push přes `web_rezervace_watch.js`), odkazy. Filtry: byt, období (12 měs./letos/minulý rok/vše/měsíc). Fallback: když data nejdou vytáhnout, zobrazí se původní stránka v iframe.
+- Data se obnovují s denním refreshem VELÍNu (build_portal_majitele.py); portál je read-only + žádosti.

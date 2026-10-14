@@ -256,6 +256,7 @@
       msg.innerHTML = `<div class="msg ${ok ? 'ok' : 'bad'}">${t(ok ? 'ok' : 'err')}</div>`; if (ok) e.target.reset(); btn.disabled = false; btn.textContent = t('send');
     };
   }
+  window.BH = { sb: (t, r) => sb(t, r) };
   async function sb(table, row) {
     if (!CFG.sb_url) return false;
     try { const r = await fetch(CFG.sb_url + '/rest/v1/' + table, { method: 'POST', headers: { apikey: CFG.sb_key, 'Content-Type': 'application/json', Prefer: 'return=minimal' }, body: JSON.stringify(row) }); return r.status < 300; } catch (e) { return false; }
@@ -338,12 +339,14 @@
       const html = await unlockBlob(gate, pwd);
       SESSION = { num: String(num).trim(), key: u.key, nazev: u.nazev };
       if (!auto) { const rem = $('#l-rem'); if (rem && rem.checked) { try { localStorage.setItem('bh_portal', JSON.stringify({ num: SESSION.num, pwd })); } catch (e) {} } }
-      $('#portal-who').textContent = u.nazev; $('#portal-frame').srcdoc = html; $('#page-portalapp').classList.add('on'); document.body.style.overflow = 'hidden';
+      $('#portal-who').textContent = u.nazev; const D = window.BH_PORTAL && BH_PORTAL.extractData(html);
+      if (D) { $('#portal-frame').style.display = 'none'; $('#portal-view').style.display = ''; BH_PORTAL.render(D); } else { $('#portal-view').style.display = 'none'; $('#portal-frame').style.display = ''; $('#portal-frame').srcdoc = html; }
+      $('#page-portalapp').classList.add('on'); document.body.style.overflow = 'hidden';
       if (err) err.textContent = ''; if (location.hash !== '#/portal') location.hash = '#/portal';
       return true;
     } catch (e) { if (auto) { try { localStorage.removeItem('bh_portal'); } catch (x) {} } else if (err) err.textContent = t('lbad'); return false; }
   }
-  function logout() { SESSION = null; try { localStorage.removeItem('bh_portal'); } catch (e) {} $('#portal-frame').srcdoc = ''; $('#page-portalapp').classList.remove('on'); document.body.style.overflow = ''; $('#l-pwd').value = ''; location.hash = '#/login'; }
+  function logout() { SESSION = null; try { localStorage.removeItem('bh_portal'); } catch (e) {} $('#portal-frame').srcdoc = ''; $('#portal-view').innerHTML = ''; $('#page-portalapp').classList.remove('on'); document.body.style.overflow = ''; $('#l-pwd').value = ''; location.hash = '#/login'; }
   $('#f-login').onsubmit = async e => { e.preventDefault(); const btn = $('#l-go'); btn.disabled = true; btn.textContent = t('lwait'); await login($('#l-num').value, $('#l-pwd').value, false); btn.disabled = false; btn.textContent = t('lgo'); };
   $('#portal-out').onclick = logout;
 
