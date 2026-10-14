@@ -218,6 +218,8 @@ button{font-family:inherit}
 .chipm.dt{background:var(--panel2);color:var(--dim)}
 .chipm.dt.instay{background:var(--posbg);color:var(--pos)}
 .chipm.dt.today{background:var(--warnbg);color:var(--warn)}
+.chipm.dt.past{opacity:.55}
+.sect.stay{color:var(--pos)}.sect.fut{color:var(--vi2)}.sect.past{color:var(--dim2)}
 .chipm.wait{background:var(--warnbg);color:var(--warn)}
 .chipm.new{background:var(--newc);color:#fff}
 .bdg2{position:absolute;top:12px;right:10px;min-width:19px;height:19px;border-radius:10px;background:var(--newc);color:#fff;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 6px;box-shadow:0 0 12px -3px var(--newc)}
@@ -554,7 +556,7 @@ function renderDnes(){
   el('ctamsg').classList.toggle('hide',!wait);
   el('ctan').textContent=wait;
   [ 'tb1','tb2' ].forEach(id=>{const b=el(id);b.textContent=wait;b.classList.toggle('hide',!wait);});
-  el('topcnt').textContent=CONVS.length+' konverzací';
+  el('topcnt').textContent='';
   function casVal(c){var t=(c.prijezd_cas||'');if(!t||t==='?')return 99;var m=t.match(/^(\d{1,2})/);return m?parseInt(m[1],10):99;}
   const LBL=['DNES','ZÍTRA','POZÍTŘÍ',''];
   function kratke(g){g=(g||'Host').trim();if(g.length<=17)return g;const p=g.split(/\s+/);return p[0]+(p[1]?' '+p[1][0]+'.':'');}
@@ -600,7 +602,7 @@ renderDnes=function(){
   const wait=CONVS.filter(needsAction).length;
   el('ctamsg').classList.toggle('hide',!wait); el('ctan').textContent=wait;
   ['tb1','tb2'].forEach(id=>{const b=el(id);b.textContent=wait;b.classList.toggle('hide',!wait);});
-  el('topcnt').textContent=CONVS.length+' konverzací';
+  el('topcnt').textContent='';
   const LBL=['DNES','ZÍTRA','POZÍTŘÍ',''], DNY_CELE=['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
   const PL={'B':'🔵','A':'🔴','A/B':'🟣'};
   const jm=g=>{g=(g||'').trim(); if(!g)return ''; const p=g.split(/\s+/); return esc(p[0]+(p[1]?' '+p[1][0]+'.':''));};
@@ -615,7 +617,7 @@ renderDnes=function(){
       <div class="dsec">🧹 Úklidy · ${Dp.length}</div>
       ${Dp.length?Dp.map(c=>`<div class="prow" onclick="otevriProvoz('${esc(c.byt)}','${di}','out')"><span class="em">✅</span><span class="byt">${esc(c.byt)}</span><span class="lead"></span><span class="g">${jm(c.guest)}</span></div>`).join(''):'<div class="dnic">žádné</div>'}
       <div class="dsec">🔑 Příjezdy · ${A.length}</div>
-      ${A.length?A.map(c=>`<div class="prow" onclick="otevriProvoz('${esc(c.byt)}','${di}','in')"><span class="em">${PL[c.plat]||'🔑'}</span><span class="byt">${esc(c.byt)}</span><span class="lead"></span>${c.cas?`<span class="cas">⏰ ${esc(c.cas)}</span>`:`<span class="cas ne">${c.chat?'?':'—'}</span>`}<span class="g">${c.hostu?'👥'+c.hostu+' ':''}${c.zvire?(c.zvire==='pes'?'🐕 ':c.zvire==='kocka'?'🐈 ':'🐾 '):''}${c.parkovani?'🅿️ ':''}${jm(c.guest)}</span></div>`).join(''):'<div class="dnic">žádné</div>'}
+      ${A.length?A.map(c=>`<div class="prow" onclick="otevriProvoz('${esc(c.byt)}','${di}','in')"><span class="em">${PL[c.plat]||'🔑'}</span><span class="byt">${esc(c.byt)}</span><span class="lead"></span>${c.cas?`<span class="cas">⏰ ${esc(c.cas)}</span>`:`<span class="cas ne">${c.chat?'?':'—'}</span>`}<span class="g">${c.hostu?'👥'+c.hostu+' ':''}${c.zvire?(c.zvire==='pes'?'🐕 ':c.zvire==='kocka'?'🐈 ':'🐾 '):''}${c.postylka?'🛏️ ':''}${c.parkovani?'🅿️ ':''}${jm(c.guest)}</span></div>`).join(''):'<div class="dnic">žádné</div>'}
       <div class="dfoot">${A.length?('čas znám u <b>'+zn+'/'+A.length+'</b>'):''}</div>
     </div>`;
   }
@@ -654,19 +656,28 @@ function renderFilters(){
   const na=CONVS.filter(needsAction).length;
   const chips=[['vse','Vše'],['ceka','⏳ Čeká '+na],['dnes','🔑 Dnešní pohyb'],['unread','Nepřečtené']].concat(byty.map(b=>['b:'+b,b]));
   el('filters').innerHTML=chips.map(([k,l])=>`<span class="chip ${FILTER===k?'on':''}" onclick="setF('${(k+'').replace(/'/g,"\\'")}')">${l}</span>`).join('');
-  el('hcount').textContent = na? na+' čeká' : CONVS.length+' konverzací';
+  el('hcount').textContent = na? na+' čeká' : '';
 }
 function setF(k){ FILTER=k; renderFilters(); renderList(); }
+const garbled=s=>{s=String(s||'').trim();if(!s||/\s/.test(s))return false;const caps=(s.slice(1).match(/[A-Z]/g)||[]).length;return /^[A-Za-z]{5,}$/.test(s)&&caps>=2&&s!==s.toUpperCase();};
+const jmenoHosta=c=>garbled(c.guest)?'Host':(c.guest||'Host');
+/* chip pobytu: VZDY cely termin od–do + faze (dnes check-in / v byte / za N d / minuly) + ikony zvire, postylka, parkovani */
+function stayChip(c){ if(!c.prijezd) return ''; const t=isoAdd(0); const r=fmtD(c.prijezd)+'–'+fmtD(c.odjezd); const cas=(c.prijezd_cas&&c.prijezd_cas!=='?')?' · ⏰ '+esc(c.prijezd_cas):''; const ex=(c.zvire?(c.zvire==='pes'?' 🐕':c.zvire==='kocka'?' 🐈':' 🐾'):'')+(c.postylka?' 🛏️':'')+(c.parkovani?' 🅿️':'');
+  if(c.prijezd===t) return `<span class="chipm dt today">🔑 dnes check-in · ${r}${cas}${ex}</span>`;
+  if(c.odjezd===t) return `<span class="chipm dt today">👋 dnes check-out · ${r}${ex}</span>`;
+  if(c.prijezd<t&&(c.odjezd||'9999')>t) return `<span class="chipm dt instay">🏠 v bytě · ${r}${ex}</span>`;
+  if(c.prijezd>t){ const dn=nights(t,c.prijezd); return `<span class="chipm dt">📅 ${r}${dn<=14?' · za '+dn+' d':''}${cas}${ex}</span>`; }
+  return `<span class="chipm dt past">✓ pobyt ${r}</span>`; }
 /* v2 (14.10.2026): klidny radek — jmeno + cas | byt · termin | 1 radek nahledu | chip JEN kdyz je dnes pohyb / v byte; stav rika sekce */
 function convRow(c){
   const p=pobyt(c), act=needsAction(c);
   const pre=c.posledni_smer==='out'?'<b>My:</b> ':'';
-  const apt=esc(c.byt_nazev||c.byt_key||'')+(p?' <span class="dts">· '+p.r+'</span>':'');
-  const chip=(p&&p.cls)?`<div class="meta"><span class="chipm dt ${p.cls}">${p.t}</span></div>`:(c.unread>0?`<div class="meta"><span class="chipm new">${c.unread>1?c.unread+' nové':'nová zpráva'}</span></div>`:'');
+  const apt=esc(c.byt_nazev||c.byt_key||'');
+  const sc=stayChip(c); const chip=(sc||c.unread>0)?`<div class="meta">${sc}${c.unread>0?`<span class="chipm new">${c.unread>1?c.unread+' nové':'nová zpráva'}</span>`:''}</div>`:'';
   return `<div class="conv v2 ${act?'act':''} ${c.unread>0?'unrd':''} ${c.id===curId?'sel':''}" onclick="openConv('${c.id}')">
     <div class="ava" style="${avaStyle(c)}">${initials(c.guest)}</div>
     <div class="cmid">
-      <div class="r1"><span class="nm">${esc(c.guest||'Host')}</span><span class="tm">${relT(c.last_at)}</span></div>
+      <div class="r1"><span class="nm">${esc(jmenoHosta(c))}</span><span class="tm">${relT(c.last_at)}</span></div>
       <div class="apt">${apt}</div>
       <div class="ls">${pre}${esc(c.last_text||'')}</div>
       ${chip}
@@ -686,11 +697,18 @@ function renderList(){
   if(q) list=list.filter(c=>((c.guest||'')+' '+(c.byt_nazev||'')+' '+(c.byt_key||'')).toLowerCase().includes(q));
   if(!list.length){ el('list').innerHTML='<div class="empty">Žádné konverzace<br>v tomto filtru.</div>'; return; }
   const byTime=(a,b)=>(b.last_at||'').localeCompare(a.last_at||'');
+  /* 15.10.2026: poradi podle faze pobytu — ceka na odpoved | ted v byte | prijizdeji (nejblizsi prvni) | minule pobyty dole (nejnovejsi prvni) */
+  const faze=c=>{ if(!c.prijezd) return 3; if(c.prijezd<=t&&(c.odjezd||'9999')>t) return 1; if(c.prijezd>t) return 2; return 3; };
   const wait=list.filter(needsAction).sort(byTime);
-  const done=list.filter(c=>!needsAction(c)).sort(byTime);
+  const rest=list.filter(c=>!needsAction(c));
+  const vByte=rest.filter(c=>faze(c)===1).sort((a,b)=>(a.odjezd||'').localeCompare(b.odjezd||''));
+  const bud=rest.filter(c=>faze(c)===2).sort((a,b)=>a.prijezd.localeCompare(b.prijezd));
+  const min=rest.filter(c=>faze(c)===3).sort((a,b)=>(b.odjezd||b.last_at||'').localeCompare(a.odjezd||a.last_at||''));
   let html='';
   if(wait.length) html+=`<div class="sect wait">Čeká na odpověď <span class="cnt2">${wait.length}</span></div>`+wait.map(convRow).join('');
-  if(done.length) html+=`<div class="sect ok">Vyřízené <span class="cnt2">${done.length}</span></div>`+done.map(convRow).join('');
+  if(vByte.length) html+=`<div class="sect stay">🏠 Teď v bytě <span class="cnt2">${vByte.length}</span></div>`+vByte.map(convRow).join('');
+  if(bud.length) html+=`<div class="sect fut">📅 Přijíždějí <span class="cnt2">${bud.length}</span></div>`+bud.map(convRow).join('');
+  if(min.length) html+=`<div class="sect past">Minulé pobyty <span class="cnt2">${min.length}</span></div>`+min.map(convRow).join('');
   el('list').innerHTML=html;
 }
 
@@ -701,7 +719,7 @@ async function openConv(id,keep){
   el('paneThread').classList.add('open');
   el('tava').style.cssText=avaStyle(c); el('tava').textContent=initials(c.guest);
   const s=stav(c),p=pobyt(c);
-  el('tname').innerHTML=esc(c.guest||'Host')+(s?` <span class="st ${s.pill}">${s.t}</span>`:' <span class="st done">✓ odpovězeno</span>');
+  el('tname').innerHTML=esc(jmenoHosta(c))+(s?` <span class="st ${s.pill}">${s.t}</span>`:' <span class="st done">✓ odpovězeno</span>');
   { const ob=el('okbtn'); if(ob){ const v=vyreseny(c); ob.textContent=v?'↩':'✓'; ob.title=v?'Znovu otevřít (čeká na odpověď)':'Vyřešeno / není třeba odpovídat'; ob.classList.toggle('on',v); } }
   { const ab=el('actbar'); if(ab){ const v=vyreseny(c), act=needsAction(c); ab.classList.toggle('hide',!(v||act)); ab.classList.toggle('done',v);
       ab.innerHTML=v?`✓ Vyřízeno${c.noreply_pozadavek?' · Booking: není potřeba odpovídat':''}<span onclick="otevritZnovu(curId)">znovu otevřít</span>`:`<button class="okbig" onclick="vyresitAkt()">✓ Vyřízeno · není třeba odpovídat</button>`; } }
