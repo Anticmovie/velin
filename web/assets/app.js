@@ -18,7 +18,7 @@
     'nav.apt': 'Apartments', 'nav.own': 'For owners', 'nav.how': 'How it works', 'nav.contact': 'Contact', 'nav.portal': 'Owner portal', 'nav.book': 'Book now',
     'hero.h1': 'Prague, like home.<br><span class="g">Straight from the host.</span>', 'hero.lead': 'Over 40 apartments in Prague that we run ourselves, 4.9+ guest rating and Airbnb Superhost. Book directly with us 10 % cheaper than on Airbnb and Booking, or let us manage your flat.',
     's.in': 'Check-in', 's.out': 'Check-out', 's.guests': 'Guests', 's.go': 'Show availability', 'hero.pause': 'Pause video', 'hero.play': 'Play video',
-    'st.apt': 'apartments in Prague under management', 'st.rev': 'guest reviews', 'st.rat': 'guest rating · Airbnb Superhost', 'st.direct': 'when you book direct with us',
+    'st.apt': 'apartments in Prague under management', 'st.rev': 'guest reviews', 'st.rat': 'average guest rating', 'apt.sh': 'Airbnb Superhost', 'st.direct': 'when you book direct with us',
     'apt.h2': 'Choose your place in Prague', 'apt.p': 'We operate every apartment ourselves: we know what is inside, who cleans and who picks up the phone. Prices are final, with no platform service fees.',
     'why.h2': 'Same apartment, lower price, personal care', 'why.p': 'Platforms take a commission from every booking. When you book direct, part of that saving goes to you.', 'why.1b': '10 % less than Airbnb and Booking', 'why.1p': 'Same apartment, same dates, 10 % lower price than on the platforms. You can see it on every listing.', 'why.2b': 'No hidden fees', 'why.2p': 'You see the nightly rate, cleaning and city tax. Nothing else is added.', 'why.3b': 'Card or bank transfer', 'why.3p': 'After confirmation you receive a secure payment link. Nothing is charged automatically.', 'why.4b': 'One team from A to Z', 'why.4p': 'The same people who prepare the apartment answer your messages and help with arrival.',
     'rev.h2': 'What guests say', 'rev.p': 'Real reviews from Airbnb, exactly as guests wrote them.',
@@ -27,7 +27,7 @@
     'faq.h2': 'What guests ask', 'c.h2': 'Write to us', 'c.p': 'A question about a stay, a special request or interest in management. We usually reply within 24 hours, faster in season.', 'c.i.h': 'Byt a host · B&H', 'c.i.p': 'Call or write, whichever you prefer.', 'c.i.n': 'Prague · Czechia. Guests can also reach us in the Airbnb and Booking.com chat.',
     'f.name': 'Name', 'f.email': 'E-mail', 'f.phone': 'Phone', 'f.topic': 'Topic', 'f.t1': 'Stay / booking', 'f.t2': 'Managing my apartment', 'f.t3': 'Other', 'f.msg': 'Message', 'f.send': 'Send message', 'f.send2': 'Call me back', 'f.addr': 'Apartment address', 'f.disp': 'Layout', 'f.state': 'Condition', 'f.st1': 'Furnished, ready', 'f.st2': 'Partly furnished', 'f.st3': 'Empty / after renovation', 'f.st4': 'Already renting short-term',
     'o.h2': 'Rent out without the work. For 15 % of income.', 'o.p': 'We run over 40 apartments in Prague, our own and managed for owners. We do only short-term rental and we do all of it: from photos to the statement. You do nothing.', 'o.t1': 'The same care as for our own flats, the same team, the same prices', 'o.t2': 'Money goes to you directly from Airbnb and Booking, we invoice only 15 %', 'o.t3': 'A revenue estimate for your flat within 24 hours, free and non-binding', 'o.cta': 'Get a revenue estimate', 'o.portal': 'Owner portal preview', 'o.s1': 'apartments managed and operated', 'o.s2': 'guest rating · Superhost', 'o.s3': 'guest reviews', 'o.s4': 'the only fee, no flat charges', 'o.y.h2': 'And what do you do?', 'o.y.p': 'Almost nothing. Three things stay with the owner, we help with everything else.', 'o.y1h': 'A flat ready to rent', 'o.y1p': 'A furnished flat, household and liability insurance, utilities and internet. Whatever is missing, we recommend and buy for you at cost.', 'o.y2h': 'Host registration', 'o.y2p': 'Notification to the district and building consent where the rules require it. We prepare the forms, you just sign.', 'o.y3h': 'Watch the portal', 'o.y3p': 'Occupancy, bookings, cleanings and statements online any time. Block your own stay with one click.', 'o.m.h2': 'Two ways to work together', 'o.m.p': 'Most owners choose management for 15 %. For selected flats we can also offer a fixed rent.', 'o.m1t': 'Recommended', 'o.m1h': 'Management for 15 %', 'o.m1p': 'Of what Airbnb and Booking pay you. Income grows with occupancy and season, you see every booking. No flat fees, 2-month notice, first 90 days as a trial.', 'o.m1c': 'Get a revenue estimate', 'o.m2t': 'Selected flats', 'o.m2h': 'Guaranteed rent', 'o.m2pr': 'fixed amount', 'o.m2p': 'The same amount every month regardless of occupancy; we run the flat at our own risk. Offered after a visit for flats in a good location and condition. We tell you the rent at the meeting.', 'o.m2c': 'Ask about the rent', 'o.how.p': 'Usually 2 to 3 weeks from the visit to the first listing going live.', 'o.faq.h2': 'What owners ask', 'o.f.p': 'Just your name and phone. We ask about the flat, send a revenue estimate and arrange a visit. No obligation.',
-    'o.calc': 'What you keep', 'o.calc.in': 'Monthly income from platforms after their commission (CZK)', 'o.calc.fee': 'Our fee 15 %', 'o.calc.net': 'You keep', 'o.calc.note': 'Cleaning is paid by the guest within the stay price. We remit the city tax for you from the collected amounts. No monthly flat fees.',
+    'o.calc': 'What your flat can earn', 'o.calc.note': 'Indicative monthly income after the Airbnb and Booking commission. We send a precise estimate for your flat within 24 hours. Cleaning is paid by the guest, no monthly fees.',
     'o.w.h2': 'Everything that is in the 15 %', 'o.w.p': 'The whole operation, not just handing over keys. None of it is charged separately.', 'o.how.h2': 'From the first meeting to the first payout', 'o.h1h': 'Visit and estimate', 'o.h1p': 'We come to see the flat and give you a realistic occupancy and price estimate based on our neighbouring apartments, not marketing.', 'o.h2h': 'Preparing the apartment', 'o.h2p': 'We recommend equipment, arrange a photographer, key box, lock and linen. All at cost, without our mark-up.', 'o.h3h': 'Going live', 'o.h3p': 'Airbnb, Booking and this website. Prices are set by season and tuned daily in the first weeks.', 'o.h4h': 'Payout and portal', 'o.h4p': 'Every month a statement with bookings, cleanings and fees. Money comes to you directly from the platforms; we invoice only our 15 %.',
     'o.r.h2': 'Clear rules, no small print', 'o.f.h2': 'We call you within 24 hours',
     'p.h2': 'Your numbers online, any time', 'p.p': 'Every owner has a secured page: day-by-day occupancy, Airbnb and Booking reservations, cleanings, city tax and the monthly statement with our fee. Access is protected by the PIN we gave you.', 'p.note': 'Prospective owners: we are happy to show a demo portal with anonymised data at a meeting.',
@@ -106,7 +106,7 @@
     const ra = v.filter(b => b.rating_airbnb && (b.recenzi_airbnb || 0) >= 5); const avgA = ra.length ? (ra.reduce((s, b) => s + b.rating_airbnb, 0) / ra.length) : null;
     const rb = v.filter(b => b.rating_booking && (b.recenzi_booking || 0) >= 5); const avgB = rb.length ? (rb.reduce((s, b) => s + b.rating_booking, 0) / rb.length) : null;
     const orv = $('#o-rev'); if (orv) orv.textContent = rev.toLocaleString('cs-CZ');
-    $('#t-plat').innerHTML = (avgA ? `<span class="chip air">Airbnb ${avgA.toFixed(1).replace('.', ',')}</span>` : '') + (avgB ? `<span class="chip bk">Booking.com ${avgB.toFixed(1).replace('.', ',')}</span>` : '') + (CFG.superhost ? `<span class="chip gold">${LANG === 'cs' ? 'Superhostitel' : 'Superhost'}</span>` : '');
+    if ($('#t-plat')) $('#t-plat').innerHTML = (avgA ? `<span class="chip air">Airbnb ${avgA.toFixed(1).replace('.', ',')}</span>` : '') + (avgB ? `<span class="chip bk">Booking.com ${avgB.toFixed(1).replace('.', ',')}</span>` : '') + (CFG.superhost ? `<span class="chip gold">${LANG === 'cs' ? 'Superhostitel' : 'Superhost'}</span>` : '');
     const run = () => { countUp(apt, +(apt.dataset.n || 40)); countUp(revEl, rev); };
     if (REDUCED || !('IntersectionObserver' in window)) run(); else { const o = new IntersectionObserver(en => { if (en[0].isIntersecting) { run(); o.disconnect(); } }, { threshold: .3 }); o.observe($('.stats')); }
   }
@@ -291,7 +291,56 @@
   function renderOwnerBlocks() {
     const ICONS = ['i-spark', 'i-tag', 'i-card', 'i-chat', 'i-broom', 'i-wrench', 'i-shield', 'i-doc']; const g = $('#o-sluzby'); if (g) { g.innerHTML = SLUZBY[LANG].map(([h, p], i) => `<div class="rv d${i % 3}"><div class="ic"><svg class="ico" style="width:22px;height:22px"><use href="#${ICONS[i]}"/></svg></div><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join(''); watchRv(g); }
     const r = $('#o-pravidla'); if (r) r.innerHTML = PRAVIDLA[LANG];
-    const inp = $('#calc-in'), rng = $('#calc-rng'); if (inp && !inp.dataset.b) { inp.dataset.b = 1; const f = () => { const v = +inp.value || 0; $('#calc-fee').textContent = kc(v * .15); $('#calc-net').textContent = kc(v * .85); const c = $('#calc-cmp'); if (c) c.innerHTML = LANG === 'cs' ? `U správce s 20 % + DPH by vám zůstalo ${kc(v * .758)}, tedy <b>o ${kc(v * .092)} měsíčně méně</b>. Za rok ${kc(v * .092 * 12)}.` : `With a manager charging 20 % + VAT you would keep ${kc(v * .758)}, that is <b>${kc(v * .092)} less per month</b>. ${kc(v * .092 * 12)} a year.`; }; inp.oninput = () => { if (rng) rng.value = inp.value; f(); }; if (rng) rng.oninput = () => { inp.value = rng.value; f(); }; f(); }
+    renderOdhad();
+  }
+  /* odhad vydelku pro majitele: dispozice dava rozpeti, lokalita (Praha 1-10 + reka/hrad/centrum) a vybaveni posunuji v nem */
+  const EST = { disp: '2kk', praha: 2, f: {} };
+  const EST_RNG = { '1kk': [30000, 50000], '2kk': [40000, 60000], '3kk': [50000, 70000], '4kk': [60000, 100000] };
+  const EST_LVL = { cs: ['Dobré', 'Velmi dobré', 'Skvělé', 'Excelentní'], en: ['Good', 'Very good', 'Great', 'Excellent'] };
+  const EST_LOK = [['reka', 'U Vltavy nebo s výhledem na řeku', 'By the Vltava or with a river view'], ['hrad', 'Pěšky k Pražskému hradu', 'Walking distance to Prague Castle'], ['centrum', 'Do 15 minut pěšky k Orloji, Karlovu mostu nebo Národnímu muzeu', 'Within 15 min walk of the Astronomical Clock, Charles Bridge or National Museum']];
+  const EST_BYT = [['balkon', 'Balkon nebo terasa', 'Balcony or terrace'], ['klima', 'Klimatizace', 'Air conditioning'], ['park', 'Parkování', 'Parking'], ['vytah', 'Výtah', 'Lift'], ['novy', 'Po rekonstrukci, nově zařízený', 'Renovated, newly furnished']];
+  function estLevel() {
+    const base = { 1: 3, 2: 2, 3: 1 }; let l = base[EST.praha] ?? 0;
+    if (EST.f.reka) l = Math.max(l, 2);           // u vody = skvele (Praha 5, 7, 8 ...)
+    if (EST.f.hrad) l = Math.max(l, 1);           // u hradu = velmi dobre (Praha 6 ...)
+    if (EST.f.centrum) l = Math.min(3, l + 1);    // blizko Orloje / Karlova mostu / Muzea = o stupen vys
+    return l;
+  }
+  function renderOdhad() {
+    const box = $('#est'); if (!box) return; const en = LANG === 'en';
+    const chk = (k, cs, enT, full) => `<label${full ? ' class="full"' : ''}><input type="checkbox" data-f="${k}"${EST.f[k] ? ' checked' : ''}><span>${esc(en ? enT : cs)}</span></label>`;
+    box.innerHTML = `<span class="lab">${en ? 'Layout' : 'Dispozice'}</span>
+      <div class="seg" id="est-disp">${Object.keys(EST_RNG).map(k => `<button type="button" data-v="${k}" class="${EST.disp === k ? 'on' : ''}" aria-pressed="${EST.disp === k}">${k[0]}+kk</button>`).join('')}</div>
+      <span class="lab">${en ? 'Prague district' : 'Část Prahy'}</span>
+      <div class="seg p10" id="est-praha">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => `<button type="button" data-v="${n}" class="${EST.praha === n ? 'on' : ''}" aria-pressed="${EST.praha === n}" aria-label="Praha ${n}">${n}</button>`).join('')}</div>
+      <span class="lab">${en ? 'Location' : 'Poloha'}</span>
+      <div class="checks">${EST_LOK.map(([k, c, e], i) => chk(k, c, e, i === 2)).join('')}</div>
+      <span class="lab">${en ? 'The flat has' : 'Byt má'}</span>
+      <div class="checks">${EST_BYT.map(([k, c, e], i) => chk(k, c, e, i === 4)).join('')}</div>
+      <div class="score"><span>${en ? 'Rental location score' : 'Skóre lokality pro pronájem'} <b id="est-lvl"></b></span><span class="meter" id="est-meter"><i></i><i></i><i></i><i></i></span></div>
+      <div class="row"><div><span class="lab" style="margin:0">${en ? 'Estimated income / month' : 'Odhad příjmu měsíčně'}</span><output id="est-gross" class="num"></output></div><div><span class="lab" style="margin:0">${en ? 'You keep after 15 %' : 'Zůstane vám po 15 %'}</span><output id="est-net" class="num" style="color:var(--ok)"></output></div></div>
+      <div class="bar"><i id="est-bar"></i></div><div class="barl"><span id="est-min"></span><span id="est-rl"></span><span id="est-max"></span></div>
+      <p class="cmp" id="calc-cmp"></p>`;
+    $$('#est-disp button').forEach(b => b.onclick = () => { EST.disp = b.dataset.v; renderOdhad(); });
+    $$('#est-praha button').forEach(b => b.onclick = () => { EST.praha = +b.dataset.v; renderOdhad(); });
+    $$('#est input[data-f]').forEach(c => c.onchange = () => { EST.f[c.dataset.f] = c.checked; spocitejOdhad(); });
+    spocitejOdhad();
+  }
+  function spocitejOdhad() {
+    const en = LANG === 'en', [mn, mx] = EST_RNG[EST.disp], span = mx - mn, lvl = estLevel();
+    const nByt = EST_BYT.filter(([k]) => EST.f[k]).length;
+    const p = Math.min(1, [0.2, 0.42, 0.64, 0.86][lvl] + 0.035 * nByt);
+    const r1000 = x => Math.round(x / 1000) * 1000;
+    const lo = Math.max(mn, r1000(mn + span * (p - 0.1))), hi = Math.min(mx, r1000(mn + span * (p + 0.1)));
+    const tis = x => (x / 1000).toLocaleString('cs-CZ') + (en ? 'k' : ' tis.');
+    $('#est-lvl').textContent = EST_LVL[en ? 'en' : 'cs'][lvl];
+    $$('#est-meter i').forEach((i, k) => i.classList.toggle('on', k <= lvl));
+    $('#est-gross').textContent = `${tis(lo)} – ${tis(hi)}`;
+    $('#est-net').textContent = `${tis(r1000(lo * .85))} – ${tis(r1000(hi * .85))}`;
+    const bar = $('#est-bar'); bar.style.left = ((lo - mn) / span * 100) + '%'; bar.style.width = Math.max(4, (hi - lo) / span * 100) + '%';
+    $('#est-min').textContent = kc(mn); $('#est-max').textContent = kc(mx); $('#est-rl').textContent = `${EST.disp[0]}+kk · Praha ${EST.praha}`;
+    const mid = (lo + hi) / 2, c = $('#calc-cmp');
+    if (c) c.innerHTML = en ? `With a manager charging 20 % + VAT you would keep ${kc(mid * .758)}, that is <b>${kc(mid * .092)} less per month</b>. ${kc(mid * .092 * 12)} a year.` : `U správce s 20 % + DPH by vám zůstalo ${kc(mid * .758)}, tedy <b>o ${kc(mid * .092)} měsíčně méně</b>. Za rok ${kc(mid * .092 * 12)}.`;
   }
   function renderPortal() {
     const g = $('#portal-grid'); if (!g) return; const P = CFG.portaly || {};
