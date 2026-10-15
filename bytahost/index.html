@@ -218,7 +218,8 @@ button{font-family:inherit}
 .chipm.dt{background:var(--panel2);color:var(--dim)}
 .chipm.dt.instay{background:var(--posbg);color:var(--pos)}
 .chipm.dt.today{background:var(--warnbg);color:var(--warn)}
-.chipm.dt.past{opacity:.55}
+.chipm.dt.past{opacity:.7}
+.conv.v2 .meta .chipm{max-width:none;white-space:normal;font-size:11.5px;padding:4px 9px;line-height:1.35}
 .sect.stay{color:var(--pos)}.sect.fut{color:var(--vi2)}.sect.past{color:var(--dim2)}
 .chipm.wait{background:var(--warnbg);color:var(--warn)}
 .chipm.new{background:var(--newc);color:#fff}
@@ -356,6 +357,7 @@ p.vs{color:var(--dim);font-size:12.5px;margin:0 0 16px}
     <div class="view" id="view-dnes"><div class="cw">
       <h2 class="vh" id="dnesh">Dnes</h2><p class="vs" id="dnesd">—</p>
       <div class="pushcard hide" id="kodcard"><span style="font-size:26px">📲</span><div style="flex:1"><b id="kodtxt">Booking čeká na SMS kód</b><span>zadej kód z SMS — přihlášení na PC se dokončí samo</span><div style="display:flex;gap:8px;margin-top:8px"><input id="kodin" inputmode="numeric" placeholder="123456" style="flex:1;min-width:0;border-radius:10px;border:1px solid #6a5fd0;background:#0a0a12;color:#fff;padding:8px 10px;font-size:16px"><button onclick="poslatKod()" style="border-radius:10px;border:none;background:#8b7cff;color:#fff;font-weight:700;padding:8px 14px">Odeslat</button></div></div></div>
+      <div id="odhcard"></div>
       <div class="pushcard" id="pushcard" onclick="zapniPush()"><span style="font-size:26px">🔔</span><div><b>Zapnout upozornění na iPhone</b><span>nové zprávy hostů, eskalace od AI, blokace majitelů</span></div></div>
       <div class="ctacard hide" id="ctamsg" onclick="setTab('zpravy')"><span class="n" id="ctan">0</span><span class="tx"><b>zpráv čeká na odpověď</b><span>klepni a odpovídej — hostovi dorazí do půl minuty</span></span><span class="ar">→</span></div>
       <div class="days" id="days"><div class="day"><div class="dnic skel" style="height:120px;margin:12px"></div></div></div>
@@ -429,7 +431,10 @@ const VAPID_PUB='BFnINO3TLMFv76q-TPMkMQVkDvEkGvHSUdjtmM53rmy4tJwmCY_BZGoC8QBdWx5
 function b64u(s){const pad='='.repeat((4-s.length%4)%4);const raw=atob((s+pad).replace(/-/g,'+').replace(/_/g,'/'));const a=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)a[i]=raw.charCodeAt(i);return a;}
 /* 2FA Booking: kdyz PC ceka na SMS kod (booking_login.stav='ceka_kod'), ukaz kartu; kod se zapise do DB a booking_account.js ho vyzvedne */
 let KOD_UCET=null;
-async function nactiLogin(){ try{ const {data}=await sb.from('booking_login').select('*').in('stav',['ceka_kod','overuji']); const c=document.getElementById('kodcard'); const r=(data||[])[0]; if(r){ KOD_UCET=r.id; document.getElementById('kodtxt').textContent=(r.stav==='overuji'?'Ověřuji kód pro Booking ':'Booking ')+r.id+(r.stav==='overuji'?'…':' čeká na SMS kód'); c.classList.remove('hide'); } else { KOD_UCET=null; if(c)c.classList.add('hide'); } }catch(e){} }
+async function nactiLogin(){ try{ const {data}=await sb.from('booking_login').select('*').in('stav',['ceka_kod','overuji','odhlaseno','pozadavek']); const c=document.getElementById('kodcard'); const kod=(data||[]).find(r=>r.stav==='ceka_kod'||r.stav==='overuji'); const odh=(data||[]).filter(r=>r.stav==='odhlaseno'||r.stav==='pozadavek');
+  const box=document.getElementById('odhcard'); if(box){ box.innerHTML=odh.map(r=>`<div class="pushcard" style="cursor:default"><span style="font-size:24px">🔒</span><div style="flex:1"><b>Booking ${esc(r.id)}: ${esc(r.zprava||'odhlášeno')}</b><span>${r.stav==='pozadavek'?'přihlašuji… do pár minut přijde SMS, kód zadej sem':'zprávy z tohoto účtu se teď nestahují'}</span></div>${r.stav==='pozadavek'?'':`<button onclick="prihlasitBk('${esc(r.id)}')" style="border-radius:10px;border:none;background:#8b7cff;color:#fff;font-weight:700;padding:8px 12px">Přihlásit</button>`}</div>`).join(''); }
+  if(kod){ KOD_UCET=kod.id; document.getElementById('kodtxt').textContent=(kod.stav==='overuji'?'Ověřuji kód pro Booking ':'Booking ')+kod.id+(kod.stav==='overuji'?'…':' čeká na SMS kód'); c.classList.remove('hide'); } else { KOD_UCET=null; if(c)c.classList.add('hide'); } }catch(e){} }
+async function prihlasitBk(id){ if(!confirm('Přihlásit Booking '+id+'? Booking pošle SMS s kódem, ten pak zadáš tady v appce.'))return; await sb.from('booking_login').update({stav:'pozadavek',updated_at:new Date().toISOString()}).eq('id',id); sb.from('report_provoz').upsert({id:'refresh_pozadavek',payload:{kdo:'bytahost-login'},hash:String(Date.now()),updated_at:new Date().toISOString()}).then(()=>{},()=>{}); nactiLogin(); }
 async function poslatKod(){ const k=(document.getElementById('kodin').value||'').trim(); if(!/^\d{4,8}$/.test(k)||!KOD_UCET){ alert('Zadej kód z SMS'); return; } await sb.from('booking_login').update({kod:k,updated_at:new Date().toISOString()}).eq('id',KOD_UCET); document.getElementById('kodin').value=''; document.getElementById('kodtxt').textContent='Kód odeslán, přihlašuji…'; }
 function bellOn(){const b=document.getElementById('pushbell');if(b){b.classList.add('on');b.title='Upozornění zapnutá ✓';}const c=document.getElementById('pushcard');if(c)c.classList.add('hide');}
 /* web push: service worker je spolecny pro cely /velin/ (../sw.js), odbery v Supabase push_subs -> poslat_push.js */
@@ -524,7 +529,9 @@ function stav(c){
 }
 /* 14.10.2026: rucni "vyreseno" (fajfka) — plati, dokud neprijde novejsi zprava hosta (last_at > vyreseno) */
 const vyreseny=c=>!!(c.vyreseno&&(!c.last_at||new Date(c.vyreseno)>=new Date(c.last_at)));
-const needsAction=c=> (c.unread>0 || c.posledni_smer==='in') && !vyreseny(c);
+/* 15.10.2026: pobyt uz skoncil (odjezd pred dneskem) = vyrizeno samo (podekovani po odjezdu apod.) */
+const pobytSkoncil=c=>!!(c.odjezd&&c.odjezd<isoAdd(0));
+const needsAction=c=> (c.unread>0 || c.posledni_smer==='in') && !vyreseny(c) && !pobytSkoncil(c);
 async function vyresit(id,noreply){ const now=new Date().toISOString(); const upd={vyreseno:now,unread:0}; if(noreply)upd.noreply_pozadavek=now; await sb.from('konverzace').update(upd).eq('id',id); const c=CONVS.find(x=>x.id===id); if(c)Object.assign(c,upd); renderFilters(); renderList(); if(curId===id)openConv(id,true); }
 async function otevritZnovu(id){ await sb.from('konverzace').update({vyreseno:null,noreply_pozadavek:null}).eq('id',id); const c=CONVS.find(x=>x.id===id); if(c){c.vyreseno=null;c.noreply_pozadavek=null;} renderFilters(); renderList(); if(curId===id)openConv(id,true); }
 function vyresitAkt(){ if(!curId)return; const c=CONVS.find(x=>x.id===curId)||{}; if(vyreseny(c)){ otevritZnovu(curId); return; } vyresit(curId, c.platform==='booking' && c.posledni_smer==='in'); }
