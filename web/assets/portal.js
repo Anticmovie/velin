@@ -21,7 +21,7 @@
     try { return JSON.parse(html.slice(i + 10, j)); } catch (x) { return null; }
   }
 
-  const ST = { byt: 'all', obd: 'rok', od: null, do: null, cisty: true, rm: null, rstav: 'all', cal: null, calByt: null, open: {}, cols: { prov: true, prub: true, najem: true, uklidy: true, ostat: true, moje: true }, nk: { typ: 'mesicne', kat: 'Elektřina' } };
+  const ST = { byt: 'all', obd: 'rok', od: null, do: null, cisty: true, rm: null, rstav: 'all', cal: null, calByt: null, open: {}, cols: { prov: true, prub: true, najem: true, uklidy: true, ostat: true, moje: true }, mimo: false, nk: { typ: 'mesicne', kat: 'Elektřina' } };
 
   /* ---------- localStorage (každý přístup chráněný) ---------- */
   const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } };
@@ -91,8 +91,8 @@
       if (!x.ma) return;
       x.najem = suma(evidenceMes(D, mes, jeNajem)); x.uklidy = suma(evidenceMes(D, mes, jeUklid)); x.ostatItems = evidenceMes(D, mes, k => !jeNajem(k) && !jeUklid(k)); x.ostat = suma(x.ostatItems);
       x.mojeItems = mojeMes(D, mes); x.moje = suma(x.mojeItems);
-      x.prub = x.uklPra + x.extra;
-      const C = ST.cols; x.zbude = x.obrat - (C.prov ? x.provize : 0) - (C.prub ? x.prub : 0) - (C.najem ? x.najem : 0) - (C.uklidy ? x.uklidy : 0) - (C.ostat ? x.ostat : 0) - (C.moje ? x.moje : 0);
+      x.prub = x.uklPra;
+      const C = ST.cols; x.zbude = x.obrat - x.extra - (C.prov ? x.provize : 0) - (C.prub ? x.prub : 0) - (C.najem ? x.najem : 0) - (C.uklidy ? x.uklidy : 0) - (C.ostat ? x.ostat : 0) - (C.moje ? x.moje : 0);
       x.occ = x.occD ? Math.round(x.occN / x.occD * 100) : null;
       out.push(x);
     });
@@ -100,19 +100,22 @@
   }
 
   /* ---------- grafy: sloupce s přesnou částkou po najetí / klepnutí ---------- */
-  function barChart(items, max, dvojity) {
-    const step = items.length > 14 ? Math.ceil(items.length / 12) : 1; const n = items.length;
-    return `<div class="pa-bars">${items.map((x, i) => `<div class="pa-bc${i < 2 ? ' l' : i > n - 3 ? ' r' : ''}" tabindex="0" aria-label="${esc(x.aria)}"><div class="pa-bs">${dvojity ? `<i class="a" style="height:${Math.max(0, x.a / max * 100).toFixed(1)}%"></i>` : ''}<i class="b${x.dim ? ' dim' : ''}" style="height:${Math.max(0, x.b / max * 100).toFixed(1)}%"></i></div><span class="pa-bl">${i % step ? '' : esc(x.lab)}</span><div class="pa-tip">${x.tip}</div></div>`).join('')}</div>`;
+  const tis = v => v >= 1e6 ? (v / 1e6).toLocaleString('cs-CZ', { maximumFractionDigits: 1 }) + ' mil.' : v ? Math.round(v / 1000) + ' tis.' : '0';
+  function osa(max) { const kroky = [5e3, 1e4, 2e4, 25e3, 5e4, 1e5, 2e5, 25e4, 5e5, 1e6]; const k = kroky.find(x => max / x <= 4) || 2e6; return { max: Math.ceil(max / k) * k, krok: k }; }
+  function barChart(items, sc, dvojity, fmt) {
+    const step = items.length > 14 ? Math.ceil(items.length / 12) : 1; const n = items.length; const max = sc.max;
+    const grid = []; for (let v = 0; v <= max + 1e-9; v += sc.krok) grid.push(`<div class="pa-gl" style="bottom:${(v / max * 100).toFixed(2)}%"><span>${fmt(v)}</span></div>`);
+    return `<div class="pa-plot"><div class="pa-grid">${grid.join('')}</div><div class="pa-bars">${items.map((x, i) => `<div class="pa-bc${i < 2 ? ' l' : i > n - 3 ? ' r' : ''}" tabindex="0" aria-label="${esc(x.aria)}"><div class="pa-bs">${dvojity ? `<i class="a" style="height:${Math.max(0, x.a / max * 100).toFixed(1)}%"></i>` : ''}<i class="b${x.dim ? ' dim' : ''}" style="height:${Math.max(0, x.b / max * 100).toFixed(1)}%"></i></div><span class="pa-bl">${i % step ? '' : esc(x.lab)}</span><div class="pa-tip">${x.tip}</div></div>`).join('')}</div></div>`;
   }
   function grafy(list) {
     if (!list.length) return '';
-    const max1 = Math.max(1, ...list.map(x => Math.max(x.obrat, x.vyplata)));
-    const g1 = barChart(list.map(x => ({ lab: mshort(x.mes), a: x.obrat, b: x.vyplata, dim: x.bezici, aria: `${mlabel(x.mes)}: obrat ${kc(x.obrat)}, výplata ${kc(x.vyplata)}`,
-      tip: `<b>${esc(mlabel(x.mes))}${x.bezici ? ' · běží' : ''}</b><span><i class="a"></i>Obrat <em>${kc(x.obrat)}</em></span><span><i class="b"></i>Výplata <em>${kc(x.vyplata)}</em></span><span class="zb">Zbude po všem <em>${kc(x.zbude)}</em></span>` })), max1, true);
+    const sc1 = osa(Math.max(1, ...list.map(x => Math.max(x.obrat, x.vyplata))));
+    const g1 = barChart(list.map(x => ({ lab: mshort(x.mes), a: x.obrat, b: x.vyplata, dim: x.bezici, aria: `${mlabel(x.mes)}: hrubý příjem ${kc(x.obrat)}, po provizi ${kc(x.vyplata)}`,
+      tip: `<b>${esc(mlabel(x.mes))}${x.bezici ? ' · běží' : ''}</b><span><i class="a"></i>Hrubý příjem <em>${kc(x.obrat)}</em></span><span><i class="b"></i>Po provizi <em>${kc(x.vyplata)}</em></span><span class="zb">Zbude po všem <em>${kc(x.zbude)}</em></span>` })), sc1, true, tis);
     const g2 = barChart(list.map(x => ({ lab: mshort(x.mes), a: 0, b: x.occ || 0, dim: x.bezici, aria: `${mlabel(x.mes)}: obsazenost ${x.occ == null ? '—' : x.occ + ' %'}`,
-      tip: `<b>${esc(mlabel(x.mes))}</b><span><i class="b"></i>Obsazenost <em>${x.occ == null ? '—' : x.occ + ' %'}</em></span><span>${x.occN} z ${x.occD} nocí</span>` })), 100, false);
+      tip: `<b>${esc(mlabel(x.mes))}</b><span><i class="b"></i>Obsazenost <em>${x.occ == null ? '—' : x.occ + ' %'}</em></span><span>${x.occN} z ${x.occD} nocí</span>` })), { max: 100, krok: 25 }, false, v => v + ' %');
     return `<div class="pa-grid2 pa-anchor" id="pa-grafy">
-      <section class="pa-card"><h3>Obrat a výplata po měsících</h3>${g1}<div class="pa-legend"><i style="background:#C9D3CC"></i>obrat <i style="background:var(--green)"></i>výplata <span class="pa-hint">najeďte na sloupec pro přesnou částku</span></div></section>
+      <section class="pa-card"><h3>Příjem po měsících</h3>${g1}<div class="pa-legend"><i style="background:#C9D3CC"></i>hrubý příjem z Airbnb a Booking <i style="background:var(--green)"></i>po odečtení provize <span class="pa-hint">najeďte na sloupec pro přesnou částku</span></div></section>
       <section class="pa-card"><h3>Obsazenost po měsících</h3>${g2}<div class="pa-legend"><i style="background:var(--green)"></i>obsazenost v % nocí</div></section></div>`;
   }
 
@@ -152,15 +155,17 @@
   /* ---------- měsíční vyúčtování ---------- */
   function vyuctovani(D, list) {
     const byty = vybraneByty(D), vice = byty.length > 1, C = ST.cols;
-    const ma = { prub: list.some(x => x.prub), najem: list.some(x => x.najem), uklidy: list.some(x => x.uklidy), ostat: list.some(x => x.ostat), moje: list.some(x => x.moje) };
-    const COLS = [['prov', 'Provize', 'naše odměna', true], ['prub', 'Úklid, prádlo', 'a mimořádné', ma.prub], ['najem', 'Nájem', 'dle smlouvy', ma.najem], ['uklidy', 'Úklidy', 'vlastní uklízečka', ma.uklidy], ['ostat', 'Ostatní', 'poplatek, DPH, vybavení', ma.ostat], ['moje', 'Moje náklady', 'energie, opravy…', ma.moje]].filter(c => c[3]);
+    const ma = { mimo: list.some(x => x.extra), prub: list.some(x => x.prub), najem: list.some(x => x.najem), uklidy: list.some(x => x.uklidy), ostat: list.some(x => x.ostat), moje: list.some(x => x.moje) };
+    const COLS = [['prov', 'Provize', 'naše odměna', true], ['prub', 'Úklid a prádlo', 'za odjezdy', ma.prub], ['najem', 'Nájem', 'dle smlouvy', ma.najem], ['uklidy', 'Úklidy', 'vlastní uklízečka', ma.uklidy], ['ostat', 'Ostatní', 'poplatek, DPH, vybavení', ma.ostat], ['moje', 'Moje náklady', 'energie, opravy…', ma.moje]].filter(c => c[3]);
+    const MIMO = ma.mimo && ST.mimo;   // volitelný sloupec, částky jsou ve Zbude vždy
     const val = (x, k) => k === 'prov' ? x.provize : x[k];
     const neg = v => v ? (v > 0 ? '−' + nf(v) : '+' + nf(-v)) : '—';
     const tot = { obrat: 0, zbude: 0, byt: {} }; COLS.forEach(c => tot[c[0]] = 0); byty.forEach(b => tot.byt[b.key] = 0);
-    const ncol = 1 + (vice ? byty.length : 0) + 1 + COLS.filter(c => C[c[0]]).length + 2;
+    const ncol = 1 + (vice ? byty.length : 0) + 1 + COLS.filter(c => C[c[0]]).length + (MIMO ? 1 : 0) + 2;
+    tot.mimo = 0;
     const uhr = D.uhrazeno_do; let cut = false;
     const rows = list.slice().reverse().map(x => {
-      tot.obrat += x.obrat; tot.zbude += x.zbude; COLS.forEach(c => tot[c[0]] += val(x, c[0]) || 0); byty.forEach(b => tot.byt[b.key] += x.byt[b.key] || 0);
+      tot.obrat += x.obrat; tot.zbude += x.zbude; tot.mimo += x.extra; COLS.forEach(c => tot[c[0]] += val(x, c[0]) || 0); byty.forEach(b => tot.byt[b.key] += x.byt[b.key] || 0);
       const sz = [...x.sazby]; const open = !!ST.open[x.mes];
       const det = `<tr class="pa-det"${open ? '' : ' hidden'}><td colspan="${ncol}"><div class="pa-detin">
         ${byty.filter(b => x.byt[b.key] != null).map(b => { const r = b.radky.find(z => z.mes === x.mes); return `<div><b>${esc(b.nazev)}</b><span>Airbnb ${kc(r.ab)} · Booking ${kc(r.bk)}${r.prime ? ' · přímé ' + kc(r.prime) : ''}</span></div>`; }).join('')}
@@ -171,15 +176,15 @@
       let cutRow = ''; if (uhr && !cut && x.mes <= uhr) { cut = true; cutRow = `<tr class="pa-cut"><td colspan="${ncol}">Faktury uhrazeny do ${esc(mlabel(uhr))}</td></tr>`; }
       return cutRow + `<tr class="pa-mo${open ? ' open' : ''}${x.bezici ? ' run' : ''}" data-mo="${x.mes}"><td><span class="cx">▸</span><b>${esc(mlabel(x.mes))}</b>${x.bezici ? ' <em>běží</em>' : x.occ != null ? ` <em>${x.occ} %</em>` : ''}${x.est ? ' <em class="est">odhad</em>' : ''}</td>
         ${vice ? byty.map(b => `<td>${x.byt[b.key] == null ? '<span class="mut">—</span>' : nf(x.byt[b.key])}</td>`).join('') : ''}<td><b>${nf(x.obrat)}</b></td>
-        ${COLS.filter(c => C[c[0]]).map(c => { const v = val(x, c[0]) || 0; return `<td class="${v < 0 ? 'pos' : 'neg'}">${neg(v)}${c[0] === 'prov' && sz.length ? ` <small class="sz">${sz.join('/')} %</small>` : ''}</td>`; }).join('')}
+        ${COLS.filter(c => C[c[0]]).map(c => { const v = val(x, c[0]) || 0; return `<td class="${v < 0 ? 'pos' : 'neg'}">${neg(v)}${c[0] === 'prov' && sz.length ? ` <small class="sz">${sz.join('/')} %</small>` : ''}</td>`; }).join('')}${MIMO ? `<td class="${x.extra < 0 ? 'pos' : 'neg'}">${neg(x.extra)}</td>` : ''}
         <td class="${x.zbude >= 0 ? 'pos' : 'neg'}"><b>${nf(x.zbude)}</b></td><td>${x.bezici ? '' : `<button type="button" class="pa-pdf" data-fakt="${x.mes}">PDF</button>`}</td></tr>` + det;
     }).join('');
     const per = list.length ? (list.length === 1 ? mlabel(list[0].mes) : mlabel(list[0].mes) + ' – ' + mlabel(list[list.length - 1].mes)) : '';
     return `<section class="pa-card pa-anchor" id="pa-vyu"><div class="pa-cardhead"><h3>Měsíční vyúčtování <small>${esc(per)}</small></h3></div>
-      <div class="pa-toggles" role="group" aria-label="Odečítat ve sloupci Zbude">${COLS.map(c => `<label class="${C[c[0]] ? 'on' : ''}"><input type="checkbox" data-col="${c[0]}" ${C[c[0]] ? 'checked' : ''}>${esc(c[1])}</label>`).join('')}<span class="pa-hint">odečítat ve sloupci Zbude</span></div>
-      ${list.length ? `<div class="pa-tablewrap"><table class="pa-table pa-vy"><thead><tr><th>Měsíc</th>${vice ? byty.map(b => `<th>${esc(b.nazev)}<small>hrubý příjem</small></th>`).join('') : ''}<th>Obrat<small>${vice ? 'celkem' : 'hrubý příjem'}</small></th>${COLS.filter(c => C[c[0]]).map(c => `<th>${esc(c[1])}<small>${esc(c[2])}</small></th>`).join('')}<th>Zbude<small>čistý zisk</small></th><th>Faktura</th></tr></thead><tbody>${rows}
-      <tr class="tot"><td>Celkem</td>${vice ? byty.map(b => `<td>${nf(tot.byt[b.key])}</td>`).join('') : ''}<td>${nf(tot.obrat)}</td>${COLS.filter(c => C[c[0]]).map(c => `<td class="${tot[c[0]] < 0 ? 'pos' : 'neg'}">${neg(tot[c[0]])}</td>`).join('')}<td class="${tot.zbude >= 0 ? 'pos' : 'neg'}">${nf(tot.zbude)}</td><td></td></tr></tbody></table></div>
-      <p class="pa-note">Klikněte na měsíc pro rozpad na Airbnb a Booking a jednotlivé položky. Odškrtnutím položky nahoře ji přestanete odečítat ve sloupci Zbude. Částky v Kč.${uhr ? ' Faktury správy uhrazeny do <b>' + esc(mlabel(uhr)) + '</b>.' : ''}</p>` : '<p class="pa-note">Za zvolené období nejsou data.</p>'}</section>`;
+      <div class="pa-toggles" role="group" aria-label="Odečítat ve sloupci Zbude">${COLS.map(c => `<label class="${C[c[0]] ? 'on' : ''}"><input type="checkbox" data-col="${c[0]}" ${C[c[0]] ? 'checked' : ''}>${esc(c[1])}</label>`).join('')}${ma.mimo ? `<button type="button" class="pa-mimo${ST.mimo ? ' on' : ''}" id="pa-mimo" aria-pressed="${ST.mimo}">${ST.mimo ? 'Skrýt' : 'Zobrazit'} mimořádné</button>` : ''}<span class="pa-hint">odečítat ve sloupci Zbude</span></div>
+      ${list.length ? `<div class="pa-tablewrap"><table class="pa-table pa-vy"><thead><tr><th>Měsíc</th>${vice ? byty.map(b => `<th>${esc(b.nazev)}<small>hrubý příjem</small></th>`).join('') : ''}<th>Obrat<small>${vice ? 'celkem' : 'hrubý příjem'}</small></th>${COLS.filter(c => C[c[0]]).map(c => `<th>${esc(c[1])}<small>${esc(c[2])}</small></th>`).join('')}${MIMO ? '<th>Mimořádné<small>příjmy + / náklady −</small></th>' : ''}<th>Zbude<small>čistý zisk</small></th><th>Faktura</th></tr></thead><tbody>${rows}
+      <tr class="tot"><td>Celkem</td>${vice ? byty.map(b => `<td>${nf(tot.byt[b.key])}</td>`).join('') : ''}<td>${nf(tot.obrat)}</td>${COLS.filter(c => C[c[0]]).map(c => `<td class="${tot[c[0]] < 0 ? 'pos' : 'neg'}">${neg(tot[c[0]])}</td>`).join('')}${MIMO ? `<td class="${tot.mimo < 0 ? 'pos' : 'neg'}">${neg(tot.mimo)}</td>` : ''}<td class="${tot.zbude >= 0 ? 'pos' : 'neg'}">${nf(tot.zbude)}</td><td></td></tr></tbody></table></div>
+      <p class="pa-note">Klikněte na měsíc pro rozpad na Airbnb a Booking a jednotlivé položky.${ma.mimo ? ' Mimořádné příjmy a náklady (např. náhrada škody od hosta) jsou ve Zbude započtené vždy.' : ''} Odškrtnutím položky nahoře ji přestanete odečítat ve sloupci Zbude. Částky v Kč.${uhr ? ' Faktury správy uhrazeny do <b>' + esc(mlabel(uhr)) + '</b>.' : ''}</p>` : '<p class="pa-note">Za zvolené období nejsou data.</p>'}</section>`;
   }
 
   /* ---------- moje náklady (pravidelné / jednorázové) ---------- */
@@ -195,7 +200,7 @@
       <form id="pa-nkf" class="pa-nkf">
         <div class="pa-seg pa-typ"><button type="button" data-typ="mesicne" class="${ST.nk.typ === 'mesicne' ? 'on' : ''}">Pravidelný měsíčně</button><button type="button" data-typ="jednou" class="${ST.nk.typ === 'jednou' ? 'on' : ''}">Jednorázový</button></div>
         <div class="pa-kat">${KAT.map(([k, ic]) => `<button type="button" data-kat="${k}" class="${ST.nk.kat === k ? 'on' : ''}"><span aria-hidden="true">${ic}</span>${k}</button>`).join('')}</div>
-        <div class="pa-nkrow"><label>${ST.nk.typ === 'mesicne' ? 'Od měsíce' : 'Měsíc'}<input type="month" id="nk-mes" value="${dm}" required></label>${ST.nk.typ === 'mesicne' ? `<label>Do měsíce <small>nepovinné</small><input type="month" id="nk-do"></label>` : ''}<label>Částka Kč<input type="number" id="nk-castka" min="1" step="1" inputmode="numeric" placeholder="např. 1 850" required></label>
+        <div class="pa-nkrow"><label>${ST.nk.typ === 'mesicne' ? 'Od měsíce' : 'Měsíc'}<input type="month" id="nk-mes" value="${dm}" required></label>${ST.nk.typ === 'mesicne' ? `<label>Do měsíce (nepovinné)<input type="month" id="nk-do"></label>` : ''}<label>Částka Kč<input type="number" id="nk-castka" min="1" step="1" inputmode="numeric" placeholder="např. 1 850" required></label>
         ${D.byty.length > 1 ? `<label>Byt<select id="nk-byt"><option value="">Všechny byty</option>${D.byty.map(b => `<option value="${esc(b.key)}">${esc(b.nazev)}</option>`).join('')}</select></label>` : ''}<label class="w">Poznámka<input id="nk-pozn" placeholder="např. záloha ČEZ, výměna baterie"></label></div>
         <div class="pa-nkgo"><button class="btn gold sm" type="submit">Přidat náklad</button><span id="nk-msg" class="pa-hint"></span></div></form>
       ${zz.length ? `<ul class="pa-nklist">${zz.map(z => `<li><span class="ic" aria-hidden="true">${katIc(z.kat)}</span><div><b>${esc(z.kat)}</b> <i class="${z.typ === 'mesicne' ? 'rec' : ''}">${z.typ === 'mesicne' ? 'každý měsíc od ' + esc(mshort(z.mes)) + (z.do ? ' do ' + esc(mshort(z.do)) : '') : esc(mlabel(z.mes))}</i><small>${esc([bn(z.byt), z.pozn].filter(Boolean).join(' · '))}</small></div><b class="c">${kc(z.castka)}</b><button type="button" class="x" data-nkdel="${z.i}" aria-label="Smazat ${esc(z.kat)}">✕</button></li>`).join('')}</ul>` : '<p class="pa-note">Zatím žádné vlastní náklady.</p>'}
@@ -226,6 +231,68 @@
       <div class="ctx">Peníze z Airbnb a Booking vám přišly v plné výši přímo na účet. Po úhradě této faktury vám z obratu zůstává <b>${kc(obrat - kUhr + prijem)}</b>${prijem ? ` (včetně příjmu navíc ${kc(prijem)})` : ''}.</div>
       <p class="mut" style="margin-top:14px">Vystaveno v portálu majitele Byt a host ${new Date().toLocaleDateString('cs-CZ')}. Podklady z Airbnb a Booking.com podle měsíce pobytu hostů.</p></html>`);
     w.document.close();
+  }
+
+  /* ---------- odkazy: účty + inzeráty každého bytu ---------- */
+  function odkazy(D) {
+    const web = (window.BYTY && window.BYTY.byty) || [];
+    const a = (u, t, cls) => `<a class="chip${cls ? ' ' + cls : ''}" href="${esc(u)}" target="_blank" rel="noopener">${t}</a>`;
+    const radky = D.byty.map(b => { const w = web.find(x => x.key === b.key) || {}; const img = (w.fotky || [])[0] || b.img;
+      const l = [w.airbnb_url && a(w.airbnb_url, 'Airbnb', 'air'), w.booking_url && a(w.booking_url, 'Booking', 'bk'), w.slug && !w.skryty && `<a class="chip" href="#/apartman/${esc(w.slug)}">Na webu</a>`].filter(Boolean).join('');
+      return l ? `<li>${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : '<span class="ph"></span>'}<b>${esc(b.nazev)}</b><div>${l}</div></li>` : ''; }).join('');
+    return `<h3 style="margin-top:22px">Odkazy</h3><div class="pa-links">${a('https://admin.booking.com', 'Booking extranet')}${a('https://www.airbnb.cz/hosting', 'Airbnb účet')}</div>${radky ? `<ul class="pa-blinks">${radky}</ul>` : ''}`;
+  }
+
+  /* ---------- rezervace bytu pro sebe: vlastní kalendář výběru + způsob ubytování ---------- */
+  const PREDANI = [['sam', 'Ubytuji se sám', 'mám vlastní klíče'], ['osobne', 'Osobně se zástupcem', 'předá klíče a ukáže byt'], ['box', 'Box na klíče', 'kód pošleme předem']];
+  const iso = dt => dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0');
+  const plusD = (d, n) => { const x = new Date(d + 'T12:00:00'); x.setDate(x.getDate() + n); return iso(x); };
+  const fmtDl = d => { const x = new Date(d + 'T12:00:00'); return x.toLocaleDateString('cs-CZ', { weekday: 'short', day: 'numeric', month: 'numeric' }); };
+  function obsazeneNoci(D, key) {
+    const b = D.byty.find(x => x.key === key); const set = new Set(); if (!b) return set;
+    rezBytu(D, b).filter(r => !(r.plat === 'owner' && (r.stav === 'zamitnuto' || r.stav === 'kolize'))).forEach(r => { for (let d = r.od; d < r.do; d = plusD(d, 1)) set.add(d); });
+    return set;
+  }
+  function blokRender(D) {
+    const box = $('#pa-blokin'); if (!box) return;
+    const dnes = D.dnes || iso(new Date());
+    const B = ST.bl = ST.bl || { byt: (ST.byt !== 'all' ? ST.byt : D.byty[0].key), od: null, do: null, m: dnes.slice(0, 7), predani: 'sam', pozn: '', msg: '' };
+    const obs = obsazeneNoci(D, B.byt);
+    const y = +B.m.slice(0, 4), mm = +B.m.slice(5, 7), dni = new Date(y, mm, 0).getDate(), pad = (new Date(y, mm - 1, 1).getDay() + 6) % 7;
+    let cells = ''; for (let q = 0; q < pad; q++) cells += '<i></i>';
+    for (let d = 1; d <= dni; d++) {
+      const ds = B.m + '-' + String(d).padStart(2, '0'); const minule = ds < dnes, ob = obs.has(ds);
+      const cls = [ob ? 'ob' : '', minule ? 'past' : '', ds === dnes ? 'td' : '', B.od && ds === B.od ? 'st' : '', B.do && ds === B.do ? 'en' : '', B.od && B.do && ds > B.od && ds < B.do ? 'in' : ''].filter(Boolean).join(' ');
+      cells += `<button type="button" class="${cls}" data-d="${ds}" ${minule ? 'disabled' : ''} aria-label="${ds}${ob ? ', obsazeno' : ''}">${d}</button>`;
+    }
+    const n = B.od && B.do ? noci(B.od, B.do) : 0;
+    const souhrn = B.od ? (B.do ? `<b>${fmtDl(B.od)}</b> → <b>${fmtDl(B.do)}</b> · ${nocTxt(n)}` : `Příjezd <b>${fmtDl(B.od)}</b> · vyberte den odjezdu`) : 'Vyberte den příjezdu';
+    box.innerHTML = `<div class="pa-bk">
+      ${D.byty.length > 1 ? `<div class="pa-seg pa-calbyt" id="pb-byt">${D.byty.map(b => `<button type="button" class="${b.key === B.byt ? 'on' : ''}" data-v="${esc(b.key)}">${esc(b.nazev)}</button>`).join('')}</div>` : ''}
+      <div class="pa-dp"><div class="pa-dph"><button type="button" id="pb-prev" aria-label="Předchozí měsíc" ${B.m <= dnes.slice(0, 7) ? 'disabled' : ''}>‹</button><b>${esc(mlabel(B.m))}</b><button type="button" id="pb-next" aria-label="Další měsíc">›</button></div>
+        <div class="pa-dpw">${WD.map(x => `<span>${x}</span>`).join('')}</div><div class="pa-dpd">${cells}</div>
+        <div class="pa-dpf"><span class="sel">${souhrn}</span><span class="lg"><i class="o"></i>obsazeno hosty</span>${B.od ? '<button type="button" id="pb-clr">Zrušit výběr</button>' : ''}</div></div>
+      <span class="pa-lab">Jak se ubytujete</span>
+      <div class="pa-pred" role="radiogroup" aria-label="Způsob ubytování">${PREDANI.map(([k, t, d]) => `<button type="button" role="radio" aria-checked="${B.predani === k}" class="${B.predani === k ? 'on' : ''}" data-pred="${k}"><b>${t}</b><small>${d}</small></button>`).join('')}</div>
+      <label class="pa-lab" for="pb-pozn">Poznámka</label><input id="pb-pozn" class="pa-in" placeholder="např. rodina, 2 osoby, příjezd kolem 18:00" value="${esc(B.pozn)}">
+      <button class="btn gold" type="button" id="pb-send" ${n ? '' : 'disabled'}>${n ? 'Poslat žádost · ' + nocTxt(n) : 'Poslat žádost o blokaci'}</button><div id="pb-msg">${B.msg}</div></div>`;
+    const again = () => { B.pozn = $('#pb-pozn').value; blokRender(D); };
+    $$('#pb-byt button').forEach(b => b.onclick = () => { B.byt = b.dataset.v; B.od = B.do = null; B.msg = ''; again(); });
+    $('#pb-prev').onclick = () => { B.m = addM(B.m, -1); again(); }; $('#pb-next').onclick = () => { B.m = addM(B.m, 1); again(); };
+    if ($('#pb-clr')) $('#pb-clr').onclick = () => { B.od = B.do = null; B.msg = ''; again(); };
+    $$('.pa-dpd button').forEach(b => b.onclick = () => { const d = b.dataset.d; B.msg = '';
+      if (!B.od || B.do || d <= B.od) { if (obs.has(d)) { B.msg = '<div class="msg bad">V tento den už jsou v bytě hosté. Vyberte jiný den příjezdu.</div>'; B.od = B.do = null; } else { B.od = d; B.do = null; } }
+      else { let kol = false; for (let x = B.od; x < d; x = plusD(x, 1)) if (obs.has(x)) kol = true;
+        if (kol) B.msg = '<div class="msg bad">V tomto termínu jsou rezervace hostů. Zkraťte pobyt nebo vyberte jiný termín.</div>'; else B.do = d; }
+      again(); });
+    $$('[data-pred]').forEach(b => b.onclick = () => { B.predani = b.dataset.pred; again(); });
+    $('#pb-send').onclick = async () => { B.pozn = $('#pb-pozn').value.trim(); if (!B.od || !B.do) return;
+      const pred = PREDANI.find(x => x[0] === B.predani); const pozn = [B.pozn, 'Předání: ' + pred[1].toLowerCase() + ' (' + pred[2] + ')'].filter(Boolean).join(' · ');
+      const btn = $('#pb-send'); btn.disabled = true; btn.textContent = 'Odesílám…';
+      const ok = window.BH && window.BH.sb ? await window.BH.sb('web_blokace', { klient: D.klic, byt_key: B.byt, od: B.od, do_: B.do, pozn, jmeno: D.jmeno }) : false;
+      if (ok) { const l = lokalniBlokace(D); l.push({ byt: B.byt, od: B.od, do: B.do, pozn, t: Date.now() }); lsSet('bh_blok_' + D.klic, l.slice(-20)); ST.rm = B.od.slice(0, 7); ST.rstav = 'all';
+        ST.bl = { ...B, od: null, do: null, pozn: '', msg: '<div class="msg ok">Žádost odeslána, potvrdíme do 24 hodin. Najdete ji v rezervacích jako „čeká“.</div>' }; render(D); }
+      else { B.msg = '<div class="msg bad">Odeslání se nepodařilo, zavolejte nám prosím.</div>'; again(); } };
   }
 
   /* ---------- hlavní render ---------- */
@@ -262,9 +329,9 @@
     <div class="pa-grid2">
       ${mojeSekce(D)}
       <section class="pa-card pa-anchor" id="pa-blokcard"><h3>Rezervovat byt pro sebe</h3><p class="pa-note">Zadejte termín, kdy chcete byt pro sebe nebo rodinu. Zablokujeme ho v kalendářích Airbnb i Booking a potvrdíme do 24 hodin. Už potvrzené rezervace hostů zůstávají. Žádost hned uvidíte v rezervacích jako „čeká“.</p>
-        <form id="pa-blok" class="form" style="grid-template-columns:1fr 1fr"><div><label for="pb-byt">Byt</label><select id="pb-byt">${D.byty.map(b => `<option value="${esc(b.key)}">${esc(b.nazev)}</option>`).join('')}</select></div><div><label for="pb-od">Od</label><input type="date" id="pb-od" required></div><div><label for="pb-do">Do</label><input type="date" id="pb-do" required></div><div><label for="pb-pozn">Poznámka</label><input id="pb-pozn" placeholder="např. rodina, 2 osoby"></div><div class="full"><button class="btn gold" type="submit">Poslat žádost o blokaci</button><div id="pb-msg"></div></div></form>
+        <div id="pa-blokin"></div>
         ${(D.zprava && (D.zprava.text || typeof D.zprava === 'string')) ? `<h3 style="margin-top:22px">Zpráva od správce</h3><p>${esc(D.zprava.text || D.zprava)}</p>` : ''}
-        ${D.byty.some(b => (b.odkazy || []).length) ? `<h3 style="margin-top:22px">Odkazy</h3><div class="pa-links">${D.byty.flatMap(b => (b.odkazy || []).filter(o => /^https?:/.test(o.u)).map(o => `<a class="chip" href="${esc(o.u)}" target="_blank" rel="noopener">${esc(o.t)}</a>`)).join('')}</div>` : ''}
+        ${odkazy(D)}
       </section>
     </div>`;
     bind(D, cur);
@@ -282,9 +349,10 @@
     const cm0 = () => ST.cal || ((D.dnes || '').slice(0, 7) || cur); $('#pa-cal-prev').onclick = () => { ST.cal = addM(cm0(), -1); R(); }; $('#pa-cal-next').onclick = () => { ST.cal = addM(cm0(), 1); R(); };
     $$('#pa-calbyt button').forEach(b => b.onclick = () => { ST.calByt = b.dataset.v; R(); });
     $$('[data-col]').forEach(c => c.onchange = () => { ST.cols[c.dataset.col] = c.checked; R(); });
+    if ($('#pa-mimo')) $('#pa-mimo').onclick = () => { ST.mimo = !ST.mimo; R(); };
     $$('.pa-mo').forEach(tr => tr.onclick = e => { if (e.target.closest('.pa-pdf')) return; ST.open[tr.dataset.mo] = !ST.open[tr.dataset.mo]; const det = tr.nextElementSibling; if (det && det.classList.contains('pa-det')) { det.hidden = !ST.open[tr.dataset.mo]; tr.classList.toggle('open', ST.open[tr.dataset.mo]); } });
     $$('.pa-pdf').forEach(b => b.onclick = () => faktura(D, b.dataset.fakt));
-    $('#pa-rezbtn').onclick = () => { const f = $('#pa-blok'); f.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => $('#pb-od').focus(), 400); };
+    $('#pa-rezbtn').onclick = () => { $('#pa-blokcard').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
     // moje náklady
     $$('.pa-typ button').forEach(b => b.onclick = () => { ST.nk.typ = b.dataset.typ; R(); });
     $$('.pa-kat button').forEach(b => b.onclick = () => { ST.nk.kat = b.dataset.kat; $$('.pa-kat button').forEach(x => x.classList.toggle('on', x === b)); });
@@ -296,7 +364,7 @@
       R(); const m2 = $('#nk-msg'); if (m2) m2.textContent = 'Přidáno: ' + z.kat + ' ' + kc(castka) + '.'; };
     $$('[data-nkdel]').forEach(b => b.onclick = () => { const zz = mojeNaklady(D); zz.splice(+b.dataset.nkdel, 1); lsSet('bh_naklady_' + D.klic, zz); R(); });
     // blokace
-    $('#pa-blok').onsubmit = async e => { e.preventDefault(); const msg = $('#pb-msg'); const od = $('#pb-od').value, doo = $('#pb-do').value; if (!od || !doo || doo <= od) { msg.innerHTML = '<div class="msg bad">Zadejte termín Od a Do.</div>'; return; } const ok = window.BH && window.BH.sb ? await window.BH.sb('web_blokace', { klient: D.klic, byt_key: $('#pb-byt').value, od, do_: doo, pozn: $('#pb-pozn').value, jmeno: D.jmeno }) : false; msg.innerHTML = `<div class="msg ${ok ? 'ok' : 'bad'}">${ok ? 'Žádost odeslána, potvrdíme do 24 hodin.' : 'Odeslání se nepodařilo, zavolejte nám prosím.'}</div>`; if (ok) { const l = lokalniBlokace(D); l.push({ byt: $('#pb-byt').value, od, do: doo, pozn: $('#pb-pozn').value, t: Date.now() }); lsSet('bh_blok_' + D.klic, l.slice(-20)); ST.rm = od.slice(0, 7); ST.rstav = 'all'; e.target.reset(); render(D); $('#pa-rez').scrollIntoView({ behavior: 'smooth', block: 'start' }); } };
+    blokRender(D);
   }
   window.BH_PORTAL = { extractData, render };
 })();
