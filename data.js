@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-15 14:25",
+    "generated":  "2026-10-15 16:15",
     "summary":  {
                     "total":  11,
                     "local":  11,
@@ -576,20 +576,20 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-10-15T12:03:03.1193711+00:00",
+                  "generatedAt":  "2026-10-15T14:00:03.5913713+00:00",
                   "session5h":  {
-                                    "total":  38385,
-                                    "input":  10,
-                                    "output":  619,
-                                    "cache_c":  15899,
-                                    "cache_r":  21857,
-                                    "count":  1,
-                                    "pct":  0
+                                    "total":  11338331,
+                                    "input":  52,
+                                    "output":  43567,
+                                    "cache_c":  432784,
+                                    "cache_r":  10861928,
+                                    "count":  26,
+                                    "pct":  8.2
                                 },
                   "weekly7d":  {
-                                   "total":  139888427,
-                                   "count":  429,
-                                   "pct":  11.2
+                                   "total":  151108956,
+                                   "count":  452,
+                                   "pct":  12.1
                                },
                   "sonnet5h":  {
                                    "total":  0,
@@ -600,26 +600,26 @@
                                    "total":  930228,
                                    "count":  15
                                },
-                  "burnRatePerH":  7677,
-                  "burnRatePerDay":  184248,
+                  "burnRatePerH":  2267666,
+                  "burnRatePerDay":  54423984,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137435662,
+                                                   "remaining":  126135716,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~8% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  1106685661,
-                                                  "hoursToLimit":  144156,
-                                                  "etaIso":  "2043-03-27 02:14",
-                                                  "etaText":  "za 144,156 h (\u003e2 dny)",
+                                                  "remaining":  1095465132,
+                                                  "hoursToLimit":  483.1,
+                                                  "etaIso":  "2026-11-04 19:06",
+                                                  "etaText":  "za 483 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  120.8,
+                                      "ageDays":  120.9,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -628,7 +628,7 @@
                   "alerts":  [
                                  "DRAHY PROVOZ: 97% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 97% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 120.8 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 120.9 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -639,19 +639,19 @@
                              },
                   "modelBreakdown":  [
                                          {
-                                             "model":  "claude-haiku-4-5-20251001",
-                                             "total":  38385,
-                                             "output":  619,
-                                             "count":  1
+                                             "model":  "claude-opus-4-8",
+                                             "total":  11338331,
+                                             "output":  43567,
+                                             "count":  26
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  97,
-                                  "longSessionTok":  135509437,
+                                  "longSessionTok":  146847768,
                                   "sessionsLong":  1,
-                                  "sessionsTotal":  179,
+                                  "sessionsTotal":  176,
                                   "highCtxPct":  97,
-                                  "highCtxTok":  135509437,
+                                  "highCtxTok":  146847768,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
