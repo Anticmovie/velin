@@ -329,7 +329,11 @@ p.vs{color:var(--dim);font-size:12.5px;margin:0 0 16px}
 #view-dnes .prow .em{flex:none;font-size:12px}
 #view-dnes .prow .byt{font-weight:700;white-space:nowrap;color:#1b1a33}
 #view-dnes .prow .lead{flex:1;min-width:8px;border-bottom:1px dotted rgba(96,78,225,.35);transform:translateY(2px)}
-#view-dnes .prow .cas{flex:none;font-weight:800;font-variant-numeric:tabular-nums;color:#4d3ccc;font-size:12.5px}
+#view-dnes .prow .cas{flex:none;width:104px;text-align:right;white-space:nowrap;font-weight:800;font-variant-numeric:tabular-nums;color:#4d3ccc;font-size:12px;letter-spacing:-.2px}
+#view-dnes .prow .hs{flex:none;width:34px;text-align:right;font-size:11.5px;color:#6e6b90;font-variant-numeric:tabular-nums}
+#view-dnes .prow .ic{flex:none;min-width:22px;font-size:12px;text-align:left}
+#view-dnes .prow .nm{flex:none;width:86px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#6e6b90;font-size:11.5px;text-align:right}
+.warncard{margin:0 0 12px;padding:11px 14px;border-radius:14px;background:#fff6e0;border:1px solid #f1c46b;color:#6b4a00;font-size:12.5px;line-height:1.45}.warncard b{display:block;font-size:13.5px;margin-bottom:2px}
 #view-dnes .prow .cas.ne{color:#a3a0c0;font-weight:500}
 #view-dnes .prow .g{flex:none;max-width:44%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#6e6b90;font-size:11.5px}
 #view-dnes .dnic{color:#a3a0c0}
@@ -357,6 +361,7 @@ p.vs{color:var(--dim);font-size:12.5px;margin:0 0 16px}
     <div class="view" id="view-dnes"><div class="cw">
       <h2 class="vh" id="dnesh">Dnes</h2><p class="vs" id="dnesd">—</p>
       <div class="pushcard hide" id="kodcard"><span style="font-size:26px">📲</span><div style="flex:1"><b id="kodtxt">Booking čeká na SMS kód</b><span>zadej kód z SMS — přihlášení na PC se dokončí samo</span><div style="display:flex;gap:8px;margin-top:8px"><input id="kodin" inputmode="numeric" placeholder="123456" style="flex:1;min-width:0;border-radius:10px;border:1px solid #6a5fd0;background:#0a0a12;color:#fff;padding:8px 10px;font-size:16px"><button onclick="poslatKod()" style="border-radius:10px;border:none;background:#8b7cff;color:#fff;font-weight:700;padding:8px 14px">Odeslat</button></div></div></div>
+      <div id="warncard"></div>
       <div id="odhcard"></div>
       <div class="pushcard" id="pushcard" onclick="zapniPush()"><span style="font-size:26px">🔔</span><div><b>Zapnout upozornění na iPhone</b><span>nové zprávy hostů, eskalace od AI, blokace majitelů</span></div></div>
       <div class="ctacard hide" id="ctamsg" onclick="setTab('zpravy')"><span class="n" id="ctan">0</span><span class="tx"><b>zpráv čeká na odpověď</b><span>klepni a odpovídej — hostovi dorazí do půl minuty</span></span><span class="ar">→</span></div>
@@ -622,14 +627,24 @@ renderDnes=function(){
     html+=`<div class="day${i===0?' today':''}">
       <div class="dhead"><span class="dn">📅 ${DNY_CELE[dd.getDay()]} ${dd.getDate()}. ${dd.getMonth()+1}.</span><span class="tagd">${LBL[i]||''}</span></div>
       <div class="dsec">🧹 Úklidy · ${Dp.length}</div>
-      ${Dp.length?Dp.map(c=>`<div class="prow" onclick="otevriProvoz('${esc(c.byt)}','${di}','out')"><span class="em">✅</span><span class="byt">${esc(c.byt)}</span><span class="lead"></span><span class="g">${jm(c.guest)}</span></div>`).join(''):'<div class="dnic">žádné</div>'}
+      ${Dp.length?Dp.map(c=>`<div class="prow" onclick="otevriProvoz('${esc(c.byt)}','${di}','out')"><span class="em">✅</span><span class="byt">${esc(c.byt)}</span><span class="lead"></span>${c.late?`<span class="cas" title="pozdní check-out (za poplatek)">🌙 ${esc(c.late)}</span>`:''}<span class="nm">${jm(c.guest)}</span></div>`).join(''):'<div class="dnic">žádné</div>'}
       <div class="dsec">🔑 Příjezdy · ${A.length}</div>
-      ${A.length?A.map(c=>`<div class="prow" onclick="otevriProvoz('${esc(c.byt)}','${di}','in')"><span class="em">${PL[c.plat]||'🔑'}</span><span class="byt">${esc(c.byt)}</span><span class="lead"></span>${c.cas?`<span class="cas">⏰ ${esc(c.cas)}</span>`:`<span class="cas ne">${c.chat?'?':'—'}</span>`}<span class="g">${c.hostu?'👥'+c.hostu+' ':''}${c.zvire?(c.zvire==='pes'?'🐕 ':c.zvire==='kocka'?'🐈 ':'🐾 '):''}${c.postylka?'🛏️ ':''}${c.parkovani?'🅿️ ':''}${jm(c.guest)}</span></div>`).join(''):'<div class="dnic">žádné</div>'}
+      ${A.length?A.map(c=>`<div class="prow" onclick="otevriProvoz('${esc(c.byt)}','${di}','in')"><span class="em">${PL[c.plat]||'🔑'}</span><span class="byt">${esc(c.byt)}</span><span class="lead"></span>${c.cas?`<span class="cas">⏰ ${esc(c.cas)}</span>`:`<span class="cas ne">${c.chat?'?':'—'}</span>`}<span class="hs">${c.hostu?'👥'+c.hostu:''}</span><span class="ic">${c.zvire?(c.zvire==='pes'?'🐕':c.zvire==='kocka'?'🐈':'🐾'):''}${c.postylka?'🛏️':''}${c.parkovani?'🅿️':''}${c.early?'🌅':''}${c.faktura?'🧾':''}</span><span class="nm">${jm(c.guest)}</span></div>`).join(''):'<div class="dnic">žádné</div>'}
       <div class="dfoot">${A.length?('čas znám u <b>'+zn+'/'+A.length+'</b>'):''}</div>
     </div>`;
   }
   el('days').innerHTML=html;
+  varovani();
 };
+/* varovani: data VELINu nejsou cerstva -> male okno 'VELIN to resi' (hlidac dat + booking_login + stari reportu) */
+async function varovani(){ try{
+  const box=el('warncard'); if(!box)return; const msg=[];
+  const upd=PROVOZ&&PROVOZ._updated?new Date(PROVOZ._updated):null; if(upd&&Date.now()-upd>50*60e3) msg.push('Rozpis úklidů a příjezdů je '+Math.round((Date.now()-upd)/60e3)+' min starý.');
+  const {data:hl}=await sb.from('report_provoz').select('payload,updated_at').eq('id','health'); const h=hl&&hl[0]&&hl[0].payload;
+  if(h&&Array.isArray(h.zdroje)) h.zdroje.filter(z=>z.stav&&z.stav!=='ok').forEach(z=>msg.push(z.label+': data '+z.stari+' stará ('+z.vliv+').'));
+  const {data:bl}=await sb.from('booking_login').select('id,stav,zprava'); (bl||[]).filter(r=>r.stav!=='ok').forEach(r=>msg.push('Booking '+r.id+': '+(r.zprava||r.stav)+'.'));
+  box.innerHTML=msg.length?`<div class="warncard"><b>⚠️ Data nejsou úplně aktuální – VELÍN to řeší</b>${msg.map(esc).join('<br>')}</div>`:'';
+}catch(e){} }
 
 /* ---------- BYTY ---------- */
 function renderByty(){

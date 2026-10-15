@@ -122,7 +122,11 @@
   .prow .byt{font-weight:700;white-space:nowrap}
   .prow .lead{flex:1;min-width:8px;border-bottom:1px dotted rgba(96,78,225,.35);transform:translateY(2px)}
   .prow .hostu{flex:none;font-weight:700;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px}
-  .prow .cas{flex:none;font-weight:800;font-variant-numeric:tabular-nums;color:var(--vi2);font-size:12.5px}
+  .prow .cas{flex:none;width:108px;text-align:right;white-space:nowrap;letter-spacing:-.2px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--vi2);font-size:12.5px}
+  .prow .hs{flex:none;width:36px;text-align:right;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .prow .ic{flex:none;min-width:24px;font-size:12px}
+  .prow .nm{flex:none;width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:11.5px;text-align:right}
+  .warncard{margin:0 0 12px;padding:11px 14px;border-radius:14px;background:#fff6e0;border:1px solid #f1c46b;color:#6b4a00;font-size:12.5px;line-height:1.45}.warncard b{display:block;font-size:13.5px;margin-bottom:2px}
   .prow .cas.ne{color:var(--dim);font-weight:500}
   .prow .g{flex:none;max-width:44%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:11.5px}
   .dnic{padding:2px 14px 6px;color:var(--dim);font-size:12px}
@@ -286,6 +290,7 @@
     </div>
 
     <h2 id="provoz">Provoz — 4 dny <small id="provoz-cas"></small></h2>
+    <div id="velin-warn"></div>
     <div id="boards"><div class="empty">Načítám provozní report…</div></div>
 
     <h2 id="dashboard">Dashboard — aplikace</h2>
@@ -377,15 +382,26 @@
       html+='<div class="day'+(i===0?' today':'')+'">'+
         '<div class="dhead"><span class="dn">📅 '+DNY[dd.getDay()].charAt(0).toUpperCase()+DNY[dd.getDay()].slice(1)+' '+dd.getDate()+'. '+(dd.getMonth()+1)+'.</span><span class="tagd">'+(LBL[i]||'')+'</span></div>'+
         '<div class="dsec">🧹 Úklidy · '+uklidy.length+'</div>'+
-        (uklidy.length?uklidy.map(function(x){return '<div class="prow"><span class="em">✅</span><span class="byt">'+esc(x.byt)+'</span><span class="lead"></span><span class="g">'+esc((x.guest||'').split(' ')[0])+'</span></div>';}).join(''):'<div class="dnic">žádné</div>')+
+        (uklidy.length?uklidy.map(function(x){return '<div class="prow"><span class="em">✅</span><span class="byt">'+esc(x.byt)+'</span><span class="lead"></span>'+(x.late?'<span class="cas" title="pozdní check-out">🌙 '+esc(x.late)+'</span>':'')+'<span class="nm">'+esc((x.guest||'').split(' ')[0])+'</span></div>';}).join(''):'<div class="dnic">žádné</div>')+
         '<div class="dsec">🔑 Příjezdy · '+arr.length+'</div>'+
         (arr.length?arr.map(function(x){var c=x.cas&&x.cas!=='?'?x.cas:null;
           /* kolik lidi prijede je v rezervaci (Booking guests / Airbnb guests_total) — plni report_sync.py */
-          var n=x.hostu?'<span class="hostu" title="pocet hostu">👥 '+x.hostu+'</span>':'';
-          return '<div class="prow"><span class="em">🔑</span><span class="byt">'+esc(x.byt)+'</span><span class="lead"></span>'+n+(c?'<span class="cas">⏰ '+esc(c)+'</span>':'<span class="cas ne">—</span>')+'<span class="g">'+esc((x.guest||'').split(' ')[0])+'</span></div>';}).join(''):'<div class="dnic">žádné</div>')+
+          var n='<span class="hs">'+(x.hostu?'👥'+x.hostu:'')+'</span>';
+          var ic='<span class="ic">'+(x.zvire?(x.zvire==='pes'?'🐕':x.zvire==='kocka'?'🐈':'🐾'):'')+(x.postylka?'🛏️':'')+(x.parkovani?'🅿️':'')+(x.early?'🌅':'')+(x.faktura?'🧾':'')+'</span>';
+          return '<div class="prow"><span class="em">'+(x.plat==='A'?'🔴':x.plat==='B'?'🔵':'🔑')+'</span><span class="byt">'+esc(x.byt)+'</span><span class="lead"></span>'+(c?'<span class="cas">⏰ '+esc(c)+'</span>':'<span class="cas ne">'+(x.chat?'?':'—')+'</span>')+n+ic+'<span class="nm">'+esc((x.guest||'').split(' ')[0])+'</span></div>';}).join(''):'<div class="dnic">žádné</div>')+
         '<div class="dpad"></div></div>';
     }
     return '<div class="days">'+html+'</div>';
+  }
+  /* varovani: kdyz data nejsou cerstva, male okno 'VELIN to resi' (hlidac dat, prihlaseni Booking, stari reportu) */
+  function nactiVarovani(updAt){
+    Promise.all([fetch(SB+'/report_provoz?id=eq.health&select=payload',{headers:SBH}).then(function(r){return r.json();}).catch(function(){return [];}),
+                 fetch(SB+'/booking_login?select=id,stav,zprava',{headers:SBH}).then(function(r){return r.json();}).catch(function(){return [];})]).then(function(a){
+      var msg=[]; if(updAt&&Date.now()-new Date(updAt)>50*60e3)msg.push('Rozpis je '+Math.round((Date.now()-new Date(updAt))/60e3)+' min starý.');
+      var h=a[0]&&a[0][0]&&a[0][0].payload; if(h&&h.zdroje)h.zdroje.forEach(function(z){if(z.stav&&z.stav!=='ok')msg.push(z.label+': data '+z.stari+' stará ('+z.vliv+').');});
+      (a[1]||[]).forEach(function(r){if(r.stav!=='ok')msg.push('Booking '+r.id+': '+(r.zprava||r.stav)+'.');});
+      document.getElementById('velin-warn').innerHTML=msg.length?'<div class="warncard"><b>⚠️ Data nejsou úplně aktuální – VELÍN to řeší</b>'+msg.map(esc).join('<br>')+'</div>':'';
+    });
   }
   var lastProvozHash='';
   function nactiProvoz(){
@@ -398,7 +414,7 @@
         lastProvozHash=rows[0].hash;
         document.getElementById('boards').innerHTML=fmtProvoz(p);
       }
-      var gen=(p.generated||'').replace('T',' ').slice(5,16);
+      var gen=(p.generated||'').replace('T',' ').slice(5,16); nactiVarovani(rows[0].updated_at);
       document.getElementById('provoz-cas').textContent='aktualizováno '+gen+' · obnovuje se samo';
       /* dlazdice prijezdy/odjezdy DNES ze STEJNEHO zdroje (uz zadna neaktualni cisla) */
       var d0=(p.days||[])[0]||{prijezdy:[],odjezdy:[]};
