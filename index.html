@@ -560,15 +560,9 @@
       function mini(lb,p){var c=col(p!=null?p:-1);return '<div class="row"><span>'+lb+'</span><b>'+(p>=0?p.toFixed(0)+'%':'?')+'</b></div><div class="tr"><i style="width:'+(p>=0?Math.min(100,p):0)+'%;background:'+c[0]+'"></i></div>';}
       su.innerHTML=mini('Session',s.pct!=null?s.pct:-1)+mini('Weekly',w7.pct!=null?w7.pct:-1);
     }
-    var alerts=u.alerts||[],urg=u.urgency||'ok',A=document.getElementById('alerts');
-    if(alerts.length){
-      A.innerHTML='<div class="alert '+(urg==='critical'?'crit':'warn')+'"><div>'+(urg==='critical'?'🔴':'🟡')+'</div><div><b>'+(urg==='critical'?'Kritická spotřeba Claude':'Sleduj spotřebu Claude')+'</b>'+alerts.map(esc).join('<br>')+'</div></div>';
-    }
-    if(urg==='critical'){
-      var sc=document.getElementById('scrit');
-      sc.textContent='🔴 Kritická spotřeba Claude — '+(alerts[0]||'blížíš se limitu');
-      sc.classList.add('show');
-    }
+    // 16.10.2026: box "Sleduj spotřebu Claude" na mobilní nástěnce ZRUŠEN (rušil uživatele,
+    // navíc většinou jen hláška o staré kalibraci, ne reálný limit). Metry spotřeby zůstávají
+    // v detailu usage-wrap; žádný alert box ani kritický banner se na zeď nerenderuje.
   })();
 
   /* ===== ukoly (n8n) ===== */

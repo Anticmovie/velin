@@ -742,8 +742,10 @@ function renderList(){
   const faze=c=>{ if(!c.prijezd) return 3; if(c.prijezd<=t&&(c.odjezd||'9999')>t) return 1; if(c.prijezd>t) return 2; return 3; };
   const wait=list.filter(needsAction).sort(byTime);
   const rest=list.filter(c=>!needsAction(c));
-  const vByte=rest.filter(c=>faze(c)===1).sort((a,b)=>(a.odjezd||'').localeCompare(b.odjezd||''));
-  const bud=rest.filter(c=>faze(c)===2).sort((a,b)=>a.prijezd.localeCompare(b.prijezd));
+  /* 16.10.2026: i v bytě / budoucí řadit NEJNOVĚJŠÍ ZPRÁVA NAHOŘE (byTime), ne podle data pobytu —
+     uživatel chce logický inbox: nejnovější nahoře, ať je vyřizuje odshora dolů */
+  const vByte=rest.filter(c=>faze(c)===1).sort(byTime);
+  const bud=rest.filter(c=>faze(c)===2).sort(byTime);
   const min=rest.filter(c=>faze(c)===3).sort((a,b)=>(b.odjezd||b.last_at||'').localeCompare(a.odjezd||a.last_at||''));
   let html='';
   if(wait.length) html+=`<div class="sect wait">Čeká na odpověď <span class="cnt2">${wait.length}</span></div>`+wait.map(convRow).join('');
