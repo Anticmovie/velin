@@ -437,16 +437,21 @@ const PIN='78523';
 const VAPID_PUB='BFnINO3TLMFv76q-TPMkMQVkDvEkGvHSUdjtmM53rmy4tJwmCY_BZGoC8QBdWx5VKr29ro9HYJl3CPLQANJEtgs';
 function b64u(s){const pad='='.repeat((4-s.length%4)%4);const raw=atob((s+pad).replace(/-/g,'+').replace(/_/g,'/'));const a=new Uint8Array(raw.length);for(let i=0;i<raw.length;i++)a[i]=raw.charCodeAt(i);return a;}
 /* 2FA Booking: kdyz PC ceka na SMS kod (booking_login.stav='ceka_kod'), ukaz kartu; kod se zapise do DB a booking_account.js ho vyzvedne */
-let KOD_UCET=null;
-async function nactiLogin(){ try{ const {data}=await sb.from('booking_login').select('*').in('stav',['ceka_kod','overuji','odhlaseno','pozadavek','captcha']);
+let KOD_UCET=null, _logDirty=false;
+/* NEPREKRESLUJ login kartu, kdyz v ni uzivatel prave pise kod/captchu (jinak zmizi pole + iOS shodi
+   klavesnici). Realtime/poll vola scheduleLogin -> pri fokusu v poli se render ODLOZI a dozene se po opusteni. */
+function _piseLogin(){ var a=document.activeElement; return !!(a&&a.dataset&&(a.dataset.kod!==undefined||a.dataset.cap!==undefined)); }
+function scheduleLogin(){ if(_piseLogin()){ _logDirty=true; return; } nactiLogin(); }
+document.addEventListener('focusout',function(e){ var t=e.target; if(t&&t.dataset&&(t.dataset.kod!==undefined||t.dataset.cap!==undefined)&&_logDirty){ _logDirty=false; setTimeout(scheduleLogin,400); } });
+async function nactiLogin(){ if(_piseLogin()){ _logDirty=true; return; } try{ const {data}=await sb.from('booking_login').select('*').in('stav',['ceka_kod','overuji','odhlaseno','pozadavek','captcha','chyba']);
   const c=document.getElementById('kodcard'); if(c)c.classList.add('hide');   /* stara samostatna karta: kod se ted zadava primo v karte uctu */
   const box=document.getElementById('odhcard'); if(!box)return;
   /* rozepsany kod nesmi zmizet, kdyz PC mezitim zmeni stav (realtime prekresli kartu) */
   const drz={},drzC={}; box.querySelectorAll('input[data-kod]').forEach(i=>{ if(i.value) drz[i.dataset.kod]=i.value; }); box.querySelectorAll('input[data-cap]').forEach(i=>{ if(i.value) drzC[i.dataset.cap]=i.value; }); const ae=document.activeElement&&document.activeElement.dataset?document.activeElement.dataset:{}; const fokus=ae.kod||null, fokusC=ae.cap||null;
-  box.innerHTML=(data||[]).map(r=>{ const id=esc(r.id), beh=r.stav!=='odhlaseno';
+  box.innerHTML=(data||[]).map(r=>{ const id=esc(r.id), beh=r.stav!=='odhlaseno'&&r.stav!=='chyba';
     if(r.stav==='captcha'){ return `<div class="pushcard" style="cursor:default;align-items:stretch;flex-direction:column"><div style="display:flex;gap:8px;align-items:center"><span style="font-size:24px">🧩</span><b style="flex:1">Booking ${id} — ověření (CAPTCHA)</b></div><span>${esc(r.captcha_prompt||'napiš čísla čtverečků (např 3467), pak Odeslat')}</span>${r.captcha_img?`<img src="data:image/png;base64,${r.captcha_img}" style="width:100%;border-radius:10px;margin:8px 0">`:'<span style="opacity:.6">(načítám obrázek…)</span>'}<div style="display:flex;gap:8px"><input data-cap="${id}" inputmode="numeric" placeholder="např 3467 / ok" style="flex:1;min-width:0;border-radius:10px;border:1px solid #6a5fd0;background:#0a0a12;color:#fff;padding:9px 10px;font-size:17px;letter-spacing:2px"><button onclick="poslatCaptcha('${id}')" style="border-radius:10px;border:none;background:#8b7cff;color:#fff;font-weight:700;padding:8px 14px">Odeslat</button></div></div>`; }
-    const txt=r.stav==='ceka_kod'?'Booking poslal SMS — zadej kód':r.stav==='overuji'?(r.kod?'Kód odeslán, ověřuji…':'Přihlašuji, SMS dorazí za chvíli'):r.stav==='pozadavek'?'Čekám na PC, SMS dorazí za chvíli':'zprávy z tohoto účtu se teď nestahují';
-    return `<div class="pushcard" style="cursor:default;align-items:flex-start"><span style="font-size:24px">${beh?'📲':'🔒'}</span><div style="flex:1;min-width:0"><b>Booking ${id}${beh?'':': '+esc(r.zprava||'odhlášeno')}</b><span>${txt}</span>
+    const txt=r.stav==='ceka_kod'?'Booking poslal SMS — zadej kód':r.stav==='overuji'?(r.kod?'Kód odeslán, ověřuji…':'Přihlašuji, SMS dorazí za chvíli'):r.stav==='pozadavek'?'Čekám na PC, SMS dorazí za chvíli':r.stav==='chyba'?('⏱️ '+esc(r.zprava||'SMS vypršela')+' — klikni Přihlásit a zadej nový kód HNED'):'zprávy z tohoto účtu se teď nestahují';
+    return `<div class="pushcard" style="cursor:default;align-items:flex-start"><span style="font-size:24px">${beh?'📲':(r.stav==='chyba'?'⏱️':'🔒')}</span><div style="flex:1;min-width:0"><b>Booking ${id}${r.stav==='odhlaseno'?': '+esc(r.zprava||'odhlášeno'):''}</b><span>${txt}</span>
       ${beh?`<div style="display:flex;gap:8px;margin-top:8px"><input data-kod="${id}" inputmode="numeric" autocomplete="one-time-code" maxlength="8" placeholder="kód z SMS" style="flex:1;min-width:0;border-radius:10px;border:1px solid #6a5fd0;background:#0a0a12;color:#fff;padding:9px 10px;font-size:17px;letter-spacing:3px"><button onclick="poslatKodId('${id}')" style="border-radius:10px;border:none;background:#8b7cff;color:#fff;font-weight:700;padding:8px 14px">Odeslat</button></div>`:''}</div>
       ${beh?'':`<button onclick="prihlasitBk('${id}')" style="border-radius:10px;border:none;background:#8b7cff;color:#fff;font-weight:700;padding:8px 12px">Přihlásit</button>`}</div>`; }).join('');
   box.querySelectorAll('input[data-kod]').forEach(i=>{ if(drz[i.dataset.kod]) i.value=drz[i.dataset.kod]; if(fokus===i.dataset.kod) i.focus(); i.onkeydown=e=>{ if(e.key==='Enter') poslatKodId(i.dataset.kod); }; });
@@ -559,7 +564,7 @@ function vyresitAkt(){ if(!curId)return; const c=CONVS.find(x=>x.id===curId)||{}
 /* ---------- boot + data ---------- */
 async function boot(){
   sb=supabase.createClient(SB_URL,SB_KEY);
-  nactiLogin(); try{ sb.channel('bl').on('postgres_changes',{event:'*',schema:'public',table:'booking_login'},nactiLogin).subscribe(); }catch(e){}
+  nactiLogin(); try{ sb.channel('bl').on('postgres_changes',{event:'*',schema:'public',table:'booking_login'},scheduleLogin).subscribe(); }catch(e){} setInterval(scheduleLogin,15000);
   await loadConvs();
   sb.channel('rt').on('postgres_changes',{event:'*',schema:'public',table:'zpravy'},()=>{ if(curId)openConv(curId,true); loadConvs(); })
     .on('postgres_changes',{event:'*',schema:'public',table:'konverzace'},()=>loadConvs())
