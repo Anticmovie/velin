@@ -312,6 +312,7 @@
     <div id="appr"></div>
 
     <h2>Agenti a systém <small id="provoz-sub"></small></h2>
+    <div id="tech-card" style="margin:0 0 14px"></div>
     <div class="bizgrid" id="biz"></div>
 
     <div id="usage-wrap" style="display:none">
@@ -436,6 +437,29 @@
     }).catch(function(){document.getElementById('provoz-cas').textContent='report nedostupný';});
   }
 
+  /* ===== TECH agent — zivy stav dohledu (report_provoz id=tech, pise tech_agent.ps1 a 10 min) ===== */
+  function nactiTech(){
+    fetch(SB+'/report_provoz?id=eq.tech&select=payload,updated_at',{headers:SBH})
+    .then(function(r){return r.json();}).then(function(a){
+      var el=document.getElementById('tech-card'); if(!el)return;
+      var p=(a[0]||{}).payload; if(!p){el.innerHTML='';return;}
+      var col={ok:'#16a34a',warn:'#d97706',crit:'#dc2626'}[p.verdikt]||'#64748b';
+      var nazev={ok:'vše běží',warn:'drobnosti',crit:'problém'}[p.verdikt]||p.verdikt;
+      var ago=a[0].updated_at?Math.round((Date.now()-new Date(a[0].updated_at))/6e4):null;
+      var stary=(ago!=null&&ago>25);
+      var bad=(p.checks||[]).filter(function(c){return c.stav!=='ok';});
+      var h='<div style="border:1px solid #e2e8f0;border-left:4px solid '+(stary?'#64748b':col)+';border-radius:12px;padding:12px 14px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)">';
+      h+='<div style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:50%;background:'+(stary?'#64748b':col)+'"></span><b>🛠️ TECH agent — '+(stary?'bez tepu':esc(nazev))+'</b><span style="margin-left:auto;color:#94a3b8;font-size:12px">'+(ago!=null?'před '+ago+' min':'')+'</span></div>';
+      h+='<div style="color:#64748b;font-size:12px;margin-top:3px">'+esc(p.shrnuti||'')+'</div>';
+      if((p.pro_cloveka||[]).length){h+='<div style="margin-top:8px">'+p.pro_cloveka.map(function(x){return '<div style="color:#dc2626;font-size:12.5px;font-weight:600">❗ '+esc(x)+'</div>';}).join('')+'</div>';}
+      if((p.opraveno||[]).length){h+='<div style="margin-top:6px;color:#16a34a;font-size:12px">✅ opraveno: '+p.opraveno.map(function(x){return esc(x);}).join('; ')+'</div>';}
+      if(bad.length){h+='<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">'+bad.map(function(c){var cc=c.stav==='crit'?'#dc2626':'#d97706';return '<span title="'+esc(c.detail||'')+'" style="font-size:11.5px;border:1px solid '+cc+'44;color:'+cc+';background:'+cc+'0d;border-radius:8px;padding:3px 8px">'+esc(c.name)+'</span>';}).join('')+'</div>';}
+      else if(!stary){h+='<div style="margin-top:6px;color:#16a34a;font-size:12px">✓ všechny kontroly OK</div>';}
+      h+='</div>';
+      el.innerHTML=h;
+    }).catch(function(){});
+  }
+
   /* ===== dlazdice: zpravy + hoste (konverzace), prijezdy/odjezdy plni nactiProvoz ===== */
   function nactiTiles(){
     fetch(SB+'/konverzace?select=guest,byt_nazev,byt_key,prijezd,odjezd,unread,posledni_smer,vyreseno,last_at',{headers:SBH})
@@ -458,6 +482,7 @@
   }
   nactiTiles();
   setInterval(nactiProvoz,120e3);                                     /* obnov kazde 2 min */
+  nactiTech();setInterval(nactiTech,120e3);                           /* TECH agent stav kazde 2 min */
   setInterval(nactiTiles,600e3);                                      /* zpravy kazde 10 min */
   document.addEventListener('visibilitychange',function(){if(!document.hidden){nactiTiles();}});
 
