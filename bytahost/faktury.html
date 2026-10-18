@@ -5,59 +5,73 @@
 <title>Faktury pro hosty · BYTAHOST</title>
 <meta name="theme-color" content="#0a0a12">
 <style>
-/* Faktury pro hosty (18.10.2026) — rucni vystaveni; cislo prideli databaze (vystavit_fakturu), vystavenou fakturu nelze zmenit.
-   Pozdeji ji bude volat Chat agent (stejna funkce, zdroj='agent'). */
+/* Faktury pro hosty v2 (18.10.2026): oficialni nazvy apartmanu (byty-nazvy.json), uprava vystavene faktury (cislo zustava, historie),
+   odeslani e-mailem z bytahost.cz@gmail.com (fronta faktury_odeslani -> MINIPC spojka vyrobi PDF a odesle), cistsi vzhled.
+   ?tisk=<id> = jen faktura (pro PDF na MINIPC). Pozdeji ji bude volat Chat agent (stejne funkce, zdroj='agent'). */
 :root{--bg:#f4f3fb;--panel:#fff;--ink:#1b1a33;--ink2:#4a4868;--mut:#6e6b90;--line:#e3e1f2;--vi:#604ee1;--vi2:#4d3ccc;--vibg:#efecff;--ok:#1f7a4d;--okbg:#e6f4ec;--bad:#c0453f;--top:#0a0a12}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Inter,sans-serif}
 .top{position:sticky;top:0;z-index:5;background:var(--top);color:#fff;display:flex;align-items:center;gap:12px;padding:12px 16px}
-.top a{color:#c9c2ff;text-decoration:none;font-weight:700;font-size:14px}.top h1{font-size:17px;margin:0;font-weight:800;letter-spacing:.01em}.top h1 em{font-style:normal;color:#a99cff}
-.wrap{max-width:1240px;margin:0 auto;padding:18px 16px 60px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:18px;align-items:start}
+.top a{color:#c9c2ff;text-decoration:none;font-weight:700;font-size:14px}.top h1{font-size:17px;margin:0;font-weight:800}.top h1 em{font-style:normal;color:#a99cff}
+.wrap{max-width:1260px;margin:0 auto;padding:18px 16px 60px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:18px;align-items:start}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:14px}
 .card h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--vi2);margin:0 0 12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid .w{grid-column:1/-1}
 label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:var(--mut);min-width:0}
 input,select,textarea{font:inherit;font-size:14px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:9px 10px;width:100%;min-width:0}
-input:focus,select:focus{outline:none;border-color:var(--vi)}
+textarea{resize:vertical;line-height:1.5}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--vi)}
 .chk{flex-direction:row;align-items:center;gap:8px;font-size:13.5px;color:var(--ink2)}.chk input{width:18px;height:18px;accent-color:var(--vi)}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .btn{font:inherit;font-weight:800;font-size:14px;border-radius:12px;border:0;padding:10px 16px;cursor:pointer;background:var(--vi);color:#fff}
-.btn.gh{background:var(--vibg);color:var(--vi2)}.btn.big{width:100%;padding:13px;font-size:15.5px}.btn:disabled{opacity:.5;cursor:default}
+.btn.gh{background:var(--vibg);color:var(--vi2)}.btn.big{width:100%;padding:13px;font-size:15.5px}.btn:disabled{opacity:.5;cursor:default}.btn.sm{padding:6px 12px;font-size:12.5px}
 .btn:focus-visible,input:focus-visible{outline:2px solid var(--vi);outline-offset:2px}
 .msg{font-size:13px;margin-top:8px}.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
 .hint{font-size:12.5px;color:var(--mut);margin:6px 0 0}
 .seg{display:inline-flex;background:var(--vibg);border-radius:999px;padding:3px;gap:2px}.seg button{border:0;background:transparent;font:inherit;font-size:12.5px;font-weight:700;color:var(--vi2);padding:5px 11px;border-radius:999px;cursor:pointer}.seg button.on{background:var(--vi);color:#fff}
-.list{display:flex;flex-direction:column}.list button{all:unset;cursor:pointer;display:grid;grid-template-columns:110px 1fr auto;gap:8px;align-items:center;padding:9px 4px;border-top:1px solid var(--line);font-size:13.5px}
-.list button:hover{background:var(--vibg)}.list .c{font-weight:800;font-variant-numeric:tabular-nums}.list .s{color:var(--mut);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.list .a{font-weight:700;font-variant-numeric:tabular-nums}
+.list{display:flex;flex-direction:column}.list button{all:unset;cursor:pointer;display:grid;grid-template-columns:86px 1fr auto;gap:8px;align-items:center;padding:9px 4px;border-top:1px solid var(--line);font-size:13.5px}
+.list button:hover{background:var(--vibg)}.list .c{font-weight:800;font-variant-numeric:tabular-nums}.list .s{color:var(--mut);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.list .a{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
 .side{position:sticky;top:64px}
-.prevhd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}.prevhd b{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--vi2)}
-.stamp{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:#fff3d6;color:#7a5600}.stamp.ok{background:var(--okbg);color:var(--ok)}
-/* ---------- faktura (papir A4) ---------- */
-#paper{background:#fff;color:#141414;border-radius:6px;box-shadow:0 18px 40px -22px rgba(27,26,51,.45);padding:34px 36px;font:12.5px/1.45 "Segoe UI",system-ui,sans-serif;aspect-ratio:210/297;overflow:hidden}
-#paper .hd{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2.5px solid #1b1a33;padding-bottom:12px;margin-bottom:16px;gap:12px}
-#paper h3{margin:0;font-size:21px;letter-spacing:.01em}#paper .sub{color:#666;font-size:11.5px}
-#paper .no{text-align:right}#paper .no b{font-size:15px;font-variant-numeric:tabular-nums}
-#paper .who{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:14px}
-#paper .lab{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#888;margin-bottom:3px}
-#paper .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;background:#f6f6f9;border-radius:8px;padding:9px 12px;margin-bottom:14px;font-size:11.5px}
-#paper .meta b{display:block;font-size:12.5px;color:#141414}
-#paper table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-#paper th{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:#888;text-align:left;border-bottom:1.5px solid #141414;padding:6px 4px}
-#paper td{padding:8px 4px;border-bottom:1px solid #e5e5ea;vertical-align:top}#paper td.r,#paper th.r{text-align:right}
-#paper .sum{margin-left:auto;width:58%;margin-top:10px}#paper .sum div{display:flex;justify-content:space-between;gap:12px;padding:3px 4px}#paper .sum span:last-child,#paper td.r{white-space:nowrap}
-#paper .sum .tot{border-top:2px solid #141414;margin-top:4px;padding-top:8px;font-size:16px;font-weight:800}
-#paper .paid{margin-top:18px;border:2px solid #1f7a4d;border-radius:10px;padding:11px 14px;color:#174d33;background:#f0f8f3}
-#paper .paid b{display:block;font-size:13px;margin-bottom:2px}#paper .paid p{margin:3px 0 0}
-#paper .ft{margin-top:16px;color:#777;font-size:10.5px}
-#paper .ph{color:#b3b3c2}
-@media(max-width:900px){.wrap{grid-template-columns:1fr}.side{position:static}#paper{aspect-ratio:auto;padding:22px 18px}#paper .who{grid-template-columns:1fr;gap:12px}#paper .meta{grid-template-columns:1fr 1fr}#paper .sum{width:100%}}
-@media(max-width:520px){.grid{grid-template-columns:1fr}}
+.prevhd{display:flex;align-items:center;gap:8px;margin:0 0 8px;flex-wrap:wrap}.prevhd b{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--vi2);margin-right:auto}
+.stamp{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:#fff3d6;color:#7a5600}.stamp.ok{background:var(--okbg);color:var(--ok)}.stamp.ed{background:var(--vibg);color:var(--vi2)}
+.dlg{position:fixed;inset:0;background:rgba(10,10,18,.55);display:grid;place-items:center;z-index:20;padding:16px}.dlg[hidden]{display:none}
+.dlg .box{background:#fff;border-radius:18px;max-width:560px;width:100%;padding:20px;max-height:92vh;overflow:auto}
+.dlg h3{margin:0 0 4px;font-size:18px}.dlg .grid{grid-template-columns:1fr}
+.sent{font-size:12.5px;margin-top:10px;display:flex;flex-direction:column;gap:4px}
+/* ---------- faktura (papir A4) — v3 ---------- */
+#paper{background:#fff;color:#17171f;border-radius:6px;box-shadow:0 18px 40px -22px rgba(27,26,51,.45);padding:44px 46px;font:12px/1.55 "Segoe UI",system-ui,sans-serif;aspect-ratio:210/297;overflow:hidden;display:flex;flex-direction:column}
+#paper .lab{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#8b8b9a}
+#paper .hd{display:grid;grid-template-columns:1fr auto;align-items:end;gap:20px;padding-bottom:18px;border-bottom:2px solid #17171f}
+#paper h3{margin:0;font-size:28px;line-height:1;letter-spacing:-.02em;font-weight:800}#paper .sub{color:#8b8b9a;font-size:11px;margin-top:6px}
+#paper .no{text-align:right}#paper .no .v{font-size:22px;line-height:1.1;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.01em;margin-top:3px}
+#paper .who{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:22px 0 20px}
+#paper .party .nm{font-size:14px;font-weight:800;margin:6px 0 1px;line-height:1.3}#paper .party .ad{color:#4a4a57;line-height:1.45}
+#paper dl{display:grid;grid-template-columns:max-content 1fr;gap:2px 14px;margin:10px 0 0;font-size:11.5px}#paper dt{color:#8b8b9a;white-space:nowrap}#paper dd{margin:0;color:#17171f;font-variant-numeric:tabular-nums;word-break:break-word}
+#paper dd.b{font-weight:700}
+#paper .info{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #e6e6ee;border-radius:10px;margin-bottom:22px;overflow:hidden}
+#paper .info>div{padding:10px 14px;border-left:1px solid #e6e6ee;min-width:0}#paper .info>div:first-child{border-left:0}
+#paper .info b{display:block;font-size:12.5px;margin-top:3px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#paper table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;table-layout:fixed}
+#paper th{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#8b8b9a;text-align:left;font-weight:800;padding:0 0 8px;border-bottom:1px solid #17171f}
+#paper td{padding:12px 0;border-bottom:1px solid #ececf2;vertical-align:top}#paper td.r,#paper th.r{text-align:right;white-space:nowrap}
+#paper col.q{width:70px}#paper col.c{width:130px}
+#paper td .pop{font-size:13px;font-weight:700}#paper td .det{color:#6a6a78;margin-top:2px}
+#paper .sum{margin:14px 0 0 auto;width:360px}#paper .sum span{white-space:nowrap}#paper .sum div{display:flex;justify-content:space-between;gap:16px;padding:3px 0}#paper .sum span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+#paper .sum .tot{margin-top:6px;padding:12px 14px;background:#17171f;color:#fff;border-radius:10px;font-size:16px;font-weight:800;align-items:baseline}
+#paper .paid{margin-top:22px;display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;padding:14px 16px;border-radius:10px;background:#f0f8f3;color:#1d4d34}
+#paper .paid .ok{width:28px;height:28px;border-radius:50%;background:#1f7a4d;color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+#paper .paid b{display:block;font-size:12.5px}#paper .paid p{margin:2px 0 0}#paper .paid p+p{color:#3c6b52}
+#paper .ft{margin-top:auto;padding-top:14px;border-top:1px solid #ececf2;color:#8b8b9a;font-size:10px;display:flex;justify-content:space-between;gap:12px}#paper .ft span:last-child{white-space:nowrap}
+#paper .ph{color:#b3b3c2;font-weight:400}
+@media screen and (max-width:900px){.wrap{grid-template-columns:1fr}.side{position:static}#paper{aspect-ratio:auto;padding:22px 18px}#paper .who{grid-template-columns:1fr;gap:16px}#paper .info{grid-template-columns:1fr 1fr}#paper .info>div:nth-child(3){border-left:0}#paper .info>div:nth-child(n+3){border-top:1px solid #e6e6ee}#paper .sum{width:100%}}
+@media screen and (max-width:520px){.grid{grid-template-columns:1fr}}
 @media print{
-  @page{size:A4;margin:14mm}
-  body{background:#fff}.top,.form,.prevhd,.noprint{display:none!important}
+  @page{size:A4;margin:12mm}
+  body{background:#fff}.top,.form,.prevhd,.noprint,.dlg{display:none!important}
   .wrap{display:block;padding:0;max-width:none}.side{position:static}
-  #paper{box-shadow:none;border-radius:0;padding:0;aspect-ratio:auto;overflow:visible}
+  #paper{box-shadow:none;border-radius:0;padding:0;aspect-ratio:auto;overflow:visible;min-height:268mm}
 }
+body.tisk{background:#fff}body.tisk .top,body.tisk .form,body.tisk .prevhd,body.tisk .noprint{display:none!important}body.tisk .wrap{display:block;padding:0;max-width:none}body.tisk #paper{box-shadow:none;border-radius:0}
 #gate{max-width:420px;margin:80px auto;text-align:center;padding:0 20px}
 </style>
 </head><body>
@@ -66,7 +80,7 @@ input:focus,select:focus{outline:none;border-color:var(--vi)}
 <div class="wrap" id="app" hidden>
   <div class="form">
     <section class="card">
-      <h2>Vystavuje <button class="btn gh" type="button" id="v-novy" style="padding:6px 12px;font-size:12.5px">+ Nový</button></h2>
+      <h2>Vystavuje <button class="btn gh sm" type="button" id="v-novy">+ Nový</button></h2>
       <div class="row"><select id="v-sel" aria-label="Vystavovatel" style="flex:1"></select><button class="btn gh" type="button" id="v-upr">Upravit</button></div>
       <p class="hint" id="v-info"></p>
       <form id="v-form" hidden>
@@ -79,14 +93,14 @@ input:focus,select:focus{outline:none;border-color:var(--vi)}
           <label class="w">Adresa<input id="v-adresa" placeholder="ulice, PSČ město"></label>
           <label>E-mail<input id="v-email" type="email"></label>
           <label>Číslo účtu<input id="v-ucet"></label>
-          <label>IBAN<input id="v-iban"></label>
-          <label>Booking účty (čárkou)<input id="v-ucty" placeholder="korunni, harfa"></label>
+          <label class="w">IBAN<input id="v-iban"></label>
+          <label class="w">Booking / Airbnb účty, za které fakturuje (čárkou)<input id="v-ucty" placeholder="kratkodoby, harfa, vlastislavova, korunni, havelska, premium"></label>
           <label class="chk w"><input type="checkbox" id="v-dph"> Plátce DPH <span style="font-weight:500">(ubytování 12 %, cena je včetně DPH)</span></label>
           <label>Předpona řady<input id="v-prefix" placeholder="nepovinné"></label>
-          <label id="v-start-l">Poslední už vystavené číslo<input id="v-start" type="number" min="0" value="0"></label>
+          <label id="v-start-l">Poslední už vystavené číslo v roce<input id="v-start" type="number" min="0" value="0"></label>
         </div>
         <div class="row" style="margin-top:12px"><button class="btn" type="submit">Uložit údaje</button><button class="btn gh" type="button" id="v-zrus">Zavřít</button></div>
-        <p class="hint" id="v-pozn">Čísla faktur jdou po sobě: <b>rok + pořadí</b> (202601, 202602 …; s předponou např. BH202601). Každý rok začíná řada znovu od 01. Číslo vystavené faktury už nejde změnit.</p>
+        <p class="hint">Čísla faktur jdou po sobě: <b>rok + pořadí</b> (202601, 202602 …). Každý rok začíná řada znovu od 01.</p>
         <div class="msg" id="v-msg"></div>
       </form>
     </section>
@@ -98,14 +112,14 @@ input:focus,select:focus{outline:none;border-color:var(--vi)}
         <label>IČO<input id="o-ico"></label>
         <label>DIČ / VAT<input id="o-dic"></label>
         <label class="w">Adresa<input id="o-adresa"></label>
-        <label class="w">E-mail<input id="o-email" type="email"></label>
+        <label class="w">E-mail (sem se faktura pošle)<input id="o-email" type="email"></label>
       </div>
     </section>
 
     <section class="card">
       <h2>Pobyt a cena</h2>
       <div class="grid">
-        <label class="w">Apartmán *<input id="p-byt" list="byty" required></label>
+        <label class="w">Apartmán (oficiální název z Bookingu / Airbnb) *<input id="p-byt" list="byty" required placeholder="začni psát, např. Harfa"></label>
         <label>Příjezd<input id="p-od" type="date"></label>
         <label>Odjezd<input id="p-do" type="date"></label>
         <label>Číslo rezervace<input id="p-rez"></label>
@@ -117,6 +131,7 @@ input:focus,select:focus{outline:none;border-color:var(--vi)}
       </div>
       <p class="hint">Částka je cena rezervace, kterou host zaplatil (např. 80 EUR), ne naše výplata po provizi platformy.</p>
       <div class="row" style="margin-top:12px;justify-content:space-between"><span style="font-size:12px;font-weight:700;color:var(--mut)">Jazyk faktury</span><div class="seg" id="jazyk"><button type="button" data-j="cs+en" class="on">CZ + EN</button><button type="button" data-j="cs">CZ</button><button type="button" data-j="en">EN</button></div></div>
+      <label class="chk" id="obnov-l" hidden style="margin-top:10px"><input type="checkbox" id="obnov"> Přepsat údaje dodavatele podle aktuálně uloženého profilu</label>
     </section>
 
     <button class="btn big" type="button" id="vystavit">Vystavit fakturu</button>
@@ -129,11 +144,24 @@ input:focus,select:focus{outline:none;border-color:var(--vi)}
   </div>
 
   <div class="side">
-    <div class="prevhd"><b>Náhled</b><span class="stamp" id="stav">koncept, bez čísla</span><button class="btn" type="button" id="tisk" disabled>Stáhnout PDF / tisk</button></div>
+    <div class="prevhd"><b>Náhled</b><span class="stamp" id="stav">koncept, bez čísla</span>
+      <button class="btn gh sm" type="button" id="upravit" hidden>Upravit</button><button class="btn gh sm" type="button" id="poslat" hidden>✉ Odeslat e-mailem</button><button class="btn sm" type="button" id="tisk" disabled>PDF / tisk</button></div>
     <div id="paper"></div>
+    <div class="sent noprint" id="odeslano"></div>
     <p class="hint noprint">PDF uložíš v dialogu tisku volbou „Uložit jako PDF“.</p>
   </div>
 </div>
+
+<div class="dlg" id="dlg" hidden><div class="box" role="dialog" aria-modal="true" aria-labelledby="dlg-t">
+  <h3 id="dlg-t">Odeslat fakturu e-mailem</h3><p class="hint" style="margin:0 0 12px">Odešle se z <b>bytahost.cz@gmail.com</b>, faktura v PDF v příloze.</p>
+  <div class="grid">
+    <label>Komu *<input id="m-komu" type="email" required placeholder="email hosta"></label>
+    <label>Předmět<input id="m-pred"></label>
+    <label>Text e-mailu<textarea id="m-text" rows="11"></textarea></label>
+  </div>
+  <div class="row" style="margin-top:12px;justify-content:flex-end"><button class="btn gh" type="button" id="m-zrus">Zrušit</button><button class="btn" type="button" id="m-ok">Odeslat</button></div>
+  <div class="msg" id="m-msg"></div>
+</div></div>
 <datalist id="byty"></datalist>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -141,49 +169,69 @@ input:focus,select:focus{outline:none;border-color:var(--vi)}
 const SB_URL='https://uiynkslmvkjzzdvijkzo.supabase.co', SB_KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let sb, VYST=[], JAZ='cs+en', VYDANA=null, BYT_UCET={};   // VYDANA = prave zobrazena vystavena faktura (jen cteni)
+let sb, VYST=[], JAZ='cs+en', VYDANA=null, EDIT=null, NAZVY=[], BYT_UCET={};
 const dnes=()=>new Date().toISOString().slice(0,10);
-const fmtD=d=>d?new Date(d+'T12:00:00').toLocaleDateString('cs-CZ'):'';
+const fmtD=d=>d?new Date(String(d).slice(0,10)+'T12:00:00').toLocaleDateString('cs-CZ'):'';
 const fmtC=(n,m)=>(Math.round(n*100)/100).toLocaleString('cs-CZ',{minimumFractionDigits:2,maximumFractionDigits:2})+' '+m;
 const noci=(a,b)=>a&&b?Math.max(0,Math.round((new Date(b)-new Date(a))/864e5)):0;
-const T={ // texty faktury
-  cs:{fak:'Faktura',dd:'daňový doklad',no:'Číslo',dod:'Dodavatel',odb:'Odběratel',vyst:'Datum vystavení',duzp:'Datum uskut. plnění',uhr:'Úhrada',uhrv:'uhrazeno',rez:'Rezervace',pop:'Popis',mn:'Množ.',cena:'Cena',ub:'Ubytování',noc:n=>n===1?'noc':n<5?'noci':'nocí',zak:'Základ',dph:'DPH',cel:'Celkem k úhradě',celU:'Celkem (uhrazeno)',neplatce:'Dodavatel není plátcem DPH.',ico:'IČO',dic:'DIČ',ucet:'Účet',
-      paidT:'Uhrazeno', paid:p=>`Faktura je již uhrazena prostřednictvím ${p}. Jedná se o opis dokladu – neplaťte.`, paidP:'Faktura je již uhrazena. Jedná se o opis dokladu – neplaťte.',vystavil:'Vystavil'},
-  en:{fak:'Invoice',dd:'tax document',no:'No.',dod:'Supplier',odb:'Customer',vyst:'Issue date',duzp:'Date of supply',uhr:'Payment',uhrv:'paid',rez:'Booking ref.',pop:'Description',mn:'Qty',cena:'Price',ub:'Accommodation',noc:n=>n===1?'night':'nights',zak:'Tax base',dph:'VAT',cel:'Total due',celU:'Total (paid)',neplatce:'The supplier is not a VAT payer.',ico:'Reg. No.',dic:'VAT No.',ucet:'Account',
-      paidT:'Paid', paid:p=>`This invoice has already been paid via ${p}. This is a copy of the invoice – no payment is due.`, paidP:'This invoice has already been paid. This is a copy of the invoice – no payment is due.',vystavil:'Issued by'}
+const T={
+  cs:{fak:'Faktura',dd:'daňový doklad',no:'Číslo faktury',dod:'Dodavatel',odb:'Odběratel',vyst:'Datum vystavení',duzp:'Datum uskut. plnění',uhr:'Způsob úhrady',rez:'Rezervace',pop:'Popis',mn:'Množ.',cena:'Cena',ub:'Ubytování',noc:n=>n===1?'noc':n<5?'noci':'nocí',zak:'Základ',dph:'DPH',celU:'Celkem uhrazeno',neplatce:'Dodavatel není plátcem DPH.',ico:'IČO',dic:'DIČ',tel:'Telefon',mail:'E-mail',ucet:'Účet',iban:'IBAN',bank:'Bankovní spojení',
+      paidT:'Uhrazeno', paid:p=>`Faktura je již uhrazena prostřednictvím ${p}. Jedná se o opis dokladu – neplaťte.`, paidP:'Faktura je již uhrazena. Jedná se o opis dokladu – neplaťte.',vystavil:'Vystavil',uhrPres:p=>'uhrazeno přes '+p,uhrJen:'uhrazeno',uhrPresL:'Uhrazeno přes'},
+  en:{fak:'Invoice',dd:'tax document',no:'Invoice no.',dod:'Supplier',odb:'Customer',vyst:'Issue date',duzp:'Date of supply',uhr:'Payment',rez:'Booking ref.',pop:'Description',mn:'Qty',cena:'Price',ub:'Accommodation',noc:n=>n===1?'night':'nights',zak:'Tax base',dph:'VAT',celU:'Total paid',neplatce:'The supplier is not a VAT payer.',ico:'Reg. No.',dic:'VAT No.',tel:'Phone',mail:'E-mail',ucet:'Account',iban:'IBAN',bank:'Bank details',
+      paidT:'Paid', paid:p=>`This invoice has already been paid via ${p}. This is a copy of the invoice – no payment is due.`, paidP:'This invoice has already been paid. This is a copy of the invoice – no payment is due.',vystavil:'Issued by',uhrPres:p=>'paid via '+p,uhrJen:'paid',uhrPresL:'Paid via'}
 };
 const tt=(k,...a)=>{ const f=x=>typeof T[x][k]==='function'?T[x][k](...a):T[x][k]; if(JAZ==='cs') return f('cs'); if(JAZ==='en') return f('en'); const c=f('cs'),e=f('en'); return c===e?c:c+' / '+e; };
 const ttP=(k,...a)=>JAZ==='cs+en'?`<p>${esc(T.cs[k](...a))}</p><p style="color:#3c6b52">${esc(T.en[k](...a))}</p>`:`<p>${esc(T[JAZ][k](...a))}</p>`;
+const platNazev=p=>p==='primo'||p==='přímá platba'?null:p;
 
 function vystavovatel(){ return VYST.find(v=>v.id===$('v-sel').value)||null; }
-function data(){
-  if(VYDANA) return VYDANA;
+function formData(){
   const v=vystavovatel();
-  return { cislo:null, vystavovatel:v||{}, odberatel:{nazev:$('o-nazev').value.trim(),ico:$('o-ico').value.trim(),dic:$('o-dic').value.trim(),adresa:$('o-adresa').value.trim(),email:$('o-email').value.trim()},
+  return { cislo:EDIT?EDIT.cislo:null, vystavovatel:EDIT&&!$('obnov').checked?EDIT.vystavovatel:(v||{}),
+    odberatel:{nazev:$('o-nazev').value.trim(),ico:$('o-ico').value.trim(),dic:$('o-dic').value.trim(),adresa:$('o-adresa').value.trim(),email:$('o-email').value.trim()},
     byt:$('p-byt').value.trim(), pobyt_od:$('p-od').value, pobyt_do:$('p-do').value, rezervace:$('p-rez').value.trim(), platforma:$('p-plat').value,
     castka:+$('p-castka').value||0, mena:$('p-mena').value, jazyk:JAZ, datum_vystaveni:$('p-datum').value||dnes(), duzp:$('p-duzp').value||$('p-do').value||$('p-datum').value||dnes() };
 }
-function blok(o,ph){ if(!o||!(o.nazev)) return `<span class="ph">${ph}</span>`;
-  return `<b>${esc(o.nazev)}</b>${o.osoba?'<br>'+esc(o.osoba):''}${o.adresa?'<br>'+esc(o.adresa):''}${o.ico?'<br>'+tt('ico')+': '+esc(o.ico):''}${o.dic?'<br>'+tt('dic')+': '+esc(o.dic):''}${o.telefon?'<br>'+esc(o.telefon):''}${o.email?'<br>'+esc(o.email):''}`; }
+const data=()=>VYDANA||formData();
+function strana(o,ph,banka){
+  if(!o||!o.nazev) return `<div class="party"><div class="lab">${ph[0]}</div><div class="nm ph">${ph[1]}</div></div>`;
+  const r=[[tt('ico'),o.ico],[tt('dic'),o.dic],[tt('tel'),o.telefon],[tt('mail'),o.email]].filter(x=>x[1]);
+  if(banka){ if(o.ucet) r.push([tt('ucet'),o.ucet,1]); if(o.iban) r.push([tt('iban'),o.iban,1]); }
+  return `<div class="party"><div class="lab">${ph[0]}</div><div class="nm">${esc(o.nazev)}</div>${o.osoba&&o.osoba!==o.nazev?`<div class="ad">${esc(o.osoba)}</div>`:''}${o.adresa?`<div class="ad">${esc(o.adresa)}</div>`:''}${r.length?`<dl>${r.map(x=>`<dt>${esc(x[0])}</dt><dd${x[2]?' class="b"':''}>${esc(x[1])}</dd>`).join('')}</dl>`:''}</div>`;
+}
 function nahled(){
   const d=data(); if(d.jazyk) JAZ=d.jazyk; const v=d.vystavovatel||{}, dph=!!v.platce_dph, sazba=+v.sazba_dph||12;
-  const n=noci(d.pobyt_od,d.pobyt_do), plat=d.platforma==='primo'?null:d.platforma;
-  const popis=`${tt('ub')} – ${d.byt||'…'}${d.pobyt_od?`, ${fmtD(d.pobyt_od)} – ${fmtD(d.pobyt_do)}`:''}${n?` (${n} ${JAZ==='en'?T.en.noc(n):T.cs.noc(n)})`:''}`;
+  const n=noci(d.pobyt_od,d.pobyt_do), plat=platNazev(d.platforma);
+  const termin=d.pobyt_od?`${fmtD(d.pobyt_od)} – ${fmtD(d.pobyt_do)}${n?` · ${n} ${JAZ==='en'?T.en.noc(n):T.cs.noc(n)}${JAZ==='cs+en'?' / '+n+' '+T.en.noc(n):''}`:''}`:'';
   const zaklad=dph?d.castka/(1+sazba/100):d.castka, dan=d.castka-zaklad;
   $('paper').innerHTML=`
-    <div class="hd"><div><h3>${tt('fak')}</h3><div class="sub">${dph?tt('dd'):''}</div></div><div class="no"><div class="lab">${tt('no')}</div><b>${d.cislo?esc(d.cislo):'<span class="ph">přidělí se při vystavení</span>'}</b></div></div>
-    <div class="who"><div><div class="lab">${tt('dod')}</div>${blok(v,'vyber nebo vyplň, kdo vystavuje')}${v.ucet||v.iban?`<br><span style="color:#666">${tt('ucet')}: ${esc([v.ucet,v.iban].filter(Boolean).join(' · '))}</span>`:''}</div>
-      <div><div class="lab">${tt('odb')}</div>${blok(d.odberatel,'jméno nebo firma hosta')}</div></div>
-    <div class="meta"><div>${tt('vyst')}<b>${fmtD(d.datum_vystaveni)}</b></div><div>${tt('duzp')}<b>${fmtD(d.duzp)||'—'}</b></div><div>${tt('uhr')}<b>${tt('uhrv')}${plat?' · '+esc(plat):''}</b></div></div>
-    <table><thead><tr><th>${tt('pop')}</th><th class="r">${tt('mn')}</th><th class="r">${tt('cena')}</th></tr></thead>
-      <tbody><tr><td>${esc(popis)}${d.rezervace?`<br><span style="color:#777">${tt('rez')}: ${esc(d.rezervace)}</span>`:''}</td><td class="r">1</td><td class="r">${fmtC(d.castka,d.mena)}</td></tr></tbody></table>
+    <div class="hd"><div><h3>${tt('fak')}</h3>${dph?`<div class="sub">${tt('dd')}</div>`:''}</div><div class="no"><div class="lab">${tt('no')}</div><div class="v">${d.cislo?esc(d.cislo):'<span class="ph">přidělí se při vystavení</span>'}</div></div></div>
+    <div class="who">${strana(v,[tt('dod'),'vyber, kdo vystavuje'],true)}${strana(d.odberatel,[tt('odb'),'jméno nebo firma hosta'])}</div>
+    <div class="info"><div><div class="lab">${tt('vyst')}</div><b>${fmtD(d.datum_vystaveni)}</b></div><div><div class="lab">${tt('duzp')}</div><b>${fmtD(d.duzp)||'—'}</b></div>
+      <div><div class="lab">${tt('uhrPresL')}</div><b>${plat?esc(plat):tt('uhrJen')}</b></div><div><div class="lab">${tt('rez')}</div><b>${d.rezervace?esc(d.rezervace):'—'}</b></div></div>
+    <table><colgroup><col><col class="q"><col class="c"></colgroup><thead><tr><th>${tt('pop')}</th><th class="r">${tt('mn')}</th><th class="r">${tt('cena')}</th></tr></thead>
+      <tbody><tr><td><div class="pop">${tt('ub')} – ${esc(d.byt||'…')}</div>${termin?`<div class="det">${esc(termin)}</div>`:''}</td><td class="r">1</td><td class="r">${fmtC(d.castka,d.mena)}</td></tr></tbody></table>
     <div class="sum">${dph?`<div><span>${tt('zak')}</span><span>${fmtC(zaklad,d.mena)}</span></div><div><span>${tt('dph')} ${sazba} %</span><span>${fmtC(dan,d.mena)}</span></div>`:''}
       <div class="tot"><span>${tt('celU')}</span><span>${fmtC(d.castka,d.mena)}</span></div></div>
-    <div class="paid"><b>✓ ${tt('paidT')}</b>${plat?ttP('paid',plat):ttP('paidP')}</div>
-    <div class="ft">${dph?'':esc(tt('neplatce'))+' '}${tt('vystavil')}: ${esc(v.osoba||v.nazev||'')}</div>`;
-  $('stav').textContent=d.cislo?'vystaveno · '+d.cislo:'koncept, bez čísla'; $('stav').className='stamp'+(d.cislo?' ok':'');
-  $('tisk').disabled=!d.cislo;
+    <div class="paid"><div class="ok">✓</div><div><b>${tt('paidT')}</b>${plat?ttP('paid',plat):ttP('paidP')}</div></div>
+    <div class="ft"><span>${esc([v.nazev,v.ico?tt('ico')+' '+v.ico:'',v.email].filter(Boolean).join(' · '))}${dph?'':' · '+esc(tt('neplatce'))}</span><span>${tt('vystavil')}: ${esc(v.osoba||v.nazev||'')}</span></div>`;
+  const st=$('stav'); if(EDIT){ st.textContent='úprava faktury '+EDIT.cislo; st.className='stamp ed'; } else if(d.cislo){ st.textContent='vystaveno · '+d.cislo; st.className='stamp ok'; } else { st.textContent='koncept, bez čísla'; st.className='stamp'; }
+  $('tisk').disabled=!VYDANA; $('poslat').hidden=!VYDANA; $('upravit').hidden=!VYDANA;
   document.title=d.cislo?'Faktura '+d.cislo:'Faktury pro hosty · BYTAHOST';
+}
+
+/* ---------- oficialni nazvy apartmanu -> ucet -> vystavovatel ---------- */
+function nazvyDatalist(){
+  const plat=$('p-plat').value, s=new Set();
+  NAZVY.forEach(b=>{ const p=plat==='Airbnb'?[b.airbnb,b.booking]:[b.booking,b.airbnb]; p.filter(Boolean).forEach(x=>s.add(x)); });
+  $('byty').innerHTML=[...s].map(x=>`<option value="${esc(x)}">`).join('');
+}
+function ucetBytu(nazev){ const n=(nazev||'').trim().toLowerCase(); const b=NAZVY.find(x=>[x.booking,x.airbnb,x.web,x.key].filter(Boolean).some(y=>y.toLowerCase()===n)); return b&&b.ucet||BYT_UCET[n]||null; }
+function vyberDleBytu(){
+  if(VYDANA) return; const u=ucetBytu($('p-byt').value); if(!u) return;
+  const v=VYST.find(x=>(x.ucty||[]).map(y=>y.toLowerCase()).includes(u.toLowerCase()));
+  if(v){ $('v-sel').value=v.id; infoVyst(` · <span style="color:var(--ok)">vybráno podle účtu <b>${esc(u)}</b></span>`); nahled(); }
+  else infoVyst(` · <span style="color:var(--bad)">pro účet <b>${esc(u)}</b> zatím není vystavovatel</span>`);
 }
 
 /* ---------- vystavovatele ---------- */
@@ -195,7 +243,8 @@ async function nactiVyst(vyber){
   if(last&&VYST.some(v=>v.id===last)) $('v-sel').value=last;
   infoVyst(); if(!VYST.length) otevriForm(null); nahled();
 }
-function infoVyst(){ const v=vystavovatel(); $('v-info').innerHTML=v?`Další číslo: <b>${esc((v.prefix||'')+new Date().getFullYear()+(n=>n<100?String(n).padStart(2,'0'):String(n))((v.rok===new Date().getFullYear()?v.posledni_cislo:0)+1))}</b>${v.platce_dph?' · plátce DPH':' · neplátce DPH'}`:''; }
+const dalsi=v=>{ const n=(v.rok===new Date().getFullYear()?v.posledni_cislo:0)+1; return (v.prefix||'')+new Date().getFullYear()+(n<100?String(n).padStart(2,'0'):String(n)); };
+function infoVyst(extra){ const v=vystavovatel(); $('v-info').innerHTML=(v?`Další číslo: <b>${esc(dalsi(v))}</b>${v.platce_dph?' · plátce DPH':' · neplátce DPH'}`:'')+(extra||''); }
 function otevriForm(v){
   $('v-form').hidden=false; $('v-form').dataset.id=v?v.id:''; $('v-msg').textContent='';
   for(const k of ['nazev','osoba','ico','dic','adresa','telefon','email','ucet','iban','prefix']) $('v-'+k).value=v?(v[k]||''):'';
@@ -214,35 +263,73 @@ $('v-form').onsubmit=async e=>{ e.preventDefault();
   if(id) res=await sb.from('faktury_vystavovatele').update(row).eq('id',id).select();
   else { row.posledni_cislo=Math.max(0,+$('v-start').value||0); row.rok=new Date().getFullYear(); res=await sb.from('faktury_vystavovatele').insert(row).select(); }
   if(res.error){ $('v-msg').className='msg bad'; $('v-msg').textContent='Uložení selhalo: '+res.error.message; return; }
-  $('v-msg').className='msg ok'; $('v-msg').textContent='Uloženo.'; $('v-form').hidden=true; await nactiVyst(res.data[0].id);
+  $('v-form').hidden=true; await nactiVyst(res.data[0].id); $('v-info').innerHTML+=' · <span style="color:var(--ok)">uloženo</span>';
 };
 
-/* ---------- vystaveni ---------- */
-$('vystavit').onclick=async()=>{
-  const d=data(), m=$('f-msg'); m.className='msg bad';
-  if(!d.vystavovatel||!d.vystavovatel.id){ m.textContent='Vyber, kdo fakturu vystavuje.'; return; }
-  if(!d.odberatel.nazev){ m.textContent='Vyplň jméno nebo firmu odběratele.'; $('o-nazev').focus(); return; }
-  if(!d.byt){ m.textContent='Vyplň apartmán.'; $('p-byt').focus(); return; }
-  if(!(d.castka>0)){ m.textContent='Vyplň částku, kterou host zaplatil.'; $('p-castka').focus(); return; }
-  if(!confirm(`Vystavit fakturu na ${fmtC(d.castka,d.mena)} pro ${d.odberatel.nazev}?\nČíslo se přidělí natrvalo a fakturu už nepůjde změnit.`)) return;
-  $('vystavit').disabled=true; $('vystavit').textContent='Vystavuji…';
-  const p={...d, vystavovatel_id:d.vystavovatel.id, platforma:d.platforma==='primo'?'přímá platba':d.platforma}; delete p.vystavovatel; delete p.cislo;
-  const {data:r,error}=await sb.rpc('vystavit_fakturu',{p});
-  $('vystavit').disabled=false; $('vystavit').textContent='Vystavit fakturu';
-  if(error){ m.textContent='Vystavení selhalo: '+error.message; return; }
-  VYDANA={...r, platforma:r.platforma==='přímá platba'?'primo':r.platforma}; m.className='msg ok'; m.innerHTML=`Vystaveno pod číslem <b>${esc(r.cislo)}</b>. Teď ji stáhni jako PDF. <button class="btn gh" type="button" onclick="nova()" style="padding:5px 10px;font-size:12.5px">Nová faktura</button>`;
-  nahled(); await nactiVyst(d.vystavovatel.id); await seznam();
-};
-function nova(){ VYDANA=null; for(const id of ['o-nazev','o-ico','o-dic','o-adresa','o-email','p-byt','p-od','p-do','p-rez','p-castka','p-duzp']) $(id).value=''; $('p-datum').value=dnes(); $('f-msg').textContent=''; nahled(); window.scrollTo({top:0,behavior:'smooth'}); }
-$('tisk').onclick=()=>window.print();
-/* vystavovatel podle uctu, pod kterym apartman bezi (konverzace.ucet: kratkodoby, harfa, vlastislavova…) — nastavuje se v "Booking účty" u vystavovatele */
-function vyberDleBytu(){
-  const u=BYT_UCET[($('p-byt').value||'').trim().toLowerCase()]; if(!u||VYDANA) return;
-  const v=VYST.find(x=>(x.ucty||[]).map(y=>y.toLowerCase()).includes(u.toLowerCase()));
-  if(v){ $('v-sel').value=v.id; infoVyst(); $('v-info').innerHTML+=` · <span style="color:var(--ok)">vybráno podle účtu <b>${esc(u)}</b></span>`; nahled(); }
-  else $('v-info').innerHTML=(vystavovatel()?$('v-info').innerHTML.split(' · <span')[0]:'')+` · <span style="color:var(--bad)">pro účet <b>${esc(u)}</b> zatím není vystavovatel</span>`;
+/* ---------- vystaveni / uprava ---------- */
+function vyplnFormular(f){
+  const o=f.odberatel||{}; $('o-nazev').value=o.nazev||''; $('o-ico').value=o.ico||''; $('o-dic').value=o.dic||''; $('o-adresa').value=o.adresa||''; $('o-email').value=o.email||'';
+  $('p-byt').value=f.byt||''; $('p-od').value=f.pobyt_od||''; $('p-do').value=f.pobyt_do||''; $('p-rez').value=f.rezervace||''; $('p-plat').value=f.platforma==='přímá platba'?'primo':(f.platforma||'Booking.com');
+  $('p-castka').value=f.castka||''; $('p-mena').value=f.mena||'EUR'; $('p-datum').value=f.datum_vystaveni||''; $('p-duzp').value=f.duzp||'';
+  JAZ=f.jazyk||'cs+en'; document.querySelectorAll('#jazyk button').forEach(x=>x.classList.toggle('on',x.dataset.j===JAZ));
 }
-$('p-byt').addEventListener('change',vyberDleBytu);
+function chyba(m){ const e=$('f-msg'); e.className='msg bad'; e.textContent=m; }
+function validni(d){
+  if(!d.vystavovatel||!d.vystavovatel.nazev){ chyba('Vyber, kdo fakturu vystavuje.'); return false; }
+  if(!d.odberatel.nazev){ chyba('Vyplň jméno nebo firmu odběratele.'); $('o-nazev').focus(); return false; }
+  if(!d.byt){ chyba('Vyplň apartmán.'); $('p-byt').focus(); return false; }
+  if(!(d.castka>0)){ chyba('Vyplň částku, kterou host zaplatil.'); $('p-castka').focus(); return false; }
+  if(d.pobyt_od&&d.pobyt_do&&d.pobyt_do<=d.pobyt_od){ chyba('Odjezd musí být po příjezdu.'); $('p-do').focus(); return false; }
+  if(d.pobyt_od&&+d.pobyt_od.slice(0,4)<new Date().getFullYear()-1&&!confirm('Příjezd je v roce '+d.pobyt_od.slice(0,4)+'. Opravdu?')) return false;
+  return true;
+}
+$('vystavit').onclick=async()=>{
+  const d=formData(); if(!validni(d)) return;
+  const p={...d, platforma:d.platforma==='primo'?'přímá platba':d.platforma}; delete p.vystavovatel; delete p.cislo;
+  let r, error;
+  if(EDIT){
+    if(!confirm(`Uložit změny faktury ${EDIT.cislo}? Číslo zůstane stejné, původní verze se uloží do historie.`)) return;
+    p.obnovit_vystavovatele=$('obnov').checked; ({data:r,error}=await sb.rpc('upravit_fakturu',{fid:EDIT.id,p}));
+  } else {
+    if(!d.vystavovatel.id){ chyba('Vyber, kdo fakturu vystavuje.'); return; }
+    if(!confirm(`Vystavit fakturu na ${fmtC(d.castka,d.mena)} pro ${d.odberatel.nazev}?\nČíslo se přidělí natrvalo.`)) return;
+    p.vystavovatel_id=d.vystavovatel.id; ({data:r,error}=await sb.rpc('vystavit_fakturu',{p}));
+  }
+  if(error){ chyba((EDIT?'Uložení':'Vystavení')+' selhalo: '+error.message); return; }
+  const bylEdit=!!EDIT; ukaz(r); $('f-msg').className='msg ok';
+  $('f-msg').innerHTML=(bylEdit?`Změny faktury <b>${esc(r.cislo)}</b> uloženy (verze ${r.verze}).`:`Vystaveno pod číslem <b>${esc(r.cislo)}</b>.`)+` Teď ji můžeš odeslat e-mailem nebo stáhnout PDF. <button class="btn gh sm" type="button" onclick="nova()">Nová faktura</button>`;
+  await nactiVyst(r.vystavovatel_id); await seznam();
+};
+function ukaz(f){ EDIT=null; VYDANA={...f, castka:+f.castka, platforma:f.platforma}; $('obnov-l').hidden=true; $('vystavit').textContent='Vystavit fakturu'; nahled(); stavOdeslani(); }
+$('upravit').onclick=()=>{ if(!VYDANA) return; EDIT=VYDANA; VYDANA=null; vyplnFormular(EDIT); $('obnov').checked=false; $('obnov-l').hidden=false; $('vystavit').textContent='Uložit změny (číslo '+EDIT.cislo+' zůstane)'; $('f-msg').className='msg'; $('f-msg').textContent=''; nahled(); window.scrollTo({top:0,behavior:'smooth'}); };
+function nova(){ VYDANA=null; EDIT=null; $('obnov-l').hidden=true; $('vystavit').textContent='Vystavit fakturu'; for(const id of ['o-nazev','o-ico','o-dic','o-adresa','o-email','p-byt','p-od','p-do','p-rez','p-castka','p-duzp']) $(id).value=''; $('p-datum').value=dnes(); $('f-msg').textContent=''; $('odeslano').innerHTML=''; nahled(); window.scrollTo({top:0,behavior:'smooth'}); }
+$('tisk').onclick=()=>window.print();
+
+/* ---------- e-mail ---------- */
+function sablona(f){
+  const v=f.vystavovatel||{}, plat=platNazev(f.platforma), od=fmtD(f.pobyt_od), dd=fmtD(f.pobyt_do), j=f.jazyk||'cs+en';
+  const podpis=[v.nazev, [v.email,v.telefon].filter(Boolean).join(' · ')].filter(Boolean).join('\n');
+  const cs=`Dobrý den,\n\nděkujeme za Vaši rezervaci. V příloze Vám posíláme fakturu č. ${f.cislo} za ubytování v apartmánu ${f.byt}${od?` v termínu ${od} – ${dd}`:''}.\n\n${plat?`Faktura je již uhrazena prostřednictvím ${plat}, není potřeba nic platit.`:'Faktura je již uhrazena, není potřeba nic platit.'}\n\nS pozdravem\n${podpis}`;
+  const en=`Dear guest,\n\nthank you for your booking. Please find attached invoice no. ${f.cislo} for your stay at ${f.byt}${od?` from ${od} to ${dd}`:''}.\n\n${plat?`The invoice has already been paid via ${plat}, no payment is due.`:'The invoice has already been paid, no payment is due.'}\n\nKind regards\n${podpis}`;
+  return { predmet:j==='en'?`Invoice ${f.cislo} – ${f.byt}`:j==='cs'?`Faktura ${f.cislo} – ${f.byt}`:`Faktura / Invoice ${f.cislo} – ${f.byt}`, text:j==='en'?en:j==='cs'?cs:cs+'\n\n———\n\n'+en };
+}
+$('poslat').onclick=()=>{ if(!VYDANA) return; const s=sablona(VYDANA); $('m-komu').value=(VYDANA.odberatel||{}).email||''; $('m-pred').value=s.predmet; $('m-text').value=s.text; $('m-msg').textContent=''; $('dlg').hidden=false; ($('m-komu').value?$('m-text'):$('m-komu')).focus(); };
+$('m-zrus').onclick=()=>{ $('dlg').hidden=true; };
+$('m-ok').onclick=async()=>{
+  const komu=$('m-komu').value.trim(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(komu)){ $('m-msg').className='msg bad'; $('m-msg').textContent='Zadej platný e-mail.'; return; }
+  $('m-ok').disabled=true;
+  const {error}=await sb.from('faktury_odeslani').insert({faktura_id:VYDANA.id,komu,predmet:$('m-pred').value.trim(),text:$('m-text').value});
+  $('m-ok').disabled=false;
+  if(error){ $('m-msg').className='msg bad'; $('m-msg').textContent='Nepodařilo se zařadit k odeslání: '+error.message; return; }
+  $('dlg').hidden=true; stavOdeslani(true);
+};
+let odesTimer=null;
+async function stavOdeslani(sleduj){
+  clearTimeout(odesTimer); if(!VYDANA){ $('odeslano').innerHTML=''; return; }
+  const {data:rows}=await sb.from('faktury_odeslani').select('komu,stav,chyba,created_at,odeslano_at').eq('faktura_id',VYDANA.id).order('id',{ascending:false}).limit(5);
+  $('odeslano').innerHTML=(rows||[]).map(r=>r.stav==='odeslano'?`<span style="color:var(--ok)">✓ Odesláno na ${esc(r.komu)} · ${new Date(r.odeslano_at).toLocaleString('cs-CZ')}</span>`:r.stav==='chyba'?`<span style="color:var(--bad)">✗ ${esc(r.komu)}: ${esc(r.chyba||'chyba')}</span>`:`<span style="color:var(--mut)">⏳ Odesílám na ${esc(r.komu)}… (PDF připraví počítač v kanceláři, obvykle do minuty)</span>`).join('');
+  if((rows||[]).some(r=>r.stav==='ceka')||sleduj&&!(rows||[]).length) odesTimer=setTimeout(()=>stavOdeslani(),4000);
+}
 
 /* ---------- seznam vystavenych ---------- */
 let FAKTURY=[];
@@ -253,28 +340,36 @@ async function seznam(){
 }
 function vykresliSeznam(){
   const q=$('hledat').value.toLowerCase(); const r=FAKTURY.filter(f=>!q||JSON.stringify([f.cislo,f.byt,f.odberatel,f.rezervace]).toLowerCase().includes(q));
-  $('seznam').innerHTML=r.length?r.map(f=>`<button type="button" data-id="${f.id}"><span class="c">${esc(f.cislo)}</span><span class="s">${esc((f.odberatel||{}).nazev||'')} · ${esc(f.byt||'')} · ${fmtD(f.datum_vystaveni)}</span><span class="a">${fmtC(+f.castka,f.mena)}</span></button>`).join(''):'<p class="hint">Zatím žádné faktury.</p>';
-  $('seznam').querySelectorAll('button').forEach(b=>b.onclick=()=>{ const f=FAKTURY.find(x=>x.id===b.dataset.id); VYDANA={...f, castka:+f.castka, platforma:f.platforma==='přímá platba'?'primo':f.platforma}; JAZ=f.jazyk||'cs+en'; document.querySelectorAll('#jazyk button').forEach(x=>x.classList.toggle('on',x.dataset.j===JAZ)); $('f-msg').className='msg ok'; $('f-msg').innerHTML=`Zobrazena vystavená faktura <b>${esc(f.cislo)}</b> (jen ke čtení). <button class="btn gh" type="button" onclick="nova()" style="padding:5px 10px;font-size:12.5px">Nová faktura</button>`; nahled(); window.scrollTo({top:0,behavior:'smooth'}); });
+  $('seznam').innerHTML=r.length?r.map(f=>`<button type="button" data-id="${f.id}"><span class="c">${esc(f.cislo)}</span><span class="s">${esc((f.odberatel||{}).nazev||'')} · ${esc(f.byt||'')} · ${fmtD(f.datum_vystaveni)}${f.verze>1?' · upraveno':''}</span><span class="a">${fmtC(+f.castka,f.mena)}</span></button>`).join(''):'<p class="hint">Zatím žádné faktury.</p>';
+  $('seznam').querySelectorAll('button').forEach(b=>b.onclick=()=>{ const f=FAKTURY.find(x=>x.id===b.dataset.id); ukaz(f); $('f-msg').className='msg ok'; $('f-msg').innerHTML=`Zobrazena faktura <b>${esc(f.cislo)}</b>. Můžeš ji upravit, odeslat nebo stáhnout. <button class="btn gh sm" type="button" onclick="nova()">Nová faktura</button>`; window.scrollTo({top:0,behavior:'smooth'}); });
 }
 $('hledat').oninput=vykresliSeznam;
 
 /* ---------- start ---------- */
 document.querySelectorAll('#jazyk button').forEach(b=>b.onclick=()=>{ if(VYDANA) return; JAZ=b.dataset.j; document.querySelectorAll('#jazyk button').forEach(x=>x.classList.toggle('on',x===b)); nahled(); });
 document.querySelectorAll('.form input,.form select').forEach(i=>{ if(!i.closest('#v-form')&&i.id!=='hledat') i.addEventListener('input',()=>{ if(!VYDANA) nahled(); }); });
+$('p-byt').addEventListener('change',vyberDleBytu); $('p-plat').addEventListener('change',nazvyDatalist);
 (async()=>{
   let ok=false; try{ ok=localStorage.bytahost==='1'; }catch(e){}
   if(!ok){ $('gate').hidden=false; return; }
   $('app').hidden=false; $('p-datum').value=dnes();
   sb=supabase.createClient(SB_URL,SB_KEY);
-  nahled(); await nactiVyst(); seznam();
+  const u=new URLSearchParams(location.search);
+  if(u.get('tisk')){   // jen faktura (MINIPC z ni dela PDF pro e-mail)
+    document.body.classList.add('tisk');
+    const {data:f}=await sb.from('faktury').select('*').eq('id',u.get('tisk')).single();
+    if(f){ VYDANA={...f,castka:+f.castka}; nahled(); } window.__FAKTURA_READY=!!f; return;
+  }
+  nahled();
+  try{ NAZVY=(await (await fetch('byty-nazvy.json',{cache:'no-cache'})).json()).byty||[]; }catch(e){}
+  nazvyDatalist();
+  await nactiVyst(); seznam();
   const {data:k}=await sb.from('konverzace').select('byt_nazev,ucet').limit(2000);
   (k||[]).forEach(x=>{ if(x.byt_nazev&&x.ucet) BYT_UCET[x.byt_nazev.toLowerCase()]=x.ucet; });
-  $('byty').innerHTML=[...new Set((k||[]).map(x=>x.byt_nazev).filter(Boolean))].sort().map(b=>`<option value="${esc(b)}">`).join('');
-  vyberDleBytu();
-  // predvyplneni z odkazu (pozdeji Chat agent): faktury.html?byt=..&od=..&do=..&rez=..&castka=..&mena=..&jmeno=..
-  const u=new URLSearchParams(location.search); const set=(id,k)=>{ if(u.get(k)) $(id).value=u.get(k); };
+  // predvyplneni z odkazu (pozdeji Chat agent): ?byt=..&od=..&do=..&rez=..&castka=..&mena=..&jmeno=..&ico=..&email=..&platforma=..
+  const set=(id,k)=>{ if(u.get(k)) $(id).value=u.get(k); };
   set('p-byt','byt'); set('p-od','od'); set('p-do','do'); set('p-rez','rez'); set('p-castka','castka'); set('p-mena','mena'); set('o-nazev','jmeno'); set('o-ico','ico'); set('o-email','email'); set('p-plat','platforma');
-  nahled();
+  vyberDleBytu(); nahled();
 })();
 </script>
 </body></html>

@@ -293,52 +293,100 @@
     const r = $('#o-pravidla'); if (r) r.innerHTML = PRAVIDLA[LANG];
     renderOdhad();
   }
-  /* odhad vydelku pro majitele: dispozice dava rozpeti, lokalita (Praha 1-10 + reka/hrad/centrum) a vybaveni posunuji v nem */
-  const EST = { disp: '2kk', praha: 2, f: {} };
+  /* odhad vydelku pro majitele (18.10.2026): dispozice dava rozpeti, POLOHA NA MAPE (zony kolem Staromestskeho namesti) a vybaveni posunuji v nem.
+     Zony: S = cerveny kruh 1,3 km (srdce Prahy), A = fialovy oval 3,8 × 2,3 km (sirsi centrum), B = zlaty oval 5,8 × 3,8 km (dobra dostupnost), mimo = C. */
+  const EST = { disp: '2kk', f: {}, bod: { lat: 50.0755, lon: 14.4378 }, adresa: 'náměstí Míru' };
   const EST_RNG = { '1kk': [30000, 50000], '2kk': [40000, 60000], '3kk': [50000, 70000], '4kk': [60000, 100000] };
   const EST_LVL = { cs: ['Dobré', 'Velmi dobré', 'Skvělé', 'Excelentní'], en: ['Good', 'Very good', 'Great', 'Excellent'] };
-  const EST_LOK = [['reka', 'U Vltavy nebo s výhledem na řeku', 'By the Vltava or with a river view'], ['hrad', 'Pěšky k Pražskému hradu', 'Walking distance to Prague Castle'], ['centrum', 'Do 15 minut pěšky k Orloji, Karlovu mostu nebo Národnímu muzeu', 'Within 15 min walk of the Astronomical Clock, Charles Bridge or National Museum']];
   const EST_BYT = [['balkon', 'Balkon nebo terasa', 'Balcony or terrace'], ['klima', 'Klimatizace', 'Air conditioning'], ['park', 'Parkování', 'Parking'], ['vytah', 'Výtah', 'Lift'], ['novy', 'Po rekonstrukci, nově zařízený', 'Renovated, newly furnished']];
-  function estLevel() {
-    const base = { 1: 3, 2: 2, 3: 1 }; let l = base[EST.praha] ?? 0;
-    if (EST.f.reka) l = Math.max(l, 2);           // u vody = skvele (Praha 5, 7, 8 ...)
-    if (EST.f.hrad) l = Math.max(l, 1);           // u hradu = velmi dobre (Praha 6 ...)
-    if (EST.f.centrum) l = Math.min(3, l + 1);    // blizko Orloje / Karlova mostu / Muzea = o stupen vys
-    return l;
+  const STARE_MESTO = [50.08753, 14.42132], OVAL_STRED = [50.0828, 14.4265];
+  const ZONY = [   // od nejlepsi; km = poloosy (vychod-zapad, sever-jih)
+    { z: 'S', lvl: 3, stred: STARE_MESTO, a: 1.3, b: 1.3, barva: '#e5484d', cs: 'S · srdce Prahy', en: 'S · heart of Prague' },
+    { z: 'A', lvl: 2, stred: OVAL_STRED, a: 3.8, b: 2.3, barva: '#8b5cf6', cs: 'A · širší centrum', en: 'A · wider centre' },
+    { z: 'B', lvl: 1, stred: OVAL_STRED, a: 5.8, b: 3.8, barva: '#c9a227', cs: 'B · dobrá dostupnost', en: 'B · good access' },
+  ];
+  const kmXY = (bod, stred) => [(bod.lon - stred[1]) * 111.32 * Math.cos(stred[0] * Math.PI / 180), (bod.lat - stred[0]) * 110.57];
+  function estZona() { for (const z of ZONY) { const [x, y] = kmXY(EST.bod, z.stred); if ((x / z.a) ** 2 + (y / z.b) ** 2 <= 1) return z; } return { z: 'C', lvl: 0, cs: 'C · mimo centrum', en: 'C · outside the centre' }; }
+  const estLevel = () => estZona().lvl;
+  function ovalBody(z) { const out = [], k = Math.cos(z.stred[0] * Math.PI / 180); for (let i = 0; i <= 72; i++) { const t = i / 72 * 2 * Math.PI; out.push([z.stred[0] + z.b * Math.sin(t) / 110.57, z.stred[1] + z.a * Math.cos(t) / (111.32 * k)]); } return out; }
+  let LF = null, MAPA = null, MARK = null;
+  function nactiLeaflet() {
+    if (LF) return LF;
+    LF = new Promise((ok, err) => {
+      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
+      const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'; s.onload = () => ok(window.L); s.onerror = err; document.head.appendChild(s);
+    });
+    return LF;
+  }
+  function mapaDo(el) {
+    if (MAPA) { el.appendChild(MAPA.getContainer()); setTimeout(() => MAPA.invalidateSize(), 50); return; }
+    const div = document.createElement('div'); div.className = 'mapa'; div.setAttribute('aria-label', 'Mapa: klepněte, kde je byt'); el.appendChild(div);
+    nactiLeaflet().then(L => {
+      MAPA = L.map(div, { scrollWheelZoom: false, zoomControl: true }).setView([50.083, 14.43], 12);   // vyrez se doladi po zobrazeni (vyrez())
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', { maxZoom: 16, attribution: 'Tiles © Esri — Esri, HERE, Garmin, © OpenStreetMap' }).addTo(MAPA);
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', { maxZoom: 16, pane: 'shadowPane' }).addTo(MAPA);   // popisky nad zonami
+      // mapa se muze vytvorit na skryte strance -> po zobrazeni prepocitat velikost a ukazat celou zonu B
+      let hnuto = false; MAPA.on('dragstart zoomstart', () => { hnuto = true; });
+      const vyrez = () => { if (!div.clientWidth || !div.clientHeight) return; MAPA.invalidateSize(); if (!hnuto) MAPA.fitBounds(L.latLngBounds(ovalBody(ZONY[2])), { padding: [8, 8] }); };
+      try { new ResizeObserver(() => vyrez()).observe(div); } catch (e) {} setTimeout(vyrez, 300);
+      for (const z of ZONY.slice().reverse()) {
+        const tvar = z.z === 'S' ? L.circle(z.stred, { radius: z.a * 1000 }) : L.polygon(ovalBody(z));
+        tvar.setStyle({ color: z.barva, weight: z.z === 'B' ? 2 : 3, dashArray: z.z === 'B' ? '6 6' : null, fillColor: z.barva, fillOpacity: z.z === 'S' ? .10 : .05 }).addTo(MAPA);
+      }
+      L.marker(STARE_MESTO, { icon: L.divIcon({ className: '', html: '<div style="font-size:18px">⛪</div>', iconSize: [20, 20] }) }).addTo(MAPA).bindTooltip('Staroměstské náměstí');
+      MARK = L.marker([EST.bod.lat, EST.bod.lon], { draggable: true }).addTo(MAPA);
+      const nastav = ll => { EST.bod = { lat: ll.lat, lon: ll.lng }; EST.adresa = ''; MARK.setLatLng(ll); spocitejOdhad(); };
+      MAPA.on('click', e => nastav(e.latlng)); MARK.on('dragend', () => nastav(MARK.getLatLng()));
+    }).catch(() => { div.innerHTML = '<p style="padding:14px;font-size:13px">Mapu se nepodařilo načíst.</p>'; });
+  }
+  async function hledejAdresu(q) {
+    if (!q.trim()) return; const m = $('#est-zinfo'); if (m) m.textContent = LANG === 'en' ? 'Searching…' : 'Hledám…';
+    try {
+      const r = await (await fetch('https://nominatim.openstreetmap.org/search?' + new URLSearchParams({ format: 'json', q: q + ', Praha', viewbox: '14.22,50.18,14.71,49.94', bounded: 1, limit: 1, 'accept-language': LANG }))).json();
+      if (!r[0]) { if (m) m.textContent = LANG === 'en' ? 'Address not found — tap the map instead.' : 'Adresu jsem nenašel — klepněte do mapy.'; return; }
+      EST.bod = { lat: +r[0].lat, lon: +r[0].lon }; EST.adresa = q;
+      if (MARK) { MARK.setLatLng([EST.bod.lat, EST.bod.lon]); MAPA.setView([EST.bod.lat, EST.bod.lon], 13); }
+      spocitejOdhad();
+    } catch (e) { if (m) m.textContent = LANG === 'en' ? 'Search failed — tap the map.' : 'Hledání selhalo — klepněte do mapy.'; }
   }
   function renderOdhad() {
     const box = $('#est'); if (!box) return; const en = LANG === 'en';
     const chk = (k, cs, enT, full) => `<label${full ? ' class="full"' : ''}><input type="checkbox" data-f="${k}"${EST.f[k] ? ' checked' : ''}><span>${esc(en ? enT : cs)}</span></label>`;
+    if (MAPA) MAPA.getContainer().remove();   // mapa se pri prekresleni neniči, jen se prenese
     box.innerHTML = `<span class="lab">${en ? 'Layout' : 'Dispozice'}</span>
       <div class="seg" id="est-disp">${Object.keys(EST_RNG).map(k => `<button type="button" data-v="${k}" class="${EST.disp === k ? 'on' : ''}" aria-pressed="${EST.disp === k}">${k[0]}+kk</button>`).join('')}</div>
-      <span class="lab">${en ? 'Prague district' : 'Část Prahy'}</span>
-      <div class="seg p10" id="est-praha">${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => `<button type="button" data-v="${n}" class="${EST.praha === n ? 'on' : ''}" aria-pressed="${EST.praha === n}" aria-label="Praha ${n}">${n}</button>`).join('')}</div>
-      <span class="lab">${en ? 'Location' : 'Poloha'}</span>
-      <div class="checks">${EST_LOK.map(([k, c, e], i) => chk(k, c, e, i === 2)).join('')}</div>
+      <span class="lab">${en ? 'Where is the flat? Tap the map or search' : 'Kde je byt? Klepněte do mapy nebo vyhledejte'}</span>
+      <form class="hledej" id="est-hledej"><input id="est-adr" placeholder="${en ? 'e.g. Vinohradská 12' : 'např. Vinohradská 12'}" value="${esc(EST.adresa)}" autocomplete="street-address"><button type="submit">${en ? 'Find' : 'Najít'}</button></form>
+      <div id="est-mapa"></div>
+      <div class="zony">${ZONY.map(z => `<span><i style="border-color:${z.barva};background:${z.barva}22"></i>${esc(en ? z.en : z.cs)}</span>`).join('')}<span><i style="border-color:#9aa5a0"></i>${en ? 'C · outside' : 'C · mimo centrum'}</span></div>
+      <div class="zinfo" id="est-zinfo"></div>
       <span class="lab">${en ? 'The flat has' : 'Byt má'}</span>
       <div class="checks">${EST_BYT.map(([k, c, e], i) => chk(k, c, e, i === 4)).join('')}</div>
       <div class="score"><span>${en ? 'Rental location score' : 'Skóre lokality pro pronájem'} <b id="est-lvl"></b></span><span class="meter" id="est-meter"><i></i><i></i><i></i><i></i></span></div>
       <div class="row"><div><span class="lab" style="margin:0">${en ? 'Estimated income / month' : 'Odhad příjmu měsíčně'}</span><output id="est-gross" class="num"></output></div><div><span class="lab" style="margin:0">${en ? 'You keep after 15 %' : 'Zůstane vám po 15 %'}</span><output id="est-net" class="num" style="color:var(--ok)"></output></div></div>
       <div class="bar"><i id="est-bar"></i></div><div class="barl"><span id="est-min"></span><span id="est-rl"></span><span id="est-max"></span></div>
       <p class="cmp" id="calc-cmp"></p>`;
+    mapaDo($('#est-mapa'));
     $$('#est-disp button').forEach(b => b.onclick = () => { EST.disp = b.dataset.v; renderOdhad(); });
-    $$('#est-praha button').forEach(b => b.onclick = () => { EST.praha = +b.dataset.v; renderOdhad(); });
+    $('#est-hledej').onsubmit = e => { e.preventDefault(); hledejAdresu($('#est-adr').value); };
     $$('#est input[data-f]').forEach(c => c.onchange = () => { EST.f[c.dataset.f] = c.checked; spocitejOdhad(); });
     spocitejOdhad();
   }
   function spocitejOdhad() {
-    const en = LANG === 'en', [mn, mx] = EST_RNG[EST.disp], span = mx - mn, lvl = estLevel();
+    const en = LANG === 'en', [mn, mx] = EST_RNG[EST.disp], span = mx - mn, z = estZona(), lvl = z.lvl;
     const nByt = EST_BYT.filter(([k]) => EST.f[k]).length;
     const p = Math.min(1, [0.2, 0.42, 0.64, 0.86][lvl] + 0.035 * nByt);
     const r1000 = x => Math.round(x / 1000) * 1000;
     const lo = Math.max(mn, r1000(mn + span * (p - 0.1))), hi = Math.min(mx, r1000(mn + span * (p + 0.1)));
     const tis = x => (x / 1000).toLocaleString('cs-CZ') + (en ? 'k' : ' tis.');
+    const [dx, dy] = kmXY(EST.bod, STARE_MESTO), km = Math.hypot(dx, dy);
     $('#est-lvl').textContent = EST_LVL[en ? 'en' : 'cs'][lvl];
     $$('#est-meter i').forEach((i, k) => i.classList.toggle('on', k <= lvl));
+    const zi = $('#est-zinfo'); if (zi) zi.innerHTML = (en ? 'Zone ' : 'Zóna ') + `<b>${esc(en ? z.en : z.cs)}</b> · ${km.toLocaleString('cs-CZ', { maximumFractionDigits: 1 })} km ${en ? 'from Old Town Square' : 'od Staroměstského náměstí'}${EST.adresa ? ' · ' + esc(EST.adresa) : ''}`;
     $('#est-gross').textContent = `${tis(lo)} – ${tis(hi)}`;
     $('#est-net').textContent = `${tis(r1000(lo * .85))} – ${tis(r1000(hi * .85))}`;
     const bar = $('#est-bar'); bar.style.left = ((lo - mn) / span * 100) + '%'; bar.style.width = Math.max(4, (hi - lo) / span * 100) + '%';
-    $('#est-min').textContent = kc(mn); $('#est-max').textContent = kc(mx); $('#est-rl').textContent = `${EST.disp[0]}+kk · Praha ${EST.praha}`;
+    $('#est-min').textContent = kc(mn); $('#est-max').textContent = kc(mx); $('#est-rl').textContent = `${EST.disp[0]}+kk · ${en ? 'zone' : 'zóna'} ${z.z}`;
     const mid = (lo + hi) / 2, c = $('#calc-cmp');
     if (c) c.innerHTML = en ? `With a manager charging 20 % + VAT you would keep ${kc(mid * .758)}, that is <b>${kc(mid * .092)} less per month</b>. ${kc(mid * .092 * 12)} a year.` : `U správce s 20 % + DPH by vám zůstalo ${kc(mid * .758)}, tedy <b>o ${kc(mid * .092)} měsíčně méně</b>. Za rok ${kc(mid * .092 * 12)}.`;
   }
