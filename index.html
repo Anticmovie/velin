@@ -399,10 +399,14 @@
   /* varovani: kdyz data nejsou cerstva, male okno 'VELIN to resi' (hlidac dat, prihlaseni Booking, stari reportu) */
   function nactiVarovani(updAt){
     Promise.all([fetch(SB+'/report_provoz?id=eq.health&select=payload',{headers:SBH}).then(function(r){return r.json();}).catch(function(){return [];}),
-                 fetch(SB+'/booking_login?select=id,stav,zprava',{headers:SBH}).then(function(r){return r.json();}).catch(function(){return [];})]).then(function(a){
+                 fetch(SB+'/booking_login?select=id,stav,zprava',{headers:SBH}).then(function(r){return r.json();}).catch(function(){return [];}),
+                 fetch(SB+'/report_provoz?id=eq.dozor&select=payload,updated_at',{headers:SBH}).then(function(r){return r.json();}).catch(function(){return [];})]).then(function(a){
       var msg=[]; if(updAt&&Date.now()-new Date(updAt)>50*60e3)msg.push('Rozpis je '+Math.round((Date.now()-new Date(updAt))/60e3)+' min starý.');
       var h=a[0]&&a[0][0]&&a[0][0].payload; if(h&&h.zdroje)h.zdroje.forEach(function(z){if(z.stav&&z.stav!=='ok')msg.push(z.label+': data '+z.stari+' stará ('+z.vliv+').');});
       (a[1]||[]).forEach(function(r){if(r.stav!=='ok')msg.push('Booking '+r.id+': '+(r.zprava||r.stav)+'.');});
+      /* 18.10.2026: dozor na MINIPC (spojka.js) — selhane ulohy, souběh skriptu, publikace */
+      var dz=a[2]&&a[2][0]; if(dz&&dz.payload&&Array.isArray(dz.payload.problemy))dz.payload.problemy.filter(function(p){return !p.opraveno;}).forEach(function(p){msg.push(p.text+'.');});
+      if(dz&&Date.now()-new Date(dz.updated_at)>15*60e3)msg.push('Dozor na MINIPC se neozval '+Math.round((Date.now()-new Date(dz.updated_at))/60e3)+' min — MINIPC možná neběží.');
       document.getElementById('velin-warn').innerHTML=msg.length?'<div class="warncard"><b>⚠️ Data nejsou úplně aktuální – VELÍN to řeší</b>'+msg.map(esc).join('<br>')+'</div>':'';
     });
   }

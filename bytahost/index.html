@@ -667,6 +667,10 @@ async function varovani(){ try{
   const {data:hl}=await sb.from('report_provoz').select('payload,updated_at').eq('id','health'); const h=hl&&hl[0]&&hl[0].payload;
   if(h&&Array.isArray(h.zdroje)) h.zdroje.filter(z=>z.stav&&z.stav!=='ok').forEach(z=>msg.push(z.label+': data '+z.stari+' stará ('+z.vliv+').'));
   const {data:bl}=await sb.from('booking_login').select('id,stav,zprava'); (bl||[]).filter(r=>r.stav!=='ok').forEach(r=>msg.push('Booking '+r.id+': '+(r.zprava||r.stav)+'.'));
+  /* 18.10.2026: dozor na MINIPC (spojka.js) */
+  const {data:dz}=await sb.from('report_provoz').select('payload,updated_at').eq('id','dozor'); const d0=dz&&dz[0];
+  if(d0&&d0.payload&&Array.isArray(d0.payload.problemy)) d0.payload.problemy.filter(p=>!p.opraveno).forEach(p=>msg.push(p.text+'.'));
+  if(d0&&Date.now()-new Date(d0.updated_at)>15*60e3) msg.push('Dozor na MINIPC se neozval '+Math.round((Date.now()-new Date(d0.updated_at))/60e3)+' min — MINIPC možná neběží.');
   box.innerHTML=msg.length?`<div class="warncard"><b>⚠️ Data nejsou úplně aktuální – VELÍN to řeší</b>${msg.map(esc).join('<br>')}</div>`:'';
 }catch(e){} }
 
