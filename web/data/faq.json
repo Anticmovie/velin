@@ -1,0 +1,210 @@
+{
+ "faq": {
+  "cs": [
+   [
+    "V kolik je check-in a check-out?",
+    "Check-in je samoobslužný od 14:00 (u některých bytů od 16:00, vidíte to v detailu), check-out do 11:00. Dřívější příjezd nebo pozdější odjezd rádi umožníme po domluvě podle obsazenosti."
+   ],
+   [
+    "Jak dostanu klíče?",
+    "Den před příjezdem pošleme adresu, kód ke schránce na klíče a krátkého průvodce bytem. Nemusíte se s nikým potkávat ani hlídat čas."
+   ],
+   [
+    "Je přímá rezervace opravdu levnější?",
+    "Ano. Stejný byt, stejný termín, o 10 % nižší cena než na Airbnb nebo Booking. Platformy si účtují provizi, kterou u přímé rezervace neplatíme, a část úspory dáváme vám."
+   ],
+   [
+    "Jak se platí?",
+    "Po potvrzení termínu pošleme zabezpečený odkaz k platbě kartou nebo údaje k bankovnímu převodu. Žádost sama o sobě nic nestrhává."
+   ],
+   [
+    "Co je městský poplatek?",
+    "Poplatek z pobytu hl. m. Prahy 50 Kč za dospělou osobu a noc. Odvádíme ho za vás městu, v ceně ho vidíte zvlášť. Děti do 18 let jsou osvobozeny."
+   ],
+   [
+    "Mohu přijet s mazlíčkem?",
+    "V některých bytech ano, za jednorázový poplatek uvedený v detailu. Napište nám prosím předem."
+   ],
+   [
+    "Kde zaparkuji?",
+    "Několik bytů má vlastní parkování zdarma (je to v názvu a vybavení). Jinde poradíme s nejbližším parkovacím domem; centrum má modré zóny."
+   ],
+   [
+    "Co když musím zrušit?",
+    "Při zrušení 14 a více dní před příjezdem vracíme celou platbu, 7–13 dní před příjezdem polovinu. Podrobnosti v rezervačních podmínkách."
+   ]
+  ],
+  "en": [
+   [
+    "What time is check-in and check-out?",
+    "Self check-in from 2 PM (some apartments from 4 PM, shown in the detail), check-out by 11 AM. Earlier arrival or later departure on request, depending on occupancy."
+   ],
+   [
+    "How do I get the keys?",
+    "The day before arrival we send the address, the key-box code and a short apartment guide. No meeting, no fixed time."
+   ],
+   [
+    "Is booking direct really cheaper?",
+    "Yes. Same apartment, same dates, 10 % less than on Airbnb or Booking. Platforms charge a commission we do not pay on direct bookings, and we pass part of the saving to you."
+   ],
+   [
+    "How do I pay?",
+    "After we confirm the dates we send a secure card payment link or bank transfer details. The request itself charges nothing."
+   ],
+   [
+    "What is the city tax?",
+    "Prague tourist tax of 50 CZK per adult per night. We remit it to the city for you; it is shown separately in the price. Children under 18 are exempt."
+   ],
+   [
+    "Can I bring a pet?",
+    "In some apartments yes, for a one-off fee shown in the detail. Please tell us in advance."
+   ],
+   [
+    "Where do I park?",
+    "Several apartments have free private parking (it is in the name and amenities). Elsewhere we advise the nearest garage; the centre has blue zones."
+   ],
+   [
+    "What if I have to cancel?",
+    "Cancellations 14+ days before arrival are refunded in full, 7–13 days before arrival 50 %. Details in the booking terms."
+   ]
+  ],
+  "ru": [
+   [
+    "Во сколько заселение и выезд?",
+    "Самостоятельное заселение с 14:00 (в некоторых апартаментах с 16:00, это указано в описании), выезд до 11:00. Более ранний заезд или более поздний выезд — по запросу, в зависимости от загрузки."
+   ],
+   [
+    "Как я получу ключи?",
+    "За день до приезда мы пришлём адрес, код от ящика с ключами и короткий путеводитель по квартире. Не нужно ни с кем встречаться и подстраиваться под время."
+   ],
+   [
+    "Прямое бронирование действительно дешевле?",
+    "Да. Та же квартира, те же даты, на 10 % дешевле, чем на Airbnb или Booking. Платформы берут комиссию, которую мы при прямом бронировании не платим, и часть этой экономии мы передаём вам."
+   ],
+   [
+    "Как оплатить?",
+    "После подтверждения дат мы пришлём защищённую ссылку для оплаты картой или реквизиты для банковского перевода. Сам запрос ничего не списывает."
+   ],
+   [
+    "Что такое городской сбор?",
+    "Туристический сбор Праги — 50 крон со взрослого за ночь. Мы перечисляем его городу за вас; в цене он указан отдельно. Дети до 18 лет освобождены от сбора."
+   ],
+   [
+    "Можно ли приехать с домашним животным?",
+    "В некоторых апартаментах можно, за разовый сбор, указанный в описании. Пожалуйста, сообщите нам заранее."
+   ],
+   [
+    "Где припарковаться?",
+    "В нескольких апартаментах есть бесплатная частная парковка (это указано в названии и в удобствах). В остальных случаях подскажем ближайший паркинг; в центре действуют синие зоны."
+   ],
+   [
+    "Что, если мне придётся отменить бронирование?",
+    "При отмене за 14 и более дней до приезда возвращаем всю сумму, за 7–13 дней до приезда — 50 %. Подробности — в условиях бронирования."
+   ]
+  ]
+ },
+ "ofaq": {
+  "cs": [
+   [
+    "Kolik mi byt vydělá?",
+    "Záleží na lokalitě, velikosti, vybavení a sezóně. Odhad neděláme od stolu: vycházíme z obsazenosti a cen našich bytů ve stejné čtvrti za posledních 12 měsíců. Konkrétní čísla pro váš byt pošleme do 24 hodin od vyplnění formuláře."
+   ],
+   [
+    "Kdy a jak dostanu peníze?",
+    "Výplaty z Airbnb a Booking chodí přímo na váš účet, obvykle den po příjezdu hosta. My vám do 10. dne dalšího měsíce pošleme vyúčtování a fakturu na 15 %. Přímé rezervace z tohoto webu vyúčtujeme ve stejném přehledu."
+   ],
+   [
+    "Můžu v bytě bydlet nebo ho půjčit rodině?",
+    "Ano, je to váš byt. Termín si zablokujete v portálu nebo zprávou, ideálně 30 dní předem. Už potvrzené rezervace hostů se dodržují."
+   ],
+   [
+    "Co když host něco rozbije?",
+    "Škody řešíme s hostem a přes ochranu platforem (Airbnb AirCover, Booking). Byt po každém pobytu kontroluje náš úklid, takže o problému víme hned a vy dostanete informaci o každém případu."
+   ],
+   [
+    "Potřebuji živnost? Jak je to s daněmi?",
+    "Příjem z krátkodobého pronájmu se daní jako příjem ze samostatné činnosti nebo z pronájmu podle vaší situace; živnost u pronájmu bytu obvykle není nutná, ale doporučíme vám, s kým to probrat. Podklady z portálu k přiznání stačí. Městský poplatek a evidenci hostů řešíme my."
+   ],
+   [
+    "Jak rychle začneme?",
+    "Po prohlídce a podpisu smlouvy obvykle 2 až 3 týdny: fotky, inzeráty, schránka na klíče, textil. U zařízeného bytu to může být i rychleji."
+   ],
+   [
+    "Jak je to s výpovědí?",
+    "Smlouva na dobu neurčitou s výpovědní dobou 2 měsíce, vždy dokončíme už potvrzené pobyty. Prvních 90 dní je zkušebních, pokud nejste spokojeni, končíme bez sankcí."
+   ],
+   [
+    "Proč zrovna vy?",
+    "Nejsme agentura, která má byty jen v tabulce. Část bytů je našich vlastních, takže každý problém řešíme, jako by šlo o náš byt. Hosté nám dali přes 1 200 recenzí s hodnocením 4,9+ a jsme Superhostitel na Airbnb."
+   ]
+  ],
+  "en": [
+   [
+    "How much will my flat earn?",
+    "It depends on location, size, equipment and season. We do not guess: the estimate is based on the occupancy and prices of our own flats in the same district over the last 12 months. We send specific numbers for your flat within 24 hours of your inquiry."
+   ],
+   [
+    "When and how do I get paid?",
+    "Airbnb and Booking payouts go directly to your account, usually the day after the guest arrives. By the 10th of the next month we send a statement and an invoice for 15 %. Direct bookings from this website are settled in the same statement."
+   ],
+   [
+    "Can I stay in the flat or lend it to family?",
+    "Yes, it is your flat. Block the dates in the portal or by message, ideally 30 days ahead. Confirmed guest bookings are honoured."
+   ],
+   [
+    "What if a guest breaks something?",
+    "We settle damage with the guest and through platform protection (Airbnb AirCover, Booking). Our cleaners inspect the flat after every stay, so we know about any problem right away and you are informed of every case."
+   ],
+   [
+    "Do I need a trade licence? What about taxes?",
+    "Income from short-term rental is taxed as business or rental income depending on your situation; a trade licence is usually not required for renting out a flat, but we will recommend whom to consult. The portal documents are sufficient for your tax return. We handle the city tax and the guest register."
+   ],
+   [
+    "How fast can we start?",
+    "After the visit and signing, usually 2 to 3 weeks: photos, listings, key box, linen. A furnished flat can go faster."
+   ],
+   [
+    "What about notice?",
+    "Open-ended agreement with a 2-month notice period; we always complete confirmed stays. The first 90 days are a trial: if you are not happy, we part without penalties."
+   ],
+   [
+    "Why you?",
+    "We are not an agency with flats in a spreadsheet. Some of the flats are our own, so we solve every problem as if it were ours. Guests have given us over 1,200 reviews with a 4.9+ rating and we are an Airbnb Superhost."
+   ]
+  ],
+  "ru": [
+   [
+    "Сколько будет зарабатывать моя квартира?",
+    "Это зависит от расположения, площади, оснащения и сезона. Мы не гадаем: оценка основана на загрузке и ценах наших собственных квартир в том же районе за последние 12 месяцев. Конкретные цифры для вашей квартиры пришлём в течение 24 часов после вашего запроса."
+   ],
+   [
+    "Когда и как я получаю деньги?",
+    "Выплаты Airbnb и Booking поступают напрямую на ваш счёт, обычно на следующий день после заезда гостя. До 10-го числа следующего месяца мы присылаем отчёт и счёт на 15 %. Прямые бронирования с этого сайта учитываются в том же отчёте."
+   ],
+   [
+    "Могу ли я сам жить в квартире или предоставить её родственникам?",
+    "Да, это ваша квартира. Заблокируйте даты на портале или сообщением, желательно за 30 дней. Подтверждённые бронирования гостей сохраняются."
+   ],
+   [
+    "Что, если гость что-то сломает?",
+    "Ущерб мы урегулируем с гостем и через защиту платформ (Airbnb AirCover, Booking). Наши уборщики проверяют квартиру после каждого проживания, поэтому о любой проблеме мы узнаём сразу, а вы получаете информацию о каждом случае."
+   ],
+   [
+    "Нужно ли мне регистрировать предпринимательскую деятельность? Как быть с налогами?",
+    "Доход от краткосрочной аренды облагается налогом как доход от предпринимательской деятельности или от сдачи в аренду — в зависимости от вашей ситуации; для сдачи квартиры регистрация предпринимательской деятельности обычно не требуется, но мы подскажем, к кому обратиться за консультацией. Для налоговой декларации достаточно документов с портала. Городской сбор и учёт гостей мы берём на себя."
+   ],
+   [
+    "Как быстро мы можем начать?",
+    "После осмотра и подписания договора обычно 2–3 недели: фотографии, объявления, ящик для ключей, бельё. С меблированной квартирой можно и быстрее."
+   ],
+   [
+    "Как обстоит дело с расторжением?",
+    "Бессрочный договор с уведомлением о расторжении за 2 месяца; уже подтверждённые проживания мы всегда завершаем. Первые 90 дней — испытательный срок: если вы недовольны, мы расстанемся без штрафов."
+   ],
+   [
+    "Почему именно вы?",
+    "Мы не агентство, у которого квартиры существуют только в таблице. Часть квартир — наши собственные, поэтому каждую проблему мы решаем так, как если бы квартира была нашей. Гости оставили нам более 1 200 отзывов со средней оценкой 4.9+, и мы — Суперхост Airbnb."
+   ]
+  ]
+ }
+}

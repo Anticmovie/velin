@@ -10,7 +10,10 @@
   const addD = (s, n) => { const d = new Date(s + 'T12:00:00'); d.setDate(d.getDate() + n); return iso(d); };
   const today = iso(new Date());
   const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let LANG = localStorage.getItem('bh_lang') || ((navigator.language || 'cs').toLowerCase().startsWith('cs') ? 'cs' : 'en');
+  const LANGS = ['cs', 'en', 'ru'];
+  let LANG = (() => { const u = new URLSearchParams(location.search).get('lang'); if (LANGS.includes(u)) return u; let s = null; try { s = localStorage.getItem('bh_lang'); } catch (e) {} if (LANGS.includes(s)) return s; const n = (navigator.language || 'cs').toLowerCase(); return n.startsWith('cs') || n.startsWith('sk') ? 'cs' : (n.startsWith('ru') || n.startsWith('uk') || n.startsWith('be') ? 'ru' : 'en'); })();
+  const L3 = (cs, en, ru) => LANG === 'ru' ? ru : LANG === 'en' ? en : cs;
+  const RU = window.BH_RU || {};
   const STAR = '<svg class="ico" style="width:14px;height:14px;fill:currentColor;stroke:none"><use href="#i-star"/></svg>';
 
   /* ---------- i18n: CS = text v HTML, EN = slovník ---------- */
@@ -37,15 +40,18 @@
     cs: { guests: 'hostů', guest1: 'host', guests2: 'hosté', bedroom: 'ložnice', beds: 'postele', bed1: 'postel', bath: 'koupelna', baths: 'koupelny', from: 'od', night: 'noc', direct: 'přímo u nás', detail: 'Detail a rezervace', airbnb: 'Airbnb', booking: 'Booking.com', reviews: 'recenzí', closed: 'Momentálně nedostupné', about: 'O apartmánu', amen: 'Vybavení', loc: 'Lokalita', locp: 'Pin ukazuje přibližnou polohu. Přesnou adresu s číslem domu pošleme po potvrzení rezervace.', rules: 'Pravidla a příjezd', avail: 'Dostupnost a ceny', calp: 'Klikněte na den příjezdu a den odjezdu. Ceny jsou za noc při rezervaci přímo u nás, bez dalších poplatků platforem.', bookp: 'Nezávazná žádost. Potvrdíme a pošleme platební odkaz.', checkin: 'Příjezd', checkout: 'Odjezd', adults: 'Dospělí', kids: 'Děti do 18', nights: 'nocí', nightsx: 'noc', cleaning: 'Úklid', tax: 'Městský poplatek', taxp: '50 Kč / dospělý / noc', total: 'Celkem', send: 'Odeslat žádost o rezervaci', sending: 'Odesílám…', ok: 'Děkujeme! Žádost jsme přijali. Ozveme se co nejdříve s potvrzením a platebním odkazem.', err: 'Odeslání se nepodařilo. Zkuste to prosím za chvíli znovu, nebo nám napište přes kontakt.', or: 'nebo rezervujte na', pick: 'Vyberte termín v kalendáři', unavail: 'Termín není celý volný', minn: 'Minimální délka pobytu v tomto termínu je {n} nocí', name: 'Jméno a příjmení', email: 'E-mail', phone: 'Telefon', note: 'Poznámka (čas příjezdu, přání)', mon: ['leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec'], wk: ['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'], free: 'apartmánů volných pro', none: 'Pro zadaný termín bohužel nemáme volný apartmán. Zkuste posunout data nebo nám napište.', clear: 'Zrušit filtr', sent: 'Zpráva odeslána, ozveme se.', sent2: 'Poptávka odeslána, ozveme se do 24 hodin.', pin: 'Vstup s PINem', self: 'Samoobslužný check-in od {ci}, odjezd do 11:00. Nekuřácký byt, bez večírků. Mazlíčci po domluvě.', pet: 'Poplatek za mazlíčka', back: 'Apartmány', all: 'Všechny', allph: 'Všechny fotky', selfci: 'samoobslužný check-in', avail2: 'volno', booked: 'obsazeno', yours: 'váš výběr', pernight: 'ceny za noc, přímo u nás', onair: 'na Airbnb', revh: 'Recenze hostů', translated: 'Přeloženo', prague1: 'Praha 1', nusle: 'Nusle & Vyšehrad', save: 'ušetříte', lbad: 'Špatné číslo klienta nebo heslo.', lwait: 'Přihlašuji…', lgo: 'Přihlásit', lnet: 'Portál se nepodařilo načíst. Zkuste to za chvíli znovu.' },
     en: { guests: 'guests', guest1: 'guest', guests2: 'guests', bedroom: 'bedroom', beds: 'beds', bed1: 'bed', bath: 'bathroom', baths: 'bathrooms', from: 'from', night: 'night', direct: 'direct with us', detail: 'Details & booking', airbnb: 'Airbnb', booking: 'Booking.com', reviews: 'reviews', closed: 'Currently unavailable', about: 'About the apartment', amen: 'Amenities', loc: 'Location', locp: 'The pin shows the approximate location. The exact address follows after confirmation.', rules: 'House rules & arrival', avail: 'Availability & prices', calp: 'Click the check-in and check-out day. Prices are per night when booking direct, with no platform fees.', bookp: 'Non-binding request. We confirm and send a payment link.', checkin: 'Check-in', checkout: 'Check-out', adults: 'Adults', kids: 'Children under 18', nights: 'nights', nightsx: 'night', cleaning: 'Cleaning', tax: 'City tax', taxp: '50 CZK / adult / night', total: 'Total', send: 'Send booking request', sending: 'Sending…', ok: 'Thank you! We received your request and will reply shortly with a confirmation and payment link.', err: 'Sending failed. Please try again in a moment or use the contact form.', or: 'or book on', pick: 'Pick your dates in the calendar', unavail: 'Not all nights are available', minn: 'Minimum stay for these dates is {n} nights', name: 'Full name', email: 'E-mail', phone: 'Phone', note: 'Note (arrival time, wishes)', mon: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], wk: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], free: 'apartments available for', none: 'Sorry, nothing is free for these dates. Try shifting the dates or write to us.', clear: 'Clear filter', sent: 'Message sent, we will get back to you.', sent2: 'Inquiry sent, we will reply within 24 hours.', pin: 'Enter with PIN', self: 'Self check-in from {ci}, check-out by 11 AM. Non-smoking, no parties. Pets on request.', pet: 'Pet fee', back: 'Apartments', all: 'All', allph: 'All photos', selfci: 'self check-in', avail2: 'available', booked: 'booked', yours: 'your dates', pernight: 'per night, direct', onair: 'on Airbnb', revh: 'Guest reviews', translated: 'Translated', prague1: 'Prague 1', nusle: 'Nusle & Vyšehrad', save: 'you save', lbad: 'Wrong client number or password.', lwait: 'Signing in…', lgo: 'Sign in', lnet: 'The portal could not be loaded. Please try again in a moment.' },
   };
-  const t = k => D[LANG][k] ?? D.cs[k] ?? k;
+  D.ru = Object.assign({}, D.en, RU.D || {});
+  const t = k => D[LANG][k] ?? D.en[k] ?? D.cs[k] ?? k;
   function applyLang() {
     $$('[data-i],[data-i-html]').forEach(el => {
       const key = el.dataset.i || el.dataset.iHtml; if (!key) return;
       if (!('cs' in el.dataset)) el.dataset.cs = el.innerHTML;
-      if (LANG === 'en' && EN[key] != null) el.innerHTML = EN[key]; else el.innerHTML = el.dataset.cs;
+      const DIC = LANG === 'en' ? EN : LANG === 'ru' ? (RU.EN || EN) : null;
+      if (DIC && DIC[key] != null) el.innerHTML = DIC[key]; else el.innerHTML = el.dataset.cs;
     });
     $$('.lang button').forEach(b => b.classList.toggle('on', b.dataset.lang === LANG));
-    document.documentElement.lang = LANG; localStorage.setItem('bh_lang', LANG);
+    document.documentElement.lang = LANG; try { localStorage.setItem('bh_lang', LANG); } catch (e) {}
+    try { const u = new URL(location.href); if (LANG === 'cs') u.searchParams.delete('lang'); else u.searchParams.set('lang', LANG); history.replaceState(null, '', u.pathname + u.search + u.hash); } catch (e) {}   // odkaz na jazyk: bytahost.cz/?lang=ru
     renderFaq(); renderOwnerBlocks(); renderPortal(); renderTerms(); renderFilters(); renderGrid(FILTR); renderReviews();
     if (ROUTE.page === 'detail') renderDetail(ROUTE.slug, true);
   }
@@ -54,7 +60,7 @@
   const verejne = () => B.byty.filter(b => !b.skryty);
   const bySlug = s => B.byty.find(b => b.slug === s);
   const img = (p, small) => small ? p.replace(/\.jpg$/, '-s.jpg') : p;
-  const lok = b => LANG === 'en' && b.lokalita_en ? b.lokalita_en : b.lokalita;
+  const lok = b => LANG !== 'cs' && b.lokalita_en ? b.lokalita_en : b.lokalita;
   const lid = b => ((b.airbnb_url || '').match(/rooms\/(\d+)/) || [])[1];
   const SLEVA = () => (B.meta && B.meta.sleva_primo) || 0.9;
   const airKc = b => b.od_kc ? Math.round(b.od_kc / SLEVA() / 10) * 10 : null;
@@ -106,7 +112,7 @@
     const ra = v.filter(b => b.rating_airbnb && (b.recenzi_airbnb || 0) >= 5); const avgA = ra.length ? (ra.reduce((s, b) => s + b.rating_airbnb, 0) / ra.length) : null;
     const rb = v.filter(b => b.rating_booking && (b.recenzi_booking || 0) >= 5); const avgB = rb.length ? (rb.reduce((s, b) => s + b.rating_booking, 0) / rb.length) : null;
     const orv = $('#o-rev'); if (orv) orv.textContent = rev.toLocaleString('cs-CZ');
-    if ($('#t-plat')) $('#t-plat').innerHTML = (avgA ? `<span class="chip air">Airbnb ${avgA.toFixed(1).replace('.', ',')}</span>` : '') + (avgB ? `<span class="chip bk">Booking.com ${avgB.toFixed(1).replace('.', ',')}</span>` : '') + (CFG.superhost ? `<span class="chip gold">${LANG === 'cs' ? 'Superhostitel' : 'Superhost'}</span>` : '');
+    if ($('#t-plat')) $('#t-plat').innerHTML = (avgA ? `<span class="chip air">Airbnb ${avgA.toFixed(1).replace('.', ',')}</span>` : '') + (avgB ? `<span class="chip bk">Booking.com ${avgB.toFixed(1).replace('.', ',')}</span>` : '') + (CFG.superhost ? `<span class="chip gold">${L3('Superhostitel', 'Superhost', 'Суперхост')}</span>` : '');
     const run = () => { countUp(apt, +(apt.dataset.n || 40)); countUp(revEl, rev); };
     if (REDUCED || !('IntersectionObserver' in window)) run(); else { const o = new IntersectionObserver(en => { if (en[0].isIntersecting) { run(); o.disconnect(); } }, { threshold: .3 }); o.observe($('.stats')); }
   }
@@ -151,8 +157,8 @@
     const go = d => { const i = Math.round(trk.scrollLeft / w()) + d, n = trk.children.length; trk.scrollTo({ left: ((i + n) % n) * w(), behavior: REDUCED ? 'auto' : 'smooth' }); };
     const p = $('.nb.p', c), n = $('.nb.n', c); if (p) p.onclick = e => { e.preventDefault(); go(-1); }; if (n) n.onclick = e => { e.preventDefault(); go(1); };
   }
-  $('#search').onsubmit = e => { e.preventDefault(); const od = $('#s-od').value, doo = $('#s-do').value, h = +$('#s-h').value; if (!od || !doo || doo <= od) { $('#s-do').setCustomValidity(LANG === 'cs' ? 'Odjezd musí být po příjezdu.' : 'Check-out must be after check-in.'); $('#s-do').reportValidity(); return; } $('#s-do').setCustomValidity(''); FILTR = { od, do: doo, h }; OBLAST = null; renderFilters(); renderGrid(FILTR); $('#apartmany').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' }); };
-  function dateHints() { $$('input[type=date]').forEach(i => { const w = i.closest('label, .dates > div'); if (!w) return; if (!w.dataset.hint) w.dataset.hint = LANG === 'cs' ? 'Vyberte datum' : 'Pick a date'; w.classList.toggle('empty', !i.value); if (!i.dataset.h) { i.dataset.h = 1; i.addEventListener('input', dateHints); i.addEventListener('change', dateHints); i.addEventListener('focus', () => w.classList.remove('empty')); i.addEventListener('blur', dateHints); } }); }
+  $('#search').onsubmit = e => { e.preventDefault(); const od = $('#s-od').value, doo = $('#s-do').value, h = +$('#s-h').value; if (!od || !doo || doo <= od) { $('#s-do').setCustomValidity(L3('Odjezd musí být po příjezdu.', 'Check-out must be after check-in.', 'Выезд должен быть позже заезда.')); $('#s-do').reportValidity(); return; } $('#s-do').setCustomValidity(''); FILTR = { od, do: doo, h }; OBLAST = null; renderFilters(); renderGrid(FILTR); $('#apartmany').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' }); };
+  function dateHints() { $$('input[type=date]').forEach(i => { const w = i.closest('label, .dates > div'); if (!w) return; w.dataset.hint = L3('Vyberte datum', 'Pick a date', 'Выберите дату'); w.classList.toggle('empty', !i.value); if (!i.dataset.h) { i.dataset.h = 1; i.addEventListener('input', dateHints); i.addEventListener('change', dateHints); i.addEventListener('focus', () => w.classList.remove('empty')); i.addEventListener('blur', dateHints); } }); }
   window.BH_dateHints = dateHints;
   $('#s-od').min = today; $('#s-od').onchange = () => { $('#s-do').min = addD($('#s-od').value, 1); $('#s-do').setCustomValidity(''); };
 
@@ -162,7 +168,7 @@
     for (const [id, v] of Object.entries(R)) {
       if (b && lid(b) !== id) continue;
       const byt = B.byty.find(x => lid(x) === id); if (!byt || byt.skryty) continue;
-      for (const r of (v[LANG] || v.cs || [])) { const txt = (LANG === 'cs' ? r.text_cs : r.text_en) || r.text; out.push({ ...r, txt, lang: r.lang || '', byt: byt.nazev, slug: byt.slug }); }
+      for (const r of (v[LANG] || (LANG === 'ru' ? v.en : null) || v.cs || [])) { const txt = (LANG === 'cs' ? r.text_cs : r.text_en) || r.text; out.push({ ...r, txt, lang: r.lang || '', byt: byt.nazev, slug: byt.slug }); }
     }
     return out;
   }
@@ -192,6 +198,7 @@
     cs: [['Kolik mi byt vydělá?', 'Záleží na lokalitě, velikosti, vybavení a sezóně. Odhad neděláme od stolu: vycházíme z obsazenosti a cen našich bytů ve stejné čtvrti za posledních 12 měsíců. Konkrétní čísla pro váš byt pošleme do 24 hodin od vyplnění formuláře.'], ['Kdy a jak dostanu peníze?', 'Výplaty z Airbnb a Booking chodí přímo na váš účet, obvykle den po příjezdu hosta. My vám do 10. dne dalšího měsíce pošleme vyúčtování a fakturu na 15 %. Přímé rezervace z tohoto webu vyúčtujeme ve stejném přehledu.'], ['Můžu v bytě bydlet nebo ho půjčit rodině?', 'Ano, je to váš byt. Termín si zablokujete v portálu nebo zprávou, ideálně 30 dní předem. Už potvrzené rezervace hostů se dodržují.'], ['Co když host něco rozbije?', 'Škody řešíme s hostem a přes ochranu platforem (Airbnb AirCover, Booking). Byt po každém pobytu kontroluje náš úklid, takže o problému víme hned a vy dostanete informaci o každém případu.'], ['Potřebuji živnost? Jak je to s daněmi?', 'Příjem z krátkodobého pronájmu se daní jako příjem ze samostatné činnosti nebo z pronájmu podle vaší situace; živnost u pronájmu bytu obvykle není nutná, ale doporučíme vám, s kým to probrat. Podklady z portálu k přiznání stačí. Městský poplatek a evidenci hostů řešíme my.'], ['Jak rychle začneme?', 'Po prohlídce a podpisu smlouvy obvykle 2 až 3 týdny: fotky, inzeráty, schránka na klíče, textil. U zařízeného bytu to může být i rychleji.'], ['Jak je to s výpovědí?', 'Smlouva na dobu neurčitou s výpovědní dobou 2 měsíce, vždy dokončíme už potvrzené pobyty. Prvních 90 dní je zkušebních, pokud nejste spokojeni, končíme bez sankcí.'], ['Proč zrovna vy?', 'Nejsme agentura, která má byty jen v tabulce. Část bytů je našich vlastních, takže každý problém řešíme, jako by šlo o náš byt. Hosté nám dali přes 1 200 recenzí s hodnocením 4,9+ a jsme Superhostitel na Airbnb.']],
     en: [['How much will my flat earn?', 'It depends on location, size, equipment and season. We do not guess: the estimate is based on the occupancy and prices of our own flats in the same district over the last 12 months. We send specific numbers for your flat within 24 hours of your inquiry.'], ['When and how do I get paid?', 'Airbnb and Booking payouts go directly to your account, usually the day after the guest arrives. By the 10th of the next month we send a statement and an invoice for 15 %. Direct bookings from this website are settled in the same statement.'], ['Can I stay in the flat or lend it to family?', 'Yes, it is your flat. Block the dates in the portal or by message, ideally 30 days ahead. Confirmed guest bookings are honoured.'], ['What if a guest breaks something?', 'We settle damage with the guest and through platform protection (Airbnb AirCover, Booking). Our cleaners inspect the flat after every stay, so we know about any problem right away and you are informed of every case.'], ['Do I need a trade licence? What about taxes?', 'Income from short-term rental is taxed as business or rental income depending on your situation; a trade licence is usually not required for renting out a flat, but we will recommend whom to consult. The portal documents are sufficient for your tax return. We handle the city tax and the guest register.'], ['How fast can we start?', 'After the visit and signing, usually 2 to 3 weeks: photos, listings, key box, linen. A furnished flat can go faster.'], ['What about notice?', 'Open-ended agreement with a 2-month notice period; we always complete confirmed stays. The first 90 days are a trial: if you are not happy, we part without penalties.'], ['Why you?', 'We are not an agency with flats in a spreadsheet. Some of the flats are our own, so we solve every problem as if it were ours. Guests have given us over 1,200 reviews with a 4.9+ rating and we are an Airbnb Superhost.']],
   };
+  FAQ.ru = RU.FAQ || FAQ.en; OFAQ.ru = RU.OFAQ || OFAQ.en;
   function renderFaq() { const f = $('#faq'); if (f) f.innerHTML = FAQ[LANG].map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join(''); const o = $('#ofaq'); if (o) o.innerHTML = OFAQ[LANG].map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join(''); }
 
   /* ---------- detail ---------- */
@@ -201,7 +208,7 @@
     const q = new URLSearchParams((location.hash.split('?')[1] || '')); if (!keep) { SEL = { od: q.get('od'), do: q.get('do') }; CALM = null; }
     const f = b.fotky || [], am = b.vybaveni || [];
     const sub = `<div class="sub"><span>${esc(lok(b))}</span><span>·</span><span>${b.hoste} ${t('guests')}</span><span>·</span><span>${b.loznice} ${t('bedroom')}</span><span>·</span><span>${b.postele} ${b.postele > 1 ? t('beds') : t('bed1')}</span><span>·</span><span>${b.koupelny} ${b.koupelny > 1 ? t('baths') : t('bath')}</span></div>`;
-    const badges = `${b.rating_airbnb ? `<a class="chip air" href="${esc(b.airbnb_url)}" target="_blank" rel="noopener" style="text-decoration:none"><span class="star" style="color:inherit">${STAR}</span>${b.rating_airbnb.toFixed(2)} · ${b.recenzi_airbnb} ${t('reviews')} Airbnb</a>` : ''}${b.rating_booking ? `<a class="chip bk" href="${esc(b.booking_url)}" target="_blank" rel="noopener" style="text-decoration:none">${b.rating_booking} / 10 · ${b.recenzi_booking} Booking.com</a>` : ''}<span class="chip gold">−10 % ${t('direct')}</span>${CFG.superhost ? `<span class="chip">${LANG === 'cs' ? 'Superhostitel Airbnb' : 'Airbnb Superhost'}</span>` : ''}`;
+    const badges = `${b.rating_airbnb ? `<a class="chip air" href="${esc(b.airbnb_url)}" target="_blank" rel="noopener" style="text-decoration:none"><span class="star" style="color:inherit">${STAR}</span>${b.rating_airbnb.toFixed(2)} · ${b.recenzi_airbnb} ${t('reviews')} Airbnb</a>` : ''}${b.rating_booking ? `<a class="chip bk" href="${esc(b.booking_url)}" target="_blank" rel="noopener" style="text-decoration:none">${b.rating_booking} / 10 · ${b.recenzi_booking} Booking.com</a>` : ''}<span class="chip gold">−10 % ${t('direct')}</span>${CFG.superhost ? `<span class="chip">${L3('Superhostitel Airbnb', 'Airbnb Superhost', 'Суперхост Airbnb')}</span>` : ''}`;
     const geo = b.geo ? { lat: Math.round(b.geo.lat * 1000) / 1000, lon: Math.round(b.geo.lon * 1000) / 1000 } : null;
     const map = geo ? `<div class="map"><iframe title="${esc(b.nazev)} – ${t('loc')}" src="https://www.google.com/maps?q=${geo.lat},${geo.lon}&z=15&hl=${LANG}&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>` : '';
     const revs = revList(b).filter(r => r.txt && r.txt.length >= 40 && r.rating >= 4).slice(0, 4);
@@ -288,6 +295,7 @@
     <h3>Operations</h3><ul><li>Small repairs and purchases up to 2,000 CZK handled without approval and re-invoiced; larger costs always approved in advance.</li><li>Own stays: block dates in the portal or by message, ideally 30 days ahead; confirmed guest bookings are honoured.</li><li>Guest damage is handled via platform protection (AirCover, Booking) and with the guest; we inform you of every case.</li></ul>
     <h3>Contract</h3><ul><li>Open-ended management agreement with a 2-month notice period, always completing already confirmed stays.</li><li>The first 90 days are a trial: if occupancy or the cooperation does not suit you, we part without penalties.</li><li>Income tax filing stays with the owner; the portal documents are sufficient for it.</li></ul><p style="font-size:12px;color:var(--mut)">Version 1 · 12 Oct 2026. The exact contract wording is provided before signing.</p>`,
   };
+  SLUZBY.ru = RU.SLUZBY || SLUZBY.en; PRAVIDLA.ru = RU.PRAVIDLA || PRAVIDLA.en;
   function renderOwnerBlocks() {
     const ICONS = ['i-spark', 'i-tag', 'i-card', 'i-chat', 'i-broom', 'i-wrench', 'i-shield', 'i-doc']; const g = $('#o-sluzby'); if (g) { g.innerHTML = SLUZBY[LANG].map(([h, p], i) => `<div class="rv d${i % 3}"><div class="ic"><svg class="ico" style="width:22px;height:22px"><use href="#${ICONS[i]}"/></svg></div><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join(''); watchRv(g); }
     const r = $('#o-pravidla'); if (r) r.innerHTML = PRAVIDLA[LANG];
@@ -297,17 +305,18 @@
      Zony: S = cerveny kruh 1,3 km (srdce Prahy), A = fialovy oval 3,8 × 2,3 km (sirsi centrum), B = zlaty oval 5,8 × 3,8 km (dobra dostupnost), mimo = C. */
   const EST = { disp: '2kk', f: {}, bod: { lat: 50.0755, lon: 14.4378 }, adresa: 'náměstí Míru' };
   const EST_RNG = { '1kk': [30000, 50000], '2kk': [40000, 60000], '3kk': [50000, 70000], '4kk': [60000, 100000] };
-  const EST_LVL = { cs: ['Dobré', 'Velmi dobré', 'Skvělé', 'Excelentní'], en: ['Good', 'Very good', 'Great', 'Excellent'] };
+  const EST_LVL = { cs: ['Dobré', 'Velmi dobré', 'Skvělé', 'Excelentní'], en: ['Good', 'Very good', 'Great', 'Excellent'], ru: ['Хорошо', 'Очень хорошо', 'Отлично', 'Превосходно'] };
   const EST_BYT = [['balkon', 'Balkon nebo terasa', 'Balcony or terrace', 3, 5], ['park', 'Parkování', 'Parking', 5, 7], ['klima', 'Klimatizace', 'Air conditioning', 2, 3], ['vytah', 'Výtah', 'Lift', 1, 2], ['novy', 'Po rekonstrukci, nově zařízený', 'Renovated, newly furnished', 3, 5]];
+  const ESTRU = { balkon: 'Балкон или терраса', park: 'Парковка', klima: 'Кондиционер', vytah: 'Лифт', novy: 'После ремонта, новая мебель' };
   const BONUS_MAX = EST_BYT.reduce((s, x) => s + x[4], 0) * 1000;
   const STARE_MESTO = [50.08753, 14.42132], OVAL_STRED = [50.0828, 14.4265];
   const ZONY = [   // od nejlepsi; km = poloosy (vychod-zapad, sever-jih)
-    { z: 'S', lvl: 3, stred: STARE_MESTO, a: 1.3, b: 1.3, barva: '#e5484d', cs: 'S · srdce Prahy', en: 'S · heart of Prague' },
-    { z: 'A', lvl: 2, stred: OVAL_STRED, a: 3.8, b: 2.3, barva: '#8b5cf6', cs: 'A · širší centrum', en: 'A · wider centre' },
-    { z: 'B', lvl: 1, stred: OVAL_STRED, a: 5.8, b: 3.8, barva: '#c9a227', cs: 'B · dobrá dostupnost', en: 'B · good access' },
+    { z: 'S', lvl: 3, stred: STARE_MESTO, a: 1.3, b: 1.3, barva: '#e5484d', cs: 'S · srdce Prahy', en: 'S · heart of Prague', ru: 'S · сердце Праги' },
+    { z: 'A', lvl: 2, stred: OVAL_STRED, a: 3.8, b: 2.3, barva: '#8b5cf6', cs: 'A · širší centrum', en: 'A · wider centre', ru: 'A · расширенный центр' },
+    { z: 'B', lvl: 1, stred: OVAL_STRED, a: 5.8, b: 3.8, barva: '#c9a227', cs: 'B · dobrá dostupnost', en: 'B · good access', ru: 'B · хорошая доступность' },
   ];
   const kmXY = (bod, stred) => [(bod.lon - stred[1]) * 111.32 * Math.cos(stred[0] * Math.PI / 180), (bod.lat - stred[0]) * 110.57];
-  function estZona() { for (const z of ZONY) { const [x, y] = kmXY(EST.bod, z.stred); if ((x / z.a) ** 2 + (y / z.b) ** 2 <= 1) return z; } return { z: 'C', lvl: 0, cs: 'C · mimo centrum', en: 'C · outside the centre' }; }
+  function estZona() { for (const z of ZONY) { const [x, y] = kmXY(EST.bod, z.stred); if ((x / z.a) ** 2 + (y / z.b) ** 2 <= 1) return z; } return { z: 'C', lvl: 0, cs: 'C · mimo centrum', en: 'C · outside the centre', ru: 'C · за центром' }; }
   const estLevel = () => estZona().lvl;
   function ovalBody(z) { const out = [], k = Math.cos(z.stred[0] * Math.PI / 180); for (let i = 0; i <= 72; i++) { const t = i / 72 * 2 * Math.PI; out.push([z.stred[0] + z.b * Math.sin(t) / 110.57, z.stred[1] + z.a * Math.cos(t) / (111.32 * k)]); } return out; }
   let LF = null, MAPA = null, MARK = null;
@@ -358,30 +367,30 @@
     if (MARK) { MARK.setLatLng([x.lat, x.lon]); MAPA.setView([x.lat, x.lon], 14); } spocitejOdhad();
   }
   async function hledejAdresu(q) {
-    if (!q.trim()) return; const m = $('#est-zinfo'); if (m) m.textContent = LANG === 'en' ? 'Searching…' : 'Hledám…';
+    if (!q.trim()) return; const m = $('#est-zinfo'); if (m) m.textContent = L3('Hledám…', 'Searching…', 'Ищу…');
     try {
       const r = await (await fetch('https://nominatim.openstreetmap.org/search?' + new URLSearchParams({ format: 'json', q: q + ', Praha', viewbox: '14.22,50.18,14.71,49.94', bounded: 1, limit: 1, 'accept-language': LANG }))).json();
-      if (!r[0]) { if (m) m.textContent = LANG === 'en' ? 'Address not found — tap the map instead.' : 'Adresu jsem nenašel — klepněte do mapy.'; return; }
+      if (!r[0]) { if (m) m.textContent = L3('Adresu jsem nenašel — klepněte do mapy.', 'Address not found — tap the map instead.', 'Адрес не найден — нажмите на карту.'); return; }
       EST.bod = { lat: +r[0].lat, lon: +r[0].lon }; EST.adresa = q;
       if (MARK) { MARK.setLatLng([EST.bod.lat, EST.bod.lon]); MAPA.setView([EST.bod.lat, EST.bod.lon], 13); }
       spocitejOdhad();
-    } catch (e) { if (m) m.textContent = LANG === 'en' ? 'Search failed — tap the map.' : 'Hledání selhalo — klepněte do mapy.'; }
+    } catch (e) { if (m) m.textContent = L3('Hledání selhalo — klepněte do mapy.', 'Search failed — tap the map.', 'Поиск не удался — нажмите на карту.'); }
   }
   function renderOdhad() {
     const box = $('#est'); if (!box) return; const en = LANG === 'en';
-    const chk = (k, cs, enT, full, lo, hi) => `<label${full ? ' class="full"' : ''}><input type="checkbox" data-f="${k}"${EST.f[k] ? ' checked' : ''}><span>${esc(en ? enT : cs)} <small class="bon">+${lo}–${hi} ${en ? 'k' : 'tis.'}</small></span></label>`;
+    const chk = (k, cs, enT, full, lo, hi) => `<label${full ? ' class="full"' : ''}><input type="checkbox" data-f="${k}"${EST.f[k] ? ' checked' : ''}><span>${esc(L3(cs, enT, ESTRU[k] || enT))} <small class="bon">+${lo}–${hi} ${L3('tis.', 'k', 'тыс.')}</small></span></label>`;
     if (MAPA) MAPA.getContainer().remove();   // mapa se pri prekresleni neniči, jen se prenese
-    box.innerHTML = `<span class="lab">${en ? 'Layout' : 'Dispozice'}</span>
+    box.innerHTML = `<span class="lab">${L3('Dispozice', 'Layout', 'Планировка')}</span>
       <div class="seg" id="est-disp">${Object.keys(EST_RNG).map(k => `<button type="button" data-v="${k}" class="${EST.disp === k ? 'on' : ''}" aria-pressed="${EST.disp === k}">${k[0]}+kk</button>`).join('')}</div>
-      <span class="lab">${en ? 'Where is the flat? Tap the map or search' : 'Kde je byt? Klepněte do mapy nebo vyhledejte'}</span>
-      <form class="hledej" id="est-hledej"><div class="ac"><input id="est-adr" placeholder="${en ? 'e.g. Vinohradská 12' : 'začněte psát, např. Vinohradská 12'}" value="${esc(EST.adresa)}" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="est-nav"><ul id="est-nav" role="listbox" hidden></ul></div><button type="submit">${en ? 'Find' : 'Najít'}</button></form>
+      <span class="lab">${L3('Kde je byt? Klepněte do mapy nebo vyhledejte', 'Where is the flat? Tap the map or search', 'Где квартира? Нажмите на карту или найдите адрес')}</span>
+      <form class="hledej" id="est-hledej"><div class="ac"><input id="est-adr" placeholder="${L3('začněte psát, např. Vinohradská 12', 'e.g. Vinohradská 12', 'например, Vinohradská 12')}" value="${esc(EST.adresa)}" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="est-nav"><ul id="est-nav" role="listbox" hidden></ul></div><button type="submit">${L3('Najít', 'Find', 'Найти')}</button></form>
       <div id="est-mapa"></div>
-      <div class="zony">${ZONY.map(z => `<span><i style="border-color:${z.barva};background:${z.barva}22"></i>${esc(en ? z.en : z.cs)}</span>`).join('')}<span><i style="border-color:#9aa5a0"></i>${en ? 'C · outside' : 'C · mimo centrum'}</span></div>
+      <div class="zony">${ZONY.map(z => `<span><i style="border-color:${z.barva};background:${z.barva}22"></i>${esc(L3(z.cs, z.en, z.ru))}</span>`).join('')}<span><i style="border-color:#9aa5a0"></i>${L3('C · mimo centrum', 'C · outside', 'C · за центром')}</span></div>
       <div class="zinfo" id="est-zinfo"></div>
-      <span class="lab">${en ? 'The flat has' : 'Byt má'}</span>
+      <span class="lab">${L3('Byt má', 'The flat has', 'В квартире есть')}</span>
       <div class="checks">${EST_BYT.map(([k, c, e, lo, hi], i) => chk(k, c, e, i === 4, lo, hi)).join('')}</div>
-      <div class="score"><span>${en ? 'Rental location score' : 'Skóre lokality pro pronájem'} <b id="est-lvl"></b></span><span class="meter" id="est-meter"><i></i><i></i><i></i><i></i></span></div>
-      <div class="row"><div><span class="lab" style="margin:0">${en ? 'Estimated income / month' : 'Odhad příjmu měsíčně'}</span><output id="est-gross" class="num"></output></div><div><span class="lab" style="margin:0">${en ? 'You keep after 15 %' : 'Zůstane vám po 15 %'}</span><output id="est-net" class="num" style="color:var(--ok)"></output></div></div>
+      <div class="score"><span>${L3('Skóre lokality pro pronájem', 'Rental location score', 'Оценка локации для аренды')} <b id="est-lvl"></b></span><span class="meter" id="est-meter"><i></i><i></i><i></i><i></i></span></div>
+      <div class="row"><div><span class="lab" style="margin:0">${L3('Odhad příjmu měsíčně', 'Estimated income / month', 'Ожидаемый доход в месяц')}</span><output id="est-gross" class="num"></output></div><div><span class="lab" style="margin:0">${L3('Zůstane vám po 15 %', 'You keep after 15 %', 'Вам остаётся после 15 %')}</span><output id="est-net" class="num" style="color:var(--ok)"></output></div></div>
       <div class="bar"><i id="est-bar"></i></div><div class="barl"><span id="est-min"></span><span id="est-rl"></span><span id="est-max"></span></div>
       <p class="cmp" id="calc-cmp"></p>`;
     mapaDo($('#est-mapa'));
@@ -402,22 +411,22 @@
     const bLo = EST_BYT.filter(x => EST.f[x[0]]).reduce((s, x) => s + x[3], 0) * 1000, bHi = EST_BYT.filter(x => EST.f[x[0]]).reduce((s, x) => s + x[4], 0) * 1000;
     const r1000 = x => Math.round(x / 1000) * 1000;
     const lo = r1000(mn + span * PASMO[0] + bLo), hi = r1000(mn + span * PASMO[1] + bHi);
-    const tis = x => (x / 1000).toLocaleString('cs-CZ') + (en ? 'k' : ' tis.');
+    const tis = x => (x / 1000).toLocaleString('cs-CZ') + L3(' tis.', 'k', ' тыс.');
     const [dx, dy] = kmXY(EST.bod, STARE_MESTO), km = Math.hypot(dx, dy);
-    $('#est-lvl').textContent = EST_LVL[en ? 'en' : 'cs'][lvl];
+    $('#est-lvl').textContent = EST_LVL[LANG][lvl];
     $$('#est-meter i').forEach((i, k) => i.classList.toggle('on', k <= lvl));
-    const zi = $('#est-zinfo'); if (zi) zi.innerHTML = (en ? 'Zone ' : 'Zóna ') + `<b>${esc(en ? z.en : z.cs)}</b> · ${km.toLocaleString('cs-CZ', { maximumFractionDigits: 1 })} km ${en ? 'from Old Town Square' : 'od Staroměstského náměstí'}${EST.adresa ? ' · ' + esc(EST.adresa) : ''}`;
+    const zi = $('#est-zinfo'); if (zi) zi.innerHTML = (L3('Zóna ', 'Zone ', 'Зона ')) + `<b>${esc(L3(z.cs, z.en, z.ru))}</b> · ${km.toLocaleString('cs-CZ', { maximumFractionDigits: 1 })} km ${L3('od Staroměstského náměstí', 'from Old Town Square', 'от Староместской площади')}${EST.adresa ? ' · ' + esc(EST.adresa) : ''}`;
     $('#est-gross').textContent = `${tis(lo)} – ${tis(hi)}`;
     $('#est-net').textContent = `${tis(r1000(lo * .85))} – ${tis(r1000(hi * .85))}`;
     const top = mx + BONUS_MAX, sp2 = top - mn, bar = $('#est-bar'); bar.style.left = ((lo - mn) / sp2 * 100) + '%'; bar.style.width = Math.max(4, (hi - lo) / sp2 * 100) + '%';
-    $('#est-min').textContent = kc(mn); $('#est-max').textContent = kc(top); $('#est-rl').textContent = `${EST.disp[0]}+kk · ${en ? 'zone' : 'zóna'} ${z.z}`;
+    $('#est-min').textContent = kc(mn); $('#est-max').textContent = kc(top); $('#est-rl').textContent = `${EST.disp[0]}+kk · ${L3('zóna', 'zone', 'зона')} ${z.z}`;
     const mid = (lo + hi) / 2, c = $('#calc-cmp');
-    if (c) c.innerHTML = en ? `With a manager charging 20 % + VAT you would keep ${kc(mid * .758)}, that is <b>${kc(mid * .092)} less per month</b>. ${kc(mid * .092 * 12)} a year.` : `U správce s 20 % + DPH by vám zůstalo ${kc(mid * .758)}, tedy <b>o ${kc(mid * .092)} měsíčně méně</b>. Za rok ${kc(mid * .092 * 12)}.`;
+    if (c) c.innerHTML = L3(`U správce s 20 % + DPH by vám zůstalo ${kc(mid * .758)}, tedy <b>o ${kc(mid * .092)} měsíčně méně</b>. Za rok ${kc(mid * .092 * 12)}.`, `With a manager charging 20 % + VAT you would keep ${kc(mid * .758)}, that is <b>${kc(mid * .092)} less per month</b>. ${kc(mid * .092 * 12)} a year.`, `При управляющем за 20 % + НДС вам осталось бы ${kc(mid * .758)}, то есть <b>на ${kc(mid * .092)} меньше в месяц</b>. ${kc(mid * .092 * 12)} в год.`);
   }
   function renderPortal() {
     const g = $('#portal-grid'); if (!g) return; const P = CFG.portaly || {};
     const names = { korunni: 'Pražský dům · Korunní, Mezibránská', harfa: 'Harfa O2', havelska: 'Havel Rooftop', florenc: 'Florenc I + II', vlastislavova: 'Vlastislavova' };
-    g.innerHTML = Object.entries(P).map(([k, u]) => `<div class="portal-card"><h3>${esc(names[k] || k)}</h3><p style="color:var(--ink-2);font-size:14px">${LANG === 'cs' ? 'Vyúčtování, obsazenost, úklidy, poplatek.' : 'Statements, occupancy, cleanings, tax.'}</p><a class="btn sm" href="${u}" target="_blank" rel="noopener">${t('pin')}</a></div>`).join('');
+    g.innerHTML = Object.entries(P).map(([k, u]) => `<div class="portal-card"><h3>${esc(names[k] || k)}</h3><p style="color:var(--ink-2);font-size:14px">${L3('Vyúčtování, obsazenost, úklidy, poplatek.', 'Statements, occupancy, cleanings, tax.', 'Отчёты, загрузка, уборки, сбор.')}</p><a class="btn sm" href="${u}" target="_blank" rel="noopener">${t('pin')}</a></div>`).join('');
   }
   const PODM = {
     cs: `<h2>Rezervační podmínky</h2><p class="lead">Přímá rezervace u Byt a host (B&H).</p>
@@ -435,6 +444,7 @@
     <h3>5. Personal data</h3><ul><li>Form data is used solely to process your booking or inquiry and for the legally required guest register. No newsletters, no sharing with third parties beyond the payment provider and legal obligations.</li></ul>
     <p style="font-size:12px;color:var(--mut)">Operator: Byt a host (B&H), Prague. Valid from 12 Oct 2026.</p>`,
   };
+  PODM.ru = PODM.en;
   function renderTerms() { const p = $('#podminky'); if (p) p.innerHTML = PODM[LANG]; }
   function bindForm(id, table, map) {
     const f = $(id); if (!f) return;
@@ -453,17 +463,51 @@
     const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: dec(BLOB.iv) }, key, dec(BLOB.ct));
     return new TextDecoder().decode(pt);
   }
+
+  /* ---------- UKAZKA portalu majitele (18.10.2026): smysleny apartman a hoste, zadna realna data ---------- */
+  function demoData() {
+    const dnes = new Date(), p2 = n => String(n).padStart(2, '0'), iso = d => d.getFullYear() + '-' + p2(d.getMonth() + 1) + '-' + p2(d.getDate()), mes = d => iso(d).slice(0, 7);   // mistni datum (toISOString posouval o den)
+    const JM = ['Anna', 'Lukas', 'Sofia', 'James', 'Marta', 'Oliver', 'Elena', 'Tomas', 'Clara', 'Noah', 'Lea', 'Mateo', 'Ines', 'Jonas', 'Emma', 'Hugo'];
+    let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    const sezona = m => [0.55, 0.6, 0.75, 0.85, 0.9, 0.92, 0.95, 0.95, 0.9, 0.85, 0.7, 0.8][m];
+    const start = new Date(dnes.getFullYear(), dnes.getMonth() - 12, 1), konec = new Date(dnes.getFullYear(), dnes.getMonth() + 3, 0);
+    const rez = []; let d = new Date(start), i = 0;
+    while (d < konec) {
+      const n = 2 + Math.floor(rnd() * 5), od = new Date(d), doo = new Date(d); doo.setDate(doo.getDate() + n);
+      const plat = rnd() < 0.55 ? 'booking' : 'airbnb', cena = Math.round((1900 + rnd() * 900) * (1 + (sezona(od.getMonth()) - 0.8)) / 10) * 10;
+      rez.push({ plat, kod: plat === 'airbnb' ? 'HM' + Math.floor(rnd() * 1e8).toString(36).toUpperCase() : String(5e9 + Math.floor(rnd() * 1e9)), host: JM[i++ % JM.length], hoste: 1 + Math.floor(rnd() * 3), od: iso(od), do: iso(doo), czk: plat === 'airbnb' ? cena * n : null, _noc: cena });
+      d = new Date(doo); if (rnd() > sezona(d.getMonth())) d.setDate(d.getDate() + 1 + Math.floor(rnd() * 3));
+    }
+    const radky = [];
+    for (let k = 0; k < 12; k++) {
+      const m0 = new Date(start.getFullYear(), start.getMonth() + k, 1), m = mes(m0), dni = new Date(m0.getFullYear(), m0.getMonth() + 1, 0).getDate();
+      const bk = new Set(), ab = new Set(), uk = []; let obrB = 0, obrA = 0, ks = 0;
+      for (const r of rez) { for (let x = new Date(r.od); x < new Date(r.do); x.setDate(x.getDate() + 1)) if (mes(x) === m) { (r.plat === 'booking' ? bk : ab).add(x.getDate()); if (r.plat === 'booking') obrB += r._noc * 0.85; else obrA += r._noc * 0.845; }
+        if (r.do.slice(0, 7) === m) { ks++; uk.push(+r.do.slice(8, 10)); } }
+      const obrat = Math.round(obrB + obrA), provize = Math.round(obrat * 0.15), uklid = ks * 500, prani = ks * 200, noci = bk.size + ab.size;
+      radky.push({ mes: m, bk: Math.round(obrB), ab: Math.round(obrA), obrat, sazba: 15, provize, ks, uklid, prani, occ: Math.round(noci / dni * 100), occ_noci: noci, occ_dni: dni, bk_dny: [...bk].sort((a, b) => a - b), ab_dny: [...ab].sort((a, b) => a - b), uklid_dny: uk, extra: [], vyplata: obrat - provize - uklid - prani, bezici: false });
+    }
+    return { jmeno: L3('Ukázkový majitel', 'Sample owner', 'Пример владельца'), klic: 'ukazka', gen: dnes.toLocaleDateString('cs-CZ'), dnes: iso(dnes), sazby: { uklid: 500, prani: 200 },
+      spravce: { nazev: 'Byt a host' }, odberatel: {}, uhrazeno_do: '', naklady_prefill: [], zprava: null,
+      byty: [{ key: 'ukazka', nazev: L3('Ukázkový apartmán Vinohrady', 'Sample apartment Vinohrady', 'Пример: апартаменты Винограды'), radky, odkazy: [], img: null, uklidy: [], timeline: [], bench: null, rezervace: rez.map(({ _noc, ...r }) => r) }] };
+  }
+  function otevriUkazku() {
+    if (!window.BH_PORTAL) return; SESSION = null;
+    $('#portal-who').textContent = L3('Ukázka · smyšlená data', 'Demo · sample data', 'Демо · примерные данные');
+    $('#portal-frame').style.display = 'none'; $('#portal-view').style.display = ''; BH_PORTAL.render(demoData());
+    $('#page-portalapp').classList.add('on'); document.body.style.overflow = 'hidden';
+  }
   async function login(num, pwd, auto) {
     const err = $('#l-err'); const u = (CFG.ucty || {})[String(num || '').trim()];
-    if (!(window.crypto && crypto.subtle)) { if (err) err.innerHTML = LANG === 'cs' ? 'Přihlášení funguje jen přes zabezpečené spojení. Otevřete <a href="https://bytahost.cz/#/login">https://bytahost.cz</a>.' : 'Sign-in works only over a secure connection. Open <a href="https://bytahost.cz/#/login">https://bytahost.cz</a>.'; return false; }
+    if (!(window.crypto && crypto.subtle)) { if (err) err.innerHTML = L3('Přihlášení funguje jen přes zabezpečené spojení. Otevřete <a href="https://bytahost.cz/#/login">https://bytahost.cz</a>.', 'Sign-in works only over a secure connection. Open <a href="https://bytahost.cz/#/login">https://bytahost.cz</a>.', 'Вход работает только через защищённое соединение. Откройте <a href="https://bytahost.cz/#/login">https://bytahost.cz</a>.'); return false; }
     if (!u || !(CFG.portaly || {})[u.key]) { if (!auto && err) err.textContent = t('lbad'); return false; }
     let gate;
     try { const r = await fetch(CFG.portaly[u.key], { cache: 'no-store' }); if (!r.ok) throw new Error('http'); gate = await r.text(); } catch (e) { if (!auto && err) err.textContent = t('lnet'); return false; }
     try {
       const html = await unlockBlob(gate, pwd);
-      SESSION = { num: String(num).trim(), key: u.key, nazev: u.nazev };
+      SESSION = { num: String(num).trim(), key: u.key };
       if (!auto) { const rem = $('#l-rem'); if (rem && rem.checked) { try { localStorage.setItem('bh_portal', JSON.stringify({ num: SESSION.num, pwd })); } catch (e) {} } }
-      $('#portal-who').textContent = u.nazev; const D = window.BH_PORTAL && BH_PORTAL.extractData(html);
+      const D = window.BH_PORTAL && BH_PORTAL.extractData(html); $('#portal-who').textContent = (D && D.jmeno) || '';
       if (D) { $('#portal-frame').style.display = 'none'; $('#portal-view').style.display = ''; BH_PORTAL.render(D); } else { $('#portal-view').style.display = 'none'; $('#portal-frame').style.display = ''; $('#portal-frame').srcdoc = html; }
       $('#page-portalapp').classList.add('on'); document.body.style.overflow = 'hidden';
       if (err) err.textContent = ''; if (location.hash !== '#/portal') location.hash = '#/portal';
@@ -479,8 +523,9 @@
   function closeNav() { $('#nav').classList.remove('open'); $('#burger').setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; }
   function route() {
     const h = (location.hash || '#/').slice(1); const [pathQ, anchor] = h.split('#'); const path = pathQ.split('?')[0];
-    const pages = { '/': 'home', '/majitele': 'majitele', '/login': 'login', '/portal': 'portal', '/podminky': 'podminky' };
+    const pages = { '/': 'home', '/majitele': 'majitele', '/login': 'login', '/portal': 'portal', '/podminky': 'podminky', '/ukazka': 'ukazka' };
     let page = pages[path] || (path.startsWith('/apartman/') ? 'detail' : 'home');
+    if (page === 'ukazka') { otevriUkazku(); return; }
     const wantPortal = page === 'portal'; if (wantPortal) page = 'login';
     ROUTE = { page, slug: path.split('/')[2] };
     $$('.page:not(#page-portalapp)').forEach(p => p.classList.toggle('on', p.id === 'page-' + page));
@@ -496,7 +541,7 @@
   window.addEventListener('hashchange', route); window.addEventListener('scroll', hdr, { passive: true });
   $('#burger').onclick = () => { const o = $('#nav').classList.toggle('open'); $('#burger').setAttribute('aria-expanded', String(o)); document.body.style.overflow = o ? 'hidden' : ''; };
   $('#navx').onclick = closeNav; $$('.nav a').forEach(a => a.addEventListener('click', closeNav));
-  $$('.lang button').forEach(b => b.onclick = () => { LANG = b.dataset.lang; applyLang(); });
+  $$('.lang button').forEach(b => b.onclick = () => { LANG = b.dataset.lang; applyLang(); dateHints(); });
   const v = $('#hv'), vc = $('#vidctl');
   if (REDUCED) { v.pause(); vc.style.display = 'none'; }
   vc.onclick = () => { if (v.paused) { v.play().catch(() => {}); vc.textContent = LANG === 'en' ? EN['hero.pause'] : 'Pozastavit video'; } else { v.pause(); vc.textContent = LANG === 'en' ? EN['hero.play'] : 'Přehrát video'; } };
