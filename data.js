@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-22 18:21",
+    "generated":  "2026-10-22 20:15",
     "summary":  {
                     "total":  11,
                     "local":  11,
@@ -576,50 +576,50 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-10-22T16:00:05.4940354+00:00",
+                  "generatedAt":  "2026-10-22T18:00:03.5781653+00:00",
                   "session5h":  {
-                                    "total":  17909037,
-                                    "input":  1848,
-                                    "output":  146139,
-                                    "cache_c":  283800,
-                                    "cache_r":  17477250,
-                                    "count":  74,
-                                    "pct":  13
+                                    "total":  7259490,
+                                    "input":  632,
+                                    "output":  86024,
+                                    "cache_c":  224259,
+                                    "cache_r":  6948575,
+                                    "count":  32,
+                                    "pct":  5.3
                                 },
                   "weekly7d":  {
-                                   "total":  782003846,
-                                   "count":  2025,
-                                   "pct":  62.7
+                                   "total":  778864310,
+                                   "count":  2021,
+                                   "pct":  62.5
                                },
                   "sonnet5h":  {
-                                   "total":  0,
-                                   "count":  0,
+                                   "total":  63904,
+                                   "count":  1,
                                    "pct":  6.4
                                },
                   "sonnet7d":  {
-                                   "total":  9445822,
-                                   "count":  144
+                                   "total":  9509726,
+                                   "count":  145
                                },
-                  "burnRatePerH":  3581807,
-                  "burnRatePerDay":  85963368,
+                  "burnRatePerH":  1451898,
+                  "burnRatePerDay":  34845552,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  119565010,
+                                                   "remaining":  130214557,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
-                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~13% limitu"
+                                                   "etaText":  "stabilni - pri tomto tempu se okno ustali na ~5% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  464570242,
-                                                  "hoursToLimit":  129.7,
-                                                  "etaIso":  "2026-10-28 03:44",
-                                                  "etaText":  "za 130 h (\u003e2 dny)",
+                                                  "remaining":  467709778,
+                                                  "hoursToLimit":  322.1,
+                                                  "etaIso":  "2026-11-05 06:07",
+                                                  "etaText":  "za 322 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  127.9,
+                                      "ageDays":  128,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -628,7 +628,7 @@
                   "alerts":  [
                                  "DRAHY PROVOZ: 97% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 95% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 127.9 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 128 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -640,24 +640,30 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-fable-5-1",
-                                             "total":  17477057,
-                                             "output":  116347,
-                                             "count":  64
+                                             "total":  6713862,
+                                             "output":  47167,
+                                             "count":  20
                                          },
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  431980,
-                                             "output":  29792,
-                                             "count":  10
+                                             "total":  481724,
+                                             "output":  38274,
+                                             "count":  11
+                                         },
+                                         {
+                                             "model":  "claude-sonnet-5",
+                                             "total":  63904,
+                                             "output":  583,
+                                             "count":  1
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  97,
-                                  "longSessionTok":  760890004,
+                                  "longSessionTok":  757592498,
                                   "sessionsLong":  4,
-                                  "sessionsTotal":  378,
+                                  "sessionsTotal":  381,
                                   "highCtxPct":  95,
-                                  "highCtxTok":  741293853,
+                                  "highCtxTok":  737996347,
                                   "longThresholdH":  8,
                                   "ctxThreshold":  150000
                               }
