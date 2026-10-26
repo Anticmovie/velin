@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-26 07:15",
+    "generated":  "2026-10-26 09:15",
     "summary":  {
                     "total":  11,
                     "local":  11,
@@ -576,50 +576,50 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-10-26T06:00:11.4067731+00:00",
+                  "generatedAt":  "2026-10-26T08:00:22.8703186+00:00",
                   "session5h":  {
-                                    "total":  205854,
-                                    "input":  50,
-                                    "output":  4246,
-                                    "cache_c":  65694,
-                                    "cache_r":  135864,
-                                    "count":  5,
-                                    "pct":  0.1
+                                    "total":  329373,
+                                    "input":  80,
+                                    "output":  6882,
+                                    "cache_c":  80196,
+                                    "cache_r":  242215,
+                                    "count":  8,
+                                    "pct":  0.2
                                 },
                   "weekly7d":  {
-                                   "total":  454862427,
-                                   "count":  1406,
-                                   "pct":  36.5
+                                   "total":  454352478,
+                                   "count":  1398,
+                                   "pct":  36.4
                                },
                   "sonnet5h":  {
                                    "total":  0,
                                    "count":  0,
-                                   "pct":  4.6
+                                   "pct":  4.3
                                },
                   "sonnet7d":  {
-                                   "total":  6797014,
-                                   "count":  106
+                                   "total":  6374211,
+                                   "count":  99
                                },
-                  "burnRatePerH":  41171,
-                  "burnRatePerDay":  988104,
+                  "burnRatePerH":  65875,
+                  "burnRatePerDay":  1581000,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137268193,
+                                                   "remaining":  137144674,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  791711661,
-                                                  "hoursToLimit":  19229.8,
-                                                  "etaIso":  "2029-01-04 12:49",
-                                                  "etaText":  "za 19,230 h (\u003e2 dny)",
+                                                  "remaining":  792221610,
+                                                  "hoursToLimit":  12026.1,
+                                                  "etaIso":  "2028-03-10 11:07",
+                                                  "etaText":  "za 12,026 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
                   "calibrated":  true,
                   "calibration":  {
-                                      "ageDays":  131.5,
+                                      "ageDays":  131.6,
                                       "stale":  true,
                                       "staleDays":  7,
                                       "calibratedAt":  "2026-06-16T17:18:19.0062064+00:00"
@@ -628,7 +628,7 @@
                   "alerts":  [
                                  "DRAHY PROVOZ: 96% spotreby z dlouhych sessions (8h+) - zvaz /clear pri prepnuti ulohy",
                                  "DRAHY PROVOZ: 93% spotreby pri kontextu \u003e150k - /compact mid-task setri tokeny",
-                                 "KALIBRACE STARA 131.5 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
+                                 "KALIBRACE STARA 131.6 dni - opis aktualni % z /model a spust: agent-usage.ps1 -Calibrate -SessionPct \u003cN\u003e -WeeklyPct \u003cN\u003e -SonnetPct \u003cN\u003e"
                              ],
                   "limits":  {
                                  "session":  137474047,
@@ -640,16 +640,16 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  205854,
-                                             "output":  4246,
-                                             "count":  5
+                                             "total":  329373,
+                                             "output":  6882,
+                                             "count":  8
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  96,
                                   "longSessionTok":  434925651,
                                   "sessionsLong":  3,
-                                  "sessionsTotal":  380,
+                                  "sessionsTotal":  374,
                                   "highCtxPct":  93,
                                   "highCtxTok":  422852863,
                                   "longThresholdH":  8,
