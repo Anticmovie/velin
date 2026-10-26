@@ -917,7 +917,13 @@ ${(c.ai_akce||c.ai_navrh)?`<div class="card aicard">
 /* ---------- odeslani ---------- */
 
 /* ---------- AI agent v appce (26.10.2026): navrh z konverzace.ai_navrh -> Poslat / Upravit / Zamitnout ---------- */
-async function aiPoslat(id){ const c=CONVS.find(x=>x.id===id); if(!c||!c.ai_navrh)return; if(!confirm('Poslat hostovi návrh AI?\n\n'+c.ai_navrh.slice(0,400)))return;
+async function aiPoslat(id){ const c=CONVS.find(x=>x.id===id); if(!c||!c.ai_navrh)return;
+  if(c.platform==='airbnb'){ // Airbnb odesilac zatim neni: zkopirovat + otevrit vlakno, oznacit jako rucne odeslano
+    try{ await navigator.clipboard.writeText(c.ai_navrh); }catch(e){}
+    window.open('https://www.airbnb.com/hosting/messages/'+c.id.replace(/^ab-/,''),'_blank');
+    if(confirm('Návrh je ve schránce a vlákno na Airbnb otevřené – vlož ho tam (Ctrl+V) a odešli. Označit jako odesláno?')){ await sb.from('konverzace').update({ai_navrh_stav:'odeslano'}).eq('id',id); c.ai_navrh_stav='odeslano'; renderDetail(c); renderList(); }
+    return; }
+  if(!confirm('Poslat hostovi návrh AI?\n\n'+c.ai_navrh.slice(0,400)))return;
   const mid='ai-'+Date.now(); const now=new Date().toISOString();
   await sb.from('zpravy').insert({id:mid,konverzace_id:id,smer:'out',msg:c.ai_navrh,jazyk:c.jazyk||null,ts:now,author:'AI',stav:'pending'});
   await sb.from('odpovedi_fronta').insert({konverzace_id:id,msg:c.ai_navrh});
