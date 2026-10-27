@@ -1,5 +1,5 @@
 ﻿window.DASHBOARD_DATA = {
-    "generated":  "2026-10-27 03:15",
+    "generated":  "2026-10-27 05:15",
     "summary":  {
                     "total":  11,
                     "local":  11,
@@ -452,7 +452,7 @@
                                      "uncommitted":  0,
                                      "ahead":  0,
                                      "behind":  0,
-                                     "lastCommit":  "4 months ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
+                                     "lastCommit":  "5 months ago | projekt-byty: archiv automatizaci (scrubnuty token, credentials mimo git)"
                                  },
                          "deps":  {
                                       "manager":  "",
@@ -576,44 +576,44 @@
                      }
                  ],
     "usage":  {
-                  "generatedAt":  "2026-10-27T02:00:03.2446840+00:00",
+                  "generatedAt":  "2026-10-27T04:00:04.4156629+00:00",
                   "session5h":  {
-                                    "total":  411858,
-                                    "input":  64,
-                                    "output":  26702,
-                                    "cache_c":  182516,
-                                    "cache_r":  202576,
+                                    "total":  385240,
+                                    "input":  72,
+                                    "output":  28774,
+                                    "cache_c":  160953,
+                                    "cache_r":  195441,
                                     "count":  8,
                                     "pct":  0.3
                                 },
                   "weekly7d":  {
-                                   "total":  452355718,
-                                   "count":  1331,
+                                   "total":  452255251,
+                                   "count":  1329,
                                    "pct":  36.3
                                },
                   "sonnet5h":  {
-                                   "total":  145109,
-                                   "count":  2,
+                                   "total":  73607,
+                                   "count":  1,
                                    "pct":  4.5
                                },
                   "sonnet7d":  {
-                                   "total":  6697535,
-                                   "count":  102
+                                   "total":  6639859,
+                                   "count":  101
                                },
-                  "burnRatePerH":  82372,
-                  "burnRatePerDay":  1976928,
+                  "burnRatePerH":  77048,
+                  "burnRatePerDay":  1849152,
                   "forecast":  {
                                    "session":  {
-                                                   "remaining":  137062189,
+                                                   "remaining":  137088807,
                                                    "hoursToLimit":  null,
                                                    "willHit":  false,
                                                    "etaText":  "stabilni - pri tomto tempu se okno ustali na ~0% limitu"
                                                },
                                    "weekly":  {
-                                                  "remaining":  794218370,
-                                                  "hoursToLimit":  9641.8,
-                                                  "etaIso":  "2027-12-02 20:48",
-                                                  "etaText":  "za 9,642 h (\u003e2 dny)",
+                                                  "remaining":  794318837,
+                                                  "hoursToLimit":  10309.4,
+                                                  "etaIso":  "2027-12-30 18:25",
+                                                  "etaText":  "za 10,309 h (\u003e2 dny)",
                                                   "willHit":  true
                                               }
                                },
@@ -640,22 +640,22 @@
                   "modelBreakdown":  [
                                          {
                                              "model":  "claude-haiku-4-5-20251001",
-                                             "total":  266749,
-                                             "output":  23675,
-                                             "count":  6
+                                             "total":  311633,
+                                             "output":  26778,
+                                             "count":  7
                                          },
                                          {
                                              "model":  "claude-sonnet-5",
-                                             "total":  145109,
-                                             "output":  3027,
-                                             "count":  2
+                                             "total":  73607,
+                                             "output":  1996,
+                                             "count":  1
                                          }
                                      ],
                   "quality":  {
                                   "longSessionPct":  67,
                                   "longSessionTok":  301267206,
                                   "sessionsLong":  2,
-                                  "sessionsTotal":  365,
+                                  "sessionsTotal":  363,
                                   "highCtxPct":  93,
                                   "highCtxTok":  421937759,
                                   "longThresholdH":  8,
