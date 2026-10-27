@@ -341,7 +341,7 @@ p.vs{color:var(--dim);font-size:12.5px;margin:0 0 16px}
 #view-dnes .dnic{color:#a3a0c0}
 #view-dnes .dfoot{color:#a3a0c0}
 #view-dnes .dfoot b{color:#6e6b90}
-.aicard{border:1px solid #b4530966;background:rgba(245,158,11,.08)}.aiw{font-size:12.5px;margin-top:6px;line-height:1.45}.aidim{color:#9aa3c7;font-size:12px}.ainav{margin-top:8px;padding:9px 11px;border-radius:10px;background:rgba(255,255,255,.06);font-size:13px;line-height:1.45;white-space:pre-wrap}.aibtns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.aib{border:1px solid #b45309;background:#b45309;color:#fff;border-radius:9px;padding:6px 10px;font:inherit;font-size:12px;cursor:pointer}.aib.ok{background:#15803d;border-color:#15803d}.aib.dim{background:transparent;color:#9aa3c7;border-color:#555}.aimark{font-size:11px;color:#fbbf24;margin-left:4px}</style></head><body>
+.aicard{border:1px solid #b4530966;background:rgba(245,158,11,.08)}.aiw{font-size:12.5px;margin-top:6px;line-height:1.45}.aidim{color:#9aa3c7;font-size:12px}.ainav{margin-top:8px;padding:9px 11px;border-radius:10px;background:rgba(255,255,255,.06);font-size:13px;line-height:1.45;white-space:pre-wrap}.aibtns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.aib{border:1px solid #b45309;background:#b45309;color:#fff;border-radius:9px;padding:6px 10px;font:inherit;font-size:12px;cursor:pointer}.aib.ok{background:#15803d;border-color:#15803d}.aib.dim{background:transparent;color:#9aa3c7;border-color:#555}.aimark{font-size:11px;color:#fbbf24;margin-left:4px}.wamark{font-size:11px;margin-left:4px}.wacard{border:1px solid #25d36666;background:rgba(37,211,102,.08)}</style></head><body>
 <div class="bgfx"></div>
 
 <div id="pin"><div class="orb"></div><h1>BYTA<em>HOST</em></h1><p>Správa apartmánů — zprávy hostům &amp; dnešní provoz</p><input id="pinv" type="tel" inputmode="numeric" placeholder="PIN" maxlength="10"><button onclick="tryPin()">Vstoupit</button><div class="err" id="pinerr"></div></div>
@@ -747,7 +747,7 @@ function convRow(c){
   return `<div class="conv v2 ${act?'act':''} ${c.unread>0?'unrd':''} ${c.id===curId?'sel':''}" onclick="openConv('${c.id}')">
     <div class="ava" style="${avaStyle(c)}">${initials(c.guest)}</div>
     <div class="cmid">
-      <div class="r1"><span class="nm">${esc(jmenoHosta(c))}</span>${c.ai_navrh&&c.ai_navrh_stav!=='odeslano'&&c.ai_navrh_stav!=='zamitnuto'?'<span class="aimark" title="AI má návrh odpovědi">🧠</span>':''}<span class="tm">${relT(c.last_at)}</span></div>
+      <div class="r1"><span class="nm">${esc(jmenoHosta(c))}</span>${waPro(c)?'<span class="wamark" title="Host píše i přes WhatsApp">📱</span>':''}${c.ai_navrh&&c.ai_navrh_stav!=='odeslano'&&c.ai_navrh_stav!=='zamitnuto'?'<span class="aimark" title="AI má návrh odpovědi">🧠</span>':''}<span class="tm">${relT(c.last_at)}</span></div>
       <div class="apt">${apt}</div>
       <div class="ls">${pre}${esc(c.last_text||'')}</div>
       ${chip}
@@ -892,6 +892,7 @@ function renderDetail(c){
         ${s?`<span class="pill ${s.pill==='new'?'new':'warn'}">${s.t}</span>`:`<span class="pill ok">✓ odpovězeno</span>`}
       </div>
     </div>
+    ${(function(){const w=waPro(c);return w?`<div class="card wacard"><div class="krow"><span class="k">📱 WhatsApp</span><span class="v">host píše i přes WhatsApp (${esc(w.id.replace(/^wa-/,'+'))}, ${relT(w.last_at)}) — odpovídej tam, ne tady <a href="#" onclick="openConv('${w.id}');return false">otevřít ↗</a></span></div></div>`:'';})()}
 ${(c.ai_akce||c.ai_navrh)?`<div class="card aicard">
       <div class="krow" style="align-items:center"><span class="k">🧠 AI agent</span><span class="v">${c.ai_akce==='odpovedet'?'<span class="pill ok">odpověděla</span>':c.ai_akce==='eskalovat'?'<span class="pill warn">potřebuje tebe</span>':c.ai_akce==='neodpovidat'?'<span class="pill">netřeba odpovídat</span>':''}${c.ai_navrh_stav==='odeslano'?' <span class="pill ok">návrh odeslán</span>':c.ai_navrh_stav==='zamitnuto'?' <span class="pill">zamítnuto</span>':''}</span></div>
       ${c.ai_shrnuti?`<div class="aiw"><b>Co host chce:</b> ${esc(c.ai_shrnuti)}</div>`:''}
@@ -931,6 +932,10 @@ async function aiPoslat(id){ const c=CONVS.find(x=>x.id===id); if(!c||!c.ai_navr
   c.ai_navrh_stav='odeslano'; c.posledni_smer='out'; c.last_at=now; renderDetail(c); renderList(); if(typeof openConv==='function')openConv(id,true); }
 function aiUpravit(id){ const c=CONVS.find(x=>x.id===id); if(!c||!c.ai_navrh)return; const r=el('reply'); r.value=c.ai_navrh; if(typeof grow==='function')grow(r); r.focus(); }
 async function aiZamitnout(id){ const c=CONVS.find(x=>x.id===id); if(!c)return; await sb.from('konverzace').update({ai_navrh_stav:'zamitnuto'}).eq('id',id); c.ai_navrh_stav='zamitnuto'; renderDetail(c); }
+
+/* ---------- WhatsApp (27.10.2026): host pise i pres WhatsApp -> znacka 📱, at se neodpovida na dvou platformach ---------- */
+function waPro(c){ if(!window.CONVS||c.platform==='whatsapp')return null; const rc=c.reservation_code&&String(c.reservation_code); const jm=((c.guest||'').split(/\s+/)[0]||'').toLowerCase();
+  return CONVS.find(w=>w.platform==='whatsapp'&&((rc&&w.reservation_code&&String(w.reservation_code)===rc)||(jm.length>2&&w.byt_key&&w.byt_key===c.byt_key&&(w.guest||'').toLowerCase().startsWith(jm))))||null; }
 async function sendReply(){
   const t=el('reply').value.trim(); if(!t||!curId)return;
   const c=CONVS.find(x=>x.id===curId)||{};
