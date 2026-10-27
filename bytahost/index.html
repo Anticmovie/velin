@@ -920,6 +920,11 @@ ${(c.ai_akce||c.ai_navrh)?`<div class="card aicard">
 
 /* ---------- AI agent v appce (26.10.2026): navrh z konverzace.ai_navrh -> Poslat / Upravit / Zamitnout ---------- */
 async function aiPoslat(id){ const c=CONVS.find(x=>x.id===id); if(!c||!c.ai_navrh)return;
+  if(c.platform==='whatsapp'){ // 27.10.2026: WhatsApp = jen sber dat, odpovida se z telefonu -> zkopirovat + otevrit chat s hostem
+    try{ await navigator.clipboard.writeText(c.ai_navrh); }catch(e){}
+    window.open('https://wa.me/'+(c.telefon||c.id.replace(/^wa-/,'')),'_blank');
+    if(confirm('Návrh je ve schránce a chat s hostem otevřený – vlož ho ve WhatsAppu a odešli z telefonu. Označit jako odesláno?')){ await sb.from('konverzace').update({ai_navrh_stav:'odeslano'}).eq('id',id); c.ai_navrh_stav='odeslano'; renderDetail(c); renderList(); }
+    return; }
   if(c.platform==='airbnb'){ // Airbnb odesilac zatim neni: zkopirovat + otevrit vlakno, oznacit jako rucne odeslano
     try{ await navigator.clipboard.writeText(c.ai_navrh); }catch(e){}
     window.open('https://www.airbnb.com/hosting/messages/'+c.id.replace(/^ab-/,''),'_blank');
