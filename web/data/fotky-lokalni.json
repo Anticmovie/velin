@@ -134,6 +134,7 @@
    "assets/foto/421/03.jpg",
    "assets/foto/421/04.jpg",
    "assets/foto/421/05.jpg",
+   "assets/foto/421/06.jpg",
    "assets/foto/421/07.jpg",
    "assets/foto/421/08.jpg"
   ]
@@ -162,7 +163,8 @@
    "assets/foto/v-haji/04.jpg",
    "assets/foto/v-haji/05.jpg",
    "assets/foto/v-haji/06.jpg",
-   "assets/foto/v-haji/07.jpg"
+   "assets/foto/v-haji/07.jpg",
+   "assets/foto/v-haji/08.jpg"
   ]
  },
  "baranova": {
@@ -293,7 +295,7 @@
  },
  "opatovicka": {
   "apt": "Opatovicka",
-  "listing": "1769519741635702350",
+  "listing": "1767253974313285252",
   "fotky": [
    "assets/foto/opatovicka/01.jpg",
    "assets/foto/opatovicka/02.jpg",

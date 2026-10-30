@@ -1,0 +1,6 @@
+# data portalu majitelu (PIN-sifrovane) - vzdy cerstve, doklady citelne i z VELINu
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-store, no-cache, must-revalidate"
+  Header set Access-Control-Allow-Origin "*"
+</IfModule>
+Options -Indexes

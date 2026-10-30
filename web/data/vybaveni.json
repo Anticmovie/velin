@@ -400,7 +400,7 @@
    "co": null,
    "loc": "Entire rental unit in Prague 1, Czechia"
   },
-  "1769519741635702350": {
+  "1767253974313285252": {
    "apt": "Opatovicka",
    "am": [
     "Kitchen",
@@ -415,9 +415,9 @@
     "Pack ’n play/Travel crib"
    ],
    "desc": "",
-   "ci": "4:00 PM",
+   "ci": "4:00 PM",
    "co": null,
-   "loc": "Entire rental unit in Prague 1, Czechia"
+   "loc": null
   }
  },
  "booking": {
