@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-09T20:32:33",
+ "generated": "2026-11-09T21:02:52",
  "byznysy": {
   "apartmany": {
    "nazev": "Apartmány",
@@ -93,7 +93,8 @@
     "2026-07": 209857,
     "2026-08": 117989,
     "2026-09": 24088,
-    "2026-10": -376234
+    "2026-10": 17788,
+    "2026-11": -376234
    },
    "pozn": "zisk po provizích a nákladech",
    "detail": "poke-finance.html"
