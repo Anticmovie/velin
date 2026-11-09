@@ -239,9 +239,9 @@ function strana(o,ph,banka){
 function nahledPrehled(){
   const d=formData(), v=d.vystavovatel||{}, celkem=soucet(d.polozky);
   $('paper').innerHTML=`
-    <div class="hd"><div><h3>Přehled nákladů</h3><div class="sub">prvotní náklady na zahájení ubytování · není daňový doklad</div></div><div class="no"><div class="lab">Ze dne</div><div class="v" style="font-size:16px">${fmtD(d.datum_vystaveni)}</div></div></div>
+    <div class="hd"><div><h3>Přehled nákladů</h3><div class="sub">jednorázové náklady k vyúčtování · není daňový doklad</div></div><div class="no"><div class="lab">Ze dne</div><div class="v" style="font-size:16px">${fmtD(d.datum_vystaveni)}</div></div></div>
     <div class="who">${strana(v,['Správce','vyber, kdo vystavuje'],true)}${strana(d.odberatel,['Majitel','majitel apartmánu'])}</div>
-    <p class="intro">Jednorázové náklady, které jsme uhradili za Vás před zahájením ubytování.</p>
+    <p class="intro">Náklady, které jsme za Vás uhradili nebo zajistili a které zatím nebyly vyúčtovány.</p>
     <table><colgroup><col><col class="c"></colgroup><thead><tr><th>Položka</th><th class="r">Částka</th></tr></thead>
       <tbody>${d.polozky.length?d.polozky.map(x=>`<tr><td><div class="pop">${esc(x.popis)}</div>${x.det?`<div class="det">${esc(x.det)}</div>`:''}</td><td class="r">${fmtC(Math.round(x.mnozstvi*x.cena*100)/100)}</td></tr>`).join(''):'<tr><td colspan="2" class="ph">Vyber majitele v podkladech.</td></tr>'}</tbody></table>
     <div class="sum"><div class="tot"><span>Celkem</span><span>${fmtC(celkem)}</span></div></div>
