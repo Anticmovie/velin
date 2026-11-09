@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#f6f6fb" />
+<title>VELÍN · Řídicí středisko</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     VELÍN — LIGHT verze (19.7.2026)
+     Svetly canvas + violet akcent. VELIN je svetly, BYTAHOST tmavy
+     -> na prvni pohled vis, ve ktere appce jsi.
+     Struktura: Prehled (provoz jako telegram report) / Dashboard
+     (rozcestnik aplikaci) / Vydelky (vsechny byznysy) / BYTAHOST.
+     ============================================================ */
+  :root{
+    --bg:#f6f6fb; --bg2:#ffffff; --panel:#ffffff; --panel2:#fbfbff;
+    --line:rgba(96,78,225,.13); --line2:rgba(96,78,225,.30);
+    --text:#1b1a33; --body:#3d3b5c; --muted:#6e6b90; --dim:#a3a0c0;
+    --vi:#604ee1; --vi2:#4d3ccc; --vibg:rgba(96,78,225,.09);
+    --cy:#0a8fbd; --gd:#a97d00;
+    --ok:#0d9455; --okbg:rgba(13,148,85,.10);
+    --warn:#b5730a; --warnbg:rgba(181,115,10,.10);
+    --down:#d63459; --downbg:rgba(214,52,89,.10);
+    --r:12px; --r-lg:16px;
+    --glow:0 10px 30px -12px rgba(96,78,225,.28);
+    --ease-out:cubic-bezier(.23,1,.32,1);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font:14.5px/1.5 'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:.005em}
+  a{color:inherit}
+  ::-webkit-scrollbar{width:9px}::-webkit-scrollbar-thumb{background:#d6d4e8;border-radius:5px}::-webkit-scrollbar-track{background:transparent}
+
+  .bgfx{position:fixed;inset:0;z-index:-2;background:
+    radial-gradient(800px 520px at 85% -10%, rgba(96,78,225,.08), transparent 60%),
+    radial-gradient(700px 500px at -10% 30%, rgba(10,143,189,.05), transparent 55%),
+    var(--bg)}
+
+  /* ===== LAYOUT: sidebar + obsah ===== */
+  .shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100dvh}
+  aside{position:sticky;top:0;height:100dvh;display:flex;flex-direction:column;gap:2px;padding:18px 12px 14px;
+    background:rgba(255,255,255,.86);border-right:1px solid var(--line);backdrop-filter:blur(14px)}
+  .brand{display:flex;align-items:center;gap:10px;padding:4px 10px 16px}
+  .orb{width:30px;height:30px;border-radius:50%;flex:none;
+    background:radial-gradient(circle at 50% 38%,#cdc4ff,var(--vi) 45%,#33269e 85%);
+    box-shadow:0 4px 14px rgba(96,78,225,.4)}
+  .brand .t{font-size:17px;font-weight:800;letter-spacing:.04em}
+  .brand .t em{font-style:normal;color:var(--vi)}
+  .brand .s{font-size:10px;color:var(--dim);letter-spacing:.16em;text-transform:uppercase;margin-top:1px}
+  nav a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;font-size:13.5px;font-weight:500;color:var(--body);text-decoration:none;position:relative;
+    transition:background 150ms ease,color 150ms ease,transform 160ms var(--ease-out)}
+  nav a:active{transform:scale(.98)}
+  @media(hover:hover) and (pointer:fine){ nav a:hover{background:var(--vibg);color:var(--text)} }
+  nav a.on{background:var(--vibg);color:var(--vi2);font-weight:700;box-shadow:inset 0 0 0 1px var(--line2)}
+  nav a .ic{width:18px;text-align:center;font-size:14px;flex:none;opacity:.9}
+  nav a .bdg{margin-left:auto;background:var(--vi);color:#fff;font-size:10.5px;font-weight:700;border-radius:20px;padding:1.5px 8px}
+  nav a.bh{margin-top:10px;background:linear-gradient(135deg,#241f4d,#3d2f8f);color:#fff;font-weight:700;box-shadow:0 8px 20px -8px rgba(45,32,120,.6)}
+  nav a.bh small{display:block;font-weight:500;font-size:10.5px;opacity:.75}
+  .sbot{margin-top:auto;padding:12px 10px 2px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+  .mini{font-size:11px;color:var(--muted)}
+  .mini .row{display:flex;justify-content:space-between;margin-bottom:4px}
+  .mini .row b{color:var(--body);font-weight:600;font-variant-numeric:tabular-nums}
+  .mini .tr{height:3.5px;border-radius:3px;background:rgba(0,0,0,.07);overflow:hidden;margin-bottom:8px}
+  .mini .tr i{display:block;height:100%;border-radius:3px;background:var(--vi);transition:width 500ms var(--ease-out)}
+  .clock{font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .clock small{display:block;font-size:11px;color:var(--muted);font-weight:500;margin-top:1px}
+
+  main{min-width:0;padding:26px 30px 96px;max-width:1060px}
+  .phead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:4px}
+  h1{font-size:24px;font-weight:800;letter-spacing:-.01em;margin:0}
+  .psub{color:var(--muted);font-size:13px}
+  h2{font-size:15px;font-weight:700;letter-spacing:.01em;margin:38px 0 12px;display:flex;align-items:center;gap:10px}
+  h2 small{font-size:12px;font-weight:500;color:var(--muted)}
+  h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+
+  .alert{display:flex;gap:11px;align-items:flex-start;border:1px solid;border-radius:var(--r);padding:12px 15px;margin:14px 0 0;font-size:13px;line-height:1.5}
+  .alert.warn{background:var(--warnbg);border-color:rgba(181,115,10,.3);color:#7c5210}
+  .alert.crit{background:var(--downbg);border-color:rgba(214,52,89,.35);color:#96233f}
+  .alert b{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px}
+
+  /* ===== DNES: dlazdice ===== */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+  @media(max-width:1100px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .tile{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;min-height:120px;
+    display:flex;flex-direction:column;text-decoration:none;overflow:hidden;box-shadow:0 4px 16px -10px rgba(30,25,80,.14);
+    transition:transform 180ms var(--ease-out),border-color 180ms ease,box-shadow 220ms ease}
+  .tile:active{transform:scale(.98)}
+  @media(hover:hover) and (pointer:fine){ .tile:hover{transform:translateY(-3px);border-color:var(--line2);box-shadow:var(--glow)} }
+  .tile .lb{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .tile .num{font-size:44px;font-weight:800;line-height:1.05;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:8px}
+  .tile.hot{border-color:var(--line2)}
+  .tile.hot .num{color:var(--vi)}
+  .tile.zero .num{color:var(--dim)}
+  .tile .sub{font-size:12px;color:var(--muted);margin-top:auto;line-height:1.45}
+  .tile .go{position:absolute;top:13px;right:15px;color:var(--dim);font-size:14px}
+  .skel .num,.skel .sub{color:transparent!important;border-radius:8px;background:linear-gradient(90deg,rgba(0,0,0,.04) 25%,rgba(96,78,225,.10) 50%,rgba(0,0,0,.04) 75%);background-size:200% 100%;animation:shimmer 1.2s linear infinite}
+  @keyframes shimmer{to{background-position:-200% 0}}
+  .tile,.mod,.biz,.um,.day{opacity:1;transform:translateY(0);transition:opacity 320ms var(--ease-out),transform 320ms var(--ease-out),border-color 180ms ease,box-shadow 220ms ease}
+  @starting-style{ .tile,.mod,.biz,.um,.day{opacity:0;transform:translateY(10px)} }
+
+  /* ===== PROVOZ board — vzhled jako Telegram report ===== */
+  .days{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px;align-items:stretch}
+  @media(max-width:1100px){.days{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.days{grid-template-columns:1fr}}
+  .day{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;
+    box-shadow:0 4px 16px -10px rgba(30,25,80,.12)}
+  .day.today{border-color:var(--line2);box-shadow:0 10px 26px -14px rgba(96,78,225,.4)}
+  .dhead{display:flex;align-items:baseline;gap:8px;padding:11px 14px;border-bottom:1px solid var(--line);background:var(--vibg)}
+  .dhead .dn{font-size:12.5px;font-weight:800;color:var(--vi2)}
+  .day:not(.today) .dhead .dn{color:var(--body)}
+  .dhead .tagd{margin-left:auto;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--vi);border-radius:14px;padding:2px 9px}
+  .day:not(.today) .dhead .tagd{background:transparent;color:var(--dim);padding:0}
+  .dsec{padding:9px 14px 3px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .prow{display:flex;align-items:center;gap:8px;padding:5px 14px;font-size:13px}
+  .prow .em{flex:none;font-size:12px}
+  .prow .byt{font-weight:700;white-space:nowrap}
+  .prow .lead{flex:1;min-width:8px;border-bottom:1px dotted rgba(96,78,225,.35);transform:translateY(2px)}
+  .prow .hostu{flex:none;font-weight:700;font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px}
+  .prow .cas{flex:none;width:108px;text-align:right;white-space:nowrap;letter-spacing:-.2px;font-weight:800;font-variant-numeric:tabular-nums;color:var(--vi2);font-size:12.5px}
+  .prow .hs{flex:none;width:36px;text-align:right;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+  .prow .ic{flex:none;min-width:24px;font-size:12px}
+  .prow .nm{flex:none;width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:11.5px;text-align:right}
+  .warncard{margin:0 0 12px;padding:11px 14px;border-radius:14px;background:#fff6e0;border:1px solid #f1c46b;color:#6b4a00;font-size:12.5px;line-height:1.45}.warncard b{display:block;font-size:13.5px;margin-bottom:2px}
+  .prow .cas.ne{color:var(--dim);font-weight:500}
+  /* 16.10.2026 v4: byt vlevo, cas/lidi/ikony vpravo v pevnych sloupcich, kratke jmeno jen kdyz se vejde */
+  .prow{display:grid!important;grid-template-columns:16px minmax(0,1fr) 46px 70px 26px 44px;column-gap:5px;align-items:center}.prow .lead{display:none}.prow .byt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.prow .em{grid-column:1}.prow .byt{grid-column:2}.prow .jm{grid-column:3}.prow .cas{grid-column:4}.prow .hs{grid-column:5}.prow .ic{grid-column:6}.prow.nn .byt{grid-column:2 / span 2}.prow .jm{min-width:0;overflow:hidden;white-space:nowrap;font-size:11px;opacity:.75;text-align:left}.prow .cas{width:auto;text-align:right;white-space:nowrap;font-size:12px}.prow .hs{width:auto;text-align:right;white-space:nowrap}.prow .ic{min-width:0;overflow:hidden;white-space:nowrap;font-size:11px;letter-spacing:-1px;text-align:left}.day{container-type:inline-size}@container (max-width:290px){.prow{grid-template-columns:16px minmax(0,1fr) 0 64px 24px 36px;column-gap:4px}.prow .jm{display:none}.prow .byt,.prow.nn .byt{grid-column:2 / span 2}}
+  .prow .g{flex:none;max-width:44%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:11.5px}
+  .dnic{padding:2px 14px 6px;color:var(--dim);font-size:12px}
+  .dpad{padding-bottom:10px;margin-top:auto}
+
+  /* ===== Dashboard: rozcestnik aplikaci ===== */
+  .mods{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:1100px){.mods{grid-template-columns:repeat(2,1fr)}}
+  .mod{display:flex;align-items:center;gap:13px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:15px 16px;text-decoration:none;
+    box-shadow:0 4px 16px -10px rgba(30,25,80,.12);
+    transition:transform 180ms var(--ease-out),border-color 180ms ease,box-shadow 220ms ease}
+  .mod:active{transform:scale(.98)}
+  @media(hover:hover) and (pointer:fine){ .mod:hover{transform:translateY(-2px);border-color:var(--line2);box-shadow:var(--glow)} }
+  .mod .ic{width:40px;height:40px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;font-size:19px;background:var(--mc,var(--vibg))}
+  .mod .t{font-size:14px;font-weight:700}
+  .mod .d{font-size:12px;color:var(--muted);line-height:1.4;margin-top:1px}
+  .mod .ar{margin-left:auto;color:var(--dim);font-size:14px;flex:none}
+  .mod.dark{background:linear-gradient(135deg,#241f4d,#3d2f8f);border-color:transparent;color:#fff}
+  .mod.dark .d{color:rgba(255,255,255,.72)}
+  .mod.dark .ar{color:rgba(255,255,255,.7)}
+
+  /* ===== Vydelky souhrn ===== */
+  .vydbig{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 22px;box-shadow:0 4px 16px -10px rgba(30,25,80,.12)}
+  .vydbig .lb{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .vydbig .num{font-size:40px;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px;font-variant-numeric:tabular-nums}
+  .vydbig .num.plus{color:var(--ok)} .vydbig .num.minus{color:var(--down)}
+  .vydbig .sub{font-size:12.5px;color:var(--muted)}
+  .vydrows{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+  .vydrow{display:flex;align-items:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 15px;text-decoration:none;
+    transition:border-color 150ms ease,box-shadow 180ms ease}
+  @media(hover:hover) and (pointer:fine){ .vydrow:hover{border-color:var(--line2);box-shadow:var(--glow)} }
+  .vydrow .em{font-size:20px;flex:none}
+  .vydrow .nm{font-weight:700;font-size:13.5px}
+  .vydrow .po{font-size:11.5px;color:var(--muted)}
+  .vydrow .val{margin-left:auto;text-align:right}
+  .vydrow .val b{font-size:16px;font-variant-numeric:tabular-nums;display:block}
+  .vydrow .val b.plus{color:var(--ok)} .vydrow .val b.minus{color:var(--down)}
+  .vydrow .val small{font-size:10.5px;color:var(--dim)}
+  .vydrow.subrow{margin-left:26px;padding:8px 14px;background:var(--bg);border-style:dashed;opacity:.9}
+  .vydrow.subrow .em{font-size:15px}.vydrow.subrow .nm{font-size:12px;font-weight:600}.vydrow.subrow .val b{font-size:13.5px}
+  .spark{display:flex;align-items:flex-end;gap:2px;height:30px;margin-left:14px}
+  .spark i{width:7px;border-radius:2px 2px 0 0;background:var(--vibg);min-height:2px}
+  .spark i.p{background:var(--ok)} .spark i.n{background:var(--down)}
+
+  /* ===== ukoly / provoz / usage / projekty (zachovano) ===== */
+  .task{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--tc,var(--dim));border-radius:var(--r);padding:13px 16px}
+  .task+.task{margin-top:10px}
+  .task .st{font-size:11px;font-weight:700;color:var(--tc,var(--muted))}
+  .task .who{float:right;font-size:11.5px;color:var(--muted)}
+  .task .nm{font-weight:600;font-size:14px;margin:5px 0 3px}
+  .task .po{font-size:12.5px;color:var(--body);line-height:1.5;margin-bottom:6px}
+  .task .bar{height:4px;border-radius:4px;background:rgba(0,0,0,.06);overflow:hidden;margin-top:8px}
+  .task .bar i{display:block;height:100%;background:var(--tc,var(--dim));border-radius:4px;transition:width 500ms var(--ease-out)}
+  .task .btns{display:flex;gap:8px;margin-top:12px}
+  .task .btns button{border:none;border-radius:9px;font:600 13px 'Inter',sans-serif;padding:10px 16px;cursor:pointer;transition:transform 160ms var(--ease-out)}
+  .task .btns button:active{transform:scale(.97)}
+  .task .btns .yes{flex:1;background:var(--vi);color:#fff}
+  .task .btns .no{background:transparent;border:1px solid var(--line2);color:var(--body)}
+
+  .bizgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+  .biz{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:0 4px 16px -10px rgba(30,25,80,.10)}
+  .biz .bh{display:flex;align-items:center;gap:9px;padding:11px 15px;border-bottom:1px solid var(--line);background:var(--vibg)}
+  .biz .bh .nm{font-weight:700;font-size:13.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .biz .bh .ct{font-size:11px;color:var(--muted)}
+  .biz .rows{padding:6px 8px 8px}
+  .agrow{display:flex;align-items:center;gap:11px;padding:7px 8px;border-radius:9px;cursor:pointer;transition:background 150ms ease}
+  @media(hover:hover) and (pointer:fine){ .agrow:hover{background:var(--vibg)} }
+  .agrow .em{width:28px;height:28px;border-radius:8px;background:rgba(0,0,0,.04);box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+  .agrow .mid{flex:1;min-width:0}
+  .agrow .nm{font-weight:600;font-size:12.5px;display:flex;align-items:center;gap:7px}
+  .agrow .rl{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .agrow .det{display:none;font-size:11.5px;color:var(--body);margin-top:3px;line-height:1.45}
+  .agrow.open .det{display:block}
+  .sdot{width:7px;height:7px;border-radius:50%;flex:none}
+  .sdot.live{animation:beat 1.8s ease-in-out infinite}
+  @keyframes beat{0%,100%{opacity:1}50%{opacity:.4}}
+  .stag2{font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;border-radius:6px}
+
+  .ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+  .um{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 16px;box-shadow:0 4px 16px -10px rgba(30,25,80,.10)}
+  .um .lb{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+  .um .lb .tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+  .um .v{font-size:26px;font-weight:800;margin:8px 0 10px;line-height:1;font-variant-numeric:tabular-nums}
+  .um .v small{font-size:11.5px;color:var(--muted);font-weight:500}
+  .um .tr{height:5px;border-radius:4px;background:rgba(0,0,0,.06);overflow:hidden}
+  .um .tr i{display:block;height:100%;border-radius:4px;transition:width 600ms var(--ease-out)}
+  .um .meta{font-size:11.5px;color:var(--muted);margin-top:9px;display:flex;gap:12px;flex-wrap:wrap}
+  .um .meta b{color:var(--text);font-weight:600}
+
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .pc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+  .pc .nm{font-weight:600;font-size:13px;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .pc .bd2{font-size:9.5px;font-weight:700;color:var(--dim);white-space:nowrap;text-transform:uppercase;letter-spacing:.08em}
+  .pc .dt{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5}
+  .pc .dt code{background:var(--vibg);border-radius:5px;padding:0 5px;font-size:11px;color:var(--vi2)}
+  .ghead{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 10px;display:flex;gap:10px;align-items:center}
+  .ghead::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .sticky-crit{position:fixed;top:0;left:0;right:0;z-index:60;display:none;background:linear-gradient(90deg,#a41533,#d63459 50%,#a41533);color:#fff;padding:9px 18px;font-size:13px;font-weight:600;text-align:center}
+  .sticky-crit.show{display:block}
+
+  footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);font-size:11.5px;color:var(--dim);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .empty{border:1px dashed var(--line2);border-radius:var(--r);padding:16px;color:var(--muted);font-size:13px;text-align:center;background:var(--vibg)}
+
+  /* ===== mobil: spodni tab-bar — 4 jasne sekce, BYTAHOST vyrazne ===== */
+  .tabbar{display:none}
+  @media(max-width:820px){
+    .shell{grid-template-columns:1fr}
+    aside{display:none}
+    main{padding:20px 16px 104px}
+    h1{font-size:21px}
+    .tiles{grid-template-columns:repeat(2,1fr);gap:9px}
+    .tile{padding:13px 14px;min-height:104px}
+    .tile .num{font-size:34px}
+    .mods{grid-template-columns:1fr}
+    .bizgrid,.pgrid,.ugrid{grid-template-columns:1fr}
+    .tabbar{display:flex;position:fixed;left:10px;right:10px;bottom:10px;z-index:50;gap:4px;
+      background:rgba(255,255,255,.92);border:1px solid var(--line2);border-radius:20px;padding:6px;backdrop-filter:blur(18px);
+      box-shadow:0 14px 40px -12px rgba(30,25,80,.35)}
+    .tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 2px;border-radius:14px;text-decoration:none;font-size:10px;font-weight:700;color:var(--muted);position:relative;transition:background 150ms ease,color 150ms ease,transform 160ms var(--ease-out)}
+    .tabbar a:active{transform:scale(.94)}
+    .tabbar a .i{font-size:17px}
+    .tabbar a.on{background:var(--vibg);color:var(--vi2)}
+    .tabbar a.bh{background:linear-gradient(135deg,#241f4d,#3d2f8f);color:#fff}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .tile,.mod,.biz,.um,.day{transition:opacity 200ms ease;transform:none}
+    @starting-style{ .tile,.mod,.biz,.um,.day{transform:none} }
+    .sdot.live{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="bgfx"></div>
+<div class="sticky-crit" id="scrit"></div>
+
+<div class="shell">
+  <aside>
+    <div class="brand"><div class="orb"></div><div><div class="t">VEL<em>ÍN</em></div><div class="s">řídicí středisko</div></div></div>
+    <nav>
+      <a class="on" href="#top"><span class="ic">◈</span>Přehled</a>
+      <a href="#dashboard"><span class="ic">▦</span>Dashboard</a>
+      <a href="#vydelky"><span class="ic">◍</span>Výdělky</a>
+      <a class="bh" href="bytahost/"><span class="ic">✦</span><span>BYTAHOST<small>portál pro tým</small></span></a>
+    </nav>
+    <div class="sbot">
+      <div class="mini" id="sideusage"></div>
+      <div class="clock"><span id="clock">--:--</span><small id="sysline">systém startuje…</small></div>
+    </div>
+  </aside>
+
+  <main id="top">
+    <div class="phead"><h1 id="hello">Dnes</h1><span class="psub" id="dnesdate">—</span></div>
+    <div id="alerts"></div>
+
+    <div class="tiles" id="todaytiles">
+      <a class="tile skel" href="bytahost/"><span class="lb">Čeká na odpověď</span><span class="num">0</span><span class="sub">načítám…</span></a>
+      <a class="tile skel" href="#provoz"><span class="lb">Příjezdy dnes</span><span class="num">0</span><span class="sub">načítám…</span></a>
+      <a class="tile skel" href="#provoz"><span class="lb">Odjezdy dnes</span><span class="num">0</span><span class="sub">načítám…</span></a>
+      <a class="tile skel" href="bytahost/"><span class="lb">Hosté v bytech</span><span class="num">0</span><span class="sub">načítám…</span></a>
+    </div>
+
+    <h2 id="provoz">Provoz — 4 dny <small id="provoz-cas"></small></h2>
+    <div id="velin-warn"></div>
+    <div id="boards"><div class="empty">Načítám provozní report…</div></div>
+
+    <h2 id="dashboard">Dashboard — aplikace</h2>
+    <div class="mods">
+      <a class="mod dark" href="bytahost/"><span class="ic">✦</span><span><span class="t">BYTAHOST</span><span class="d" style="display:block">Portál pro tým — zprávy, provoz, byty, kalendář, ceny</span></span><span class="ar">→</span></a>
+      <a class="mod" href="byty-rpg-v2.html#byty" style="--mc:rgba(96,78,225,.14)"><span class="ic">⌂</span><span><span class="t">Byty a ceny</span><span class="d" style="display:block">Profily bytů · návrhy cen · nasazení</span></span><span class="ar">→</span></a>
+      <a class="mod" href="byty-rpg-v2.html#kalendar" style="--mc:rgba(96,78,225,.10)"><span class="ic">▤</span><span><span class="t">Multi Calendar</span><span class="d" style="display:block">Kalendář všech bytů · orphan · konkurence · návrhy · nasazení</span></span><span class="ar">→</span></a>
+      <a class="mod" href="poke-finance.html" style="--mc:rgba(13,148,85,.10)"><span class="ic">🥗</span><span><span class="t">Poke Poke — finance</span><span class="d" style="display:block">Kompletní P&amp;L dashboard: tržby, provize, náklady, zisk</span></span><span class="ar">→</span></a>
+      <a class="mod" href="vydelky-platformy.html" style="--mc:rgba(96,78,225,.12)"><span class="ic">💶</span><span><span class="t">Výdělky z platforem</span><span class="d" style="display:block">Per byt po měsících · výplaty · Naše vs. Správa · DPH</span></span><span class="ar">→</span></a>
+      <a class="mod" href="room-gru.html" style="--mc:rgba(169,125,0,.10)"><span class="ic">▦</span><span><span class="t">Kancelář</span><span class="d" style="display:block">Zasedačka s agenty</span></span><span class="ar">→</span></a>
+    </div>
+
+    <h2 id="vydelky">Výdělky — všechny byznysy <small id="vyd-sub"></small></h2>
+    <div id="vydbox"><div class="empty">Načítám výdělky…</div></div>
+
+    <h2 id="appr-h" style="display:none">Úkoly <small id="appr-c"></small></h2>
+    <div id="appr"></div>
+
+    <h2>Agenti a systém <small id="provoz-sub"></small></h2>
+    <div id="tech-card" style="margin:0 0 14px"></div>
+    <div class="bizgrid" id="biz"></div>
+
+    <div id="usage-wrap" style="display:none">
+      <h2>Limity Claude</h2>
+      <div class="ugrid" id="usage-meters"></div>
+    </div>
+
+    <h2>Projekty</h2>
+    <div id="projects"></div>
+
+    <footer><span>VELÍN · řídicí středisko</span><span id="foot">—</span></footer>
+  </main>
+</div>
+
+<div class="tabbar">
+  <a class="on" href="#top" data-sec="top"><span class="i">◈</span>Přehled</a>
+  <a href="#dashboard" data-sec="dashboard"><span class="i">▦</span>Dashboard</a>
+  <a href="#vydelky" data-sec="vydelky"><span class="i">◍</span>Výdělky</a>
+  <a class="bh" href="bytahost/"><span class="i">✦</span>BYTAHOST</a>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  var D=window.DASHBOARD_DATA||{};
+  var esc=function(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+  var STC={operational:'var(--ok)',wip:'var(--warn)',down:'var(--down)',planned:'var(--cy)',na:'var(--dim)'};
+  var STB={operational:'var(--okbg)',wip:'var(--warnbg)',down:'var(--downbg)',planned:'rgba(10,143,189,.10)',na:'rgba(0,0,0,.04)'};
+  var STL={operational:'běží',wip:'ladí se',down:'padlo',planned:'plán',na:'—'};
+
+  function tick(){var d=new Date();function p(n){return(n<10?'0':'')+n;}
+    var el=document.getElementById('clock');if(el)el.textContent=p(d.getHours())+':'+p(d.getMinutes());}
+  tick();setInterval(tick,15e3);
+  var now=new Date(),H=now.getHours();
+  document.getElementById('hello').textContent=(H<10?'Dobré ráno':H<18?'Dnes':'Dobrý večer');
+  document.getElementById('dnesdate').textContent=now.toLocaleDateString('cs',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('foot').textContent='data '+(D.generated||'—');
+
+  /* aktivni tab podle scrollu (kotvy #top/#dashboard/#vydelky) */
+  (function(){
+    var secs=['vydelky','dashboard','top'];
+    function upd(){
+      var cur='top';
+      for(var i=0;i<secs.length;i++){var el=document.getElementById(secs[i]);
+        if(el&&el.getBoundingClientRect().top<140){cur=secs[i];break;}}
+      [].forEach.call(document.querySelectorAll('.tabbar a[data-sec], aside nav a'),function(a){
+        var sec=a.getAttribute('data-sec')||(a.getAttribute('href')||'').replace('#','');
+        if(a.classList.contains('bh'))return;
+        a.classList.toggle('on',sec===cur||(cur==='top'&&sec==='top'));
+      });
+    }
+    window.addEventListener('scroll',upd,{passive:true});upd();
+  })();
+
+  var SB='https://uiynkslmvkjzzdvijkzo.supabase.co/rest/v1';
+  var KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
+  var SBH={apikey:KEY,Authorization:'Bearer '+KEY};
+
+  /* ===== PROVOZ board — STEJNY zdroj jako Telegram report (report_provoz) + auto-refresh ===== */
+  var DNY=['neděle','pondělí','úterý','středa','čtvrtek','pátek','sobota'];
+  var LBL=['DNES','ZÍTRA','POZÍTŘÍ','ZA 3 DNY'];
+  function isoAdd(n){var x=new Date();x.setDate(x.getDate()+n);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0');}
+  function fmtProvoz(payload){
+    var byDate={};(payload.days||[]).forEach(function(d){byDate[d.datum]=d;});
+    var html='';
+    for(var i=0;i<4;i++){
+      var di=isoAdd(i);var d=byDate[di]||{prijezdy:[],odjezdy:[]};
+      var dd=new Date();dd.setDate(dd.getDate()+i);
+      var uklidy=(d.odjezdy||[]),arr=(d.prijezdy||[]);
+      html+='<div class="day'+(i===0?' today':'')+'">'+
+        '<div class="dhead"><span class="dn">📅 '+DNY[dd.getDay()].charAt(0).toUpperCase()+DNY[dd.getDay()].slice(1)+' '+dd.getDate()+'. '+(dd.getMonth()+1)+'.</span><span class="tagd">'+(LBL[i]||'')+'</span></div>'+
+        '<div class="dsec">🧹 Úklidy · '+uklidy.length+'</div>'+
+        (uklidy.length?uklidy.map(function(x){var j=kJm(x.guest,x.byt);return '<div class="prow'+(j?'':' nn')+'"><span class="em">✅</span><span class="byt">'+esc(x.byt)+'</span>'+(j?'<span class="jm">'+j+'</span>':'')+'<span class="cas">'+(x.late?'🌙 '+esc(kCas(x.late)):'')+'</span><span class="hs"></span><span class="ic"></span></div>';}).join(''):'<div class="dnic">žádné</div>')+
+        '<div class="dsec">🔑 Příjezdy · '+arr.length+'</div>'+
+        (arr.length?arr.map(function(x){var c=x.cas&&x.cas!=='?'?x.cas:null;
+          /* kolik lidi prijede je v rezervaci (Booking guests / Airbnb guests_total) — plni report_sync.py */
+          var n='<span class="hs">'+(x.hostu?'👥'+x.hostu:'')+'</span>';
+          var ic='<span class="ic">'+(x.zvire?(x.zvire==='pes'?'🐕':x.zvire==='kocka'?'🐈':'🐾'):'')+(x.postylka?'🛏️':'')+(x.parkovani?'🅿️':'')+(x.early?'🌅':'')+(x.faktura?'🧾':'')+'</span>';
+          var j=kJm(x.guest,x.byt);
+          return '<div class="prow'+(j?'':' nn')+'"><span class="em">'+(x.plat==='A'?'🔴':x.plat==='B'?'🔵':'🔑')+'</span><span class="byt">'+esc(x.byt)+'</span>'+(j?'<span class="jm">'+j+'</span>':'')+(c?'<span class="cas">'+esc(kCas(c))+'</span>':'<span class="cas ne">'+(x.chat?'?':'—')+'</span>')+n+ic+'</div>';}).join(''):'<div class="dnic">žádné</div>')+
+        '<div class="dpad"></div></div>';
+    }
+    return '<div class="days">'+html+'</div>';
+  }
+  /* varovani: kdyz data nejsou cerstva, male okno 'VELIN to resi' (hlidac dat, prihlaseni Booking, stari reportu) */
+  function nactiVarovani(updAt){
+    Promise.all([fetch(SB+'/report_provoz?id=eq.health&select=payload',{headers:SBH}).then(function(r){return r.json();}).catch(function(){return [];}),
+                 fetch(SB+'/booking_login?select=id,stav,zprava',{headers:SBH}).then(function(r){return r.json();}).catch(function(){return [];}),
+                 fetch(SB+'/report_provoz?id=eq.dozor&select=payload,updated_at',{headers:SBH}).then(function(r){return r.json();}).catch(function(){return [];})]).then(function(a){
+      var msg=[]; if(updAt&&Date.now()-new Date(updAt)>50*60e3)msg.push('Rozpis je '+Math.round((Date.now()-new Date(updAt))/60e3)+' min starý.');
+      var h=a[0]&&a[0][0]&&a[0][0].payload; if(h&&h.zdroje)h.zdroje.forEach(function(z){if(z.stav&&z.stav!=='ok')msg.push(z.label+': data '+z.stari+' stará ('+z.vliv+').');});
+      (a[1]||[]).forEach(function(r){if(r.stav!=='ok')msg.push('Booking '+r.id+': '+(r.zprava||r.stav)+'.');});
+      /* 18.10.2026: dozor na MINIPC (spojka.js) — selhane ulohy, souběh skriptu, publikace */
+      var dz=a[2]&&a[2][0]; if(dz&&dz.payload&&Array.isArray(dz.payload.problemy))dz.payload.problemy.filter(function(p){return !p.opraveno;}).forEach(function(p){msg.push(p.text+'.');});
+      if(dz&&Date.now()-new Date(dz.updated_at)>15*60e3)msg.push('Dozor na MINIPC se neozval '+Math.round((Date.now()-new Date(dz.updated_at))/60e3)+' min — MINIPC možná neběží.');
+      document.getElementById('velin-warn').innerHTML=msg.length?'<div class="warncard"><b>⚠️ Data nejsou úplně aktuální – VELÍN to řeší</b>'+msg.map(esc).join('<br>')+'</div>':'';
+    });
+  }
+  /* 16.10.2026: cas zkratit (14:00-15:00 -> 14–15), jmeno max 5 pismen a jen kdyz je nazev bytu kratky */
+  function kCas(t){return String(t||'').replace(/(\d{1,2}):00(?!\d)/g,'$1').replace(/\s*[-–]\s*/g,'–');}
+  function kJm(g,byt){g=String(g||'').trim().split(/\s+/)[0]||'';if(!g||String(byt||'').length>10)return '';return esc(g.length>5?g.slice(0,5)+'.':g);}
+  var lastProvozHash='';
+  function nactiProvoz(){
+    fetch(SB+'/report_provoz?id=eq.hlavni&select=payload,hash,updated_at',{headers:SBH})
+    .then(function(r){return r.json();})
+    .then(function(rows){
+      if(!rows||!rows[0])return;
+      var p=rows[0].payload||{};
+      if(rows[0].hash!==lastProvozHash){
+        lastProvozHash=rows[0].hash;
+        document.getElementById('boards').innerHTML=fmtProvoz(p);
+      }
+      var gen=(p.generated||'').replace('T',' ').slice(5,16); nactiVarovani(rows[0].updated_at);
+      document.getElementById('provoz-cas').textContent='aktualizováno '+gen+' · obnovuje se samo';
+      /* dlazdice prijezdy/odjezdy DNES ze STEJNEHO zdroje (uz zadna neaktualni cisla) */
+      var d0=(p.days||[])[0]||{prijezdy:[],odjezdy:[]};
+      var tA=document.getElementById('t-arr'),tD=document.getElementById('t-dep');
+      if(tA){tA.querySelector('.num').textContent=d0.prijezdy.length;tA.classList.toggle('zero',!d0.prijezdy.length);
+        tA.querySelector('.sub').innerHTML=d0.prijezdy.slice(0,2).map(function(x){return esc(x.byt)+(x.hostu?' 👥'+x.hostu:'')+(x.cas&&x.cas!=='?'?' ⏰'+esc(x.cas):'');}).join('<br>')||'nikdo';}
+      if(tD){tD.querySelector('.num').textContent=d0.odjezdy.length;tD.classList.toggle('zero',!d0.odjezdy.length);
+        tD.querySelector('.sub').innerHTML=d0.odjezdy.slice(0,2).map(function(x){return esc(x.byt);}).join('<br>')||'nikdo';}
+    }).catch(function(){document.getElementById('provoz-cas').textContent='report nedostupný';});
+  }
+
+  /* ===== TECH agent — zivy stav dohledu (report_provoz id=tech, pise tech_agent.ps1 a 10 min) ===== */
+  function nactiTech(){
+    fetch(SB+'/report_provoz?id=eq.tech&select=payload,updated_at',{headers:SBH})
+    .then(function(r){return r.json();}).then(function(a){
+      var el=document.getElementById('tech-card'); if(!el)return;
+      var p=(a[0]||{}).payload; if(!p){el.innerHTML='';return;}
+      var col={ok:'#16a34a',warn:'#d97706',crit:'#dc2626'}[p.verdikt]||'#64748b';
+      var nazev={ok:'vše běží',warn:'drobnosti',crit:'problém'}[p.verdikt]||p.verdikt;
+      var ago=a[0].updated_at?Math.round((Date.now()-new Date(a[0].updated_at))/6e4):null;
+      var stary=(ago!=null&&ago>25);
+      var bad=(p.checks||[]).filter(function(c){return c.stav!=='ok';});
+      var h='<div style="border:1px solid #e2e8f0;border-left:4px solid '+(stary?'#64748b':col)+';border-radius:12px;padding:12px 14px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.04)">';
+      h+='<div style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:50%;background:'+(stary?'#64748b':col)+'"></span><b>🛠️ TECH agent — '+(stary?'bez tepu':esc(nazev))+'</b><span style="margin-left:auto;color:#94a3b8;font-size:12px">'+(ago!=null?'před '+ago+' min':'')+'</span></div>';
+      h+='<div style="color:#64748b;font-size:12px;margin-top:3px">'+esc(p.shrnuti||'')+'</div>';
+      if((p.pro_cloveka||[]).length){h+='<div style="margin-top:8px">'+p.pro_cloveka.map(function(x){return '<div style="color:#dc2626;font-size:12.5px;font-weight:600">❗ '+esc(x)+'</div>';}).join('')+'</div>';}
+      if((p.opraveno||[]).length){h+='<div style="margin-top:6px;color:#16a34a;font-size:12px">✅ opraveno: '+p.opraveno.map(function(x){return esc(x);}).join('; ')+'</div>';}
+      if(bad.length){h+='<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">'+bad.map(function(c){var cc=c.stav==='crit'?'#dc2626':'#d97706';return '<span title="'+esc(c.detail||'')+'" style="font-size:11.5px;border:1px solid '+cc+'44;color:'+cc+';background:'+cc+'0d;border-radius:8px;padding:3px 8px">'+esc(c.name)+'</span>';}).join('')+'</div>';}
+      else if(!stary){h+='<div style="margin-top:6px;color:#16a34a;font-size:12px">✓ všechny kontroly OK</div>';}
+      h+='</div>';
+      el.innerHTML=h;
+    }).catch(function(){});
+  }
+
+  /* ===== dlazdice: zpravy + hoste (konverzace), prijezdy/odjezdy plni nactiProvoz ===== */
+  function nactiTiles(){
+    fetch(SB+'/konverzace?select=guest,byt_nazev,byt_key,prijezd,odjezd,unread,posledni_smer,vyreseno,last_at',{headers:SBH})
+    .then(function(r){return r.json();})
+    .then(function(cs){
+      if(!Array.isArray(cs))throw 0;
+      var t=new Date();var today=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
+      var dnesI=new Date().toISOString().slice(0,10);var wait=cs.filter(function(c){var vy=c.vyreseno&&(!c.last_at||new Date(c.vyreseno)>=new Date(c.last_at));return (c.unread>0||c.posledni_smer==='in')&&!vy&&!(c.odjezd&&c.odjezd<dnesI);});
+      var stay=cs.filter(function(c){return c.prijezd&&c.prijezd<=today&&c.odjezd&&c.odjezd>today;});
+      function tile(id,lb,n,sub,href,hot){
+        return '<a class="tile '+(hot&&n?'hot':(n?'':'zero'))+'" id="'+id+'" href="'+href+'"><span class="go">→</span><span class="lb">'+lb+'</span><span class="num">'+n+'</span><span class="sub">'+sub+'</span></a>';
+      }
+      document.getElementById('todaytiles').innerHTML=
+        tile('t-wait','Čeká na odpověď',wait.length,wait.length?'nejstarší: '+esc((wait[wait.length-1]||{}).guest||''):'vše zodpovězeno','bytahost/',true)+
+        tile('t-arr','Příjezdy dnes',0,'…','#provoz')+
+        tile('t-dep','Odjezdy dnes',0,'…','#provoz')+
+        tile('t-stay','Hosté v bytech',stay.length,stay.length?stay.slice(0,2).map(function(c){return esc(c.byt_nazev||c.byt_key||'');}).join(' · '):'prázdno','bytahost/');
+      nactiProvoz();
+    }).catch(function(){nactiProvoz();});
+  }
+  nactiTiles();
+  setInterval(nactiProvoz,120e3);                                     /* obnov kazde 2 min */
+  nactiTech();setInterval(nactiTech,120e3);                           /* TECH agent stav kazde 2 min */
+  setInterval(nactiTiles,600e3);                                      /* zpravy kazde 10 min */
+  document.addEventListener('visibilitychange',function(){if(!document.hidden){nactiTiles();}});
+
+  /* ===== VYDELKY — vsechny byznysy (vydelky-souhrn.json z build_souhrn_vydelku.py) ===== */
+  (function(){
+    function fmtKc(n){var s=Math.round(Math.abs(n)).toLocaleString('cs');return (n<0?'−':'+')+s+' Kč';}
+    function mesLbl(m){var M=['','leden','únor','březen','duben','květen','červen','červenec','srpen','září','říjen','listopad','prosinec'];
+      return M[parseInt(m.slice(5),10)]+' '+m.slice(0,4);}
+    fetch('vydelky-souhrn.json').then(function(r){return r.json();}).then(function(j){
+      var biz=j.byznysy||{};
+      /* posledni UZAVRENY mesic = minuly kalendarni */
+      var t=new Date();t.setDate(1);t.setDate(0);
+      var lastM=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0');
+      var total=0,haveAny=false,rows='';
+      Object.keys(biz).forEach(function(k){
+        var b=biz[k];var ms=b.mesice||{};var keys=Object.keys(ms).sort();
+        if(!keys.length)return;
+        var latest=keys[keys.length-1];
+        var useM=ms[lastM]!=null?lastM:latest;   /* kdyz byznys nema minuly mesic, vezmi jeho nejnovejsi */
+        var val=ms[useM];
+        if(ms[lastM]!=null&&b.do_souctu!==false){total+=val;haveAny=true;}   /* trzby se nescitaji se ziskem */
+        var spark=keys.slice(-8).map(function(m){var v=ms[m];var h=Math.min(28,Math.max(3,Math.abs(v)/8000));
+          return '<i class="'+(v>=0?'p':'n')+'" style="height:'+h+'px" title="'+m+': '+fmtKc(v)+'"></i>';}).join('');
+        rows+='<a class="vydrow" href="'+(b.detail||'#vydelky')+'"><span class="em">'+(b.emoji||'◍')+'</span>'+
+          '<span><span class="nm">'+esc(b.nazev)+'</span><br><span class="po">'+esc(b.pozn||'')+(useM!==lastM?' · data do '+mesLbl(useM):'')+'</span></span>'+
+          '<span class="spark">'+spark+'</span>'+
+          '<span class="val"><b class="'+(val>=0?'plus':'minus')+'">'+fmtKc(val)+'</b><small>'+mesLbl(useM)+'</small></span></a>';
+        /* subordinovana polozka (napr. prani pod spravou) */
+        if(b.sub&&b.sub.mesice){var sm=b.sub.mesice;var sk=Object.keys(sm).sort();if(sk.length){
+          var sUseM=sm[lastM]!=null?lastM:sk[sk.length-1];var sVal=sm[sUseM];
+          rows+='<a class="vydrow subrow" href="'+(b.detail||'#vydelky')+'"><span class="em">'+(b.sub.emoji||'↳')+'</span>'+
+            '<span><span class="nm">'+esc(b.sub.nazev)+'</span><br><span class="po">'+esc(b.sub.pozn||'')+'</span></span>'+
+            '<span class="spark"></span>'+
+            '<span class="val"><b class="'+(sVal>=0?'plus':'minus')+'">'+fmtKc(sVal)+'</b><small>'+mesLbl(sUseM)+'</small></span></a>';}}
+      });
+      var head='<div class="vydbig"><div class="lb">Minulý měsíc · '+mesLbl(lastM)+' · všechny byznysy dohromady</div>'+
+        '<div class="num '+(total>=0?'plus':'minus')+'">'+(haveAny?fmtKc(total):'—')+'</div>'+
+        '<div class="sub">'+(haveAny?'součet byznysů, které už mají data za '+mesLbl(lastM)+' — rozklik níže':'zatím bez dat za '+mesLbl(lastM))+'</div></div>';
+      document.getElementById('vydbox').innerHTML=head+'<div class="vydrows">'+rows+'</div>';
+      document.getElementById('vyd-sub').textContent='aktualizováno '+(j.generated||'').slice(0,10);
+    }).catch(function(){document.getElementById('vydbox').innerHTML='<div class="empty">vydelky-souhrn.json nedostupný — spusť refresh</div>';});
+  })();
+
+  /* ===== agenti a system ===== */
+  var biz=D.businesses||[]; var allAg=[]; biz.forEach(function(b){(b.agents||[]).forEach(function(a){allAg.push(a);});});
+  var down=allAg.filter(function(a){return a.status==='down';}).length;
+  var wip=allAg.filter(function(a){return a.status==='wip';}).length;
+  document.getElementById('sysline').textContent=down?('⚠ '+down+' mimo provoz'):'✓ systém v provozu';
+  document.getElementById('provoz-sub').textContent=allAg.length+' agentů · '+(down?down+' padlo':'vše běží')+(wip?' · '+wip+' ladí':'');
+  document.getElementById('biz').innerHTML=biz.map(function(b){
+    var inner=(b.agents||[]).map(function(a){
+      var col=STC[a.status]||'var(--dim)', bg=STB[a.status]||'rgba(0,0,0,.04)';
+      var meta=[a.workflow?'⚙ '+esc(a.workflow):'',a.chat?'💬 '+esc(a.chat):'',a.detail?esc(a.detail):''].filter(Boolean).join(' · ');
+      return '<div class="agrow" onclick="this.classList.toggle(\'open\')">'+
+        '<div class="em">'+(a.emoji||esc((a.name||'?').charAt(0)))+'</div>'+
+        '<div class="mid"><div class="nm">'+esc(a.name)+'<span class="sdot'+(a.status==='operational'?' live':'')+'" style="background:'+col+'"></span>'+
+        '<span class="stag2" style="background:'+bg+';color:'+col+'">'+(STL[a.status]||esc(a.status)||'')+'</span></div>'+
+        '<div class="rl">'+esc(a.role||'')+'</div>'+(meta?'<div class="det">'+meta+'</div>':'')+'</div></div>';
+    }).join('')||'<div class="empty" style="margin:8px">Bez agentů.</div>';
+    return '<div class="biz"><div class="bh"><div class="nm">'+(b.emoji?b.emoji+' ':'')+esc(b.name)+'</div>'+
+      '<div class="ct">'+(b.agents||[]).length+' agentů</div></div><div class="rows">'+inner+'</div></div>';
+  }).join('');
+
+  /* ===== projekty ===== */
+  var projects=D.projects||[]; var groups={},order=[];
+  projects.forEach(function(p){var k=p.group||'';if(!(k in groups)){groups[k]=[];order.push(k);}groups[k].push(p);});
+  order.sort(function(a,b){if(a===''&&b!=='')return 1;if(b===''&&a!=='')return -1;return 0;});
+  var ph='';
+  order.forEach(function(k){
+    ph+='<div class="ghead">'+esc(k||'Samostatné projekty')+' · '+groups[k].length+'</div><div class="pgrid">';
+    ph+=groups[k].map(function(p){
+      var g=p.git||{},det='';
+      if(p.kind!=='external'){
+        det+=(g.isRepo?('větev <code>'+esc(g.branch||'?')+'</code>'+(g.uncommitted?' · <code>'+esc(g.uncommitted)+'</code> neuloženo':' · čisto')):'bez gitu');
+        if(p.todos)det+=' · '+p.todos+' TODO';
+      } else { det+=esc(p.notes||'')+(p.chat?' · <code>'+esc(p.chat)+'</code>':''); }
+      return '<div class="pc"><div class="nm">'+esc(p.name)+'<span class="bd2">'+esc(p.kind==='external'?(p.platform||'host'):(p.type||''))+'</span></div><div class="dt">'+det+'</div></div>';
+    }).join('');
+    ph+='</div>';
+  });
+  document.getElementById('projects').innerHTML=ph||'<div class="empty">Žádné projekty.</div>';
+
+  /* ===== usage ===== */
+  (function(){
+    var u=D.usage; if(!u)return;
+    document.getElementById('usage-wrap').style.display='';
+    function fmt(n){if(!n||n<0)return'—';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return Math.round(n/1e3)+'k';return String(n);}
+    function col(p){if(p<0)return['var(--dim)','rgba(0,0,0,.04)','?'];if(p>=90)return['var(--down)','var(--downbg)','kritické'];if(p>=70)return['var(--warn)','var(--warnbg)','pozor'];return['var(--ok)','var(--okbg)','ok'];}
+    function m(lb,pct,tok,extra){var c=col(pct!=null?pct:-1);var w=pct>=0?Math.min(100,pct):0;
+      return '<div class="um"><div class="lb">'+lb+'<span class="tag" style="background:'+c[1]+';color:'+c[0]+'">'+c[2]+'</span></div>'+
+      '<div class="v">'+(pct>=0?pct.toFixed(1)+'%':'?')+' <small>'+fmt(tok)+' tok</small></div>'+
+      '<div class="tr"><i style="width:'+w+'%;background:'+c[0]+'"></i></div>'+(extra||'')+'</div>';}
+    var s=u.session5h||{},w7=u.weekly7d||{},sn=u.sonnet7d||{};
+    var snPct=(u.limits&&u.limits.sonnet>0)?((sn.total||0)*100/u.limits.sonnet):-1;
+    var fc=u.forecast||{};
+    document.getElementById('usage-meters').innerHTML=
+      m('Session · 5 h',s.pct!=null?s.pct:-1,s.total,'<div class="meta"><span>in <b>'+fmt(s.input)+'</b></span><span>out <b>'+fmt(s.output)+'</b></span></div>')+
+      m('Weekly · 7 dní',w7.pct!=null?w7.pct:-1,w7.total,'<div class="meta"><span><b>'+(w7.count||0)+'</b> požadavků</span></div>')+
+      m('Sonnet · weekly',snPct>=0?Math.round(snPct*10)/10:-1,sn.total,'')+
+      '<div class="um"><div class="lb">Burn rate</div><div class="v">'+fmt(u.burnRatePerH)+' <small>tok/h</small></div>'+
+      '<div class="meta"><span>≈ <b>'+fmt(u.burnRatePerDay)+'</b>/den</span>'+(fc.session&&fc.session.etaText?'<span>session: <b>'+esc(fc.session.etaText)+'</b></span>':'')+'</div></div>';
+    var su=document.getElementById('sideusage');
+    if(su){
+      function mini(lb,p){var c=col(p!=null?p:-1);return '<div class="row"><span>'+lb+'</span><b>'+(p>=0?p.toFixed(0)+'%':'?')+'</b></div><div class="tr"><i style="width:'+(p>=0?Math.min(100,p):0)+'%;background:'+c[0]+'"></i></div>';}
+      su.innerHTML=mini('Session',s.pct!=null?s.pct:-1)+mini('Weekly',w7.pct!=null?w7.pct:-1);
+    }
+    // 16.10.2026: box "Sleduj spotřebu Claude" na mobilní nástěnce ZRUŠEN (rušil uživatele,
+    // navíc většinou jen hláška o staré kalibraci, ne reálný limit). Metry spotřeby zůstávají
+    // v detailu usage-wrap; žádný alert box ani kritický banner se na zeď nerenderuje.
+  })();
+
+  /* ===== ukoly (n8n) ===== */
+  (function(){
+    function lsg(k){try{return localStorage.getItem(k)||'';}catch(e){return '';}}
+    var DEF_URL='https://n8n-production-3fc15.up.railway.app/webhook/velin';
+    var DEF_TOK='velin_1a027abd4498abe9241a171e6beb5cc5e3ab8369';
+    function valid(u){return /^https?:\/\/[^\s]+\/webhook\//.test(u||'')&&u.indexOf('…')<0;}
+    var base=valid(lsg('velin_n8n_url'))?lsg('velin_n8n_url'):DEF_URL;
+    var tok=lsg('velin_n8n_token')||DEF_TOK;
+    var url=base.replace(/\/velin\/?$/,'/velin-ukol');
+    var h=document.getElementById('appr-h'),box=document.getElementById('appr'),cnt=document.getElementById('appr-c');
+    function post(payload,cb){fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify(Object.assign({token:tok},payload))})
+      .then(function(r){return r.json();}).then(function(j){cb&&cb(j);}).catch(function(e){box.innerHTML='<div class="empty">n8n nedostupné: '+esc(String(e&&e.message||e))+'</div>';h.style.display='';});}
+    function pct(s){s=s||'';if(s.indexOf('✅')>=0)return 100;if(s.indexOf('👍')>=0)return 92;if(s.indexOf('⏳')>=0)return 90;if(s.indexOf('🧪')>=0)return 80;if(s.indexOf('💻')>=0)return 55;if(s.indexOf('📝')>=0)return 25;if(s.indexOf('⚠')>=0)return 60;return 10;}
+    function needs(s){s=(s||'').toLowerCase();return s.indexOf('čeká')>=0||s.indexOf('ceka')>=0||s.indexOf('problém')>=0||s.indexOf('problem')>=0;}
+    function scol(s){s=s||'';if(needs(s))return'var(--warn)';if(s.indexOf('✅')>=0||s.indexOf('👍')>=0)return'var(--ok)';if(s.indexOf('⚠')>=0)return'var(--down)';if(s.indexOf('💻')>=0||s.indexOf('🧪')>=0)return'var(--cy)';return'var(--dim)';}
+    function render(tasks){
+      var list=(tasks||[]).filter(function(t){var s=(t.stav||'');return s.indexOf('✅')<0&&s.indexOf('🗑')<0&&s.indexOf('zastav')<0;});
+      var waiting=list.filter(function(t){return needs(t.stav);}).length;
+      h.style.display='';
+      cnt.textContent=waiting?(waiting+' čeká na tebe'):(list.length?list.length+' aktivních':'');
+      if(!list.length){box.innerHTML='<div class="empty">Žádné aktivní úkoly — vše nasazeno.</div>';return;}
+      box.innerHTML=list.map(function(t){var p=pct(t.stav),need=needs(t.stav),c=scol(t.stav);
+        return '<div class="task" style="--tc:'+c+'"><span class="who">'+esc(t.vlastnik||'—')+' · '+esc(t.aktualizace||'')+'</span>'+
+          '<span class="st">'+esc(t.stav||'')+'</span><div class="nm">'+esc(t.napad||'')+'</div>'+
+          (t.pozn?'<div class="po">'+esc(t.pozn)+'</div>':'')+
+          '<div class="bar"><i style="width:'+p+'%"></i></div>'+
+          (need?'<div class="btns"><button class="yes" data-id="'+esc(t.id)+'" data-s="ok">✓ Schválit</button><button class="no" data-id="'+esc(t.id)+'" data-s="stop">✕ Zastavit</button></div>':'')+'</div>';
+      }).join('');
+      [].forEach.call(box.querySelectorAll('button'),function(b){b.addEventListener('click',function(){
+        var id=b.getAttribute('data-id'),s=b.getAttribute('data-s');
+        b.parentNode.innerHTML='<span style="font-size:12.5px;color:var(--ok);font-weight:600">'+(s==='ok'?'✓ schvaluji…':'✕ zastavuji…')+'</span>';
+        post({action:'status',id:id,status:(s==='ok')?'👍 schváleno':'🗑️ zastaveno'},function(j){render(j&&j.tasks);});
+      });});
+    }
+    post({action:'list'},function(j){render(j&&j.tasks);});
+  })();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VELÍN · Galerie variant designu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#111;color:#eee;font:16px/1.5 'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 20px 80px}
+h1{font-size:30px;font-weight:700;margin:0 0 6px}
+p.sub{color:#999;margin:0 0 30px;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+a.v{display:block;border:1px solid #2a2a2a;border-radius:14px;padding:18px 20px;text-decoration:none;color:#eee;background:#1a1a1a;transition:transform 160ms cubic-bezier(.23,1,.32,1),border-color 150ms ease}
+a.v:hover{border-color:#555}
+a.v:active{transform:scale(.98)}
+a.v .n{font-size:13px;color:#888;font-weight:600}
+a.v .t{font-size:19px;font-weight:700;margin:3px 0 4px}
+a.v .d{font-size:13.5px;color:#aaa;line-height:1.45}
+a.v .chip{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;padding:4px 11px;border-radius:99px;background:#2a2a2a;color:#ccc}
+.back{display:inline-block;margin-bottom:22px;color:#888;text-decoration:none;font-size:14px}
+.back:hover{color:#eee}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">← zpět do VELÍNu</a>
+  <h1>Galerie variant designu</h1>
+  <p class="sub">10 pojetí přehledu VELÍNu — každé jiný vizuální jazyk i rozložení. Otevři, proklikej na mobilu i desktopu, a řekni číslo vítěze (klidně i „vzhled z X + rozložení z Y").</p>
+  <div class="grid">
+    <a class="v" href="v1.html"><span class="n">Varianta 1</span><div class="t">Linear</div><div class="d">Tmavý SaaS vzhled, levý sidebar, hustý seznamový obsah. Precizní a rychlé.</div><span class="chip">dark · sidebar</span></a>
+    <a class="v" href="v2.html"><span class="n">Varianta 2</span><div class="t">Notion</div><div class="d">Světlý dokumentový styl — stránka s callouty, tabulkou a board kartami.</div><span class="chip">light · dokument</span></a>
+    <a class="v" href="v3.html"><span class="n">Varianta 3</span><div class="t">Stripe</div><div class="d">Světlé bento — nepravidelná mřížka dlaždic, gradientový hero pruh.</div><span class="chip">light · bento</span></a>
+    <a class="v" href="v4.html"><span class="n">Varianta 4</span><div class="t">Vercel</div><div class="d">Čistý monochrom, ostré hairline tabulky, mono číslice. Žádné barvy navíc.</div><span class="chip">light · tabulky</span></a>
+    <a class="v" href="v5.html"><span class="n">Varianta 5</span><div class="t">Spotify</div><div class="d">Tmavé, hero gradient a horizontální carousely karet — swipe jako v appce.</div><span class="chip">dark · carousely</span></a>
+    <a class="v" href="v6.html"><span class="n">Varianta 6</span><div class="t">Apple</div><div class="d">Centrovaný sloupec, obří tenká typografie, frosted-glass navigace, hodně vzduchu.</div><span class="chip">light · centrovaný</span></a>
+    <a class="v" href="v7.html"><span class="n">Varianta 7</span><div class="t">Superhuman</div><div class="d">Luxusní tmavý split-screen — velitelský panel vlevo, elegantní řádky vpravo.</div><span class="chip">dark · split-screen</span></a>
+    <a class="v" href="v8.html"><span class="n">Varianta 8</span><div class="t">Raycast</div><div class="d">Command-bar nahoře (⌘K), plovoucí glass panely na gradient meshi.</div><span class="chip">dark · glass panely</span></a>
+    <a class="v" href="v9.html"><span class="n">Varianta 9</span><div class="t">Slack</div><div class="d">Hravé — aubergine sidebar s „kanály", dnešek jako feed zpráv s avatary.</div><span class="chip">barevné · feed</span></a>
+    <a class="v" href="v10.html"><span class="n">Varianta 10</span><div class="t">PostHog</div><div class="d">Neo-brutalist bento — krémové pozadí, tvrdé bordery a offset stíny, sticker dlaždice.</div><span class="chip">light · brutalist</span></a>
+  </div>
+</div>
+</body>
+</html>

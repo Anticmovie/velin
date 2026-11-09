@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELÍN — Přehled</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#171717;
+    --body:#4d4d4d;
+    --mute:#888888;
+    --hairline:#ebebeb;
+    --hairline-strong:#a1a1a1;
+    --canvas:#ffffff;
+    --canvas-soft:#fafafa;
+    --canvas-soft-2:#f5f5f5;
+    --link:#0070f3;
+    --warning:#f5a623;
+    --sans:'Inter',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    background:var(--canvas-soft);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:14px;
+    line-height:20px;
+    letter-spacing:-0.28px;
+    font-feature-settings:"ss01","ss02","cv11";
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:#171717;color:#f2f2f2;}
+  a{color:inherit;text-decoration:none;}
+
+  /* ── Top nav: breadcrumb row ─────────────────────────── */
+  .topnav{
+    background:var(--canvas);
+    border-bottom:1px solid var(--hairline);
+  }
+  .topnav-inner{
+    max-width:1200px;margin:0 auto;
+    padding:0 24px;
+    height:64px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .logo{
+    width:26px;height:26px;flex:none;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .logo svg{display:block;}
+  .crumb-sep{color:var(--hairline-strong);font-weight:300;font-size:18px;letter-spacing:0;user-select:none;}
+  .crumb{display:flex;align-items:center;gap:8px;min-width:0;}
+  .crumb .team{
+    display:flex;align-items:center;gap:8px;
+    font-weight:500;color:var(--ink);white-space:nowrap;
+  }
+  .crumb .team .avatar-dot{
+    width:20px;height:20px;border-radius:9999px;flex:none;
+    background:linear-gradient(135deg,#171717 0%,#4d4d4d 100%);
+  }
+  .crumb .page{color:var(--body);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .badge-plan{
+    font-family:var(--mono);font-size:11px;line-height:16px;letter-spacing:0;
+    color:var(--body);background:var(--canvas-soft);
+    border:1px solid var(--hairline);border-radius:9999px;
+    padding:1px 8px;white-space:nowrap;
+  }
+  .topnav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+  .nav-btn{
+    height:28px;padding:0 10px;
+    display:inline-flex;align-items:center;
+    font-size:13px;font-weight:500;letter-spacing:-0.1px;
+    color:var(--body);background:var(--canvas);
+    border:1px solid var(--hairline);border-radius:6px;
+    cursor:default;transition:color .15s ease,border-color .15s ease;
+  }
+  .nav-btn:hover{color:var(--ink);border-color:var(--hairline-strong);}
+  .avatar{
+    width:28px;height:28px;border-radius:9999px;flex:none;
+    border:1px solid var(--hairline);
+    background:
+      radial-gradient(circle at 30% 30%,#f5f5f5 0%,#e0e0e0 60%,#cfcfcf 100%);
+  }
+
+  /* ── Tab row ─────────────────────────────────────────── */
+  .tabbar{
+    background:var(--canvas);
+    border-bottom:1px solid var(--hairline);
+    position:sticky;top:0;z-index:20;
+  }
+  .tabbar-inner{
+    max-width:1200px;margin:0 auto;padding:0 16px;
+    display:flex;overflow-x:auto;scrollbar-width:none;
+  }
+  .tabbar-inner::-webkit-scrollbar{display:none;}
+  .tab{
+    position:relative;flex:none;
+    padding:12px 12px 14px;
+    font-size:14px;letter-spacing:-0.28px;
+    color:var(--body);
+    display:flex;align-items:center;gap:6px;
+    transition:color .15s ease;
+    cursor:default;
+  }
+  .tab:hover{color:var(--ink);}
+  .tab.active{color:var(--ink);font-weight:500;}
+  .tab.active::after{
+    content:"";position:absolute;left:12px;right:12px;bottom:-1px;
+    height:2px;background:var(--ink);border-radius:2px 2px 0 0;
+  }
+  .tab .count{
+    font-family:var(--mono);font-size:11px;line-height:16px;letter-spacing:0;
+    color:var(--ink);background:var(--canvas-soft-2);
+    border:1px solid var(--hairline);border-radius:9999px;
+    padding:0 6px;min-width:22px;text-align:center;
+  }
+
+  /* ── Page shell ──────────────────────────────────────── */
+  .page{
+    max-width:1200px;margin:0 auto;
+    padding:32px 24px 48px;
+  }
+  .page-head{
+    display:flex;align-items:baseline;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;
+    margin-bottom:32px;
+    animation:rise .3s ease both;
+  }
+  h1{
+    font-size:32px;line-height:40px;font-weight:600;letter-spacing:-1.28px;
+  }
+  .page-head .stamp{
+    font-family:var(--mono);font-size:12px;line-height:16px;letter-spacing:0;
+    color:var(--mute);
+  }
+
+  section{margin-bottom:48px;animation:rise .3s ease both;}
+  section:nth-of-type(2){animation-delay:.04s;}
+  section:nth-of-type(3){animation-delay:.08s;}
+  section:nth-of-type(4){animation-delay:.12s;}
+  section:nth-of-type(5){animation-delay:.16s;}
+  @keyframes rise{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){
+    section,.page-head{animation:none;}
+  }
+
+  .sec-head{
+    display:flex;align-items:baseline;gap:12px;
+    margin-bottom:12px;
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;line-height:16px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--mute);
+  }
+  .sec-title{
+    font-size:16px;line-height:24px;font-weight:600;letter-spacing:-0.4px;
+  }
+
+  /* ── Panel = hairline table container ────────────────── */
+  .panel{
+    background:var(--canvas);
+    border:1px solid var(--hairline);
+    border-radius:8px;
+    box-shadow:0 1px 1px #00000005,0 2px 2px #0000000a;
+    overflow:hidden;
+  }
+
+  /* ── Stat strip ("Dnes") ─────────────────────────────── */
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+  }
+  .stat{
+    padding:20px 24px 22px;
+    border-right:1px solid var(--hairline);
+    min-width:0;
+  }
+  .stat:last-child{border-right:none;}
+  .stat .label{
+    font-family:var(--mono);font-size:12px;line-height:16px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--mute);
+    display:block;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .stat .num{
+    font-family:var(--mono);font-weight:500;
+    font-size:40px;line-height:44px;letter-spacing:-1.5px;
+    color:var(--ink);font-variant-numeric:tabular-nums;
+  }
+  .stat .sub{
+    display:block;margin-top:8px;
+    font-size:12px;line-height:16px;letter-spacing:0;color:var(--body);
+  }
+  .stat.alert .num{color:var(--ink);}
+  .stat.alert .label::after{
+    content:"●";color:var(--warning);margin-left:6px;font-size:8px;vertical-align:2px;letter-spacing:0;
+  }
+
+  /* ── Data table ──────────────────────────────────────── */
+  table{width:100%;border-collapse:collapse;}
+  thead th{
+    font-family:var(--mono);font-size:11px;line-height:16px;font-weight:400;
+    letter-spacing:.06em;text-transform:uppercase;
+    color:var(--mute);text-align:left;
+    background:var(--canvas-soft);
+    border-bottom:1px solid var(--hairline);
+    padding:8px 24px;white-space:nowrap;
+  }
+  tbody td{
+    padding:12px 24px;
+    border-bottom:1px solid var(--hairline);
+    font-size:14px;line-height:20px;letter-spacing:-0.28px;color:var(--ink);
+    vertical-align:middle;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr{transition:background-color .15s ease;}
+  tbody tr:hover{background:var(--canvas-soft);}
+  td.mono,th.num-col{font-family:var(--mono);letter-spacing:0;font-size:13px;font-variant-numeric:tabular-nums;}
+  td .muted{color:var(--mute);}
+  td.secondary{color:var(--body);}
+  .num-right{text-align:right;}
+
+  /* movement type chip — monochrome, direction glyph carries meaning */
+  .dir{
+    font-family:var(--mono);font-size:11px;line-height:18px;letter-spacing:.04em;
+    display:inline-flex;align-items:center;gap:6px;
+    padding:0 8px;border-radius:9999px;border:1px solid var(--hairline);
+    white-space:nowrap;
+  }
+  .dir.in{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .dir.out{background:var(--canvas);color:var(--body);}
+
+  /* module rows */
+  .row-link{display:flex;align-items:center;gap:10px;}
+  .row-link .arrow{
+    margin-left:auto;color:var(--hairline-strong);
+    font-family:var(--mono);font-size:13px;letter-spacing:0;
+    transition:transform .15s ease,color .15s ease;
+  }
+  tbody tr:hover .arrow{transform:translateX(2px);color:var(--ink);}
+  .chip-count{
+    font-family:var(--mono);font-size:11px;line-height:16px;letter-spacing:0;
+    color:#fff;background:var(--ink);
+    border-radius:9999px;padding:1px 7px;min-width:24px;text-align:center;
+  }
+  .mod-name{font-weight:500;}
+
+  /* status dots — always paired with a text label */
+  .status{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;}
+  .status .dot{
+    width:8px;height:8px;border-radius:9999px;flex:none;
+    position:relative;
+  }
+  .status.ok .dot{background:var(--link);}
+  .status.ok .dot::after{
+    content:"";position:absolute;inset:-3px;border-radius:9999px;
+    border:1px solid var(--link);opacity:.35;
+  }
+  .status.tune .dot{background:var(--warning);}
+  .status .txt{font-size:13px;letter-spacing:-0.1px;color:var(--body);}
+  .status.ok .txt{color:var(--ink);}
+
+  /* usage bars */
+  .meter-cell{width:52%;}
+  .meter{
+    display:flex;align-items:center;gap:14px;
+  }
+  .meter .track{
+    flex:1;height:6px;border-radius:9999px;
+    background:var(--canvas-soft-2);
+    border:1px solid var(--hairline);
+    overflow:hidden;position:relative;
+  }
+  .meter .fill{
+    position:absolute;inset:0 auto 0 0;
+    background:var(--ink);border-radius:9999px;
+    transition:width .25s ease;
+  }
+  .meter .val{
+    font-family:var(--mono);font-size:13px;letter-spacing:0;
+    color:var(--ink);font-variant-numeric:tabular-nums;
+    min-width:44px;text-align:right;
+  }
+
+  /* footer */
+  footer{
+    border-top:1px solid var(--hairline);
+    background:var(--canvas);
+  }
+  .footer-inner{
+    max-width:1200px;margin:0 auto;padding:24px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-size:12px;line-height:16px;letter-spacing:0;color:var(--mute);
+  }
+  .footer-inner .mono{font-family:var(--mono);}
+
+  /* ── Mobile card degradation ─────────────────────────── */
+  @media (max-width:900px){
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .stat:nth-child(2){border-right:none;}
+    .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--hairline);}
+    .meter-cell{width:44%;}
+  }
+  @media (max-width:600px){
+    .topnav-inner{padding:0 16px;height:56px;}
+    .badge-plan{display:none;}
+    .page{padding:24px 16px 40px;}
+    h1{font-size:26px;line-height:32px;letter-spacing:-1px;}
+    .stat{padding:16px;}
+    .stat .num{font-size:32px;line-height:36px;}
+
+    /* tables → row cards */
+    table.collapsible thead{display:none;}
+    table.collapsible,table.collapsible tbody{display:block;width:100%;}
+    table.collapsible tr{
+      display:block;position:relative;
+      padding:14px 16px;
+      border-bottom:1px solid var(--hairline);
+    }
+    table.collapsible tr:last-child{border-bottom:none;}
+    table.collapsible td{
+      display:block;border:none;padding:0;
+    }
+    table.collapsible td+td{margin-top:4px;}
+    table.collapsible td[data-label]::before{
+      content:attr(data-label);
+      font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+      color:var(--mute);display:block;margin-bottom:1px;
+    }
+    table.collapsible td.inline-chip{
+      position:absolute;top:14px;right:16px;margin:0;
+    }
+    .meter-cell{width:100%;}
+    .row-link .arrow{display:none;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ── Top nav ──────────────────────────────────────── -->
+  <header class="topnav">
+    <div class="topnav-inner">
+      <span class="logo" aria-hidden="true">
+        <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 0L22 20H0L11 0Z" fill="#171717"/>
+        </svg>
+      </span>
+      <span class="crumb-sep">/</span>
+      <nav class="crumb" aria-label="Drobečková navigace">
+        <span class="team"><span class="avatar-dot" aria-hidden="true"></span>velín</span>
+        <span class="badge-plan">14 bytů · Praha</span>
+        <span class="crumb-sep">/</span>
+        <span class="page">Přehled</span>
+      </nav>
+      <div class="topnav-right">
+        <span class="nav-btn">Zpětná vazba</span>
+        <span class="nav-btn">Docs</span>
+        <span class="avatar" role="img" aria-label="Účet"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Tab bar ──────────────────────────────────────── -->
+  <div class="tabbar">
+    <nav class="tabbar-inner" aria-label="Sekce">
+      <a class="tab active" href="#" aria-current="page">Přehled</a>
+      <a class="tab" href="#">Byty a ceny</a>
+      <a class="tab" href="#">Zprávy <span class="count">33</span></a>
+      <a class="tab" href="#">Výdělky</a>
+      <a class="tab" href="#">Provize</a>
+      <a class="tab" href="#">Kancelář</a>
+      <a class="tab" href="#">Recepce</a>
+    </nav>
+  </div>
+
+  <main class="page">
+
+    <div class="page-head">
+      <h1>Přehled provozu.</h1>
+      <span class="stamp">ne 6. 7. 2026 · 14 bytů · praha</span>
+    </div>
+
+    <!-- ── Dnes ───────────────────────────────────────── -->
+    <section aria-labelledby="sec-dnes">
+      <div class="sec-head">
+        <span class="eyebrow" id="sec-dnes">dnes</span>
+      </div>
+      <div class="panel stats">
+        <div class="stat alert">
+          <span class="label">Čeká na odpověď</span>
+          <span class="num">33</span>
+          <span class="sub">zpráv ve schránce</span>
+        </div>
+        <div class="stat">
+          <span class="label">Příjezdy dnes</span>
+          <span class="num">6</span>
+          <span class="sub">check-in do večera</span>
+        </div>
+        <div class="stat">
+          <span class="label">Odjezdy dnes</span>
+          <span class="num">3</span>
+          <span class="sub">check-out do 11:00</span>
+        </div>
+        <div class="stat">
+          <span class="label">Hosté v bytech</span>
+          <span class="num">20</span>
+          <span class="sub">právě ubytovaných</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Pohyby dne ─────────────────────────────────── -->
+    <section aria-labelledby="sec-pohyby">
+      <div class="sec-head">
+        <span class="eyebrow" id="sec-pohyby">pohyby dne</span>
+        <span class="sec-title">6 příjezdů · 3 odjezdy</span>
+      </div>
+      <div class="panel">
+        <table class="collapsible">
+          <thead>
+            <tr>
+              <th style="width:120px">Typ</th>
+              <th>Host</th>
+              <th>Byt</th>
+              <th class="num-col num-right" style="width:160px">Pobyt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="inline-chip"><span class="dir in">↓ check-in</span></td>
+              <td data-label="host">梦玲</td>
+              <td data-label="byt" class="secondary">THE BOHEMIA PEARL</td>
+              <td data-label="pobyt" class="mono num-right">6.7. – 18.7.</td>
+            </tr>
+            <tr>
+              <td class="inline-chip"><span class="dir in">↓ check-in</span></td>
+              <td data-label="host">Elena Marchenko</td>
+              <td data-label="byt" class="secondary">THE GARDEN GRAND</td>
+              <td data-label="pobyt" class="mono num-right">6.7. – 9.7.</td>
+            </tr>
+            <tr>
+              <td class="inline-chip"><span class="dir in">↓ check-in</span></td>
+              <td data-label="host">Jibran Ahmed</td>
+              <td data-label="byt" class="secondary">florenc 1</td>
+              <td data-label="pobyt" class="mono num-right">6.7. – 8.7.</td>
+            </tr>
+            <tr>
+              <td class="inline-chip"><span class="dir in">↓ check-in</span></td>
+              <td data-label="host">Martina Svobodová</td>
+              <td data-label="byt" class="secondary">THE VLTAVA</td>
+              <td data-label="pobyt" class="mono num-right">6.7. – 10.7.</td>
+            </tr>
+            <tr>
+              <td class="inline-chip"><span class="dir in">↓ check-in</span></td>
+              <td data-label="host">Cyprian Zawadzki</td>
+              <td data-label="byt" class="secondary">THE BASILEJ</td>
+              <td data-label="pobyt" class="mono num-right">6.7. – 10.7.</td>
+            </tr>
+            <tr>
+              <td class="inline-chip"><span class="dir in">↓ check-in</span></td>
+              <td data-label="host">Jan Handlovsky</td>
+              <td data-label="byt" class="secondary">THE ROYAL STUDIO</td>
+              <td data-label="pobyt" class="mono num-right">6.7. – 7.7.</td>
+            </tr>
+            <tr>
+              <td class="inline-chip"><span class="dir out">↑ check-out</span></td>
+              <td data-label="host">Mykola Zakharchuk</td>
+              <td data-label="byt" class="secondary">THE BASILEJ</td>
+              <td data-label="pobyt" class="mono num-right"><span class="muted">do 11:00</span></td>
+            </tr>
+            <tr>
+              <td class="inline-chip"><span class="dir out">↑ check-out</span></td>
+              <td data-label="host">Julie Miazga</td>
+              <td data-label="byt" class="secondary">THE VLTAVA</td>
+              <td data-label="pobyt" class="mono num-right"><span class="muted">do 11:00</span></td>
+            </tr>
+            <tr>
+              <td class="inline-chip"><span class="dir out">↑ check-out</span></td>
+              <td data-label="host">Zaur</td>
+              <td data-label="byt" class="secondary">THE ROYAL STUDIO</td>
+              <td data-label="pobyt" class="mono num-right"><span class="muted">do 11:00</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Moduly ─────────────────────────────────────── -->
+    <section aria-labelledby="sec-moduly">
+      <div class="sec-head">
+        <span class="eyebrow" id="sec-moduly">moduly</span>
+      </div>
+      <div class="panel">
+        <table class="collapsible">
+          <thead>
+            <tr>
+              <th>Modul</th>
+              <th>Popis</th>
+              <th class="num-col num-right" style="width:120px">Stav</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="modul"><span class="row-link"><span class="mod-name">Byty a ceny</span></span></td>
+              <td data-label="popis" class="secondary">Kalendáře, obsazenost a cenové edity 14 bytů</td>
+              <td data-label="stav" class="num-right"><span class="row-link"><span class="arrow">→</span></span></td>
+            </tr>
+            <tr>
+              <td data-label="modul"><span class="row-link"><span class="mod-name">Zprávy</span> <span class="chip-count">33</span></span></td>
+              <td data-label="popis" class="secondary">Sjednocená schránka Airbnb + Booking, auto-překlad</td>
+              <td data-label="stav" class="num-right"><span class="row-link"><span class="arrow">→</span></span></td>
+            </tr>
+            <tr>
+              <td data-label="modul"><span class="row-link"><span class="mod-name">Výdělky</span></span></td>
+              <td data-label="popis" class="secondary">Payouty, faktury a měsíční přehledy per byt</td>
+              <td data-label="stav" class="num-right"><span class="row-link"><span class="arrow">→</span></span></td>
+            </tr>
+            <tr>
+              <td data-label="modul"><span class="row-link"><span class="mod-name">Provize</span></span></td>
+              <td data-label="popis" class="secondary">Vyúčtování spravovaných bytů a podílů</td>
+              <td data-label="stav" class="num-right"><span class="row-link"><span class="arrow">→</span></span></td>
+            </tr>
+            <tr>
+              <td data-label="modul"><span class="row-link"><span class="mod-name">Kancelář</span></span></td>
+              <td data-label="popis" class="secondary">Účetnictví, pobytové poplatky, dokumenty</td>
+              <td data-label="stav" class="num-right"><span class="row-link"><span class="arrow">→</span></span></td>
+            </tr>
+            <tr>
+              <td data-label="modul"><span class="row-link"><span class="mod-name">Recepce — tým</span></span></td>
+              <td data-label="popis" class="secondary">Úklidy, předání klíčů a směny týmu</td>
+              <td data-label="stav" class="num-right"><span class="row-link"><span class="arrow">→</span></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Provoz ─────────────────────────────────────── -->
+    <section aria-labelledby="sec-provoz">
+      <div class="sec-head">
+        <span class="eyebrow" id="sec-provoz">provoz</span>
+        <span class="sec-title">5 agentů</span>
+      </div>
+      <div class="panel">
+        <table class="collapsible">
+          <thead>
+            <tr>
+              <th>Agent</th>
+              <th>Úloha</th>
+              <th style="width:140px">Stav</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="agent"><span class="mod-name">Úklidový</span></td>
+              <td data-label="úloha" class="secondary">Plán úklidů podle odjezdů a příjezdů</td>
+              <td data-label="stav"><span class="status ok"><span class="dot" aria-hidden="true"></span><span class="txt">běží</span></span></td>
+            </tr>
+            <tr>
+              <td data-label="agent"><span class="mod-name">Příjezdový</span></td>
+              <td data-label="úloha" class="secondary">Ranní rozpis časů příjezdů hostů</td>
+              <td data-label="stav"><span class="status tune"><span class="dot" aria-hidden="true"></span><span class="txt">ladí se</span></span></td>
+            </tr>
+            <tr>
+              <td data-label="agent"><span class="mod-name">Hlídací</span></td>
+              <td data-label="úloha" class="secondary">Kontrola kalendářů a kolizí rezervací</td>
+              <td data-label="stav"><span class="status ok"><span class="dot" aria-hidden="true"></span><span class="txt">běží</span></span></td>
+            </tr>
+            <tr>
+              <td data-label="agent"><span class="mod-name">Cenový</span></td>
+              <td data-label="úloha" class="secondary">Volná okna, urgenční pásma, nasazování cen</td>
+              <td data-label="stav"><span class="status tune"><span class="dot" aria-hidden="true"></span><span class="txt">ladí se</span></span></td>
+            </tr>
+            <tr>
+              <td data-label="agent"><span class="mod-name">Scout</span></td>
+              <td data-label="úloha" class="secondary">Sledování konkurence a trhu</td>
+              <td data-label="stav"><span class="status tune"><span class="dot" aria-hidden="true"></span><span class="txt">ladí se</span></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── Limity Claude ──────────────────────────────── -->
+    <section aria-labelledby="sec-limity">
+      <div class="sec-head">
+        <span class="eyebrow" id="sec-limity">limity claude</span>
+      </div>
+      <div class="panel">
+        <table class="collapsible">
+          <thead>
+            <tr>
+              <th style="width:180px">Limit</th>
+              <th class="meter-cell">Čerpání</th>
+              <th class="num-col num-right" style="width:140px">Reset</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="limit"><span class="mod-name">Session</span></td>
+              <td data-label="čerpání" class="meter-cell">
+                <div class="meter" role="img" aria-label="Session čerpáno 41 procent">
+                  <span class="track"><span class="fill" style="width:41%"></span></span>
+                  <span class="val">41&nbsp;%</span>
+                </div>
+              </td>
+              <td data-label="reset" class="mono num-right"><span class="muted">za 3 h 12 m</span></td>
+            </tr>
+            <tr>
+              <td data-label="limit"><span class="mod-name">Weekly</span></td>
+              <td data-label="čerpání" class="meter-cell">
+                <div class="meter" role="img" aria-label="Weekly čerpáno 52 procent">
+                  <span class="track"><span class="fill" style="width:52%"></span></span>
+                  <span class="val">52&nbsp;%</span>
+                </div>
+              </td>
+              <td data-label="reset" class="mono num-right"><span class="muted">st 9. 7.</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>Varianta 4 · Vercel · monochrom tabulky</span>
+      <span class="mono">velín · statický mockup · žádná živá data</span>
+    </div>
+  </footer>
+
+</body>
+</html>

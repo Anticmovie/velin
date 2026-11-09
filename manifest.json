@@ -1,0 +1,15 @@
+{
+  "name": "VELÍN Chat",
+  "short_name": "VELÍN",
+  "description": "Sjednocená schránka zpráv hostů ze všech účtů",
+  "start_url": "chat.html",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0e1526",
+  "theme_color": "#0e1526",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

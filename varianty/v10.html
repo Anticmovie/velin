@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELÍN · Řídicí středisko</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --canvas:#eeefe9;
+    --surface-soft:#e5e7e0;
+    --card:#ffffff;
+    --doc:#fcfcfa;
+    --ink:#23251d;
+    --body:#4d4f46;
+    --mute:#6c6e63;
+    --hairline:#bfc1b7;
+    --hairline-soft:#dcdfd2;
+    --primary:#f7a501;
+    --primary-pressed:#dd9001;
+    --blue:#2c84e0;
+    --blue-soft:#dceaf6;
+    --red:#cd4239;
+    --red-soft:#f7d6d3;
+    --green:#2c8c66;
+    --green-soft:#d9eddf;
+    --purple:#7c44a6;
+    --purple-soft:#e7d8ee;
+    --bd:2px solid var(--ink);
+    --shadow:5px 5px 0 var(--ink);
+    --shadow-sm:3px 3px 0 var(--ink);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    background:var(--canvas);
+    color:var(--body);
+    font-family:'IBM Plex Sans','IBM Plex Sans Variable',-apple-system,system-ui,sans-serif;
+    font-size:16px;line-height:1.5;
+    padding-bottom:8px;
+  }
+
+  /* ============ NAV ============ */
+  .nav{
+    background:var(--canvas);
+    border-bottom:var(--bd);
+    position:sticky;top:0;z-index:50;
+  }
+  .nav-inner{
+    max-width:1280px;margin:0 auto;
+    display:flex;align-items:center;gap:8px;
+    padding:10px 24px;flex-wrap:wrap;
+  }
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-weight:800;font-size:20px;letter-spacing:-0.6px;color:var(--ink);
+    margin-right:12px;text-decoration:none;
+  }
+  .logo-mark{
+    width:34px;height:34px;flex:0 0 auto;
+    background:var(--primary);
+    border:var(--bd);
+    box-shadow:var(--shadow-sm);
+    display:flex;align-items:center;justify-content:center;
+    font-size:17px;
+  }
+  .nav-links{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+  .nav-link{
+    font-size:14px;font-weight:700;color:var(--ink);text-decoration:none;
+    padding:7px 12px;border:2px solid transparent;
+    display:inline-flex;align-items:center;gap:6px;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .nav-link:hover{background:var(--surface-soft);border-color:var(--ink);}
+  .nav-link.active{
+    background:var(--primary);border:var(--bd);box-shadow:var(--shadow-sm);
+  }
+  .nav-link:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink);}
+  .nav-count{
+    background:var(--red);color:#fff;
+    font-size:11px;font-weight:700;line-height:1;
+    padding:3px 6px;border:1.5px solid var(--ink);
+  }
+  .nav-spacer{flex:1;}
+  .nav-date{
+    font-size:13px;font-weight:600;color:var(--mute);
+    padding:6px 10px;border:1.5px dashed var(--hairline);
+    white-space:nowrap;
+  }
+
+  /* ============ LAYOUT ============ */
+  .wrap{max-width:1280px;margin:0 auto;padding:28px 24px 0;}
+  .eyebrow{
+    font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;
+    color:var(--ink);
+    display:flex;align-items:center;gap:10px;
+    margin:34px 0 14px;
+  }
+  .eyebrow:first-child{margin-top:0;}
+  .eyebrow::after{content:"";flex:1;height:2px;background:var(--ink);opacity:.15;}
+  .eyebrow .tag{
+    background:var(--ink);color:#fff;padding:3px 8px;font-size:11px;letter-spacing:1px;
+  }
+
+  /* ============ STICKER METRIKY ============ */
+  .stickers{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+  }
+  .sticker{
+    border:var(--bd);box-shadow:var(--shadow);
+    padding:20px 20px 16px;
+    position:relative;
+    color:var(--ink);
+    transition:transform .12s ease, box-shadow .12s ease;
+    cursor:pointer;user-select:none;
+  }
+  .sticker:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink);}
+  .sticker .label{
+    font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+    display:flex;align-items:center;gap:8px;margin-bottom:6px;
+  }
+  .sticker .num{
+    font-size:52px;font-weight:800;letter-spacing:-2px;line-height:1.05;
+    font-variant-numeric:tabular-nums;
+  }
+  .sticker .sub{font-size:13px;font-weight:600;margin-top:4px;color:var(--ink);opacity:.75;}
+  .sticker .corner{
+    position:absolute;top:-2px;right:-2px;
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+    padding:4px 9px;border:var(--bd);
+    background:var(--card);color:var(--ink);
+  }
+  .sticker.s-urgent{background:var(--red-soft);}
+  .sticker.s-urgent .num{color:var(--red);}
+  .sticker.s-urgent .corner{background:var(--red);color:#fff;}
+  .sticker.s-in{background:var(--green-soft);}
+  .sticker.s-in .num{color:var(--green);}
+  .sticker.s-out{background:var(--blue-soft);}
+  .sticker.s-out .num{color:var(--blue);}
+  .sticker.s-guests{background:#fbe3ae;}
+  .sticker.s-guests .num{color:#8a5c00;}
+
+  /* ============ BENTO ============ */
+  .bento{
+    display:grid;
+    grid-template-columns:minmax(0,7fr) minmax(0,5fr);
+    gap:18px;margin-top:18px;align-items:start;
+  }
+  .col{display:flex;flex-direction:column;gap:0;min-width:0;}
+
+  .card{
+    background:var(--card);
+    border:var(--bd);box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .card-head{
+    display:flex;align-items:center;gap:10px;
+    padding:12px 16px;
+    border-bottom:var(--bd);
+    background:var(--doc);
+  }
+  .card-head h2{
+    font-size:18px;font-weight:700;letter-spacing:-0.3px;color:var(--ink);
+  }
+  .card-head .chip{
+    margin-left:auto;
+    font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+    padding:4px 10px;border:1.5px solid var(--ink);
+    background:var(--surface-soft);color:var(--ink);
+  }
+  .hh{font-size:18px;}
+
+  /* ---- Pohyby dne: pruhovaná tabulka ---- */
+  .moves{width:100%;border-collapse:collapse;}
+  .moves th{
+    text-align:left;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+    color:var(--ink);padding:9px 16px;
+    background:var(--surface-soft);
+    border-bottom:2px solid var(--ink);
+  }
+  .moves td{
+    padding:10px 16px;font-size:15px;vertical-align:middle;
+    border-bottom:1px solid var(--hairline-soft);
+  }
+  .moves tr:nth-child(even) td{background:var(--doc);}
+  .moves tr:last-child td{border-bottom:none;}
+  .moves .who{font-weight:600;color:var(--ink);white-space:nowrap;}
+  .moves .flat{
+    font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+    color:var(--ink);
+    background:var(--surface-soft);
+    border:1.5px solid var(--ink);
+    padding:3px 8px;display:inline-block;white-space:nowrap;
+  }
+  .moves .dates{font-size:13px;font-weight:600;color:var(--mute);white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .dir{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:26px;
+    border:1.5px solid var(--ink);
+    font-size:13px;font-weight:800;
+  }
+  .dir.in{background:var(--green-soft);color:var(--green);}
+  .dir.out{background:var(--blue-soft);color:var(--blue);}
+  .moves .divider td{
+    background:var(--ink) !important;color:#fff;
+    font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;
+    padding:6px 16px;border-bottom:none;
+  }
+  .table-scroll{overflow-x:auto;}
+
+  /* ---- Moduly 3×2 ---- */
+  .modules{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+    padding:16px;
+  }
+  .module{
+    border:var(--bd);box-shadow:var(--shadow-sm);
+    background:var(--card);
+    padding:14px 14px 12px;
+    text-decoration:none;color:var(--ink);
+    display:flex;flex-direction:column;gap:8px;
+    position:relative;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .module:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink);}
+  .module:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink);}
+  .module .mi{
+    width:38px;height:38px;
+    border:var(--bd);
+    display:flex;align-items:center;justify-content:center;
+    font-size:18px;
+  }
+  .module .mt{font-size:15px;font-weight:700;line-height:1.25;letter-spacing:-0.2px;}
+  .module .ms{font-size:12px;font-weight:500;color:var(--mute);line-height:1.35;}
+  .module .badge{
+    position:absolute;top:-9px;right:-9px;
+    background:var(--red);color:#fff;
+    border:var(--bd);
+    font-size:12px;font-weight:800;
+    padding:3px 8px;line-height:1.2;
+  }
+  .module.m1 .mi{background:var(--primary);}
+  .module.m2 .mi{background:var(--red-soft);}
+  .module.m3 .mi{background:var(--green-soft);}
+  .module.m4 .mi{background:var(--purple-soft);}
+  .module.m5 .mi{background:var(--blue-soft);}
+  .module.m6 .mi{background:var(--surface-soft);}
+
+  /* ---- Provoz agentů ---- */
+  .agents{padding:12px 16px 16px;display:flex;flex-direction:column;gap:9px;}
+  .agent{
+    display:flex;align-items:center;gap:12px;
+    border:1.5px solid var(--ink);
+    background:var(--doc);
+    padding:9px 12px;
+  }
+  .agent .an{font-size:15px;font-weight:700;color:var(--ink);flex:1;}
+  .agent .desc{font-size:12px;color:var(--mute);font-weight:500;display:block;}
+  .status{
+    font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+    padding:4px 10px;border:1.5px solid var(--ink);
+    display:inline-flex;align-items:center;gap:7px;white-space:nowrap;
+  }
+  .status .dot{width:8px;height:8px;border:1.5px solid var(--ink);flex:0 0 auto;}
+  .status.run{background:var(--green-soft);color:var(--green);}
+  .status.run .dot{background:var(--green);}
+  .status.tune{background:#fbe3ae;color:#8a5c00;}
+  .status.tune .dot{background:var(--primary);}
+  .agent .aico{
+    width:32px;height:32px;flex:0 0 auto;
+    border:1.5px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;font-size:15px;
+    background:var(--card);
+  }
+
+  /* ---- Limity ---- */
+  .limits{padding:16px;display:flex;flex-direction:column;gap:16px;}
+  .limit .lrow{
+    display:flex;align-items:baseline;justify-content:space-between;margin-bottom:7px;
+  }
+  .limit .ln{font-size:14px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.6px;}
+  .limit .lv{
+    font-family:'IBM Plex Mono',ui-monospace,monospace;
+    font-size:18px;font-weight:700;color:var(--ink);
+  }
+  .bar{
+    height:22px;border:var(--bd);background:var(--card);
+    position:relative;overflow:hidden;
+  }
+  .bar .fill{
+    height:100%;
+    border-right:2px solid var(--ink);
+    background:repeating-linear-gradient(-45deg,var(--primary) 0 8px,#fbc84e 8px 16px);
+  }
+  .bar .fill.b2{
+    background:repeating-linear-gradient(-45deg,var(--blue) 0 8px,#7ab2ea 8px 16px);
+  }
+  .limit .lnote{font-size:12px;color:var(--mute);font-weight:500;margin-top:5px;}
+
+  /* ============ FOOTER ============ */
+  footer{
+    max-width:1280px;margin:36px auto 0;padding:14px 24px 22px;
+    border-top:2px solid var(--ink);
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    font-size:13px;font-weight:600;color:var(--mute);
+  }
+  footer .fmark{
+    width:22px;height:22px;background:var(--primary);
+    border:1.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);
+    display:flex;align-items:center;justify-content:center;font-size:11px;
+  }
+  footer .sp{flex:1;}
+  footer .fchip{
+    border:1.5px solid var(--hairline);padding:3px 9px;font-size:12px;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1024px){
+    .stickers{grid-template-columns:repeat(2,1fr);}
+    .bento{grid-template-columns:1fr;}
+    .sticker .num{font-size:44px;}
+  }
+  @media (max-width:640px){
+    .wrap{padding:20px 14px 0;}
+    .nav-inner{padding:10px 14px;}
+    .nav-date{display:none;}
+    .modules{grid-template-columns:repeat(2,1fr);gap:12px;}
+    .sticker{padding:16px 14px 12px;}
+    .sticker .num{font-size:38px;}
+    footer{padding:14px 14px 20px;}
+  }
+  @media (max-width:420px){
+    .stickers{grid-template-columns:1fr;}
+    .modules{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#"><span class="logo-mark">🦔</span>VELÍN</a>
+    <div class="nav-links">
+      <a class="nav-link active" href="#">Přehled</a>
+      <a class="nav-link" href="#">Byty a ceny</a>
+      <a class="nav-link" href="#">Zprávy <span class="nav-count">33</span></a>
+      <a class="nav-link" href="#">Výdělky</a>
+      <a class="nav-link" href="#">Provize</a>
+      <a class="nav-link" href="#">Kancelář</a>
+      <a class="nav-link" href="#">Recepce</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-date">Ne 6. 7. 2026 · 14 bytů · Praha</div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- ================= DNES ================= -->
+  <div class="eyebrow"><span class="tag">Dnes</span> Stav ke dnešnímu dni</div>
+  <div class="stickers">
+    <div class="sticker s-urgent">
+      <span class="corner">Urgentní</span>
+      <div class="label">✉️ Čeká na odpověď</div>
+      <div class="num">33</div>
+      <div class="sub">zpráv od hostů bez reakce</div>
+    </div>
+    <div class="sticker s-in">
+      <div class="label">🔑 Příjezdy dnes</div>
+      <div class="num">6</div>
+      <div class="sub">check-inů k odbavení</div>
+    </div>
+    <div class="sticker s-out">
+      <div class="label">🧳 Odjezdy dnes</div>
+      <div class="num">3</div>
+      <div class="sub">check-outy → úklid</div>
+    </div>
+    <div class="sticker s-guests">
+      <div class="label">🛏️ Hosté v bytech</div>
+      <div class="num">20</div>
+      <div class="sub">právě ubytovaných osob</div>
+    </div>
+  </div>
+
+  <!-- ================= BENTO ================= -->
+  <div class="bento">
+
+    <!-- LEVÝ SLOUPEC -->
+    <div class="col">
+      <div class="eyebrow"><span class="tag">Pohyby</span> Pohyby dne · 6. 7.</div>
+      <div class="card">
+        <div class="card-head">
+          <span class="hh">🚦</span><h2>Pohyby dne</h2>
+          <span class="chip">6 in · 3 out</span>
+        </div>
+        <div class="table-scroll">
+          <table class="moves">
+            <tr>
+              <th style="width:42px;"></th><th>Host</th><th>Byt</th><th>Termín</th>
+            </tr>
+            <tr class="divider"><td colspan="4">▼ Check-in · 6 příjezdů</td></tr>
+            <tr>
+              <td><span class="dir in">IN</span></td>
+              <td class="who">梦玲</td>
+              <td><span class="flat">The Bohemia Pearl</span></td>
+              <td class="dates">6.7.–18.7.</td>
+            </tr>
+            <tr>
+              <td><span class="dir in">IN</span></td>
+              <td class="who">Elena Marchenko</td>
+              <td><span class="flat">The Garden Grand</span></td>
+              <td class="dates">6.7.–9.7.</td>
+            </tr>
+            <tr>
+              <td><span class="dir in">IN</span></td>
+              <td class="who">Jibran Ahmed</td>
+              <td><span class="flat">Florenc 1</span></td>
+              <td class="dates">6.7.–8.7.</td>
+            </tr>
+            <tr>
+              <td><span class="dir in">IN</span></td>
+              <td class="who">Martina Svobodová</td>
+              <td><span class="flat">The Vltava</span></td>
+              <td class="dates">6.7.–10.7.</td>
+            </tr>
+            <tr>
+              <td><span class="dir in">IN</span></td>
+              <td class="who">Cyprian Zawadzki</td>
+              <td><span class="flat">The Basilej</span></td>
+              <td class="dates">6.7.–10.7.</td>
+            </tr>
+            <tr>
+              <td><span class="dir in">IN</span></td>
+              <td class="who">Jan Handlovsky</td>
+              <td><span class="flat">The Royal Studio</span></td>
+              <td class="dates">6.7.–7.7.</td>
+            </tr>
+            <tr class="divider"><td colspan="4">▲ Check-out · 3 odjezdy</td></tr>
+            <tr>
+              <td><span class="dir out">OUT</span></td>
+              <td class="who">Mykola Zakharchuk</td>
+              <td><span class="flat">The Basilej</span></td>
+              <td class="dates">do 11:00</td>
+            </tr>
+            <tr>
+              <td><span class="dir out">OUT</span></td>
+              <td class="who">Julie Miazga</td>
+              <td><span class="flat">The Vltava</span></td>
+              <td class="dates">do 11:00</td>
+            </tr>
+            <tr>
+              <td><span class="dir out">OUT</span></td>
+              <td class="who">Zaur</td>
+              <td><span class="flat">The Royal Studio</span></td>
+              <td class="dates">do 11:00</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="eyebrow"><span class="tag">Moduly</span> Rychlý přístup</div>
+      <div class="card">
+        <div class="modules">
+          <a class="module m1" href="#">
+            <span class="mi">🏠</span>
+            <span class="mt">Byty a ceny</span>
+            <span class="ms">Kalendáře, ceny, min-noci</span>
+          </a>
+          <a class="module m2" href="#">
+            <span class="badge">33</span>
+            <span class="mi">💬</span>
+            <span class="mt">Zprávy</span>
+            <span class="ms">Sjednocená schránka hostů</span>
+          </a>
+          <a class="module m3" href="#">
+            <span class="mi">💰</span>
+            <span class="mt">Výdělky</span>
+            <span class="ms">Payouty, faktury, měsíce</span>
+          </a>
+          <a class="module m4" href="#">
+            <span class="mi">📊</span>
+            <span class="mt">Provize</span>
+            <span class="ms">Vyúčtování majitelům</span>
+          </a>
+          <a class="module m5" href="#">
+            <span class="mi">🗂️</span>
+            <span class="mt">Kancelář</span>
+            <span class="ms">Účetnictví, poplatky, dokumenty</span>
+          </a>
+          <a class="module m6" href="#">
+            <span class="mi">🛎️</span>
+            <span class="mt">Recepce — tým</span>
+            <span class="ms">Úklidy, předání, směny</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRAVÝ SLOUPEC -->
+    <div class="col">
+      <div class="eyebrow"><span class="tag">Provoz</span> Agenti ve službě</div>
+      <div class="card">
+        <div class="card-head">
+          <span class="hh">🤖</span><h2>Provoz</h2>
+          <span class="chip">2 běží · 3 ladí se</span>
+        </div>
+        <div class="agents">
+          <div class="agent">
+            <span class="aico">🧹</span>
+            <span class="an">Úklidový<span class="desc">plán úklidů dle odjezdů</span></span>
+            <span class="status run"><span class="dot"></span>Běží</span>
+          </div>
+          <div class="agent">
+            <span class="aico">🔑</span>
+            <span class="an">Příjezdový<span class="desc">reálné časy check-inů v 7:00</span></span>
+            <span class="status tune"><span class="dot"></span>Ladí se</span>
+          </div>
+          <div class="agent">
+            <span class="aico">👁️</span>
+            <span class="an">Hlídací<span class="desc">iCal refresh + kontroly kalendářů</span></span>
+            <span class="status run"><span class="dot"></span>Běží</span>
+          </div>
+          <div class="agent">
+            <span class="aico">🏷️</span>
+            <span class="an">Cenový<span class="desc">volná okna, urgence, orphan gapy</span></span>
+            <span class="status tune"><span class="dot"></span>Ladí se</span>
+          </div>
+          <div class="agent">
+            <span class="aico">🔭</span>
+            <span class="an">Scout<span class="desc">konkurence a trh v okolí</span></span>
+            <span class="status tune"><span class="dot"></span>Ladí se</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="eyebrow"><span class="tag">Limity</span> Limity Claude</div>
+      <div class="card">
+        <div class="card-head">
+          <span class="hh">⚡</span><h2>Limity Claude</h2>
+          <span class="chip">OK</span>
+        </div>
+        <div class="limits">
+          <div class="limit">
+            <div class="lrow"><span class="ln">Session</span><span class="lv">41&nbsp;%</span></div>
+            <div class="bar"><div class="fill" style="width:41%;"></div></div>
+            <div class="lnote">Aktuální 5h okno · v pohodě</div>
+          </div>
+          <div class="limit">
+            <div class="lrow"><span class="ln">Weekly</span><span class="lv">52&nbsp;%</span></div>
+            <div class="bar"><div class="fill b2" style="width:52%;"></div></div>
+            <div class="lnote">Týdenní limit · reset ve čtvrtek</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <span class="fmark">🦔</span>
+  <span>Varianta 10 · PostHog · neo-brutalist bento</span>
+  <span class="sp"></span>
+  <span class="fchip">statický mockup · demo data</span>
+</footer>
+
+</body>
+</html>

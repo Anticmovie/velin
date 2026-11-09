@@ -1,0 +1,134 @@
+{
+ "basilej": {
+  "q": "Basilejské náměstí, Praha 3",
+  "lat": 50.08706,
+  "lon": 14.47016,
+  "name": "Basilejské náměstí, Žižkov, obvod Praha 3, Praha, 130 24, Česko"
+ },
+ "jatecni": {
+  "q": "Jateční 45, Praha 7",
+  "lat": 50.1005,
+  "lon": 14.45352,
+  "name": "1615/45, Jateční, Holešovice, Praha 7, obvod Praha 7, Praha, 170 00, Česko"
+ },
+ "baranova": {
+  "q": "Baranova 35, Praha 3",
+  "lat": 50.08165,
+  "lon": 14.45672,
+  "name": "2869/35, Baranova, Žižkov, obvod Praha 3, Praha, 130 00, Česko"
+ },
+ "202": {
+  "q": "Záhřebská 41, Praha 2",
+  "lat": 50.07329,
+  "lon": 14.43979,
+  "name": "562/41, Záhřebská, Vyšehrad, obvod Praha 2, Praha, 120 00, Česko"
+ },
+ "v haji": {
+  "q": "V Háji 1, Praha 7",
+  "lat": 50.10064,
+  "lon": 14.45411,
+  "name": "1615/1, V Háji, Holešovice, Praha 7, obvod Praha 7, Praha, 170 00, Česko"
+ },
+ "421": {
+  "q": "Olšanská, Praha 3",
+  "lat": 50.0826,
+  "lon": 14.45939,
+  "name": "Olšanská, Žižkov, obvod Praha 3, Praha, 130 00, Česko"
+ },
+ "slavojova": {
+  "q": "Slavojova 8, Praha 2",
+  "lat": 50.06408,
+  "lon": 14.42457,
+  "name": "108/8, Slavojova, Vyšehrad, obvod Praha 2, Praha, 128 00, Česko"
+ },
+ "29": {
+  "q": "Olšanská, Praha 3",
+  "lat": 50.0826,
+  "lon": 14.45939,
+  "name": "Olšanská, Žižkov, obvod Praha 3, Praha, 130 00, Česko"
+ },
+ "28": {
+  "q": "Olšanská, Praha 3",
+  "lat": 50.0826,
+  "lon": 14.45939,
+  "name": "Olšanská, Žižkov, obvod Praha 3, Praha, 130 00, Česko"
+ },
+ "205": {
+  "q": "Záhřebská 41, Praha 2",
+  "lat": 50.07329,
+  "lon": 14.43979,
+  "name": "562/41, Záhřebská, Vyšehrad, obvod Praha 2, Praha, 120 00, Česko"
+ },
+ "616": {
+  "q": "Olšanská, Praha 3",
+  "lat": 50.0826,
+  "lon": 14.45939,
+  "name": "Olšanská, Žižkov, obvod Praha 3, Praha, 130 00, Česko"
+ },
+ "florenc 1": {
+  "q": "Florenc, Praha 8",
+  "lat": 50.09097,
+  "lon": 14.43876,
+  "name": "Florenc, Karlín, Praha 8, obvod Praha 8, Praha, 116 47, Česko"
+ },
+ "florenc 2": {
+  "q": "Florenc, Praha 8",
+  "lat": 50.09097,
+  "lon": 14.43876,
+  "name": "Florenc, Karlín, Praha 8, obvod Praha 8, Praha, 116 47, Česko"
+ },
+ "vlastislavova": {
+  "q": "Vlastislavova, Praha 4",
+  "lat": 50.06381,
+  "lon": 14.44253,
+  "name": "Vlastislavova, Nusle, Praha 4, obvod Praha 4, Praha, 120 09, Česko"
+ },
+ "korunni": {
+  "q": "Korunní, Praha 2",
+  "lat": 50.07548,
+  "lon": 14.44411,
+  "name": "Lokál Korunní, 984/39, Korunní, Vyšehrad, obvod Praha 2, Praha, 120 00, Česko"
+ },
+ "mezibranska velka": {
+  "q": "Mezibranská, Praha 1",
+  "lat": 50.07818,
+  "lon": 14.42948,
+  "name": "Mezibranská, Nové Město, obvod Praha 1, Praha, 121 32, Česko"
+ },
+ "mezibranska mala": {
+  "q": "Mezibranská, Praha 1",
+  "lat": 50.07818,
+  "lon": 14.42948,
+  "name": "Mezibranská, Nové Město, obvod Praha 1, Praha, 121 32, Česko"
+ },
+ "andel": {
+  "q": "Švédská 15, Praha 5",
+  "lat": 50.07468,
+  "lon": 14.3949,
+  "name": "1010/15, Švédská, Smíchov, Praha 5, obvod Praha 5, Praha, 150 00, Česko"
+ },
+ "havelska": {
+  "q": "Havelská, Praha 1",
+  "lat": 50.08553,
+  "lon": 14.42166,
+  "name": "Česká Kuchyně Havelská Koruna, 501/23, Havelská, Staré Město, obvod Praha 1, Pra"
+ },
+ "harfa": {
+  "q": "Českomoravská, Praha 9",
+  "lat": 50.10608,
+  "lon": 14.49163,
+  "name": "Českomoravská, Kovářská, Prosek, Praha 9, obvod Praha 9, Praha, 190 93, Česko"
+ },
+ "ve smeckach": {
+  "q": "Ve Smečkách 24, Praha 1",
+  "lat": 50.07913,
+  "lon": 14.42725,
+  "name": "2091/24, Ve Smečkách, Nové Město, obvod Praha 1, Praha, 110 00, Česko"
+ },
+ "opatovicka": {
+  "q": "Opatovická 9, Praha 1",
+  "lat": 50.07954,
+  "lon": 14.41736,
+  "name": "1314/9, Opatovická, Staré Město, obvod Praha 1, Praha, 110 00, Česko"
+ }
+}

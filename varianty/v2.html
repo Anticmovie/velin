@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VELÍN · Přehled</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#5645d4;
+    --primary-pressed:#4534b3;
+    --canvas:#ffffff;
+    --surface:#f6f5f4;
+    --surface-soft:#fafaf9;
+    --hairline:#e5e3df;
+    --hairline-soft:#ede9e4;
+    --hairline-strong:#c8c4be;
+    --ink:#1a1a1a;
+    --charcoal:#37352f;
+    --slate:#5d5b54;
+    --steel:#787671;
+    --stone:#a4a097;
+    --muted:#bbb8b1;
+    --tint-peach:#ffe8d4;
+    --tint-rose:#fde0ec;
+    --tint-mint:#d9f3e1;
+    --tint-lavender:#e6e0f5;
+    --tint-sky:#dcecfa;
+    --tint-yellow:#fef7d6;
+    --tint-yellow-bold:#f9e79f;
+    --tint-cream:#f8f5e8;
+    --tint-gray:#f0eeec;
+    --orange-deep:#793400;
+    --purple-800:#391c57;
+    --green:#1aae39;
+    --orange:#dd5b00;
+    --pink-deep:#a02e6d;
+    --link-blue:#0075de;
+    --error:#e03131;
+    --sans:'Inter',-apple-system,system-ui,'Segoe UI',Helvetica,sans-serif;
+    --serif:'Source Serif 4',Georgia,serif;
+    --sidebar-w:250px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:var(--sans);
+    font-size:16px;line-height:1.55;
+    color:var(--charcoal);
+    background:var(--canvas);
+  }
+  ::selection{background:var(--tint-lavender);}
+
+  /* ============ SIDEBAR ============ */
+  .sidebar{
+    position:fixed;inset:0 auto 0 0;
+    width:var(--sidebar-w);
+    background:var(--surface);
+    border-right:1px solid var(--hairline);
+    padding:12px 8px 20px;
+    display:flex;flex-direction:column;gap:2px;
+    overflow-y:auto;
+    z-index:40;
+    transition:transform .25s ease;
+  }
+  .ws{
+    display:flex;align-items:center;gap:8px;
+    padding:8px 10px;margin-bottom:10px;
+    border-radius:6px;cursor:pointer;
+    transition:background .15s ease;
+  }
+  .ws:hover{background:var(--hairline-soft);}
+  .ws-logo{
+    width:24px;height:24px;border-radius:6px;
+    background:var(--charcoal);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:700;flex:none;
+  }
+  .ws-name{font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .ws-chev{margin-left:auto;color:var(--stone);font-size:11px;}
+  .side-label{
+    font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+    color:var(--stone);padding:12px 10px 4px;
+  }
+  .nav-item{
+    display:flex;align-items:center;gap:9px;
+    padding:6px 10px;border-radius:6px;
+    font-size:14px;font-weight:500;color:var(--slate);
+    text-decoration:none;cursor:pointer;
+    transition:background .15s ease,transform .1s ease;
+    user-select:none;
+  }
+  .nav-item:hover{background:var(--hairline-soft);}
+  .nav-item:active{transform:scale(.97);}
+  .nav-item.active{background:#e9e7e3;color:var(--ink);font-weight:600;}
+  .nav-emoji{width:20px;text-align:center;font-size:15px;flex:none;font-style:normal;}
+  .nav-badge{
+    margin-left:auto;
+    background:var(--error);color:#fff;
+    font-size:11px;font-weight:600;line-height:1;
+    border-radius:9999px;padding:3px 7px;
+  }
+  .side-foot{margin-top:auto;padding:14px 10px 0;font-size:12px;color:var(--stone);border-top:1px solid var(--hairline);}
+  .side-foot b{color:var(--steel);font-weight:600;}
+
+  /* ============ TOPBAR (mobile) ============ */
+  .topbar{
+    display:none;
+    position:sticky;top:0;z-index:30;
+    background:rgba(255,255,255,.92);backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--hairline);
+    padding:10px 16px;
+    align-items:center;gap:12px;
+  }
+  .burger{
+    appearance:none;border:1px solid var(--hairline-strong);background:transparent;
+    border-radius:8px;padding:7px 10px;cursor:pointer;
+    font-size:15px;line-height:1;color:var(--ink);
+    transition:background .15s ease,transform .1s ease;
+  }
+  .burger:hover{background:var(--surface);}
+  .burger:active{transform:scale(.97);}
+  .topbar-title{font-size:14px;font-weight:600;color:var(--ink);}
+  .scrim{
+    display:none;position:fixed;inset:0;z-index:35;
+    background:rgba(15,15,15,.25);
+    opacity:0;transition:opacity .2s ease;
+  }
+
+  /* ============ PAGE ============ */
+  .page{margin-left:var(--sidebar-w);}
+  .breadcrumbs{
+    max-width:900px;margin:0 auto;
+    padding:14px 32px 0;
+    font-size:13px;color:var(--stone);
+    display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  }
+  .breadcrumbs .crumb{color:var(--steel);}
+  .breadcrumbs .sep{color:var(--muted);}
+  .doc{
+    max-width:900px;margin:0 auto;
+    padding:28px 32px 80px;
+  }
+  .cover-emoji{font-size:72px;line-height:1;margin-bottom:8px;}
+  h1.page-title{
+    font-family:var(--serif);
+    font-size:44px;font-weight:700;letter-spacing:-.5px;line-height:1.1;
+    color:var(--ink);margin-bottom:6px;
+  }
+  .page-sub{font-size:16px;color:var(--steel);margin-bottom:28px;}
+  .page-sub b{color:var(--slate);font-weight:600;}
+
+  h2.sec{
+    font-family:var(--serif);
+    font-size:26px;font-weight:600;letter-spacing:-.3px;
+    color:var(--ink);
+    margin:40px 0 4px;
+    display:flex;align-items:center;gap:10px;
+  }
+  h2.sec .h-emoji{font-size:22px;}
+  .sec-note{font-size:13px;color:var(--stone);margin-bottom:14px;}
+  .divider{border:none;border-top:1px solid var(--hairline);margin:36px 0;}
+
+  /* ============ CALLOUT ============ */
+  .callout{
+    display:flex;gap:12px;align-items:flex-start;
+    border-radius:8px;padding:16px 18px;
+    margin:14px 0 22px;
+    background:var(--surface);
+    border:1px solid var(--hairline);
+  }
+  .callout.urgent{background:var(--tint-rose);border-color:#f6c8dd;}
+  .callout .co-emoji{font-size:20px;line-height:1.4;flex:none;}
+  .callout .co-body{font-size:15px;color:var(--charcoal);}
+  .callout .co-body b{font-weight:600;color:var(--ink);}
+  .callout .co-link{color:var(--link-blue);font-weight:500;text-decoration:none;font-size:14px;}
+  .callout .co-link:hover{text-decoration:underline;}
+
+  /* ============ METRICS ============ */
+  .metrics{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+    margin:14px 0 6px;
+  }
+  .metric{
+    background:var(--canvas);
+    border:1px solid var(--hairline);
+    border-radius:12px;padding:16px 18px;
+    transition:box-shadow .2s ease,transform .12s ease;
+    cursor:default;
+  }
+  .metric:hover{box-shadow:rgba(15,15,15,.08) 0 4px 12px 0;}
+  .metric:active{transform:scale(.97);}
+  .metric .m-label{font-size:13px;font-weight:500;color:var(--steel);display:flex;align-items:center;gap:6px;}
+  .metric .m-value{font-family:var(--serif);font-size:36px;font-weight:700;line-height:1.15;color:var(--ink);margin-top:4px;}
+  .metric.alert{background:var(--tint-rose);border-color:#f6c8dd;}
+  .metric.alert .m-value{color:var(--pink-deep);}
+  .metric .m-sub{font-size:12px;color:var(--stone);margin-top:2px;}
+  .metric.alert .m-sub{color:var(--pink-deep);opacity:.75;}
+
+  /* ============ TOGGLE ============ */
+  details.toggle{margin:10px 0;}
+  details.toggle>summary{
+    list-style:none;cursor:pointer;
+    display:flex;align-items:center;gap:8px;
+    font-size:15px;font-weight:600;color:var(--ink);
+    padding:6px 8px;border-radius:6px;
+    transition:background .15s ease;
+    user-select:none;
+  }
+  details.toggle>summary::-webkit-details-marker{display:none;}
+  details.toggle>summary:hover{background:var(--surface);}
+  details.toggle>summary .tri{
+    flex:none;width:18px;height:18px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--stone);font-size:11px;
+    transition:transform .2s ease;
+  }
+  details.toggle[open]>summary .tri{transform:rotate(90deg);}
+  details.toggle .toggle-body{padding:8px 8px 4px 34px;}
+  .count-chip{
+    font-size:12px;font-weight:600;color:var(--steel);
+    background:var(--surface);border:1px solid var(--hairline);
+    border-radius:6px;padding:1px 8px;margin-left:4px;
+  }
+
+  /* ============ TABLE ============ */
+  .table-wrap{overflow-x:auto;border:1px solid var(--hairline);border-radius:8px;margin:6px 0 8px;}
+  table.ntable{border-collapse:collapse;width:100%;min-width:560px;font-size:14px;background:var(--canvas);}
+  .ntable th{
+    text-align:left;font-size:12px;font-weight:600;color:var(--steel);
+    background:var(--surface-soft);
+    padding:8px 14px;border-bottom:1px solid var(--hairline);
+    white-space:nowrap;
+  }
+  .ntable th .th-emoji{margin-right:6px;font-size:12px;}
+  .ntable td{
+    padding:9px 14px;border-bottom:1px solid var(--hairline-soft);
+    color:var(--charcoal);vertical-align:middle;white-space:nowrap;
+  }
+  .ntable tr:last-child td{border-bottom:none;}
+  .ntable tbody tr{transition:background .15s ease;}
+  .ntable tbody tr:hover{background:var(--surface-soft);}
+  .ntable .guest{font-weight:600;color:var(--ink);}
+  .ntable .apt{color:var(--slate);}
+  .ntable .dates{color:var(--steel);font-size:13px;}
+  .tag{
+    display:inline-block;
+    font-size:12px;font-weight:600;line-height:1.4;
+    border-radius:6px;padding:2px 8px;white-space:nowrap;
+  }
+  .tag.in{background:var(--tint-mint);color:#116e27;}
+  .tag.out{background:var(--tint-peach);color:var(--orange-deep);}
+  .tag.run{background:var(--tint-mint);color:#116e27;}
+  .tag.tune{background:var(--tint-yellow-bold);color:#6b5200;}
+
+  /* ============ BOARD CARDS ============ */
+  .board{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+    margin:14px 0 6px;
+  }
+  .bcard{
+    display:block;text-decoration:none;
+    border-radius:12px;padding:18px;
+    border:1px solid var(--hairline);
+    color:var(--charcoal);
+    transition:box-shadow .2s ease,transform .12s ease;
+    cursor:pointer;
+  }
+  .bcard:hover{box-shadow:rgba(15,15,15,.08) 0 4px 12px 0;}
+  .bcard:active{transform:scale(.97);}
+  .bcard .b-emoji{font-size:26px;line-height:1;margin-bottom:10px;}
+  .bcard .b-title{font-size:16px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:8px;}
+  .bcard .b-desc{font-size:13px;color:var(--slate);margin-top:4px;line-height:1.45;}
+  .bcard .b-badge{
+    background:var(--error);color:#fff;font-size:11px;font-weight:600;
+    border-radius:9999px;padding:2px 7px;line-height:1.3;
+  }
+  .bcard.t-sky{background:var(--tint-sky);border-color:#c4def4;}
+  .bcard.t-rose{background:var(--tint-rose);border-color:#f6c8dd;}
+  .bcard.t-mint{background:var(--tint-mint);border-color:#bfe7cd;}
+  .bcard.t-lavender{background:var(--tint-lavender);border-color:#d4cbee;}
+  .bcard.t-yellow{background:var(--tint-yellow);border-color:#f2e4a8;}
+  .bcard.t-peach{background:var(--tint-peach);border-color:#f6d3b3;}
+
+  /* ============ AGENT TAGS ============ */
+  .agents{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 4px;}
+  .agent{
+    display:flex;align-items:center;gap:8px;
+    border:1px solid var(--hairline);border-radius:8px;
+    background:var(--canvas);
+    padding:8px 12px;font-size:14px;font-weight:500;color:var(--ink);
+    transition:box-shadow .2s ease,transform .12s ease;cursor:default;
+  }
+  .agent:hover{box-shadow:rgba(15,15,15,.04) 0 1px 2px 0;}
+  .agent:active{transform:scale(.97);}
+  .agent .a-emoji{font-size:15px;}
+
+  /* ============ LIMITS ============ */
+  .limits{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0 4px;}
+  .limit{
+    border:1px solid var(--hairline);border-radius:12px;
+    background:var(--canvas);padding:16px 18px;
+  }
+  .limit .l-head{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:600;color:var(--ink);}
+  .limit .l-pct{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--primary);}
+  .limit .l-track{height:6px;border-radius:9999px;background:var(--hairline-soft);margin-top:10px;overflow:hidden;}
+  .limit .l-fill{height:100%;border-radius:9999px;background:var(--primary);transition:width .25s ease;}
+  .limit .l-note{font-size:12px;color:var(--stone);margin-top:8px;}
+
+  /* ============ FOOTER ============ */
+  footer.doc-foot{
+    max-width:900px;margin:0 auto;
+    padding:20px 32px 40px;
+    border-top:1px solid var(--hairline);
+    font-size:13px;color:var(--stone);
+    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:1023px){
+    .sidebar{transform:translateX(-100%);box-shadow:none;}
+    body.nav-open .sidebar{transform:translateX(0);box-shadow:rgba(15,15,15,.16) 0 16px 48px -8px;}
+    body.nav-open .scrim{display:block;opacity:1;}
+    .topbar{display:flex;}
+    .page{margin-left:0;}
+    .metrics{grid-template-columns:repeat(2,1fr);}
+    .board{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:600px){
+    .doc{padding:22px 18px 60px;}
+    .breadcrumbs{padding:12px 18px 0;}
+    footer.doc-foot{padding:18px 18px 32px;}
+    h1.page-title{font-size:34px;}
+    .cover-emoji{font-size:56px;}
+    .board{grid-template-columns:1fr;}
+    .limits{grid-template-columns:1fr;}
+  }
+  @media (max-width:420px){
+    .metrics{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- mobile topbar -->
+<div class="topbar">
+  <button class="burger" id="burger" aria-label="Otevřít navigaci">☰</button>
+  <span class="topbar-title">🎛️ VELÍN — Přehled</span>
+</div>
+<div class="scrim" id="scrim"></div>
+
+<!-- sidebar -->
+<aside class="sidebar" id="sidebar">
+  <div class="ws">
+    <div class="ws-logo">V</div>
+    <div class="ws-name">VELÍN — apartmány</div>
+    <span class="ws-chev">▾</span>
+  </div>
+
+  <div class="side-label">Pracovní prostor</div>
+  <a class="nav-item active"><i class="nav-emoji">🎛️</i> Přehled</a>
+  <a class="nav-item"><i class="nav-emoji">🏙️</i> Byty a ceny</a>
+  <a class="nav-item"><i class="nav-emoji">💬</i> Zprávy <span class="nav-badge">33</span></a>
+  <a class="nav-item"><i class="nav-emoji">💰</i> Výdělky</a>
+  <a class="nav-item"><i class="nav-emoji">🧾</i> Provize</a>
+  <a class="nav-item"><i class="nav-emoji">🗂️</i> Kancelář</a>
+  <a class="nav-item"><i class="nav-emoji">🛎️</i> Recepce</a>
+
+  <div class="side-foot">Řídicí středisko · <b>14 bytů</b> · Praha</div>
+</aside>
+
+<!-- page -->
+<main class="page">
+  <nav class="breadcrumbs">
+    <span class="crumb">VELÍN — apartmány</span><span class="sep">/</span><span class="crumb">Řídicí středisko</span><span class="sep">/</span><span style="color:var(--ink);font-weight:500;">Přehled</span>
+  </nav>
+
+  <article class="doc">
+    <div class="cover-emoji">🎛️</div>
+    <h1 class="page-title">VELÍN</h1>
+    <p class="page-sub">Řídicí středisko správy <b>14 apartmánů v Praze</b> · neděle 6. července 2026</p>
+
+    <!-- urgent callout -->
+    <div class="callout urgent">
+      <span class="co-emoji">💬</span>
+      <div class="co-body">
+        <b>33 zpráv čeká na odpověď.</b> Nejstarší bez reakce od včerejšího večera — hosté z Airbnb i Booking.
+        &nbsp;<a class="co-link" href="#">Otevřít schránku →</a>
+      </div>
+    </div>
+
+    <!-- DNES -->
+    <h2 class="sec"><span class="h-emoji">📅</span> Dnes</h2>
+    <p class="sec-note">Stav k dnešnímu ránu, 6. 7. 2026</p>
+
+    <div class="metrics">
+      <div class="metric alert">
+        <div class="m-label">💬 Čeká na odpověď</div>
+        <div class="m-value">33</div>
+        <div class="m-sub">urgentní</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">🛬 Příjezdy dnes</div>
+        <div class="m-value">6</div>
+        <div class="m-sub">check-in od 15:00</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">🛫 Odjezdy dnes</div>
+        <div class="m-value">3</div>
+        <div class="m-sub">check-out do 10:00</div>
+      </div>
+      <div class="metric">
+        <div class="m-label">🛏️ Hosté v bytech</div>
+        <div class="m-value">20</div>
+        <div class="m-sub">napříč 14 byty</div>
+      </div>
+    </div>
+
+    <!-- pohyby -->
+    <details class="toggle" open>
+      <summary><span class="tri">▶</span> Dnešní pohyby <span class="count-chip">9 záznamů</span></summary>
+      <div class="toggle-body">
+        <div class="table-wrap">
+          <table class="ntable">
+            <thead>
+              <tr>
+                <th><span class="th-emoji">🔄</span>Pohyb</th>
+                <th><span class="th-emoji">🧑</span>Host</th>
+                <th><span class="th-emoji">🏠</span>Byt</th>
+                <th><span class="th-emoji">📆</span>Termín</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="tag in">Check-in</span></td><td class="guest">梦玲</td><td class="apt">THE BOHEMIA PEARL</td><td class="dates">6.&nbsp;7. – 18.&nbsp;7.</td></tr>
+              <tr><td><span class="tag in">Check-in</span></td><td class="guest">Elena Marchenko</td><td class="apt">THE GARDEN GRAND</td><td class="dates">6.&nbsp;7. – 9.&nbsp;7.</td></tr>
+              <tr><td><span class="tag in">Check-in</span></td><td class="guest">Jibran Ahmed</td><td class="apt">florenc 1</td><td class="dates">6.&nbsp;7. – 8.&nbsp;7.</td></tr>
+              <tr><td><span class="tag in">Check-in</span></td><td class="guest">Martina Svobodová</td><td class="apt">THE VLTAVA</td><td class="dates">6.&nbsp;7. – 10.&nbsp;7.</td></tr>
+              <tr><td><span class="tag in">Check-in</span></td><td class="guest">Cyprian Zawadzki</td><td class="apt">THE BASILEJ</td><td class="dates">6.&nbsp;7. – 10.&nbsp;7.</td></tr>
+              <tr><td><span class="tag in">Check-in</span></td><td class="guest">Jan Handlovsky</td><td class="apt">THE ROYAL STUDIO</td><td class="dates">6.&nbsp;7. – 7.&nbsp;7.</td></tr>
+              <tr><td><span class="tag out">Check-out</span></td><td class="guest">Mykola Zakharchuk</td><td class="apt">THE BASILEJ</td><td class="dates">do 10:00</td></tr>
+              <tr><td><span class="tag out">Check-out</span></td><td class="guest">Julie Miazga</td><td class="apt">THE VLTAVA</td><td class="dates">do 10:00</td></tr>
+              <tr><td><span class="tag out">Check-out</span></td><td class="guest">Zaur</td><td class="apt">THE ROYAL STUDIO</td><td class="dates">do 10:00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+
+    <hr class="divider">
+
+    <!-- MODULY -->
+    <h2 class="sec"><span class="h-emoji">🧩</span> Moduly</h2>
+    <p class="sec-note">Databáze · zobrazení Board</p>
+
+    <div class="board">
+      <a class="bcard t-sky">
+        <div class="b-emoji">🏙️</div>
+        <div class="b-title">Byty a ceny</div>
+        <div class="b-desc">Kalendáře, obsazenost a nasazování cen na Booking i Airbnb.</div>
+      </a>
+      <a class="bcard t-rose">
+        <div class="b-emoji">💬</div>
+        <div class="b-title">Zprávy <span class="b-badge">33</span></div>
+        <div class="b-desc">Sjednocená schránka hostů s automatickým překladem.</div>
+      </a>
+      <a class="bcard t-mint">
+        <div class="b-emoji">💰</div>
+        <div class="b-title">Výdělky</div>
+        <div class="b-desc">Payouty, faktury a měsíční přehledy po bytech.</div>
+      </a>
+      <a class="bcard t-lavender">
+        <div class="b-emoji">🧾</div>
+        <div class="b-title">Provize</div>
+        <div class="b-desc">Vyúčtování provizí pro majitele a partnerské byty.</div>
+      </a>
+      <a class="bcard t-yellow">
+        <div class="b-emoji">🗂️</div>
+        <div class="b-title">Kancelář</div>
+        <div class="b-desc">Účetnictví, pobytové poplatky a administrativa.</div>
+      </a>
+      <a class="bcard t-peach">
+        <div class="b-emoji">🛎️</div>
+        <div class="b-title">Recepce — tým</div>
+        <div class="b-desc">Úklidy, předání klíčů a koordinace týmu v terénu.</div>
+      </a>
+    </div>
+
+    <hr class="divider">
+
+    <!-- PROVOZ -->
+    <h2 class="sec"><span class="h-emoji">🤖</span> Provoz</h2>
+    <p class="sec-note">Stav agentů řídicího střediska</p>
+
+    <div class="agents">
+      <span class="agent"><span class="a-emoji">🧹</span> Úklidový <span class="tag run">běží</span></span>
+      <span class="agent"><span class="a-emoji">🛬</span> Příjezdový <span class="tag tune">ladí se</span></span>
+      <span class="agent"><span class="a-emoji">🛡️</span> Hlídací <span class="tag run">běží</span></span>
+      <span class="agent"><span class="a-emoji">💶</span> Cenový <span class="tag tune">ladí se</span></span>
+      <span class="agent"><span class="a-emoji">🔭</span> Scout <span class="tag tune">ladí se</span></span>
+    </div>
+
+    <details class="toggle">
+      <summary><span class="tri">▶</span> Limity Claude <span class="count-chip">2 metriky</span></summary>
+      <div class="toggle-body">
+        <div class="limits">
+          <div class="limit">
+            <div class="l-head"><span>⏱️ Session</span><span class="l-pct">41 %</span></div>
+            <div class="l-track"><div class="l-fill" style="width:41%"></div></div>
+            <div class="l-note">Aktuální 5h okno · v normě</div>
+          </div>
+          <div class="limit">
+            <div class="l-head"><span>🗓️ Weekly</span><span class="l-pct">52 %</span></div>
+            <div class="l-track"><div class="l-fill" style="width:52%"></div></div>
+            <div class="l-note">Týdenní limit · v normě</div>
+          </div>
+        </div>
+      </div>
+    </details>
+  </article>
+
+  <footer class="doc-foot">
+    <span>Varianta 2 · Notion · dokumentový layout</span>
+    <span>VELÍN · statický design-mockup</span>
+  </footer>
+</main>
+
+<script>
+  (function(){
+    var burger=document.getElementById('burger');
+    var scrim=document.getElementById('scrim');
+    burger.addEventListener('click',function(){document.body.classList.toggle('nav-open');});
+    scrim.addEventListener('click',function(){document.body.classList.remove('nav-open');});
+    document.querySelectorAll('.nav-item').forEach(function(el){
+      el.addEventListener('click',function(){
+        if(window.innerWidth<1024){document.body.classList.remove('nav-open');}
+      });
+    });
+  })();
+</script>
+</body>
+</html>

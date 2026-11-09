@@ -1,0 +1,159 @@
+{
+ "generated": "2026-10-18",
+ "byty": [
+  {
+   "key": "616",
+   "ucet": "kratkodoby",
+   "booking": "THE CENTRUM PARK APARTMENT with Free Parking",
+   "airbnb": "THE Centrum Park Apartment · Free Parking",
+   "web": "THE Centrum Park Apartment"
+  },
+  {
+   "key": "205",
+   "ucet": "kratkodoby",
+   "booking": "THE BOHEMIA PEARL APARTMENT Vinohrady",
+   "airbnb": "THE Bohemia PEARL Apartment · Vinohrady",
+   "web": "THE Bohemia PEARL Apartment"
+  },
+  {
+   "key": "28",
+   "ucet": "kratkodoby",
+   "booking": "THE IVORY TOWER RESIDENCE with Free Parking",
+   "airbnb": "THE Ivory Tower Residence · Free Parking",
+   "web": "THE Ivory Tower Residence"
+  },
+  {
+   "key": "29",
+   "ucet": "kratkodoby",
+   "booking": "THE EBONY TOWER RESIDENCE with Free Parking",
+   "airbnb": "THE Ebony Tower Residence · Free Parking",
+   "web": "THE Ebony Tower Residence"
+  },
+  {
+   "key": "slavojova",
+   "ucet": "kratkodoby",
+   "booking": "THE BOHEMIA SLAVOJ APARTMENT Vyšehrad",
+   "airbnb": "THE Bohemia Slavoj Apartment · Vyšehrad",
+   "web": "THE Bohemia Slavoj Apartment"
+  },
+  {
+   "key": "421",
+   "ucet": "kratkodoby",
+   "booking": "THE GARDEN GRAND APARTMENT Parking Available",
+   "airbnb": "THE Garden GRAND Apartment · Parking Available",
+   "web": "THE Garden GRAND Apartment"
+  },
+  {
+   "key": "v haji",
+   "ucet": "kratkodoby",
+   "booking": "THE RIVERSIDE APARTMENT with Balcony",
+   "airbnb": "THE Riverside Apartment · with Balcony",
+   "web": "THE Riverside Apartment"
+  },
+  {
+   "key": "202",
+   "ucet": "kratkodoby",
+   "booking": "THE BOHEMIA ONYX APARTMENT Vinohrady",
+   "airbnb": "THE Bohemia ONYX Apartment · Vinohrady",
+   "web": "THE Bohemia ONYX Apartment"
+  },
+  {
+   "key": "baranova",
+   "ucet": "kratkodoby",
+   "booking": "THE ROYAL STUDIO Terrace & Free Parking",
+   "airbnb": "THE ROYAL Studio · Terrace & Free Parking",
+   "web": "THE ROYAL Studio"
+  },
+  {
+   "key": "florenc 1",
+   "ucet": "premium",
+   "booking": "City center premium apartment Bohemia",
+   "airbnb": "City center premium apartment+",
+   "web": "THE Florenc Premium Apartment I"
+  },
+  {
+   "key": "florenc 2",
+   "ucet": "premium",
+   "booking": "City center premium apartment",
+   "airbnb": "City center Premium Apartment",
+   "web": "THE Florenc Premium Apartment II"
+  },
+  {
+   "key": "vlastislavova",
+   "ucet": "vlastislavova",
+   "booking": "Premium Apartment Nearby Centre",
+   "airbnb": "Premium Apartment Center",
+   "web": "Premium Apartment Center"
+  },
+  {
+   "key": "jatecni",
+   "ucet": "kratkodoby",
+   "booking": "THE VLTAVA APARTMENT with Balcony",
+   "airbnb": "THE Vltava Apartment · with Balcony",
+   "web": "THE Vltava Apartment"
+  },
+  {
+   "key": "basilej",
+   "ucet": "kratkodoby",
+   "booking": "THE BASILEJ APARTMENT Private Garden & Parking",
+   "airbnb": "The Basilej Apartment · private Garden & Parking",
+   "web": "THE Basilej Apartment"
+  },
+  {
+   "key": "korunni",
+   "ucet": "korunni",
+   "booking": "Royal Crown Apartment",
+   "airbnb": "Royal Crown Apartment",
+   "web": "Royal Crown Apartment"
+  },
+  {
+   "key": "mezibranska mala",
+   "ucet": "korunni",
+   "booking": "Night next to the Museum",
+   "airbnb": "Night next to the Museum",
+   "web": "Night next to the Museum"
+  },
+  {
+   "key": "mezibranska velka",
+   "ucet": "korunni",
+   "booking": "Night at the Museum",
+   "airbnb": "Night at the Museum",
+   "web": "Night at the Museum"
+  },
+  {
+   "key": "harfa",
+   "ucet": "harfa",
+   "booking": "THE HARFA O2 APARTMENT with loggia",
+   "airbnb": "THE Harfa O2 Apartment - with loggia",
+   "web": "THE Harfa O2 Apartment"
+  },
+  {
+   "key": "havelska",
+   "ucet": "havelska",
+   "booking": "THE HAVEL ROOFTOP APARTMENT with AC",
+   "airbnb": "THE Havel Rooftop Apartment / AC",
+   "web": "THE Havel Rooftop Apartment"
+  },
+  {
+   "key": "andel",
+   "ucet": null,
+   "booking": null,
+   "airbnb": "THE ANGEL Castle Apartment",
+   "web": "THE ANGEL Castle Apartment"
+  },
+  {
+   "key": "ve smeckach",
+   "ucet": null,
+   "booking": null,
+   "airbnb": "3BDR New Town Apt. w/ Terrace • Workspace • AC",
+   "web": "THE Wenceslas Terrace Apartment"
+  },
+  {
+   "key": "opatovicka",
+   "ucet": null,
+   "booking": null,
+   "airbnb": "3BDR Spacious Apt. w/ Workspace • AC • New Town",
+   "web": "THE Národní Loft"
+  }
+ ]
+}
