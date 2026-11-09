@@ -238,7 +238,7 @@ function vyberDleBytu(){
 async function nactiVyst(vyber){
   const {data:rows,error}=await sb.from('faktury_vystavovatele').select('*').eq('aktivni',true).order('nazev');
   if(error){ $('v-info').textContent='Chyba načtení: '+error.message; return; }
-  VYST=rows||[]; let last=vyber; try{ last=last||localStorage.getItem('fak_vyst'); }catch(e){}
+  VYST=(rows||[]).filter(v=>v.druh!=='majitel'); let last=vyber;   // vystavovatele faktur majitelum (Gorents) jen na faktury-majitelu.html try{ last=last||localStorage.getItem('fak_vyst'); }catch(e){}
   $('v-sel').innerHTML=VYST.length?VYST.map(v=>`<option value="${v.id}">${esc(v.nazev)}${v.ucty&&v.ucty.length?' · '+esc(v.ucty.join(', ')):''}</option>`).join(''):'<option value="">— zatím žádný, klepni + Nový —</option>';
   if(last&&VYST.some(v=>v.id===last)) $('v-sel').value=last;
   infoVyst(); if(!VYST.length) otevriForm(null); nahled();

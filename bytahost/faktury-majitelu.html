@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="cs"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Faktury majitelům · BYTAHOST</title>
+<meta name="theme-color" content="#0a0a12">
+<style>
+/* Faktury MAJITELUM (9.11.2026): radna faktura k uhrade za spravu — ZVLAST od faktur hostum (faktury.html).
+   Vystavuje Gorents s.r.o. (faktury_vystavovatele.druh='majitel'), vlastni rada 202601…, tabulka faktury_majitelu.
+   Podklady (polozky za mesic) plni scraper/faktura_majitel.js podklady z dat portalu; PDF do portalu majitele: faktura_majitel.js pdf <cislo>.
+   ?tisk=<id> = jen faktura (PDF). */
+:root{--bg:#f2f5f3;--panel:#fff;--ink:#16211c;--ink2:#41504a;--mut:#66756f;--line:#dfe7e2;--ac:#1d6b4a;--ac2:#155238;--acbg:#e5f2eb;--ok:#1f7a4d;--okbg:#e6f4ec;--bad:#b4443c;--top:#0d1712}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Inter,sans-serif}
+.top{position:sticky;top:0;z-index:5;background:var(--top);color:#fff;display:flex;align-items:center;gap:12px;padding:12px 16px;flex-wrap:wrap}
+.top a{color:#a9dcc2;text-decoration:none;font-weight:700;font-size:14px}.top h1{font-size:17px;margin:0;font-weight:800}.top h1 em{font-style:normal;color:#8fd6b1}
+.top .sw{margin-left:auto;font-size:13px}
+.wrap{max-width:1260px;margin:0 auto;padding:18px 16px 60px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:18px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:14px}
+.card h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ac2);margin:0 0 12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid .w{grid-column:1/-1}
+label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:var(--mut);min-width:0}
+input,select,textarea{font:inherit;font-size:14px;color:var(--ink);background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:9px 10px;width:100%;min-width:0}
+textarea{resize:vertical;line-height:1.5}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ac)}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn{font:inherit;font-weight:800;font-size:14px;border-radius:12px;border:0;padding:10px 16px;cursor:pointer;background:var(--ac);color:#fff}
+.btn.gh{background:var(--acbg);color:var(--ac2)}.btn.big{width:100%;padding:13px;font-size:15.5px}.btn:disabled{opacity:.5;cursor:default}.btn.sm{padding:6px 12px;font-size:12.5px}
+.btn:focus-visible,input:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.msg{font-size:13px;margin-top:8px}.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+.hint{font-size:12.5px;color:var(--mut);margin:6px 0 0}.warn{color:var(--bad);font-weight:700}
+.pol{display:grid;grid-template-columns:minmax(0,1fr) 64px 56px 110px 30px;gap:6px;align-items:start;margin-bottom:8px}
+.pol .d{grid-column:1/-1;margin-top:-2px}.pol input{padding:7px 8px;font-size:13.5px}.pol button{all:unset;cursor:pointer;text-align:center;color:var(--bad);font-weight:800;padding-top:8px}
+.polhd{display:grid;grid-template-columns:minmax(0,1fr) 64px 56px 110px 30px;gap:6px;font-size:11px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.soucet{display:flex;justify-content:space-between;font-weight:800;border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
+.list{display:flex;flex-direction:column}.list button{all:unset;cursor:pointer;display:grid;grid-template-columns:86px 1fr auto;gap:8px;align-items:center;padding:9px 4px;border-top:1px solid var(--line);font-size:13.5px}
+.list button:hover{background:var(--acbg)}.list .c{font-weight:800;font-variant-numeric:tabular-nums}.list .s{color:var(--mut);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.list .a{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.side{position:sticky;top:64px}
+.prevhd{display:flex;align-items:center;gap:8px;margin:0 0 8px;flex-wrap:wrap}.prevhd b{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ac2);margin-right:auto}
+.stamp{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:#fff3d6;color:#7a5600}.stamp.ok{background:var(--okbg);color:var(--ok)}.stamp.ed{background:#ffe9e6;color:var(--bad)}
+.hist{font-size:12.5px;margin-top:10px;display:flex;flex-direction:column;gap:4px;color:var(--ink2)}
+/* ---------- faktura (papir A4) ---------- */
+#paper{background:#fff;color:#141a17;border-radius:6px;box-shadow:0 18px 40px -22px rgba(22,33,28,.45);padding:44px 46px;font:12px/1.55 "Segoe UI",system-ui,sans-serif;aspect-ratio:210/297;overflow:hidden;display:flex;flex-direction:column}
+#paper .lab{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#87918c}
+#paper .hd{display:grid;grid-template-columns:1fr auto;align-items:end;gap:20px;padding-bottom:18px;border-bottom:2px solid #141a17}
+#paper h3{margin:0;font-size:28px;line-height:1;letter-spacing:-.02em;font-weight:800}#paper .sub{color:#87918c;font-size:11px;margin-top:6px}
+#paper .no{text-align:right}#paper .no .v{font-size:22px;line-height:1.1;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px}
+#paper .who{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:22px 0 20px}
+#paper .party .nm{font-size:14px;font-weight:800;margin:6px 0 1px;line-height:1.3}#paper .party .ad{color:#4a524e;line-height:1.45}
+#paper dl{display:grid;grid-template-columns:max-content 1fr;gap:2px 14px;margin:10px 0 0;font-size:11.5px}#paper dt{color:#87918c;white-space:nowrap}#paper dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#paper .info{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #e3e8e5;border-radius:10px;margin-bottom:22px;overflow:hidden}
+#paper .info>div{padding:10px 14px;border-left:1px solid #e3e8e5;min-width:0}#paper .info>div:first-child{border-left:0}
+#paper .info b{display:block;font-size:12.5px;margin-top:3px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#paper table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;table-layout:fixed}
+#paper th{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#87918c;text-align:left;font-weight:800;padding:0 0 8px;border-bottom:1px solid #141a17}
+#paper td{padding:9px 0;border-bottom:1px solid #edf1ee;vertical-align:top}#paper td.r,#paper th.r{text-align:right;white-space:nowrap}
+#paper col.q{width:62px}#paper col.u{width:96px}#paper col.c{width:112px}
+#paper td .pop{font-size:12.5px;font-weight:700}#paper td .det{color:#69736e;margin-top:1px;font-size:11px}
+#paper .sum{margin:14px 0 0 auto;width:340px}#paper .sum div{display:flex;justify-content:space-between;gap:16px;padding:3px 0}
+#paper .sum .tot{margin-top:6px;padding:12px 14px;background:#141a17;color:#fff;border-radius:10px;font-size:16px;font-weight:800;align-items:baseline}
+#paper .pay{margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #e3e8e5;border-radius:10px;overflow:hidden}
+#paper .pay>div{padding:10px 14px;border-left:1px solid #e3e8e5;min-width:0}#paper .pay>div:first-child{border-left:0}#paper .pay b{display:block;font-size:12.5px;margin-top:3px;overflow-wrap:anywhere}
+#paper .pozn{margin-top:16px;color:#4a524e;white-space:pre-line}
+#paper .ft{margin-top:auto;padding-top:14px;border-top:1px solid #edf1ee;color:#87918c;font-size:10px;display:flex;justify-content:space-between;gap:12px}
+#paper .ph{color:#b0b8b4;font-weight:400}
+@media screen and (max-width:900px){.wrap{grid-template-columns:1fr}.side{position:static}#paper{aspect-ratio:auto;padding:22px 18px}#paper .who{grid-template-columns:1fr;gap:16px}#paper .info,#paper .pay{grid-template-columns:1fr 1fr}#paper .sum{width:100%}}
+@media screen and (max-width:520px){.grid{grid-template-columns:1fr}.pol,.polhd{grid-template-columns:minmax(0,1fr) 54px 92px 26px}.pol .j,.polhd .j{display:none}}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff}.top,.form,.prevhd,.noprint{display:none!important}
+  .wrap{display:block;padding:0;max-width:none}.side{position:static}
+  #paper{box-shadow:none;border-radius:0;padding:0;aspect-ratio:auto;overflow:visible;min-height:268mm}
+}
+body.tisk{background:#fff}body.tisk .top,body.tisk .form,body.tisk .prevhd,body.tisk .noprint{display:none!important}body.tisk .wrap{display:block;padding:0;max-width:none}body.tisk #paper{box-shadow:none;border-radius:0;aspect-ratio:auto;min-height:268mm;padding:0}
+#gate{max-width:420px;margin:80px auto;text-align:center;padding:0 20px}
+</style>
+</head><body>
+<div class="top"><a href="./">← BYTAHOST</a><h1>Faktury <em>majitelům</em></h1><a class="sw" href="faktury.html">Faktury pro hosty →</a></div>
+<div id="gate" hidden><h2>Nejdřív se přihlas</h2><p>Otevři aplikaci BYTAHOST a zadej PIN, pak se sem vrať.</p><a class="btn" href="./">Otevřít BYTAHOST</a></div>
+<div class="wrap" id="app" hidden>
+  <div class="form">
+    <section class="card">
+      <h2>Vystavuje</h2>
+      <select id="v-sel" aria-label="Vystavovatel"></select>
+      <p class="hint" id="v-info"></p>
+      <div class="grid" style="margin-top:10px">
+        <label>Číslo účtu (na fakturu) <input id="v-ucet" placeholder="např. 123456789/0100"></label>
+        <label>IBAN<input id="v-iban"></label>
+        <label>E-mail<input id="v-email" type="email"></label>
+        <label>Telefon<input id="v-telefon" inputmode="tel"></label>
+        <label class="w">Vystavil (osoba)<input id="v-osoba"></label>
+      </div>
+      <div class="row" style="margin-top:10px"><button class="btn gh sm" type="button" id="v-ulozit">Uložit údaje vystavovatele</button><span class="msg" id="v-msg"></span></div>
+    </section>
+
+    <section class="card">
+      <h2>Majitel a období</h2>
+      <label>Podklady z portálu majitele<select id="podklad"><option value="">— vyber majitele a měsíc —</option></select></label>
+      <p class="hint">Položky se předvyplní přesně podle vyúčtování v portálu majitele (provize, úklidy, praní, nákupy). Můžeš je upravit.</p>
+      <div class="grid" style="margin-top:10px">
+        <label class="w">Odběratel (firma / jméno) *<input id="o-nazev"></label>
+        <label>IČO<input id="o-ico"></label>
+        <label>DIČ<input id="o-dic"></label>
+        <label class="w">Sídlo / adresa<input id="o-adresa"></label>
+        <label>Období (měsíc)<input id="f-obdobi" type="month"></label>
+        <label>Klíč portálu majitele<input id="f-majitel" placeholder="např. opatovicka"></label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Položky <button class="btn gh sm" type="button" id="pol-pridat">+ Položka</button></h2>
+      <div class="polhd"><span>Popis</span><span>Množ.</span><span class="j">Jedn.</span><span>Cena / ks</span><span></span></div>
+      <div id="polozky"></div>
+      <div class="soucet"><span>Celkem k úhradě</span><span id="soucet">0 Kč</span></div>
+    </section>
+
+    <section class="card">
+      <h2>Data a poznámka</h2>
+      <div class="grid">
+        <label>Datum vystavení<input id="f-datum" type="date"></label>
+        <label>Datum uskut. plnění<input id="f-duzp" type="date"></label>
+        <label>Splatnost<input id="f-splat" type="date"></label>
+        <label>&nbsp;<span class="hint" style="margin:8px 0 0">Variabilní symbol = číslo faktury.</span></label>
+        <label class="w">Poznámka na faktuře<textarea id="f-pozn" rows="2"></textarea></label>
+      </div>
+    </section>
+
+    <button class="btn big" type="button" id="vystavit">Vystavit fakturu</button>
+    <div class="msg" id="f-msg"></div>
+
+    <section class="card" style="margin-top:14px">
+      <h2>Vystavené faktury majitelům <input id="hledat" placeholder="hledat…" style="max-width:160px;padding:6px 9px;font-size:13px;text-transform:none;letter-spacing:0"></h2>
+      <div class="list" id="seznam"><p class="hint">Načítám…</p></div>
+    </section>
+  </div>
+
+  <div class="side">
+    <div class="prevhd"><b>Náhled</b><span class="stamp" id="stav">koncept, bez čísla</span>
+      <button class="btn gh sm" type="button" id="upravit" hidden>Upravit</button><button class="btn gh sm" type="button" id="nova" hidden>Nová faktura</button><button class="btn sm" type="button" id="tisk" disabled>PDF / tisk</button></div>
+    <div id="paper"></div>
+    <div class="hist noprint" id="historie"></div>
+    <p class="hint noprint">Do portálu majitele se PDF uloží příkazem <code>node faktura_majitel.js pdf &lt;číslo&gt;</code> (majitel si ho pak kdykoli stáhne).</p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const SB_URL='https://uiynkslmvkjzzdvijkzo.supabase.co', SB_KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let sb, VYST=[], PODK=[], FAKTURY=[], POL=[], VYDANA=null, EDIT=null;
+const iso=d=>d.toLocaleDateString('sv-SE');
+const dnes=()=>iso(new Date());
+const plusDny=(d,n)=>{ const x=new Date(d+'T12:00:00'); x.setDate(x.getDate()+n); return iso(x); };
+const konecMes=m=>m?iso(new Date(+m.slice(0,4),+m.slice(5,7),0,12)):'';
+const MES=['leden','únor','březen','duben','květen','červen','červenec','srpen','září','říjen','listopad','prosinec'];
+const mesN=m=>m?MES[+m.slice(5,7)-1]+' '+m.slice(0,4):'';
+const fmtD=d=>d?new Date(String(d).slice(0,10)+'T12:00:00').toLocaleDateString('cs-CZ'):'';
+const fmtC=n=>(Math.round(n*100)/100).toLocaleString('cs-CZ',{minimumFractionDigits:2,maximumFractionDigits:2})+' Kč';
+const soucet=p=>Math.round(p.reduce((s,x)=>s+Math.round((+x.mnozstvi||0)*(+x.cena||0)*100)/100,0)*100)/100;
+const vystavovatel=()=>VYST.find(v=>v.id===$('v-sel').value)||null;
+
+/* ---------- vystavovatel ---------- */
+async function nactiVyst(){
+  const {data,error}=await sb.from('faktury_vystavovatele').select('*').eq('aktivni',true).eq('druh','majitel').order('nazev');
+  if(error){ $('v-info').textContent='Chyba: '+error.message; return; }
+  VYST=data||[]; $('v-sel').innerHTML=VYST.map(v=>`<option value="${v.id}">${esc(v.nazev)}</option>`).join('')||'<option value="">— žádný vystavovatel —</option>';
+  infoVyst();
+}
+function infoVyst(){
+  const v=vystavovatel()||{}; ['ucet','iban','email','telefon','osoba'].forEach(k=>$('v-'+k).value=v[k]||'');
+  $('v-info').innerHTML=v.id?`IČO ${esc(v.ico||'—')} · ${esc(v.adresa||'')} · ${v.platce_dph?'plátce DPH':'není plátce DPH'} · poslední číslo ${v.rok||new Date().getFullYear()}${String(v.posledni_cislo||0).padStart(2,'0')}`+(v.ucet||v.iban?'':' · <span class="warn">chybí číslo účtu – faktura k úhradě ho potřebuje</span>'):'';
+  if(!VYDANA) nahled();
+}
+$('v-sel').onchange=infoVyst;
+$('v-ulozit').onclick=async()=>{
+  const v=vystavovatel(); if(!v) return; const upd={updated_at:new Date().toISOString()}; ['ucet','iban','email','telefon','osoba'].forEach(k=>upd[k]=$('v-'+k).value.trim()||null);
+  const {error}=await sb.from('faktury_vystavovatele').update(upd).eq('id',v.id);
+  $('v-msg').className='msg '+(error?'bad':'ok'); $('v-msg').textContent=error?'Uložení selhalo: '+error.message:'Uloženo. Na už vystavené faktury se změna nepromítne.';
+  await nactiVyst(); $('v-sel').value=v.id; infoVyst();
+};
+
+/* ---------- podklady z portalu ---------- */
+async function nactiPodklady(){
+  const {data}=await sb.from('faktury_majitelu_podklady').select('*').order('majitel').order('obdobi',{ascending:false});
+  PODK=data||[]; $('podklad').innerHTML='<option value="">— vyber majitele a měsíc —</option>'+PODK.map(p=>`<option value="${esc(p.id)}">${esc(p.jmeno)} · ${esc(mesN(p.obdobi))} · ${fmtC(p.castka)}${p.bezici?' (měsíc ještě běží)':''}</option>`).join('');
+}
+$('podklad').onchange=()=>{
+  const p=PODK.find(x=>x.id===$('podklad').value); if(!p||VYDANA) return;
+  const o=p.odberatel||{}; $('o-nazev').value=o.nazev||''; $('o-ico').value=o.ico||''; $('o-dic').value=o.dic||''; $('o-adresa').value=o.adresa||'';
+  $('f-obdobi').value=p.obdobi; $('f-majitel').value=p.majitel; $('f-duzp').value=konecMes(p.obdobi);
+  POL=(p.polozky||[]).map(x=>({...x})); kresliPolozky(); nahled();
+  $('f-msg').className='msg '+(o.ico?'ok':'bad'); $('f-msg').textContent=o.ico?'Předvyplněno z portálu majitele.':'U tohoto majitele chybí IČO odběratele (majitele.json → subjekt). Doplň ho ručně.';
+};
+
+/* ---------- polozky ---------- */
+function kresliPolozky(){
+  $('polozky').innerHTML=POL.map((x,i)=>`<div class="pol" data-i="${i}">
+    <input data-k="popis" value="${esc(x.popis)}" aria-label="Popis"><input data-k="mnozstvi" type="number" step="any" value="${esc(x.mnozstvi)}" aria-label="Množství">
+    <input data-k="jednotka" class="j" value="${esc(x.jednotka||'')}" aria-label="Jednotka"><input data-k="cena" type="number" step="0.01" value="${esc(x.cena)}" aria-label="Cena za jednotku">
+    <button type="button" title="Odebrat" aria-label="Odebrat položku">✕</button>
+    <input data-k="det" class="d" value="${esc(x.det||'')}" placeholder="upřesnění (nepovinné)" aria-label="Upřesnění"></div>`).join('')||'<p class="hint">Zatím žádné položky.</p>';
+  $('polozky').querySelectorAll('.pol').forEach(r=>{ const i=+r.dataset.i;
+    r.querySelectorAll('input').forEach(inp=>inp.oninput=()=>{ const k=inp.dataset.k; POL[i][k]=(k==='mnozstvi'||k==='cena')?+inp.value:inp.value; $('soucet').textContent=fmtC(soucet(POL)); if(!VYDANA||EDIT) nahled(); });
+    r.querySelector('button').onclick=()=>{ POL.splice(i,1); kresliPolozky(); nahled(); }; });
+  $('soucet').textContent=fmtC(soucet(POL));
+}
+$('pol-pridat').onclick=()=>{ POL.push({popis:'',mnozstvi:1,jednotka:'',cena:0,det:''}); kresliPolozky(); };
+
+/* ---------- formular / nahled ---------- */
+function formData(){
+  const dv=$('f-datum').value||dnes();
+  return { cislo:EDIT?EDIT.cislo:null, vystavovatel:EDIT?EDIT.vystavovatel:(vystavovatel()||{}),
+    odberatel:{nazev:$('o-nazev').value.trim(),ico:$('o-ico').value.trim(),dic:$('o-dic').value.trim(),adresa:$('o-adresa').value.trim()},
+    majitel:$('f-majitel').value.trim(), obdobi:$('f-obdobi').value, polozky:POL.filter(x=>x.popis&&+x.cena).map(x=>({popis:x.popis.trim(),det:(x.det||'').trim(),mnozstvi:+x.mnozstvi||1,jednotka:(x.jednotka||'').trim(),cena:+x.cena})),
+    datum_vystaveni:dv, duzp:$('f-duzp').value||dv, splatnost:$('f-splat').value||plusDny(dv,14), poznamka:$('f-pozn').value.trim() };
+}
+const data=()=>EDIT?formData():(VYDANA||formData());
+function strana(o,ph,banka){
+  if(!o||!o.nazev) return `<div class="party"><div class="lab">${ph[0]}</div><div class="nm ph">${ph[1]}</div></div>`;
+  const r=[['IČO',o.ico],['DIČ',o.dic],['Telefon',banka&&o.telefon],['E-mail',banka&&o.email]].filter(x=>x[1]);
+  return `<div class="party"><div class="lab">${ph[0]}</div><div class="nm">${esc(o.nazev)}</div>${o.adresa?`<div class="ad">${esc(o.adresa)}</div>`:''}${r.length?`<dl>${r.map(x=>`<dt>${esc(x[0])}</dt><dd>${esc(x[1])}</dd>`).join('')}</dl>`:''}</div>`;
+}
+function nahled(){
+  const d=data(), v=d.vystavovatel||{}, celkem=VYDANA&&!EDIT?+VYDANA.castka:soucet(d.polozky), vs=d.cislo||'';
+  $('paper').innerHTML=`
+    <div class="hd"><div><h3>Faktura</h3><div class="sub">${d.obdobi?'za správu apartmánů · '+esc(mesN(d.obdobi)):'za správu apartmánů'}</div></div><div class="no"><div class="lab">Číslo faktury</div><div class="v">${d.cislo?esc(d.cislo):'<span class="ph">přidělí se při vystavení</span>'}</div></div></div>
+    <div class="who">${strana(v,['Dodavatel','vyber, kdo vystavuje'],true)}${strana(d.odberatel,['Odběratel','majitel apartmánu'])}</div>
+    <div class="info"><div><div class="lab">Datum vystavení</div><b>${fmtD(d.datum_vystaveni)}</b></div><div><div class="lab">Datum uskut. plnění</div><b>${fmtD(d.duzp)||'—'}</b></div>
+      <div><div class="lab">Datum splatnosti</div><b>${fmtD(d.splatnost)}</b></div><div><div class="lab">Forma úhrady</div><b>bankovním převodem</b></div></div>
+    <table><colgroup><col><col class="q"><col class="u"><col class="c"></colgroup><thead><tr><th>Popis</th><th class="r">Množ.</th><th class="r">Cena / jedn.</th><th class="r">Celkem</th></tr></thead>
+      <tbody>${d.polozky.length?d.polozky.map(x=>`<tr><td><div class="pop">${esc(x.popis)}</div>${x.det?`<div class="det">${esc(x.det)}</div>`:''}</td><td class="r">${esc(String(x.mnozstvi).replace('.',','))}${x.jednotka?' '+esc(x.jednotka):''}</td><td class="r">${fmtC(x.cena)}</td><td class="r">${fmtC(Math.round(x.mnozstvi*x.cena*100)/100)}</td></tr>`).join(''):'<tr><td colspan="4" class="ph">Položky se doplní z podkladů.</td></tr>'}</tbody></table>
+    <div class="sum"><div class="tot"><span>Celkem k úhradě</span><span>${fmtC(celkem)}</span></div></div>
+    <div class="pay"><div><div class="lab">Číslo účtu</div><b>${v.ucet?esc(v.ucet):'<span class="ph">doplnit</span>'}</b></div><div><div class="lab">IBAN</div><b>${v.iban?esc(v.iban):'—'}</b></div>
+      <div><div class="lab">Variabilní symbol</div><b>${vs?esc(vs):'<span class="ph">= číslo faktury</span>'}</b></div><div><div class="lab">K úhradě</div><b>${fmtC(celkem)}</b></div></div>
+    ${d.poznamka?`<div class="pozn">${esc(d.poznamka)}</div>`:''}
+    <div class="ft"><span>${esc([v.nazev,v.ico?'IČO '+v.ico:''].filter(Boolean).join(' · '))}${v.platce_dph?'':' · Dodavatel není plátcem DPH.'}</span><span>Vystavil: ${esc(v.osoba||v.nazev||'')}</span></div>`;
+  const st=$('stav'); if(EDIT){ st.textContent='úprava faktury '+EDIT.cislo; st.className='stamp ed'; } else if(d.cislo){ st.textContent='vystaveno · '+d.cislo+(VYDANA.verze>1?' · verze '+VYDANA.verze:''); st.className='stamp ok'; } else { st.textContent='koncept, bez čísla'; st.className='stamp'; }
+  $('tisk').disabled=!VYDANA||!!EDIT; $('upravit').hidden=!VYDANA||!!EDIT; $('nova').hidden=!VYDANA;
+  document.title=d.cislo?'Faktura '+d.cislo:'Faktury majitelům · BYTAHOST';
+}
+document.querySelectorAll('.form input:not(#hledat),.form textarea').forEach(i=>{ if(!i.closest('.pol')&&!i.id.startsWith('v-')) i.addEventListener('input',()=>{ if(!VYDANA||EDIT) nahled(); }); });
+$('f-datum').addEventListener('input',()=>{ if(!$('f-splat').dataset.rucne) $('f-splat').value=plusDny($('f-datum').value||dnes(),14); });
+$('f-splat').addEventListener('input',()=>$('f-splat').dataset.rucne='1');
+
+/* ---------- vystaveni / uprava ---------- */
+$('vystavit').onclick=async()=>{
+  const d=formData(), chyba=t=>{ $('f-msg').className='msg bad'; $('f-msg').textContent=t; };
+  if(!d.odberatel.nazev) return chyba('Doplň odběratele.'); if(!d.polozky.length) return chyba('Faktura nemá žádnou položku s cenou.');
+  const p={odberatel:d.odberatel,majitel:d.majitel||null,obdobi:d.obdobi||null,polozky:d.polozky,datum_vystaveni:d.datum_vystaveni,duzp:d.duzp,splatnost:d.splatnost,poznamka:d.poznamka||null};
+  let r,error;
+  if(EDIT){ if(!confirm(`Uložit změny faktury ${EDIT.cislo}? Číslo zůstane stejné, původní verze se uloží do historie.`)) return; ({data:r,error}=await sb.rpc('upravit_fakturu_majiteli',{fid:EDIT.id,p})); }
+  else { const v=vystavovatel(); if(!v) return chyba('Vyber vystavovatele.'); if(!v.ucet&&!v.iban) return chyba('Vystavovatel nemá číslo účtu. Doplň ho nahoře a ulož.');
+    if(!confirm(`Vystavit fakturu na ${fmtC(soucet(d.polozky))} pro ${d.odberatel.nazev}?\nČíslo se přidělí natrvalo.`)) return; p.vystavovatel_id=v.id; ({data:r,error}=await sb.rpc('vystavit_fakturu_majiteli',{p})); }
+  if(error) return chyba((EDIT?'Uložení':'Vystavení')+' selhalo: '+error.message);
+  const bylEdit=!!EDIT; ukaz(r); $('f-msg').className='msg ok';
+  $('f-msg').innerHTML=(bylEdit?`Změny faktury <b>${esc(r.cislo)}</b> uloženy (verze ${r.verze}).`:`Vystaveno pod číslem <b>${esc(r.cislo)}</b>.`)+' Do portálu majitele ji ulož příkazem <code>node faktura_majitel.js pdf '+esc(r.cislo)+'</code>.';
+  await nactiVyst(); await seznam();
+};
+function ukaz(f){
+  EDIT=null; VYDANA={...f,castka:+f.castka}; $('vystavit').textContent='Vystavit fakturu';
+  const o=f.odberatel||{}; $('o-nazev').value=o.nazev||''; $('o-ico').value=o.ico||''; $('o-dic').value=o.dic||''; $('o-adresa').value=o.adresa||'';
+  $('f-obdobi').value=f.obdobi||''; $('f-majitel').value=f.majitel||''; $('f-datum').value=f.datum_vystaveni||''; $('f-duzp').value=f.duzp||''; $('f-splat').value=f.splatnost||''; $('f-pozn').value=f.poznamka||'';
+  POL=(f.polozky||[]).map(x=>({...x})); kresliPolozky(); nahled(); historie();
+}
+$('upravit').onclick=()=>{ if(!VYDANA) return; EDIT=VYDANA; $('vystavit').textContent='Uložit změny faktury '+EDIT.cislo; nahled(); window.scrollTo({top:0,behavior:'smooth'}); };
+$('nova').onclick=()=>{ VYDANA=null; EDIT=null; POL=[]; for(const id of ['o-nazev','o-ico','o-dic','o-adresa','f-obdobi','f-majitel','f-duzp','f-pozn']) $(id).value=''; $('podklad').value=''; $('f-datum').value=dnes(); $('f-splat').value=plusDny(dnes(),14); delete $('f-splat').dataset.rucne;
+  $('vystavit').textContent='Vystavit fakturu'; $('f-msg').textContent=''; $('historie').innerHTML=''; kresliPolozky(); nahled(); };
+$('tisk').onclick=()=>window.print();
+
+/* ---------- seznam + historie ---------- */
+async function seznam(){
+  const {data,error}=await sb.from('faktury_majitelu').select('*').order('created_at',{ascending:false}).limit(300);
+  if(error){ $('seznam').innerHTML='<p class="hint">Chyba: '+esc(error.message)+'</p>'; return; }
+  FAKTURY=data||[]; vykresli();
+}
+function vykresli(){
+  const q=$('hledat').value.toLowerCase(), r=FAKTURY.filter(f=>!q||JSON.stringify([f.cislo,f.odberatel,f.majitel,f.obdobi]).toLowerCase().includes(q));
+  $('seznam').innerHTML=r.length?r.map(f=>`<button type="button" data-id="${f.id}"><span class="c">${esc(f.cislo)}</span><span class="s">${esc((f.odberatel||{}).nazev||'')} · ${esc(mesN(f.obdobi))} · ${fmtD(f.datum_vystaveni)}${f.verze>1?' · upraveno':''}${f.doklad_id?' · v portálu':''}</span><span class="a">${fmtC(+f.castka)}</span></button>`).join(''):'<p class="hint">Zatím žádná faktura majiteli.</p>';
+  $('seznam').querySelectorAll('button').forEach(b=>b.onclick=()=>{ ukaz(FAKTURY.find(x=>x.id===b.dataset.id)); $('f-msg').textContent=''; });
+}
+$('hledat').oninput=vykresli;
+async function historie(){
+  if(!VYDANA){ $('historie').innerHTML=''; return; }
+  const {data}=await sb.from('faktury_majitelu_historie').select('verze,data,created_at').eq('faktura_id',VYDANA.id).order('verze');
+  const h=(data||[]).map(x=>`<div>Verze ${x.verze}: ${fmtC(+x.data.castka)} · nahrazena ${new Date(x.created_at).toLocaleString('cs-CZ')}</div>`);
+  $('historie').innerHTML=(h.length?'<b>Historie změn</b>'+h.join('')+`<div>Aktuální verze ${VYDANA.verze}: ${fmtC(VYDANA.castka)}</div>`:'')+(VYDANA.doklad_id?'<div>✓ Uloženo v portálu majitele</div>':'<div>Do portálu majitele zatím neuloženo.</div>');
+}
+
+/* ---------- start ---------- */
+(async()=>{
+  let ok=false; try{ ok=localStorage.bytahost==='1'; }catch(e){}
+  if(!ok){ $('gate').hidden=false; return; }
+  $('app').hidden=false; sb=supabase.createClient(SB_URL,SB_KEY);
+  const u=new URLSearchParams(location.search);
+  if(u.get('tisk')){   // jen faktura (PDF pro portal majitele)
+    document.body.classList.add('tisk'); const {data:f}=await sb.from('faktury_majitelu').select('*').eq('id',u.get('tisk')).single();
+    if(f){ VYDANA={...f,castka:+f.castka}; POL=f.polozky||[]; nahled(); } window.__FAKTURA_READY=!!f; return;
+  }
+  $('f-datum').value=dnes(); $('f-splat').value=plusDny(dnes(),14);
+  await nactiVyst(); kresliPolozky(); nahled(); nactiPodklady(); seznam();
+})();
+</script>
+</body></html>
