@@ -61,6 +61,9 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ac)}
 #paper .pay{margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #e3e8e5;border-radius:10px;overflow:hidden}
 #paper .pay>div{padding:10px 14px;border-left:1px solid #e3e8e5;min-width:0}#paper .pay>div:first-child{border-left:0}#paper .pay b{display:block;font-size:12.5px;margin-top:3px;overflow-wrap:anywhere}
 #paper .pozn{margin-top:16px;color:#4a524e;white-space:pre-line}
+#paper .intro{margin:0 0 14px;font-size:13px;font-weight:600}
+#paper .volba{margin-top:18px;border:1.5px dashed #c9d3ce;border-radius:10px;padding:12px 14px;white-space:pre-line;font-size:12.5px}
+.seg{display:inline-flex;background:var(--acbg);border-radius:999px;padding:3px;gap:2px}.seg button{border:0;background:transparent;font:inherit;font-size:12.5px;font-weight:800;color:var(--ac2);padding:6px 12px;border-radius:999px;cursor:pointer}.seg button.on{background:var(--ac);color:#fff}
 #paper .ft{margin-top:auto;padding-top:14px;border-top:1px solid #edf1ee;color:#87918c;font-size:10px;display:flex;justify-content:space-between;gap:12px}
 #paper .ph{color:#b0b8b4;font-weight:400}
 @media screen and (max-width:900px){.wrap{grid-template-columns:1fr}.side{position:static}#paper{aspect-ratio:auto;padding:22px 18px}#paper .who{grid-template-columns:1fr;gap:16px}#paper .info,#paper .pay{grid-template-columns:1fr 1fr}#paper .sum{width:100%}}
@@ -86,17 +89,18 @@ body.tisk{background:#fff}body.tisk .top,body.tisk .form,body.tisk .prevhd,body.
       <div class="grid" style="margin-top:10px">
         <label>Číslo účtu (na fakturu) <input id="v-ucet" placeholder="např. 123456789/0100"></label>
         <label>IBAN<input id="v-iban"></label>
+        <label>BIC / SWIFT<input id="v-bic"></label>
         <label>E-mail<input id="v-email" type="email"></label>
         <label>Telefon<input id="v-telefon" inputmode="tel"></label>
-        <label class="w">Vystavil (osoba)<input id="v-osoba"></label>
+        <label>Vystavil (osoba)<input id="v-osoba"></label>
       </div>
       <div class="row" style="margin-top:10px"><button class="btn gh sm" type="button" id="v-ulozit">Uložit údaje vystavovatele</button><span class="msg" id="v-msg"></span></div>
     </section>
 
     <section class="card">
-      <h2>Majitel a období</h2>
+      <h2>Majitel a období <span class="seg" id="druh"><button type="button" data-d="faktura" class="on">Faktura</button><button type="button" data-d="prehled">Přehled nákladů (bez čísla)</button></span></h2>
       <label>Podklady z portálu majitele<select id="podklad"><option value="">— vyber majitele a měsíc —</option></select></label>
-      <p class="hint">Položky se předvyplní přesně podle vyúčtování v portálu majitele (provize, úklidy, praní, nákupy). Můžeš je upravit.</p>
+      <p class="hint" id="druh-hint">Faktura = odměna za správu (provize) podle portálu majitele. Číslo: rok + číslo klienta portálu + pořadí (Opatovická 1006 → 2026100601), každý portál má vlastní řadu.</p>
       <div class="grid" style="margin-top:10px">
         <label class="w">Odběratel (firma / jméno) *<input id="o-nazev"></label>
         <label>IČO<input id="o-ico"></label>
@@ -148,7 +152,8 @@ body.tisk{background:#fff}body.tisk .top,body.tisk .form,body.tisk .prevhd,body.
 const SB_URL='https://uiynkslmvkjzzdvijkzo.supabase.co', SB_KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let sb, VYST=[], PODK=[], FAKTURY=[], POL=[], VYDANA=null, EDIT=null;
+let KLIENT={}; let sb, VYST=[], PODK=[], FAKTURY=[], POL=[], VYDANA=null, EDIT=null, DRUH='faktura';
+const POZN_PREHLED='Prosíme o vyjádření, zda tyto jednorázové náklady uhradíte zvlášť (převodem na uvedený účet), nebo je máme zahrnout do příští faktury za správu.\n\n☐ uhradíme zvlášť        ☐ zahrňte do faktury za správu';
 const iso=d=>d.toLocaleDateString('sv-SE');
 const dnes=()=>iso(new Date());
 const plusDny=(d,n)=>{ const x=new Date(d+'T12:00:00'); x.setDate(x.getDate()+n); return iso(x); };
@@ -168,13 +173,13 @@ async function nactiVyst(){
   infoVyst();
 }
 function infoVyst(){
-  const v=vystavovatel()||{}; ['ucet','iban','email','telefon','osoba'].forEach(k=>$('v-'+k).value=v[k]||'');
-  $('v-info').innerHTML=v.id?`IČO ${esc(v.ico||'—')} · ${esc(v.adresa||'')} · ${v.platce_dph?'plátce DPH':'není plátce DPH'} · poslední číslo ${v.rok||new Date().getFullYear()}${String(v.posledni_cislo||0).padStart(2,'0')}`+(v.ucet||v.iban?'':' · <span class="warn">chybí číslo účtu – faktura k úhradě ho potřebuje</span>'):'';
+  const v=vystavovatel()||{}; ['ucet','iban','bic','email','telefon','osoba'].forEach(k=>$('v-'+k).value=v[k]||'');
+  $('v-info').innerHTML=v.id?`IČO ${esc(v.ico||'—')} · ${esc(v.adresa||'')} · ${v.platce_dph?'plátce DPH':'není plátce DPH'} · číslování vlastní řadou každého portálu`+(v.ucet||v.iban?'':' · <span class="warn">chybí číslo účtu – faktura k úhradě ho potřebuje</span>'):'';
   if(!VYDANA) nahled();
 }
 $('v-sel').onchange=infoVyst;
 $('v-ulozit').onclick=async()=>{
-  const v=vystavovatel(); if(!v) return; const upd={updated_at:new Date().toISOString()}; ['ucet','iban','email','telefon','osoba'].forEach(k=>upd[k]=$('v-'+k).value.trim()||null);
+  const v=vystavovatel(); if(!v) return; const upd={updated_at:new Date().toISOString()}; ['ucet','iban','bic','email','telefon','osoba'].forEach(k=>upd[k]=$('v-'+k).value.trim()||null);
   const {error}=await sb.from('faktury_vystavovatele').update(upd).eq('id',v.id);
   $('v-msg').className='msg '+(error?'bad':'ok'); $('v-msg').textContent=error?'Uložení selhalo: '+error.message:'Uloženo. Na už vystavené faktury se změna nepromítne.';
   await nactiVyst(); $('v-sel').value=v.id; infoVyst();
@@ -183,12 +188,22 @@ $('v-ulozit').onclick=async()=>{
 /* ---------- podklady z portalu ---------- */
 async function nactiPodklady(){
   const {data}=await sb.from('faktury_majitelu_podklady').select('*').order('majitel').order('obdobi',{ascending:false});
-  PODK=data||[]; $('podklad').innerHTML='<option value="">— vyber majitele a měsíc —</option>'+PODK.map(p=>`<option value="${esc(p.id)}">${esc(p.jmeno)} · ${esc(mesN(p.obdobi))} · ${fmtC(p.castka)}${p.bezici?' (měsíc ještě běží)':''}</option>`).join('');
+  PODK=data||[]; kresliPodklady();
 }
+function kresliPodklady(){
+  const p=PODK.filter(x=>(x.druh||'faktura')===DRUH);
+  $('podklad').innerHTML=`<option value="">— ${DRUH==='prehled'?'vyber majitele':'vyber majitele a měsíc'} —</option>`+p.map(x=>`<option value="${esc(x.id)}">${esc(x.jmeno)}${x.obdobi?' · '+esc(mesN(x.obdobi)):' · prvotní náklady'} · ${fmtC(x.castka)}${x.bezici?' (měsíc ještě běží)':''}</option>`).join('');
+}
+function nastavDruh(d){
+  DRUH=d; document.querySelectorAll('#druh button').forEach(b=>b.classList.toggle('on',b.dataset.d===d));
+  $('druh-hint').textContent=d==='prehled'?'Přehled prvotních nákladů = dokument BEZ čísla a bez splatnosti. Do poznámky napiš, jestli to majitel zaplatí bokem, nebo to zahrneme do faktury. PDF přes tlačítko PDF / tisk.':'Faktura = odměna za správu (provize) podle portálu majitele. Číslo: rok + číslo klienta portálu + pořadí (Opatovická 1006 → 2026100601), každý portál má vlastní řadu.';
+  $('vystavit').hidden=d==='prehled'; $('f-pozn').value=d==='prehled'?POZN_PREHLED:''; POL=[]; kresliPolozky(); kresliPodklady(); nahled();
+}
+document.querySelectorAll('#druh button').forEach(b=>b.onclick=()=>{ if(VYDANA||EDIT) $('nova').click(); nastavDruh(b.dataset.d); });
 $('podklad').onchange=()=>{
   const p=PODK.find(x=>x.id===$('podklad').value); if(!p||VYDANA) return;
   const o=p.odberatel||{}; $('o-nazev').value=o.nazev||''; $('o-ico').value=o.ico||''; $('o-dic').value=o.dic||''; $('o-adresa').value=o.adresa||'';
-  $('f-obdobi').value=p.obdobi; $('f-majitel').value=p.majitel; $('f-duzp').value=konecMes(p.obdobi);
+  $('f-obdobi').value=p.obdobi||''; $('f-majitel').value=p.majitel; $('f-duzp').value=p.obdobi?konecMes(p.obdobi):'';
   POL=(p.polozky||[]).map(x=>({...x})); kresliPolozky(); nahled();
   $('f-msg').className='msg '+(o.ico?'ok':'bad'); $('f-msg').textContent=o.ico?'Předvyplněno z portálu majitele.':'U tohoto majitele chybí IČO odběratele (majitele.json → subjekt). Doplň ho ručně.';
 };
@@ -221,17 +236,34 @@ function strana(o,ph,banka){
   const r=[['IČO',o.ico],['DIČ',o.dic],['Telefon',banka&&o.telefon],['E-mail',banka&&o.email]].filter(x=>x[1]);
   return `<div class="party"><div class="lab">${ph[0]}</div><div class="nm">${esc(o.nazev)}</div>${o.adresa?`<div class="ad">${esc(o.adresa)}</div>`:''}${r.length?`<dl>${r.map(x=>`<dt>${esc(x[0])}</dt><dd>${esc(x[1])}</dd>`).join('')}</dl>`:''}</div>`;
 }
+function nahledPrehled(){
+  const d=formData(), v=d.vystavovatel||{}, celkem=soucet(d.polozky);
+  $('paper').innerHTML=`
+    <div class="hd"><div><h3>Přehled nákladů</h3><div class="sub">prvotní náklady na zahájení ubytování · není daňový doklad</div></div><div class="no"><div class="lab">Ze dne</div><div class="v" style="font-size:16px">${fmtD(d.datum_vystaveni)}</div></div></div>
+    <div class="who">${strana(v,['Správce','vyber, kdo vystavuje'],true)}${strana(d.odberatel,['Majitel','majitel apartmánu'])}</div>
+    <p class="intro">Jednorázové náklady, které jsme uhradili za Vás před zahájením ubytování.</p>
+    <table><colgroup><col><col class="c"></colgroup><thead><tr><th>Položka</th><th class="r">Částka</th></tr></thead>
+      <tbody>${d.polozky.length?d.polozky.map(x=>`<tr><td><div class="pop">${esc(x.popis)}</div>${x.det?`<div class="det">${esc(x.det)}</div>`:''}</td><td class="r">${fmtC(Math.round(x.mnozstvi*x.cena*100)/100)}</td></tr>`).join(''):'<tr><td colspan="2" class="ph">Vyber majitele v podkladech.</td></tr>'}</tbody></table>
+    <div class="sum"><div class="tot"><span>Celkem</span><span>${fmtC(celkem)}</span></div></div>
+    ${d.poznamka?`<div class="volba">${esc(d.poznamka)}</div>`:''}
+    <div class="pay"><div><div class="lab">Číslo účtu</div><b>${v.ucet?esc(v.ucet):'—'}</b></div><div><div class="lab">IBAN</div><b>${v.iban?esc(v.iban):'—'}</b></div><div><div class="lab">BIC</div><b>${v.bic?esc(v.bic):'—'}</b></div><div><div class="lab">Částka</div><b>${fmtC(celkem)}</b></div></div>
+    <div class="ft"><span>${esc([v.nazev,v.ico?'IČO '+v.ico:''].filter(Boolean).join(' · '))}</span><span>Nejde o fakturu. Případná úhrada podle dohody.</span></div>`;
+  const st=$('stav'); st.textContent='přehled nákladů · bez čísla'; st.className='stamp';
+  $('tisk').disabled=!d.polozky.length; $('upravit').hidden=true; $('nova').hidden=true; document.title='Přehled prvotních nákladů'+(d.odberatel.nazev?' – '+d.odberatel.nazev:'');
+}
 function nahled(){
+  if(DRUH==='prehled'&&!VYDANA) return nahledPrehled();
   const d=data(), v=d.vystavovatel||{}, celkem=VYDANA&&!EDIT?+VYDANA.castka:soucet(d.polozky), vs=d.cislo||'';
   $('paper').innerHTML=`
-    <div class="hd"><div><h3>Faktura</h3><div class="sub">${d.obdobi?'za správu apartmánů · '+esc(mesN(d.obdobi)):'za správu apartmánů'}</div></div><div class="no"><div class="lab">Číslo faktury</div><div class="v">${d.cislo?esc(d.cislo):'<span class="ph">přidělí se při vystavení</span>'}</div></div></div>
+    <div class="hd"><div><h3>Faktura</h3><div class="sub">${d.obdobi?'za správu apartmánů · '+esc(mesN(d.obdobi)):'za správu apartmánů'}</div></div><div class="no"><div class="lab">Číslo faktury</div><div class="v">${d.cislo?esc(d.cislo):'<span class="ph">přidělí se při vystavení</span>'}</div>${d.cislo?'':`<div class="sub">rok + klient ${esc(KLIENT[d.majitel]||'…')} + pořadí</div>`}</div></div>
     <div class="who">${strana(v,['Dodavatel','vyber, kdo vystavuje'],true)}${strana(d.odberatel,['Odběratel','majitel apartmánu'])}</div>
     <div class="info"><div><div class="lab">Datum vystavení</div><b>${fmtD(d.datum_vystaveni)}</b></div><div><div class="lab">Datum uskut. plnění</div><b>${fmtD(d.duzp)||'—'}</b></div>
       <div><div class="lab">Datum splatnosti</div><b>${fmtD(d.splatnost)}</b></div><div><div class="lab">Forma úhrady</div><b>bankovním převodem</b></div></div>
+    <p class="intro">Fakturujeme Vám za správu ubytování.</p>
     <table><colgroup><col><col class="q"><col class="u"><col class="c"></colgroup><thead><tr><th>Popis</th><th class="r">Množ.</th><th class="r">Cena / jedn.</th><th class="r">Celkem</th></tr></thead>
       <tbody>${d.polozky.length?d.polozky.map(x=>`<tr><td><div class="pop">${esc(x.popis)}</div>${x.det?`<div class="det">${esc(x.det)}</div>`:''}</td><td class="r">${esc(String(x.mnozstvi).replace('.',','))}${x.jednotka?' '+esc(x.jednotka):''}</td><td class="r">${fmtC(x.cena)}</td><td class="r">${fmtC(Math.round(x.mnozstvi*x.cena*100)/100)}</td></tr>`).join(''):'<tr><td colspan="4" class="ph">Položky se doplní z podkladů.</td></tr>'}</tbody></table>
     <div class="sum"><div class="tot"><span>Celkem k úhradě</span><span>${fmtC(celkem)}</span></div></div>
-    <div class="pay"><div><div class="lab">Číslo účtu</div><b>${v.ucet?esc(v.ucet):'<span class="ph">doplnit</span>'}</b></div><div><div class="lab">IBAN</div><b>${v.iban?esc(v.iban):'—'}</b></div>
+    <div class="pay"><div><div class="lab">Číslo účtu</div><b>${v.ucet?esc(v.ucet):'<span class="ph">doplnit</span>'}</b></div><div><div class="lab">IBAN / BIC</div><b>${v.iban?esc(v.iban):'—'}${v.bic?'<br>'+esc(v.bic):''}</b></div>
       <div><div class="lab">Variabilní symbol</div><b>${vs?esc(vs):'<span class="ph">= číslo faktury</span>'}</b></div><div><div class="lab">K úhradě</div><b>${fmtC(celkem)}</b></div></div>
     ${d.poznamka?`<div class="pozn">${esc(d.poznamka)}</div>`:''}
     <div class="ft"><span>${esc([v.nazev,v.ico?'IČO '+v.ico:''].filter(Boolean).join(' · '))}${v.platce_dph?'':' · Dodavatel není plátcem DPH.'}</span><span>Vystavil: ${esc(v.osoba||v.nazev||'')}</span></div>`;
@@ -246,7 +278,7 @@ $('f-splat').addEventListener('input',()=>$('f-splat').dataset.rucne='1');
 /* ---------- vystaveni / uprava ---------- */
 $('vystavit').onclick=async()=>{
   const d=formData(), chyba=t=>{ $('f-msg').className='msg bad'; $('f-msg').textContent=t; };
-  if(!d.odberatel.nazev) return chyba('Doplň odběratele.'); if(!d.polozky.length) return chyba('Faktura nemá žádnou položku s cenou.');
+  if(!d.odberatel.nazev) return chyba('Doplň odběratele.'); if(!EDIT&&!KLIENT[d.majitel]) return chyba('Vyber majitele z podkladů (číslo faktury se řídí číslem klienta jeho portálu).'); if(!d.polozky.length) return chyba('Faktura nemá žádnou položku s cenou.');
   const p={odberatel:d.odberatel,majitel:d.majitel||null,obdobi:d.obdobi||null,polozky:d.polozky,datum_vystaveni:d.datum_vystaveni,duzp:d.duzp,splatnost:d.splatnost,poznamka:d.poznamka||null};
   let r,error;
   if(EDIT){ if(!confirm(`Uložit změny faktury ${EDIT.cislo}? Číslo zůstane stejné, původní verze se uloží do historie.`)) return; ({data:r,error}=await sb.rpc('upravit_fakturu_majiteli',{fid:EDIT.id,p})); }
@@ -298,6 +330,7 @@ async function historie(){
     if(f){ VYDANA={...f,castka:+f.castka}; POL=f.polozky||[]; nahled(); } window.__FAKTURA_READY=!!f; return;
   }
   $('f-datum').value=dnes(); $('f-splat').value=plusDny(dnes(),14);
+  { const {data:k}=await sb.from('faktury_majitelu_klienti').select('majitel,klient'); (k||[]).forEach(x=>KLIENT[x.majitel]=x.klient); }
   await nactiVyst(); kresliPolozky(); nahled(); nactiPodklady(); seznam();
 })();
 </script>
