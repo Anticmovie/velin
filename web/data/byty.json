@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated": "2026-11-17T10:34",
+  "generated": "2026-11-17T11:03",
   "sleva_primo": 0.9,
   "mesto_kc": 50,
   "bytu": 22,
@@ -3261,8 +3261,8 @@
    "skryty": false,
    "bez_rezervace": false,
    "od_kc": 1420,
-   "median_kc": 1680,
-   "volnych_dnu": 3,
+   "median_kc": 1805,
+   "volnych_dnu": 2,
    "ceny": {
     "2026-11-17": [
      1080,
@@ -3311,7 +3311,7 @@
     ],
     "2026-11-26": [
      1680,
-     1,
+     0,
      1870
     ],
     "2026-11-27": [
@@ -20929,7 +20929,7 @@
    "bez_rezervace": false,
    "od_kc": 1620,
    "median_kc": 2040,
-   "volnych_dnu": 63,
+   "volnych_dnu": 62,
    "ceny": {
     "2026-11-17": [
      1620,
@@ -21033,7 +21033,7 @@
     ],
     "2026-12-07": [
      3030,
-     1,
+     0,
      3370
     ],
     "2026-12-08": [
