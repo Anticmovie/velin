@@ -308,10 +308,10 @@ $('tisk').onclick=()=>window.print();
 /* ---------- e-mail ---------- */
 function sablona(f){
   const v=f.vystavovatel||{}, plat=platNazev(f.platforma), od=fmtD(f.pobyt_od), dd=fmtD(f.pobyt_do), j=f.jazyk||'cs+en';
-  const podpis=[v.nazev, [v.email,v.telefon].filter(Boolean).join(' · ')].filter(Boolean).join('\n');
+  const podpis=['Byt a host', [v.email,v.telefon].filter(Boolean).join(' · ')].filter(Boolean).join('\n');   // 17.11.2026: v e-mailu nikdy nazev firmy (VLADMIR CZ…)
   const cs=`Dobrý den,\n\nděkujeme za Vaši rezervaci. V příloze Vám posíláme fakturu č. ${f.cislo} za ubytování v apartmánu ${f.byt}${od?` v termínu ${od} – ${dd}`:''}.\n\n${plat?`Faktura je již uhrazena prostřednictvím ${plat}, není potřeba nic platit.`:'Faktura je již uhrazena, není potřeba nic platit.'}\n\nS pozdravem\n${podpis}`;
   const en=`Dear guest,\n\nthank you for your booking. Please find attached invoice no. ${f.cislo} for your stay at ${f.byt}${od?` from ${od} to ${dd}`:''}.\n\n${plat?`The invoice has already been paid via ${plat}, no payment is due.`:'The invoice has already been paid, no payment is due.'}\n\nKind regards\n${podpis}`;
-  return { predmet:j==='en'?`Invoice ${f.cislo} – ${f.byt}`:j==='cs'?`Faktura ${f.cislo} – ${f.byt}`:`Faktura / Invoice ${f.cislo} – ${f.byt}`, text:j==='en'?en:j==='cs'?cs:cs+'\n\n———\n\n'+en };
+  return { predmet:j==='en'?`Invoice ${f.cislo} – Byt a host – ${f.byt}`:j==='cs'?`Faktura ${f.cislo} – Byt a host – ${f.byt}`:`Faktura / Invoice ${f.cislo} – Byt a host – ${f.byt}`, text:j==='en'?en:j==='cs'?cs:cs+'\n\n———\n\n'+en };
 }
 $('poslat').onclick=()=>{ if(!VYDANA) return; const s=sablona(VYDANA); $('m-komu').value=(VYDANA.odberatel||{}).email||''; $('m-pred').value=s.predmet; $('m-text').value=s.text; $('m-msg').textContent=''; $('dlg').hidden=false; ($('m-komu').value?$('m-text'):$('m-komu')).focus(); };
 $('m-zrus').onclick=()=>{ $('dlg').hidden=true; };
