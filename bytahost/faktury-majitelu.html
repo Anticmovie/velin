@@ -39,34 +39,43 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ac)}
 .prevhd{display:flex;align-items:center;gap:8px;margin:0 0 8px;flex-wrap:wrap}.prevhd b{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--ac2);margin-right:auto}
 .stamp{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:#fff3d6;color:#7a5600}.stamp.ok{background:var(--okbg);color:var(--ok)}.stamp.ed{background:#ffe9e6;color:var(--bad)}
 .hist{font-size:12.5px;margin-top:10px;display:flex;flex-direction:column;gap:4px;color:var(--ink2)}
-/* ---------- faktura (papir A4) ---------- */
-#paper{background:#fff;color:#141a17;border-radius:6px;box-shadow:0 18px 40px -22px rgba(22,33,28,.45);padding:44px 46px;font:12px/1.55 "Segoe UI",system-ui,sans-serif;aspect-ratio:210/297;overflow:hidden;display:flex;flex-direction:column}
-#paper .lab{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#87918c}
-#paper .hd{display:grid;grid-template-columns:1fr auto;align-items:end;gap:20px;padding-bottom:18px;border-bottom:2px solid #141a17}
-#paper h3{margin:0;font-size:28px;line-height:1;letter-spacing:-.02em;font-weight:800}#paper .sub{color:#87918c;font-size:11px;margin-top:6px}
-#paper .no{text-align:right}#paper .no .v{font-size:22px;line-height:1.1;font-weight:800;font-variant-numeric:tabular-nums;margin-top:3px}
-#paper .who{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:22px 0 20px}
-#paper .party .nm{font-size:14px;font-weight:800;margin:6px 0 1px;line-height:1.3}#paper .party .ad{color:#4a524e;line-height:1.45}
-#paper dl{display:grid;grid-template-columns:max-content 1fr;gap:2px 14px;margin:10px 0 0;font-size:11.5px}#paper dt{color:#87918c;white-space:nowrap}#paper dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-#paper .info{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #e3e8e5;border-radius:10px;margin-bottom:22px;overflow:hidden}
-#paper .info>div{padding:10px 14px;border-left:1px solid #e3e8e5;min-width:0}#paper .info>div:first-child{border-left:0}
-#paper .info b{display:block;font-size:12.5px;margin-top:3px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+/* ---------- faktura (papir A4) — design 19.11.2026, pevny (needitovat bez diktatu) ---------- */
+#paper{--k:#13201a;--k2:#47534d;--m:#8a958f;--l:#e4e9e6;--l2:#f1f4f2;--a:#1d6b4a;--abg:#eaf4ee;background:#fff;color:var(--k);border-radius:6px;box-shadow:0 18px 40px -22px rgba(22,33,28,.45);padding:40px 44px;font:11.5px/1.55 "Segoe UI",system-ui,sans-serif;aspect-ratio:210/297;overflow:hidden;display:flex;flex-direction:column}
+#paper .lab{font-size:8.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--m)}
+#paper .lab small{font-size:8.5px;letter-spacing:.04em;text-transform:none;font-weight:600;color:#a5aea9;margin-left:5px}
+#paper .bar{height:5px;background:var(--a);border-radius:3px;margin:-8px 0 26px;width:64px}
+#paper .hd{display:grid;grid-template-columns:1fr auto;align-items:start;gap:24px}
+#paper h3{margin:0;font-size:30px;line-height:1;letter-spacing:-.025em;font-weight:800}
+#paper .sub{color:var(--m);font-size:11px;margin-top:7px}
+#paper .no{text-align:right}#paper .no .v{font-size:21px;line-height:1.1;font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px;letter-spacing:-.01em}
+#paper .no .vs{font-size:10.5px;color:var(--m);margin-top:4px}
+#paper .badge{display:inline-block;margin-top:9px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:6px;border:1.5px solid var(--k)}
+#paper .who{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin:26px 0 22px;padding:18px 0;border-top:1px solid var(--l);border-bottom:1px solid var(--l)}
+#paper .party .nm{font-size:13.5px;font-weight:800;margin:6px 0 2px;line-height:1.3}#paper .party .ad{color:var(--k2);line-height:1.45}
+#paper dl{display:grid;grid-template-columns:max-content 1fr;gap:1px 12px;margin:8px 0 0;font-size:11px}#paper dt{color:var(--m);white-space:nowrap}#paper dd{margin:0;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#paper .info{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+#paper .info>div{background:var(--l2);border-radius:9px;padding:9px 12px;min-width:0}
+#paper .info b{display:block;font-size:12px;margin-top:3px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#paper .intro{margin:0 0 12px;font-size:12.5px;font-weight:600}
 #paper table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;table-layout:fixed}
-#paper th{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#87918c;text-align:left;font-weight:800;padding:0 0 8px;border-bottom:1px solid #141a17}
-#paper td{padding:9px 0;border-bottom:1px solid #edf1ee;vertical-align:top}#paper td.r,#paper th.r{text-align:right;white-space:nowrap}
-#paper col.q{width:62px}#paper col.u{width:96px}#paper col.c{width:112px}
-#paper td .pop{font-size:12.5px;font-weight:700}#paper td .det{color:#69736e;margin-top:1px;font-size:11px}
-#paper .sum{margin:14px 0 0 auto;width:340px}#paper .sum div{display:flex;justify-content:space-between;gap:16px;padding:3px 0}
-#paper .sum .tot{margin-top:6px;padding:12px 14px;background:#141a17;color:#fff;border-radius:10px;font-size:16px;font-weight:800;align-items:baseline}
-#paper .pay{margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #e3e8e5;border-radius:10px;overflow:hidden}
-#paper .pay>div{padding:10px 14px;border-left:1px solid #e3e8e5;min-width:0}#paper .pay>div:first-child{border-left:0}#paper .pay b{display:block;font-size:12.5px;margin-top:3px;overflow-wrap:anywhere}
-#paper .pozn{margin-top:16px;color:#4a524e;white-space:pre-line}
-#paper .intro{margin:0 0 14px;font-size:13px;font-weight:600}
-#paper .volba{margin-top:18px;border:1.5px dashed #c9d3ce;border-radius:10px;padding:12px 14px;white-space:pre-line;font-size:12.5px}
-.seg{display:inline-flex;background:var(--acbg);border-radius:999px;padding:3px;gap:2px}.seg button{border:0;background:transparent;font:inherit;font-size:12.5px;font-weight:800;color:var(--ac2);padding:6px 12px;border-radius:999px;cursor:pointer}.seg button.on{background:var(--ac);color:#fff}
-#paper .ft{margin-top:auto;padding-top:14px;border-top:1px solid #edf1ee;color:#87918c;font-size:10px;display:flex;justify-content:space-between;gap:12px}
+#paper th{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--m);text-align:left;font-weight:800;padding:0 0 8px;border-bottom:1.5px solid var(--k)}
+#paper td{padding:9px 0;border-bottom:1px solid var(--l);vertical-align:top}#paper td.r,#paper th.r{text-align:right;white-space:nowrap}
+#paper td+td,#paper th+th{padding-left:10px}
+#paper col.q{width:58px}#paper col.u{width:92px}#paper col.c{width:104px}#paper col.dk{width:150px}
+#paper td .pop{font-size:12px;font-weight:700}#paper td .det{color:#6b7570;margin-top:2px;font-size:10.5px;line-height:1.45}
+#paper .sum{margin:14px 0 0 auto;width:330px}
+#paper .sum .tot{display:flex;justify-content:space-between;gap:16px;padding:12px 16px;background:var(--k);color:#fff;border-radius:10px;font-size:15.5px;font-weight:800;align-items:baseline}
+#paper .pay{margin-top:22px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;border:1.5px solid var(--l);border-radius:12px;padding:14px 16px}
+#paper .pay .pg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 16px}
+#paper .pay b{display:block;font-size:12px;margin-top:2px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+#paper .pay .qr{display:flex;flex-direction:column;align-items:center;gap:4px}#paper .pay .qr svg{width:92px;height:92px;display:block}#paper .pay .qr span{font-size:8.5px;color:var(--m);letter-spacing:.1em;text-transform:uppercase;font-weight:800}
+#paper .pozn{margin-top:16px;color:var(--k2);white-space:pre-line}
+#paper .note{margin-top:18px;background:var(--abg);border-radius:10px;padding:12px 14px;color:#24382e;white-space:pre-line}
+#paper .volba{margin-top:18px;border:1.5px dashed #c9d3ce;border-radius:10px;padding:12px 14px;white-space:pre-line;font-size:12px}
+#paper .ft{margin-top:auto;padding-top:14px;border-top:1px solid var(--l);color:var(--m);font-size:9.5px;display:flex;justify-content:space-between;gap:12px}
 #paper .ph{color:#b0b8b4;font-weight:400}
-@media screen and (max-width:900px){.wrap{grid-template-columns:1fr}.side{position:static}#paper{aspect-ratio:auto;padding:22px 18px}#paper .who{grid-template-columns:1fr;gap:16px}#paper .info,#paper .pay{grid-template-columns:1fr 1fr}#paper .sum{width:100%}}
+#paper.dense td{padding:6px 0}#paper.dense td+td{padding-left:10px}#paper.dense .who{margin:18px 0 14px;padding:12px 0}#paper.dense td .det{font-size:10px;margin-top:1px}#paper.dense .note{margin-top:12px;padding:9px 12px}#paper.dense .pay{margin-top:14px;padding:11px 14px}#paper.dense .pay .qr svg{width:80px;height:80px}#paper.dense .sum{margin-top:10px}
+@media screen and (max-width:900px){.wrap{grid-template-columns:1fr}.side{position:static}#paper{aspect-ratio:auto;padding:22px 18px}#paper .who{grid-template-columns:1fr;gap:16px}#paper .info{grid-template-columns:1fr 1fr}#paper .pay{grid-template-columns:1fr}#paper .pay .pg{grid-template-columns:1fr 1fr}#paper .sum{width:100%}}
 @media screen and (max-width:520px){.grid{grid-template-columns:1fr}.pol,.polhd{grid-template-columns:minmax(0,1fr) 54px 92px 26px}.pol .j,.polhd .j{display:none}}
 @media print{
   @page{size:A4;margin:12mm}
@@ -148,6 +157,7 @@ body.tisk{background:#fff}body.tisk .top,body.tisk .form,body.tisk .prevhd,body.
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>
 const SB_URL='https://uiynkslmvkjzzdvijkzo.supabase.co', SB_KEY='sb_publishable_TARlXtpk7TbfzeFiHWOwOQ_YJtX-TEH';
 const $=id=>document.getElementById(id);
@@ -231,40 +241,55 @@ function formData(){
     datum_vystaveni:dv, duzp:$('f-duzp').value||dv, splatnost:$('f-splat').value||plusDny(dv,14), poznamka:$('f-pozn').value.trim() };
 }
 const data=()=>EDIT?formData():(VYDANA||formData());
-function strana(o,ph,banka){
-  if(!o||!o.nazev) return `<div class="party"><div class="lab">${ph[0]}</div><div class="nm ph">${ph[1]}</div></div>`;
+function strana(o,lab,sub,ph,banka){
+  const L=`<div class="lab">${lab}${sub?`<small>${sub}</small>`:''}</div>`;
+  if(!o||!o.nazev) return `<div class="party">${L}<div class="nm ph">${ph}</div></div>`;
   const r=[['IČO',o.ico],['DIČ',o.dic],['Telefon',banka&&o.telefon],['E-mail',banka&&o.email]].filter(x=>x[1]);
-  return `<div class="party"><div class="lab">${ph[0]}</div><div class="nm">${esc(o.nazev)}</div>${o.adresa?`<div class="ad">${esc(o.adresa)}</div>`:''}${r.length?`<dl>${r.map(x=>`<dt>${esc(x[0])}</dt><dd>${esc(x[1])}</dd>`).join('')}</dl>`:''}</div>`;
+  return `<div class="party">${L}<div class="nm">${esc(o.nazev)}</div>${o.adresa?`<div class="ad">${esc(o.adresa)}</div>`:''}${r.length?`<dl>${r.map(x=>`<dt>${esc(x[0])}</dt><dd>${esc(x[1])}</dd>`).join('')}</dl>`:''}${banka&&o.nazev&&o.platce_dph===false?'<div class="ad" style="margin-top:4px;color:#8a958f">Není plátcem DPH.</div>':''}</div>`;
 }
-function nahledPrehled(){
-  const d=formData(), v=d.vystavovatel||{}, celkem=soucet(d.polozky);
-  $('paper').innerHTML=`
-    <div class="hd"><div><h3>Přehled nákladů</h3><div class="sub">jednorázové náklady k vyúčtování · není daňový doklad</div></div><div class="no"><div class="lab">Ze dne</div><div class="v" style="font-size:16px">${fmtD(d.datum_vystaveni)}</div></div></div>
-    <div class="who">${strana(v,['Správce','vyber, kdo vystavuje'],true)}${strana(d.odberatel,['Majitel','majitel apartmánu'])}</div>
-    <p class="intro">Náklady, které jsme za Vás uhradili nebo zajistili a které zatím nebyly vyúčtovány.</p>
+// QR platba (SPAYD) — jen kdyz je IBAN a castka; kdyz knihovna nenabehne, QR se vynecha
+function qrPlatba(v,castka,vs,zprava){
+  try{ const iban=String(v.iban||'').replace(/\s+/g,''); if(!iban||!(castka>0)||typeof qrcode!=='function') return '';
+    const spd='SPD*1.0*ACC:'+iban+(v.bic?'+'+v.bic:'')+'*AM:'+(+castka).toFixed(2)+'*CC:CZK'+(vs?'*X-VS:'+String(vs).replace(/\D/g,'').slice(0,10):'')+'*MSG:'+String(zprava||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[*]/g,' ').slice(0,60).toUpperCase();
+    const q=qrcode(0,'M'); q.addData(spd); q.make(); return `<div class="qr">${q.createSvgTag({cellSize:3,margin:0,scalable:true})}<span>QR platba</span></div>`; }catch(e){ return ''; }
+}
+function platba(v,castka,vs,zprava,ph){
+  const P=(l,x)=>`<div><div class="lab">${l}</div><b>${x}</b></div>`;
+  return `<div class="pay"><div class="pg">${v.majitel_uctu?P('Majitel účtu',esc(v.majitel_uctu)):''}${P('Číslo účtu',v.ucet?esc(v.ucet):ph)}${P('IBAN',v.iban?esc(v.iban):'—')}${P('BIC / SWIFT',v.bic?esc(v.bic):'—')}${vs===null?'':P('Variabilní symbol',vs?esc(vs):'<span class="ph">= číslo faktury</span>')}${P('Způsob platby','bankovním převodem')}${P('Částka',fmtC(castka))}</div>${qrPlatba(v,castka,vs,zprava)}</div>`;
+}
+const PREHLED_UCET={nazev:'Byt a host',ucet:'1594292016/3030',iban:'CZ42 3030 0000 0015 9429 2016',bic:'AIRACZPP',majitel_uctu:'Pavel Hrubeš'};   // 19.11.2026: prehled = NE Gorents
+function nahledPrehled(dd){
+  const d=dd||formData(), v=PREHLED_UCET, celkem=soucet(d.polozky);
+  $('paper').classList.add('dense');
+  $('paper').innerHTML=`<div class="bar"></div>
+    <div class="hd"><div><h3>Přehled nákladů</h3><div class="sub">prvotní náklady na zahájení ubytování · jednorázové přeúčtování</div><div class="badge">Není faktura · není daňový doklad</div></div>
+      <div class="no"><div class="lab">Datum vystavení</div><div class="v" style="font-size:17px">${fmtD(d.datum_vystaveni)}</div></div></div>
+    <div class="who"><div class="party"><div class="lab">Správce</div><div class="nm">Byt a host</div><div class="ad">správa krátkodobého ubytování</div></div>${strana(d.odberatel,'Majitel','','majitel apartmánu')}</div>
+    <p class="intro">Jednorázové výdaje na přípravu apartmánu před prvním hostem, které jsme za Vás uhradili.</p>
     <table><colgroup><col><col class="c"></colgroup><thead><tr><th>Položka</th><th class="r">Částka</th></tr></thead>
       <tbody>${d.polozky.length?d.polozky.map(x=>`<tr><td><div class="pop">${esc(x.popis)}</div>${x.det?`<div class="det">${esc(x.det)}</div>`:''}</td><td class="r">${fmtC(Math.round(x.mnozstvi*x.cena*100)/100)}</td></tr>`).join(''):'<tr><td colspan="2" class="ph">Vyber majitele v podkladech.</td></tr>'}</tbody></table>
     <div class="sum"><div class="tot"><span>Celkem</span><span>${fmtC(celkem)}</span></div></div>
-    ${d.poznamka?`<div class="volba">${esc(d.poznamka)}</div>`:''}
-    <div class="pay"><div><div class="lab">Číslo účtu</div><b>${v.ucet?esc(v.ucet):'—'}</b></div><div><div class="lab">IBAN</div><b>${v.iban?esc(v.iban):'—'}</b></div><div><div class="lab">BIC</div><b>${v.bic?esc(v.bic):'—'}</b></div><div><div class="lab">Částka</div><b>${fmtC(celkem)}</b></div></div>
-    <div class="ft"><span>${esc([v.nazev,v.ico?'IČO '+v.ico:''].filter(Boolean).join(' · '))}</span><span>Nejde o fakturu. Případná úhrada podle dohody.</span></div>`;
+    ${d.poznamka?`<div class="note">${esc(d.poznamka)}</div>`:''}
+    ${platba(v,celkem,null,'Prvotni naklady '+(d.odberatel.nazev||''),'—')}
+    <div class="ft"><span>Byt a host</span><span>Tento dokument NENÍ faktura ani daňový doklad.</span></div>`;
   const st=$('stav'); st.textContent='přehled nákladů · bez čísla'; st.className='stamp';
-  $('tisk').disabled=!d.polozky.length; $('upravit').hidden=true; $('nova').hidden=true; document.title='Přehled prvotních nákladů'+(d.odberatel.nazev?' – '+d.odberatel.nazev:'');
+  $('tisk').disabled=!d.polozky.length; $('upravit').hidden=true; $('nova').hidden=true; document.title='Přehled nákladů – není faktura'+(d.odberatel.nazev?' – '+d.odberatel.nazev:'');
 }
 function nahled(){
   if(DRUH==='prehled'&&!VYDANA) return nahledPrehled();
   const d=data(), v=d.vystavovatel||{}, celkem=VYDANA&&!EDIT?+VYDANA.castka:soucet(d.polozky), vs=d.cislo||'';
-  $('paper').innerHTML=`
-    <div class="hd"><div><h3>Faktura</h3><div class="sub">${d.obdobi?'za správu apartmánů · '+esc(mesN(d.obdobi)):'za správu apartmánů'}</div></div><div class="no"><div class="lab">Číslo faktury</div><div class="v">${d.cislo?esc(d.cislo):'<span class="ph">přidělí se při vystavení</span>'}</div>${d.cislo?'':`<div class="sub">rok + klient ${esc(KLIENT[d.majitel]||'…')} + pořadí</div>`}</div></div>
-    <div class="who">${strana(v,['Dodavatel','vyber, kdo vystavuje'],true)}${strana(d.odberatel,['Odběratel','majitel apartmánu'])}</div>
-    <div class="info"><div><div class="lab">Datum vystavení</div><b>${fmtD(d.datum_vystaveni)}</b></div><div><div class="lab">Datum uskut. plnění</div><b>${fmtD(d.duzp)||'—'}</b></div>
-      <div><div class="lab">Datum splatnosti</div><b>${fmtD(d.splatnost)}</b></div><div><div class="lab">Forma úhrady</div><b>bankovním převodem</b></div></div>
-    <p class="intro">Fakturujeme Vám za správu ubytování.</p>
-    <table><colgroup><col><col class="q"><col class="u"><col class="c"></colgroup><thead><tr><th>Popis</th><th class="r">Množ.</th><th class="r">Cena / jedn.</th><th class="r">Celkem</th></tr></thead>
+  $('paper').classList.remove('dense');
+  $('paper').innerHTML=`<div class="bar"></div>
+    <div class="hd"><div><h3>Faktura</h3><div class="sub">${d.obdobi?'za správu ubytování · '+esc(mesN(d.obdobi)):'za správu ubytování'}</div></div>
+      <div class="no"><div class="lab">Číslo faktury</div><div class="v">${d.cislo?esc(d.cislo):'<span class="ph">přidělí se při vystavení</span>'}</div>${d.cislo?`<div class="vs">variabilní symbol ${esc(vs)}</div>`:`<div class="sub">rok + klient ${esc(KLIENT[d.majitel]||'…')} + pořadí</div>`}</div></div>
+    <div class="who">${strana(v,'Dodavatel','správce','vyber, kdo vystavuje',true)}${strana(d.odberatel,'Odběratel','majitel','majitel apartmánu')}</div>
+    <div class="info"><div><div class="lab">Datum vystavení</div><b>${fmtD(d.datum_vystaveni)}</b></div><div><div class="lab">Datum splatnosti</div><b>${fmtD(d.splatnost)}</b></div>
+      <div><div class="lab">Způsob platby</div><b>bankovním převodem</b></div><div><div class="lab">Variabilní symbol</div><b>${vs?esc(vs):'<span class="ph">= číslo faktury</span>'}</b></div></div>
+    <p class="intro">Fakturujeme Vám za správu ubytování${d.obdobi?' za období '+esc(mesN(d.obdobi)):''}.</p>
+    <table><colgroup><col><col class="q"><col class="u"><col class="c"></colgroup><thead><tr><th>Položka</th><th class="r">Množ.</th><th class="r">Cena / jedn.</th><th class="r">Celkem</th></tr></thead>
       <tbody>${d.polozky.length?d.polozky.map(x=>`<tr><td><div class="pop">${esc(x.popis)}</div>${x.det?`<div class="det">${esc(x.det)}</div>`:''}</td><td class="r">${esc(String(x.mnozstvi).replace('.',','))}${x.jednotka?' '+esc(x.jednotka):''}</td><td class="r">${fmtC(x.cena)}</td><td class="r">${fmtC(Math.round(x.mnozstvi*x.cena*100)/100)}</td></tr>`).join(''):'<tr><td colspan="4" class="ph">Položky se doplní z podkladů.</td></tr>'}</tbody></table>
     <div class="sum"><div class="tot"><span>Celkem k úhradě</span><span>${fmtC(celkem)}</span></div></div>
-    <div class="pay"><div><div class="lab">Číslo účtu</div><b>${v.ucet?esc(v.ucet):'<span class="ph">doplnit</span>'}</b></div><div><div class="lab">IBAN / BIC</div><b>${v.iban?esc(v.iban):'—'}${v.bic?'<br>'+esc(v.bic):''}</b></div>
-      <div><div class="lab">Variabilní symbol</div><b>${vs?esc(vs):'<span class="ph">= číslo faktury</span>'}</b></div><div><div class="lab">K úhradě</div><b>${fmtC(celkem)}</b></div></div>
+    ${platba(v,celkem,vs,'Faktura '+vs,'<span class="ph">doplnit</span>')}
     ${d.poznamka?`<div class="pozn">${esc(d.poznamka)}</div>`:''}
     <div class="ft"><span>${esc([v.nazev,v.ico?'IČO '+v.ico:''].filter(Boolean).join(' · '))}${v.platce_dph?'':' · Dodavatel není plátcem DPH.'}</span><span>Vystavil: ${esc(v.osoba||v.nazev||'')}</span></div>`;
   const st=$('stav'); if(EDIT){ st.textContent='úprava faktury '+EDIT.cislo; st.className='stamp ed'; } else if(d.cislo){ st.textContent='vystaveno · '+d.cislo+(VYDANA.verze>1?' · verze '+VYDANA.verze:''); st.className='stamp ok'; } else { st.textContent='koncept, bez čísla'; st.className='stamp'; }
@@ -328,6 +353,13 @@ async function historie(){
   if(u.get('tisk')){   // jen faktura (PDF pro portal majitele)
     document.body.classList.add('tisk'); const {data:f}=await sb.from('faktury_majitelu').select('*').eq('id',u.get('tisk')).single();
     if(f){ VYDANA={...f,castka:+f.castka}; POL=f.polozky||[]; nahled(); } window.__FAKTURA_READY=!!f; return;
+  }
+  if(u.get('prehled')){   // 19.11.2026: prehled prvotnich nakladu (NENI faktura) jako PDF, vystavovatel = Gorents (druh majitel)
+    document.body.classList.add('tisk'); const {data:p}=await sb.from('faktury_majitelu_podklady').select('*').eq('id',u.get('prehled')).single();
+    const {data:vv}=await sb.from('faktury_vystavovatele').select('*').eq('druh','majitel').eq('aktivni',true).order('nazev');
+    const v=(vv||[]).find(x=>x.id===u.get('v'))||(vv||[])[0]||{};
+    if(p){ nahledPrehled({vystavovatel:v,odberatel:p.odberatel||{},polozky:p.polozky||[],datum_vystaveni:u.get('datum')||dnes(),poznamka:u.get('pozn')||'Tento dokument není faktura. Jde o přehled jednorázových nákladů na zahájení ubytování, které jsme za Vás uhradili. Kopie faktur od dodavatelů přikládáme.'}); }
+    window.__FAKTURA_READY=!!p; return;
   }
   $('f-datum').value=dnes(); $('f-splat').value=plusDny(dnes(),14);
   { const {data:k}=await sb.from('faktury_majitelu_klienti').select('majitel,klient'); (k||[]).forEach(x=>KLIENT[x.majitel]=x.klient); }
