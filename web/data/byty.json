@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generated": "2026-11-25T20:33",
+  "generated": "2026-11-25T21:05",
   "sleva_primo": 0.9,
   "mesto_kc": 50,
   "bytu": 22,
@@ -764,8 +764,8 @@
    "skryty": false,
    "bez_rezervace": false,
    "od_kc": 1280,
-   "median_kc": 1290,
-   "volnych_dnu": 90,
+   "median_kc": 1285,
+   "volnych_dnu": 88,
    "ceny": {
     "2026-11-25": [
      1850,
@@ -859,12 +859,12 @@
     ],
     "2026-12-13": [
      1880,
-     1,
+     0,
      2091
     ],
     "2026-12-14": [
      1970,
-     1,
+     0,
      2184
     ],
     "2026-12-15": [
